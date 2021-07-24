@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the WitPrivateKey class from the witnet library, for the Dart programming language.">
+  <title>WitPrivateKey class - witnet library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../static-assets/github.css">
+  <link rel="stylesheet" href="../static-assets/styles.css">
+  <link rel="icon" href="../static-assets/favicon.png">
+
+  
+</head>
+
+
+<body data-base-href="../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">witnet</a></li>
+    <li><a href="../witnet/witnet-library.html">witnet</a></li>
+    <li class="self-crumb">WitPrivateKey class</li>
+  </ol>
+  <div class="self-name">WitPrivateKey</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../index.html">witnet</a></li>
+  <li><a href="../witnet/witnet-library.html">witnet</a></li>
+  <li class="self-crumb">WitPrivateKey class</li>
+</ol>
+
+
+    <h5>witnet library</h5>
+    <ol>
+  <li class="section-title"><a href="../witnet/witnet-library.html#classes">Classes</a></li>
+  <li><a href="../witnet/Bech32-class.html">Bech32</a></li>
+  <li><a href="../witnet/Config-class.html">Config</a></li>
+  <li><a href="../witnet/Curve-class.html">Curve</a></li>
+  <li><a href="../witnet/ExtendedKey-class.html">ExtendedKey</a></li>
+  <li><a href="../witnet/Message-class.html">Message</a></li>
+  <li><a href="../witnet/Network-class.html">Network</a></li>
+  <li><a href="../witnet/WitPrivateKey-class.html">WitPrivateKey</a></li>
+  <li><a href="../witnet/WitPublicKey-class.html">WitPublicKey</a></li>
+  <li><a href="../witnet/WitSignature-class.html">WitSignature</a></li>
+  <li><a href="../witnet/Xprv-class.html">Xprv</a></li>
+  <li><a href="../witnet/Xpub-class.html">Xpub</a></li>
+
+  <li class="section-title"><a href="../witnet/witnet-library.html#extension">Extensions</a></li>
+  <li><a href="../witnet/BigIntBit.html">BigIntBit</a></li>
+  <li><a href="../witnet/BigIntPrime.html">BigIntPrime</a></li>
+
+
+  <li class="section-title"><a href="../witnet/witnet-library.html#constants">Constants</a></li>
+  <li><a href="../witnet/charset-constant.html">charset</a></li>
+  <li><a href="../witnet/generator-constant.html">generator</a></li>
+  <li><a href="../witnet/secp256k1Params-constant.html">secp256k1Params</a></li>
+  <li><a href="../witnet/separator-constant.html">separator</a></li>
+  <li><a href="../witnet/word_lists-constant.html">word_lists</a></li>
+
+  <li class="section-title"><a href="../witnet/witnet-library.html#properties">Properties</a></li>
+  <li><a href="../witnet/ecParams.html">ecParams</a></li>
+  <li><a href="../witnet/fieldHeader.html">fieldHeader</a></li>
+  <li><a href="../witnet/indexHeader.html">indexHeader</a></li>
+  <li><a href="../witnet/networks.html">networks</a></li>
+  <li><a href="../witnet/outputHeader.html">outputHeader</a></li>
+  <li><a href="../witnet/scriptHeader.html">scriptHeader</a></li>
+  <li><a href="../witnet/secp256k1.html">secp256k1</a></li>
+  <li><a href="../witnet/sha256digest.html">sha256digest</a></li>
+
+  <li class="section-title"><a href="../witnet/witnet-library.html#functions">Functions</a></li>
+  <li><a href="../witnet/addDiffPoint.html">addDiffPoint</a></li>
+  <li><a href="../witnet/addSamePoint.html">addSamePoint</a></li>
+  <li><a href="../witnet/bigIntToPoint.html">bigIntToPoint</a></li>
+  <li><a href="../witnet/bytesSerializer.html">bytesSerializer</a></li>
+  <li><a href="../witnet/createChecksum.html">createChecksum</a></li>
+  <li><a href="../witnet/entropyToMnemonic.html">entropyToMnemonic</a></li>
+  <li><a href="../witnet/generateMnemonic.html">generateMnemonic</a></li>
+  <li><a href="../witnet/getPointByBigInt.html">getPointByBigInt</a></li>
+  <li><a href="../witnet/getPrivKeyByRand.html">getPrivKeyByRand</a></li>
+  <li><a href="../witnet/hash160.html">hash160</a></li>
+  <li><a href="../witnet/hash256.html">hash256</a></li>
+  <li><a href="../witnet/hexToPoint.html">hexToPoint</a></li>
+  <li><a href="../witnet/hexToPointFromCompress.html">hexToPointFromCompress</a></li>
+  <li><a href="../witnet/hmacSHA512.html">hmacSHA512</a></li>
+  <li><a href="../witnet/hrpExpand.html">hrpExpand</a></li>
+  <li><a href="../witnet/inverseMulti.html">inverseMulti</a></li>
+  <li><a href="../witnet/mnemonicToEntropy.html">mnemonicToEntropy</a></li>
+  <li><a href="../witnet/mnemonicToSeed.html">mnemonicToSeed</a></li>
+  <li><a href="../witnet/mnemonicToSeedHex.html">mnemonicToSeedHex</a></li>
+  <li><a href="../witnet/pointToHexInCompress.html">pointToHexInCompress</a></li>
+  <li><a href="../witnet/polymod.html">polymod</a></li>
+  <li><a href="../witnet/positiveMod.html">positiveMod</a></li>
+  <li><a href="../witnet/randomBigInt.html">randomBigInt</a></li>
+  <li><a href="../witnet/randomPrimeBigInt.html">randomPrimeBigInt</a></li>
+  <li><a href="../witnet/read.html">read</a></li>
+  <li><a href="../witnet/ripemod160.html">ripemod160</a></li>
+  <li><a href="../witnet/sha256.html">sha256</a></li>
+  <li><a href="../witnet/sha512.html">sha512</a></li>
+  <li><a href="../witnet/validateMnemonic.html">validateMnemonic</a></li>
+  <li><a href="../witnet/varInt.html">varInt</a></li>
+  <li><a href="../witnet/varIntSerializer.html">varIntSerializer</a></li>
+  <li><a href="../witnet/verifyChecksum.html">verifyChecksum</a></li>
+
+  <li class="section-title"><a href="../witnet/witnet-library.html#enums">Enums</a></li>
+  <li><a href="../witnet/NetworkType-class.html">NetworkType</a></li>
+
+  <li class="section-title"><a href="../witnet/witnet-library.html#typedefs">Typedefs</a></li>
+  <li><a href="../witnet/RandomBytes.html">RandomBytes</a></li>
+
+</ol>
+
+  </div>
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-class">WitPrivateKey</span> class 
+ 
+</h1></div>
+
+    
+
+
+
+    <section class="summary offset-anchor" id="constructors">
+      <h2>Constructors</h2>
+
+      <dl class="constructor-summary-list">
+        <dt id="WitPrivateKey" class="callable">
+          <span class="name"><a href="../witnet/WitPrivateKey/WitPrivateKey.html">WitPrivateKey</a></span><span class="signature">(<span class="parameter" id="-param-bytes">{<span class="type-annotation"><a href="https://api.dart.dev/stable/2.13.4/dart-typed_data/Uint8List-class.html">Uint8List</a></span> <span class="parameter-name">bytes</span>}</span>)</span>
+        </dt>
+        <dd>
+           
+        </dd>
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor" id="instance-properties">
+      <h2>Properties</h2>
+
+      <dl class="properties">
+        <dt id="bytes" class="property">
+  <span class="name"><a href="../witnet/WitPrivateKey/bytes.html">bytes</a></span>
+  <span class="signature">&#8594; <a href="../witnet/Message-class.html">Message</a></span> 
+
+</dt>
+<dd>
+   
+  <div class="features">read-only</div>
+
+</dd>
+
+        <dt id="D" class="property">
+  <span class="name"><a href="../witnet/WitPrivateKey/D.html">D</a></span>
+  <span class="signature">&#8596; <a href="https://api.dart.dev/stable/2.13.4/dart-core/BigInt-class.html">BigInt</a></span> 
+
+</dt>
+<dd>
+   
+  <div class="features">read / write</div>
+
+</dd>
+
+        <dt id="hashCode" class="property inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/2.13.4/dart-core/Object/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/2.13.4/dart-core/int-class.html">int</a></span> 
+
+</dt>
+<dd class="inherited">
+  The hash code for this object. <a href="https://api.dart.dev/stable/2.13.4/dart-core/Object/hashCode.html">[...]</a>
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="publicKey" class="property">
+  <span class="name"><a href="../witnet/WitPrivateKey/publicKey.html">publicKey</a></span>
+  <span class="signature">&#8594; <a href="../witnet/WitPublicKey-class.html">WitPublicKey</a></span> 
+
+</dt>
+<dd>
+   
+  <div class="features">read-only</div>
+
+</dd>
+
+        <dt id="runtimeType" class="property inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/2.13.4/dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/2.13.4/dart-core/Type-class.html">Type</a></span> 
+
+</dt>
+<dd class="inherited">
+  A representation of the runtime type of the object. 
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor" id="instance-methods">
+      <h2>Methods</h2>
+      <dl class="callables">
+        <dt id="noSuchMethod" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/2.13.4/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.13.4/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Invoked when a non-existent method or property is accessed. <a href="https://api.dart.dev/stable/2.13.4/dart-core/Object/noSuchMethod.html">[...]</a>
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="signature" class="callable">
+  <span class="name"><a href="../witnet/WitPrivateKey/signature.html">signature</a></span><span class="signature">(<wbr><span class="parameter" id="signature-param-hash"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.13.4/dart-core/String-class.html">String</a></span> <span class="parameter-name">hash</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../witnet/WitSignature-class.html">WitSignature</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+   
+  
+
+</dd>
+
+        <dt id="toString" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/2.13.4/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/2.13.4/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  A string representation of this object. <a href="https://api.dart.dev/stable/2.13.4/dart-core/Object/toString.html">[...]</a>
+  <div class="features">inherited</div>
+
+</dd>
+
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor inherited" id="operators">
+      <h2>Operators</h2>
+      <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/2.13.4/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.13.4/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/2.13.4/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  The equality operator. <a href="https://api.dart.dev/stable/2.13.4/dart-core/Object/operator_equals.html">[...]</a>
+  <div class="features">inherited</div>
+
+</dd>
+
+      </dl>
+    </section>
+
+
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+    <ol>
+
+    <li class="section-title"><a href="../witnet/WitPrivateKey-class.html#constructors">Constructors</a></li>
+    <li><a href="../witnet/WitPrivateKey/WitPrivateKey.html">WitPrivateKey</a></li>
+
+
+    <li class="section-title">
+      <a href="../witnet/WitPrivateKey-class.html#instance-properties">Properties</a>
+    </li>
+    <li><a href="../witnet/WitPrivateKey/bytes.html">bytes</a></li>
+    <li><a href="../witnet/WitPrivateKey/D.html">D</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.13.4/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../witnet/WitPrivateKey/publicKey.html">publicKey</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.13.4/dart-core/Object/runtimeType.html">runtimeType</a></li>
+
+    <li class="section-title"><a href="../witnet/WitPrivateKey-class.html#instance-methods">Methods</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.13.4/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+    <li><a href="../witnet/WitPrivateKey/signature.html">signature</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.13.4/dart-core/Object/toString.html">toString</a></li>
+
+    <li class="section-title inherited"><a href="../witnet/WitPrivateKey-class.html#operators">Operators</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.13.4/dart-core/Object/operator_equals.html">operator ==</a></li>
+
+
+
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    witnet
+      0.1.0
+  </span>
+
+  
+</footer>
+
+
+<script src="../static-assets/highlight.pack.js"></script>
+<script src="../static-assets/script.js"></script>
+
+
+
+</body>
+
+</html>
+

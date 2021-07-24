@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="generator" content="made with love by dartdoc 0.42.0">
+  <meta name="description" content="witnet API docs, for the Dart programming language.">
+  <title>witnet - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="static-assets/github.css">
+  <link rel="stylesheet" href="static-assets/styles.css">
+  <link rel="icon" href="static-assets/favicon.png">
+
+  
+</head>
+
+
+<body data-base-href=""
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li class="self-crumb">witnet package</li>
+  </ol>
+  <div class="self-name">witnet</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li class="self-crumb">witnet package</li>
+</ol>
+
+
+    <h5 class="hidden-xs"><span class="package-name">witnet</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="explorer_rpc/explorer_rpc-library.html">explorer_rpc</a></li>
+      <li><a href="node_rpc/node_rpc-library.html">node_rpc</a></li>
+      <li><a href="schema/schema-library.html">schema</a></li>
+      <li><a href="transactions/transactions-library.html">transactions</a></li>
+      <li><a href="utils/utils-library.html">utils</a></li>
+      <li><a href="wallet/wallet-library.html">wallet</a></li>
+      <li><a href="witnet/witnet-library.html">witnet</a></li>
+</ol>
+
+  </div>
+
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <p><img src="../api/static-assets/witnet_logo.svg" alt="wit" style="
+display: block;
+margin-left: auto;
+margin-right: auto;
+width: 51%;"></p>
+<p>A library to interface with the Witnet Protocol.
+For more information about Witnet visit <a href="https://witnet.io">witnet.io</a></p>
+<h2 id="usage">Usage</h2>
+<p>A simple usage example:</p>
+<pre class="language-dart"><code class="language-dart">import 'package:witnet/witnet.dart';
+import 'package:witnet/node_rpc.dart' show NodeClient, NodeStats, SyncStatus, UtxoInfo, Utxo;
+
+main() async {
+  var nodeClient = NodeClient(address: '127.0.0.1', port: 21338);
+  SyncStatus syncStatus = await nodeClient.syncStatus();
+  if (syncStatus.nodeState == 'Synced'){
+    Xprv nodeXprv = Xprv.fromXprv('xprv1qpujxsyd4hfu0dtwa524vac84e09mjsgnh5h9crl8wrqg58z5wmsuqqcxlqmar3fjhkprndzkpnp2xlze76g4hu7g7c4r4r2m2e6y8xlvu566tn6');
+  }
+}
+</code></pre>
+<h2 id="features-and-bugs">Features and bugs</h2>
+<p><img src="../api/static-assets/community.svg" alt="wit" style="
+display: block;
+margin-right: auto;
+width: 30%;">
+Please file feature requests and bugs at the <a href="http://example.com/issues/replaceme">issue tracker</a>.</p>
+<p>Created by the Witnet Community and released under the <a href="https://github.com/dart-lang/stagehand/blob/master/LICENSE">GNU General Public License v3.0</a></p>
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="explorer_rpc">
+  <span class="name"><a href="explorer_rpc/explorer_rpc-library.html">explorer_rpc</a></span> 
+
+</dt>
+<dd> 
+</dd>
+
+          <dt id="node_rpc">
+  <span class="name"><a href="node_rpc/node_rpc-library.html">node_rpc</a></span> 
+
+</dt>
+<dd> 
+</dd>
+
+          <dt id="schema">
+  <span class="name"><a href="schema/schema-library.html">schema</a></span> 
+
+</dt>
+<dd> 
+</dd>
+
+          <dt id="transactions">
+  <span class="name"><a href="transactions/transactions-library.html">transactions</a></span> 
+
+</dt>
+<dd> 
+</dd>
+
+          <dt id="utils">
+  <span class="name"><a href="utils/utils-library.html">utils</a></span> 
+
+</dt>
+<dd> 
+</dd>
+
+          <dt id="wallet">
+  <span class="name"><a href="wallet/wallet-library.html">wallet</a></span> 
+
+</dt>
+<dd> 
+</dd>
+
+          <dt id="witnet">
+  <span class="name"><a href="witnet/witnet-library.html">witnet</a></span> 
+
+</dt>
+<dd>Support for doing something awesome. <a href="witnet/witnet-library.html">[...]</a>
+</dd>
+
+        </dl>
+      </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+
+</main>
+
+<footer>
+  <span class="no-break">
+    witnet
+      0.1.0
+  </span>
+
+  
+</footer>
+
+
+<script src="static-assets/highlight.pack.js"></script>
+<script src="static-assets/script.js"></script>
+
+
+
+</body>
+
+</html>
+

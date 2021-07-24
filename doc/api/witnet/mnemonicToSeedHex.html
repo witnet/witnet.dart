@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the mnemonicToSeedHex function from the witnet library, for the Dart programming language.">
+  <title>mnemonicToSeedHex function - witnet library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../static-assets/github.css">
+  <link rel="stylesheet" href="../static-assets/styles.css">
+  <link rel="icon" href="../static-assets/favicon.png">
+
+  
+</head>
+
+
+<body data-base-href="../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">witnet</a></li>
+    <li><a href="../witnet/witnet-library.html">witnet</a></li>
+    <li class="self-crumb">mnemonicToSeedHex function</li>
+  </ol>
+  <div class="self-name">mnemonicToSeedHex</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../index.html">witnet</a></li>
+  <li><a href="../witnet/witnet-library.html">witnet</a></li>
+  <li class="self-crumb">mnemonicToSeedHex function</li>
+</ol>
+
+
+    <h5>witnet library</h5>
+    <ol>
+  <li class="section-title"><a href="../witnet/witnet-library.html#classes">Classes</a></li>
+  <li><a href="../witnet/Bech32-class.html">Bech32</a></li>
+  <li><a href="../witnet/Config-class.html">Config</a></li>
+  <li><a href="../witnet/Curve-class.html">Curve</a></li>
+  <li><a href="../witnet/ExtendedKey-class.html">ExtendedKey</a></li>
+  <li><a href="../witnet/Message-class.html">Message</a></li>
+  <li><a href="../witnet/Network-class.html">Network</a></li>
+  <li><a href="../witnet/WitPrivateKey-class.html">WitPrivateKey</a></li>
+  <li><a href="../witnet/WitPublicKey-class.html">WitPublicKey</a></li>
+  <li><a href="../witnet/WitSignature-class.html">WitSignature</a></li>
+  <li><a href="../witnet/Xprv-class.html">Xprv</a></li>
+  <li><a href="../witnet/Xpub-class.html">Xpub</a></li>
+
+  <li class="section-title"><a href="../witnet/witnet-library.html#extension">Extensions</a></li>
+  <li><a href="../witnet/BigIntBit.html">BigIntBit</a></li>
+  <li><a href="../witnet/BigIntPrime.html">BigIntPrime</a></li>
+
+
+  <li class="section-title"><a href="../witnet/witnet-library.html#constants">Constants</a></li>
+  <li><a href="../witnet/charset-constant.html">charset</a></li>
+  <li><a href="../witnet/generator-constant.html">generator</a></li>
+  <li><a href="../witnet/secp256k1Params-constant.html">secp256k1Params</a></li>
+  <li><a href="../witnet/separator-constant.html">separator</a></li>
+  <li><a href="../witnet/word_lists-constant.html">word_lists</a></li>
+
+  <li class="section-title"><a href="../witnet/witnet-library.html#properties">Properties</a></li>
+  <li><a href="../witnet/ecParams.html">ecParams</a></li>
+  <li><a href="../witnet/fieldHeader.html">fieldHeader</a></li>
+  <li><a href="../witnet/indexHeader.html">indexHeader</a></li>
+  <li><a href="../witnet/networks.html">networks</a></li>
+  <li><a href="../witnet/outputHeader.html">outputHeader</a></li>
+  <li><a href="../witnet/scriptHeader.html">scriptHeader</a></li>
+  <li><a href="../witnet/secp256k1.html">secp256k1</a></li>
+  <li><a href="../witnet/sha256digest.html">sha256digest</a></li>
+
+  <li class="section-title"><a href="../witnet/witnet-library.html#functions">Functions</a></li>
+  <li><a href="../witnet/addDiffPoint.html">addDiffPoint</a></li>
+  <li><a href="../witnet/addSamePoint.html">addSamePoint</a></li>
+  <li><a href="../witnet/bigIntToPoint.html">bigIntToPoint</a></li>
+  <li><a href="../witnet/bytesSerializer.html">bytesSerializer</a></li>
+  <li><a href="../witnet/createChecksum.html">createChecksum</a></li>
+  <li><a href="../witnet/entropyToMnemonic.html">entropyToMnemonic</a></li>
+  <li><a href="../witnet/generateMnemonic.html">generateMnemonic</a></li>
+  <li><a href="../witnet/getPointByBigInt.html">getPointByBigInt</a></li>
+  <li><a href="../witnet/getPrivKeyByRand.html">getPrivKeyByRand</a></li>
+  <li><a href="../witnet/hash160.html">hash160</a></li>
+  <li><a href="../witnet/hash256.html">hash256</a></li>
+  <li><a href="../witnet/hexToPoint.html">hexToPoint</a></li>
+  <li><a href="../witnet/hexToPointFromCompress.html">hexToPointFromCompress</a></li>
+  <li><a href="../witnet/hmacSHA512.html">hmacSHA512</a></li>
+  <li><a href="../witnet/hrpExpand.html">hrpExpand</a></li>
+  <li><a href="../witnet/inverseMulti.html">inverseMulti</a></li>
+  <li><a href="../witnet/mnemonicToEntropy.html">mnemonicToEntropy</a></li>
+  <li><a href="../witnet/mnemonicToSeed.html">mnemonicToSeed</a></li>
+  <li><a href="../witnet/mnemonicToSeedHex.html">mnemonicToSeedHex</a></li>
+  <li><a href="../witnet/pointToHexInCompress.html">pointToHexInCompress</a></li>
+  <li><a href="../witnet/polymod.html">polymod</a></li>
+  <li><a href="../witnet/positiveMod.html">positiveMod</a></li>
+  <li><a href="../witnet/randomBigInt.html">randomBigInt</a></li>
+  <li><a href="../witnet/randomPrimeBigInt.html">randomPrimeBigInt</a></li>
+  <li><a href="../witnet/read.html">read</a></li>
+  <li><a href="../witnet/ripemod160.html">ripemod160</a></li>
+  <li><a href="../witnet/sha256.html">sha256</a></li>
+  <li><a href="../witnet/sha512.html">sha512</a></li>
+  <li><a href="../witnet/validateMnemonic.html">validateMnemonic</a></li>
+  <li><a href="../witnet/varInt.html">varInt</a></li>
+  <li><a href="../witnet/varIntSerializer.html">varIntSerializer</a></li>
+  <li><a href="../witnet/verifyChecksum.html">verifyChecksum</a></li>
+
+  <li class="section-title"><a href="../witnet/witnet-library.html#enums">Enums</a></li>
+  <li><a href="../witnet/NetworkType-class.html">NetworkType</a></li>
+
+  <li class="section-title"><a href="../witnet/witnet-library.html#typedefs">Typedefs</a></li>
+  <li><a href="../witnet/RandomBytes.html">RandomBytes</a></li>
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-left-->
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-function">mnemonicToSeedHex</span> function 
+ 
+</h1></div>
+
+    <section class="multi-line-signature">
+        
+
+<span class="returntype"><a href="https://api.dart.dev/stable/2.13.4/dart-core/String-class.html">String</a></span>
+<span class="name ">mnemonicToSeedHex</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="mnemonicToSeedHex-param-mnemonic"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.13.4/dart-core/String-class.html">String</a></span> <span class="parameter-name">mnemonic</span>, </span></li>
+<li><span class="parameter" id="mnemonicToSeedHex-param-passphrase">{<span class="type-annotation"><a href="https://api.dart.dev/stable/2.13.4/dart-core/String-class.html">String</a></span> <span class="parameter-name">passphrase</span> = <span class="default-value">&quot;&quot;</span>}</span></li>
+</ol>)
+
+    </section>
+    
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">String mnemonicToSeedHex(String mnemonic, {String passphrase = &quot;&quot;}) {
+  return mnemonicToSeed(mnemonic, passphrase: passphrase).map((byte) {
+    return byte.toRadixString(16).padLeft(2, &#39;0&#39;);
+  }).join(&#39;&#39;);
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    witnet
+      0.1.0
+  </span>
+
+  
+</footer>
+
+
+<script src="../static-assets/highlight.pack.js"></script>
+<script src="../static-assets/script.js"></script>
+
+
+
+</body>
+
+</html>
+
