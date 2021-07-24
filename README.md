@@ -1,4 +1,4 @@
-<img src="https://github.com/parodyBit/witnet/tree/main/doc/api/static-assets/witnet_logo.svg"
+<img src="https://github.com/witnet/website/blob/master/assets/images/witnet_logo.svg"
 alt="wit"
 style="
 display: block;
