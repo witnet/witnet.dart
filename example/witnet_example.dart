@@ -1,12 +1,9 @@
 
 import 'package:witnet/src/crypto/address.dart';
-import 'package:witnet/src/data_structures/transaction_factory.dart';
 import 'package:witnet/src/data_structures/utxo_pool.dart';
-import 'package:witnet/witnet.dart' show WitPrivateKey, Xprv, generateMnemonic, nanoWitToWit, signMessage, verify;
-import 'package:witnet/node_rpc.dart' show NodeClient, NodeStats, SyncStatus, UtxoInfo, Utxo;
-
-
-import 'package:witnet/schema.dart' show Input, OutputPointer, VTTransaction, VTTransactionBody, ValueTransferOutput;
+import 'package:witnet/witnet.dart' show Xprv, nanoWitToWit, signMessage, verify;
+import 'package:witnet/node_rpc.dart' show NodeClient, NodeStats, SyncStatus;
+import 'package:witnet/schema.dart' show Input, VTTransaction, ValueTransferOutput;
 
 String nodeIp = '127.0.0.1';
 int nodePort = 21338;
