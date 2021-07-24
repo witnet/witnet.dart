@@ -94,7 +94,7 @@ Created by the Witnet Community and released under the [GNU General Public Licen
 
 [witnet_io]: https://witnet.io
 [witnet_github]: https://github.com/witnet
-[tracker]: http://example.com/issues/replaceme
-[license]: https://github.com/dart-lang/stagehand/blob/master/LICENSE
+[tracker]: https://github.com/parodyBit/witnet/issues
+[license]: https://github.com/parodyBit/witnet/blob/main/LICENSE
 [pointy_castle]: https://pub.dev/packages/pointycastle
 
