@@ -109,17 +109,17 @@ class Address {
     print('Signatures: ${transaction.signatures.length}');
     return transaction;
   }
+
   KeyedSignature signHash(String hash, WitPrivateKey privateKey){
     final sig = privateKey.signature(hash);
-
     int compressed = privateKey.publicKey.encode().elementAt(0);
     Uint8List key_bytes = privateKey.publicKey.encode().sublist(1);
-
     return KeyedSignature(
       publicKey: PublicKey(bytes: key_bytes, compressed: compressed),
       signature: Signature(secp256K1: Secp256k1Signature(der: sig.encode())),
     );
   }
+
   void _setUtxoInfo(UtxoInfo utxoInfo) {
     _utxoInfo = utxoInfo;
     utxoPool = UtxoPool();

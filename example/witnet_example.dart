@@ -1,9 +1,9 @@
 
 import 'package:witnet/src/crypto/address.dart';
 import 'package:witnet/src/data_structures/utxo_pool.dart';
-import 'package:witnet/witnet.dart' show Xprv, nanoWitToWit, signMessage, verify;
+import 'package:witnet/witnet.dart' show WitPrivateKey, Xprv, nanoWitToWit, signMessage, verify;
 import 'package:witnet/node_rpc.dart' show NodeClient, NodeStats, SyncStatus;
-import 'package:witnet/schema.dart' show Input, VTTransaction, ValueTransferOutput;
+import 'package:witnet/schema.dart' show Input, VTTransaction, VTTransactionBody, ValueTransferOutput;
 
 String nodeIp = '127.0.0.1';
 int nodePort = 21338;
@@ -12,7 +12,6 @@ NodeClient nodeClient;
 List<Input> inputs = [
   Input.fromJson({'output_pointer':'0000000000000000000000000000000000000000000000000000000000000000:1'}),
 ];
-
 List<ValueTransferOutput> outputs = [
   ValueTransferOutput.fromJson({'pkh': 'wit174la8pevl74hczcpfepgmt036zkmjen4hu8zzs', 'time_lock': 0, 'value': 1000000000,}),
 ];
@@ -40,7 +39,7 @@ main() async{
     print('${address.balanceWit} WIT');
     VTTransaction transaction = address.createVTT(
         to: outputs,
-        privateKey: walletXprv.privateKey,
+        privateKey: nodeXprv.privateKey,
         utxoStrategy: UtxoSelectionStrategy.SmallFirst,
         fee: 1);
     print(transaction.jsonMap);

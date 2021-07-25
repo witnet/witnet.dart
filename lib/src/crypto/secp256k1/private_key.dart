@@ -40,7 +40,6 @@ class WitPrivateKey {
   WitSignature signature(String hash){
     final rs = _sign(secp256k1.n, secp256k1.p, secp256k1.a,
         D, secp256k1.G, BigInt.parse(hash, radix: 16));
-
     return WitSignature(rs[0], rs[1]);
   }
 
