@@ -20,10 +20,3 @@ Uint8List hmacSHA512({Uint8List key, Uint8List data}) {
   final _tmp = new HMac(new SHA512Digest(), 128)..init(new KeyParameter(key));
   return _tmp.process(data);
 }
-
-
-
-
-/*
-
-*/

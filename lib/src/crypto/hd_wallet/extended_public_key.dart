@@ -66,6 +66,4 @@ class Xpub {
         parent: fingerPrint,
         path: path + '/$index');
   }
-
-
 }

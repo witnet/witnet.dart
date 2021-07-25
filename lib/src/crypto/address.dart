@@ -1,12 +1,8 @@
 import 'dart:typed_data' show Uint8List;
-
-import 'package:pointycastle/ecc/api.dart';
 import 'package:witnet/node_rpc.dart';
 import 'package:witnet/schema.dart';
-import 'package:witnet/src/crypto/hd_wallet/extended_private_key.dart';
 import 'package:witnet/src/crypto/secp256k1/private_key.dart';
 import 'package:witnet/src/crypto/secp256k1/public_key.dart';
-import 'package:witnet/src/crypto/secp256k1/secp256k1.dart';
 import 'package:witnet/src/data_structures/transaction_factory.dart';
 import 'package:witnet/src/data_structures/utxo_pool.dart';
 import 'package:witnet/src/utils/bech32/bech32.dart';
@@ -50,8 +46,6 @@ class Address {
   double get balanceWit {
     return nanoWitToWit(balanceNanoWit);
   }
-
-
 
   List<Utxo> get utxos {
     if(_utxoInfo != null) {

@@ -1,5 +1,3 @@
-
-
 Map<String, Network> networks = {
   'WitnetNode'
   'WIT': Network(
@@ -7,8 +5,6 @@ Map<String, Network> networks = {
   ),
 
 };
-
-
 
 enum NetworkType {
   WitnetMainnet,
@@ -30,5 +26,4 @@ class Network {
 
   Network(
       {this.path, this.network, this.decimals, this.address, this.feeLimit});
-
 }

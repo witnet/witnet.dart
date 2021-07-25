@@ -1,21 +1,10 @@
 import "dart:typed_data";
-import "dart:math";
 import '../crypto.dart';
 import 'secp256k1.dart';
-import '../message.dart';
-import '../../utils/bech32/bech32.dart';
 import '../../utils/bech32/codec.dart';
 import '../../utils/transformations/transformations.dart';
 import 'package:pointycastle/ecc/ecc_fp.dart' as ecc_fp;
-import "package:pointycastle/pointycastle.dart";
-import "package:pointycastle/export.dart";
-import "package:pointycastle/ecc/api.dart";
-import "package:pointycastle/ecc/curves/secp256k1.dart";
-import "package:pointycastle/key_generators/api.dart";
-import "package:pointycastle/key_generators/ec_key_generator.dart";
-import "package:pointycastle/random/fortuna_random.dart";
 import 'private_key.dart';
-
 
 class WitPublicKey {
   ecc_fp.ECPoint point;
@@ -42,8 +31,6 @@ class WitPublicKey {
     return privateKey.publicKey;
   }
 
-
-
   Uint8List encode({bool compressed: true}){
     return hexToBytes(pointToHexInCompress([X, Y]));
   }
@@ -59,9 +46,6 @@ class WitPublicKey {
   String get address {
     return bech32.encodeAddress('wit', publicKeyHash);
   }
-
-
-
 
 }
 

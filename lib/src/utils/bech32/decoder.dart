@@ -58,12 +58,6 @@ class Bech32Decoder extends Converter<String, Bech32> with Bech32Validations {
     if (hasOutOfBoundsChars(checksumBytes)) {
       throw OutOfBoundChars(checksum[checksumBytes.indexOf(-1)]);
     }
-    /*
-    if (isInvalidChecksum(hrp, dataBytes, checksumBytes)) {
-      throw InvalidChecksum();
-    }
-    */
-
     return Bech32(hrp: hrp, data: dataBytes);
   }
 }

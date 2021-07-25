@@ -9,11 +9,6 @@ import '../../utils/transformations/transformations.dart';
 import '../number_theory.dart';
 import 'dart:typed_data';
 
-import 'package:pointycastle/ecc/api.dart';
-import 'secp256k1.dart';
-
-
-
 class WitPrivateKey {
   BigInt D;
 
@@ -25,8 +20,6 @@ class WitPrivateKey {
 
   Message get bytes => Message.fromBytes(bigIntToBytes(this.D));
   WitPublicKey _publicKey;
-
-
 
   WitPublicKey  get publicKey {
     if (_publicKey != null) return _publicKey;
@@ -42,9 +35,7 @@ class WitPrivateKey {
         D, secp256k1.G, BigInt.parse(hash, radix: 16));
     return WitSignature(rs[0], rs[1]);
   }
-
 }
-
 
 List<BigInt> _sign(BigInt n, BigInt p, BigInt a, BigInt d, List<BigInt> pointG,
     BigInt bigHash) {
@@ -63,9 +54,6 @@ List<BigInt> _sign(BigInt n, BigInt p, BigInt a, BigInt d, List<BigInt> pointG,
     var e = bigHash;
     var s = positiveMod((e + (r * d)) * inverseMulti(k, n), n);
 
-    // if (s == BigInt.zero) {
-    //   return sign(n, p, a, d, pointG, bigHash);
-    // }
     if (s == BigInt.zero) continue;
 
     return [r, s];

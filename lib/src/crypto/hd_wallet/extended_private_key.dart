@@ -155,8 +155,6 @@ class Xprv {
         path: _path);
   }
 
-
-
   Xprv operator /(dynamic index){
     BigInt i;
 

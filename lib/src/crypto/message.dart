@@ -56,5 +56,4 @@ class Message {
     }
     return _hash.SHA256;
   }
-
 }

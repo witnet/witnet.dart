@@ -1,12 +1,5 @@
 
-import 'dart:ffi';
 import 'dart:typed_data';
-import '../crypto.dart';
-import 'extended_private_key.dart';
-import '../secp256k1/private_key.dart';
-import '../../utils/transformations/transformations.dart';
-import '../bip39/bip39.dart' show mnemonicToSeed;
-import '../message.dart';
 
 class ExtendedKey {
 
@@ -37,17 +30,6 @@ class ExtendedKey {
   Uint8List parent = Uint8List.fromList([0,0,0,0]);
   String path;
 
-  factory ExtendedKey.deserialize(Uint8List bytes) {
-    var net;
-    var isPublic;
-    var isPrivate;
-    var depth;
-    var fingerprint;
-
-  }
-
-
-
   bool get isMaster {
     if (
     depth == 0 &&
@@ -63,13 +45,6 @@ class ExtendedKey {
   factory ExtendedKey.child({dynamic index}){
     UnimplementedError();
   }
-
-
-
-}
-
-Uint8List read(int start, int end, Uint8List bytes ) {
-  return bytes.sublist(start, end);
 }
 
 
