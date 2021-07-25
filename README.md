@@ -67,9 +67,6 @@ Create a signed VTTransaction from UTXO data.
 import 'package:witnet/node_rpc.dart' show NodeClient, NodeStats, SyncStatus;
 import 'package:witnet/schema.dart' show Input, VTTransaction, ValueTransferOutput;
 import 'package:witnet/witnet.dart' show Xprv, nanoWitToWit, signMessage, verify;
-List<Input> inputs = [
-  Input.fromJson({'output_pointer':'0000000000000000000000000000000000000000000000000000000000000000:1'}),
-];
 
 List<ValueTransferOutput> outputs = [
   ValueTransferOutput.fromJson({'pkh': 'wit174la8pevl74hczcpfepgmt036zkmjen4hu8zzs', 'time_lock': 0, 'value': 1000000000,}),
@@ -119,7 +116,12 @@ Build a VTTransaction from inputs and outputs.
 ```dart
 import 'package:witnet/witnet.dart' show WitPrivateKey;
 import 'package:witnet/schema.dart' show VTTransaction, Input, ValueTransferOutput, VTTransactionBody;
-
+List<Input> inputs = [
+  Input.fromJson({'output_pointer':'0000000000000000000000000000000000000000000000000000000000000000:1'}),
+];
+List<ValueTransferOutput> outputs = [
+  ValueTransferOutput.fromJson({'pkh': 'wit174la8pevl74hczcpfepgmt036zkmjen4hu8zzs', 'time_lock': 0, 'value': 1000000000,}),
+];
 Future<VTTransaction> basicTransaction({
   List<Input> inputs,
   List<ValueTransferOutput> outputs,
@@ -130,6 +132,18 @@ Future<VTTransaction> basicTransaction({
   String transactionID = transaction.transactionID;
   return transaction;
 }
+```
+Send a transaction.
+```dart
+String nodeIp = '127.0.0.1';
+int nodePort = 21338;
+NodeClient nodeClient;
+
+main() async {
+  SyncStatus syncStatus = await nodeClient.syncStatus();
+  if (syncStatus.nodeState == 'Synced') {
+    var response = nodeClient.
+
 ```
 
 ## Features and bugs
