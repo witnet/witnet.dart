@@ -142,7 +142,15 @@ NodeClient nodeClient;
 main() async {
   SyncStatus syncStatus = await nodeClient.syncStatus();
   if (syncStatus.nodeState == 'Synced') {
-    var response = nodeClient.
+    // an empty transaction
+    VTTransactionBody body = VTTransactionBody(inputs: [], outputs: []);
+    VTTransaction transaction = VTTransaction(body: body, signatures: []);
+    String transactionID = transaction.transactionID;
+    // change to true if you really want to send the transaction
+    var resp = await nodeClient.inventory({'transaction': transaction.jsonMap});
+    print(resp);
+  }
+}
 
 ```
 
