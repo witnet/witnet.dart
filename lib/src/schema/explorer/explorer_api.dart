@@ -27,7 +27,7 @@ class ExplorerAPI {
 
   Future<ExplorerStatus> status() async {
     Uri urlEndpoint = Uri.https(url, api('status'));
-    int balance = 0;
+
     // Await the http get response, then decode the json-formatted response.
     var response = await http.get(urlEndpoint);
     if (response.statusCode == 200) {
@@ -47,15 +47,17 @@ class ExplorerAPI {
       var jsonResponse =
       convert.jsonDecode(response.body) as Map<String, dynamic>;
       List<dynamic> utxoList = jsonResponse['utxos'];
+      List<Utxo> utxos = [];
       for (int i = 0; i < utxoList.length; i++){
         Map<String, dynamic> _utxoMap = utxoList[i];
         print(_utxoMap);
         Utxo _utxo = Utxo.fromJson(_utxoMap);
         print(_utxo.value);
-        utxoList.add(_utxo);
+        utxos.add(_utxo);
 
         balance += _utxo.value;
       }
+      return utxos;
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
