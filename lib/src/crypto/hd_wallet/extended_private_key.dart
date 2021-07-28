@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:pointycastle/ecc/curves/secp256k1.dart';
 import 'package:witnet/src/crypto/address.dart';
+import 'package:witnet/src/crypto/encrypt/aes/codec.dart';
 
 import '../bip39/bip39.dart' show mnemonicToSeed;
 
@@ -113,11 +114,58 @@ class Xprv {
   }
 
   factory Xprv.fromEncryptedXprv(String xprv, String password){
+    Bech32 bech = bech32.decode(xprv);
+    Uint8List data = Uint8List.fromList(
+        convertBits(data: bech.data, from: 5, to: 8, pad: false));
 
-    /// TODO
-    return null;
+    Uint8List iv = data.sublist(0, 16);
+    Uint8List salt = data.sublist(16, 48);
+    Uint8List _data = data.sublist(48);
 
+    CodecAES codec = getCodecAES(password, salt: salt, iv: iv);
+    Uint8List decoded = codec.decode(bytesToHex(_data));
+    //String plainText = String.fromCharCodes(decoded).trim();
+    String plainText;
+    try {
+      plainText = utf8.decode(decoded).trim();
+      return Xprv.fromXprv(plainText);
+    } catch (e){
+      print(e);
+      plainText = 'Aes Decode Error';
+      return null;
+    }
   }
+
+  String toEncryptedXprv({String password}){
+      String xprvStr = toSlip32();
+      List<int> tmp = xprvStr.codeUnits;
+      print(tmp.length);
+      Uint8List dat = Uint8List(128);
+      int padLength = dat.length - tmp.length;
+      Uint8List padding = Uint8List(padLength);
+      for(int i = 0; i < padLength; i++){
+        padding[i] = 11;
+      }
+      dat.setRange(0, tmp.length, tmp);
+      dat.setRange(tmp.length, dat.length, padding);
+      print(dat);
+      Uint8List _iv = generateIV();
+      Uint8List _salt = generateSalt();
+      CodecAES codec = getCodecAES(password, salt: _salt, iv: _iv);
+      var encoded = codec.encode(dat);
+      Uint8List encData = concatBytes([_iv, _salt, hexToBytes(encoded)]);
+      print(encData);
+      Uint8List data1 = Uint8List.fromList(
+          convertBits(data: encData, from: 8, to: 5, pad: true));
+      print(data1);
+      Bech32 b1 = Bech32(hrp: 'xprv', data: data1);
+
+      String bech1 = bech32.encode(b1, 293);
+      // 32bit to 256bit
+      print(bech1);
+      return bech1;
+  }
+
 
   Xprv child({BigInt index}) {
     bool hardened = index >= BigInt.from(1 << 31);
