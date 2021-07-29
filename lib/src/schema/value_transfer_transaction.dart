@@ -10,8 +10,8 @@ import 'value_transfer_body.dart';
 class VTTransaction {
 
   VTTransaction({
-    this.body,
-    this.signatures,
+    required this.body,
+    required this.signatures,
   });
 
   VTTransactionBody body;

@@ -4,10 +4,10 @@ import '../transaction.dart';
 
 class TransactionResponse {
   TransactionResponse({
-    this.blockHash,
-    this.confirmed,
-    this.transaction,
-    this.weight,
+    required this.blockHash,
+    required this.confirmed,
+    required this.transaction,
+    required this.weight,
   });
 
   String blockHash;

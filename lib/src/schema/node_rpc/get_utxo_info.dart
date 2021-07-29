@@ -5,8 +5,8 @@ import '../output_pointer.dart';
 
 class UtxoInfo {
   UtxoInfo({
-    this.collateralMin,
-    this.utxos,
+    required this.collateralMin,
+    required this.utxos,
   });
 
   int collateralMin;
@@ -29,10 +29,10 @@ class UtxoInfo {
 
 class Utxo {
   Utxo({
-    this.outputPointer,
-    this.timelock,
-    this.utxoMature,
-    this.value,
+    required this.outputPointer,
+    required this.timelock,
+    required this.utxoMature,
+    required this.value,
   });
 
   OutputPointer outputPointer;

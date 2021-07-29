@@ -10,25 +10,22 @@ import '../number_theory.dart';
 import 'dart:typed_data';
 
 class WitPrivateKey {
-  BigInt D;
-
-  WitPrivateKey({Uint8List bytes}) {
+  late BigInt D;
+  late WitPublicKey publicKey;
+  WitPrivateKey({required Uint8List bytes}) {
     BigInt bts = bytesToBigInt(bytes);
     assert (bts < secp256k1.n, 'Key Larger Than Curve Order');
     D = bts;
-  }
-
-  Message get bytes => Message.fromBytes(bigIntToBytes(this.D));
-  WitPublicKey _publicKey;
-
-  WitPublicKey  get publicKey {
-    if (_publicKey != null) return _publicKey;
     final point = getPointByBigInt(
         D, secp256k1.p, secp256k1.a, secp256k1.G);
 
-    _publicKey = WitPublicKey(X:point[0], Y:point[1]);
-    return _publicKey;
+    publicKey = WitPublicKey(X:point[0], Y:point[1]);
   }
+
+  Message get bytes => Message.fromBytes(bigIntToBytes(this.D));
+
+
+
 
   WitSignature signature(String hash){
     final rs = _sign(secp256k1.n, secp256k1.p, secp256k1.a,

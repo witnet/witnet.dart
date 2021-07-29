@@ -2,8 +2,8 @@ import 'dart:convert';
 
 class PublicKey {
   PublicKey({
-    this.bytes,
-    this.compressed,
+    required this.bytes,
+    required this.compressed,
   });
   List<int> bytes;
   int compressed;

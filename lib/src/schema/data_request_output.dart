@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'data_request.dart';
 class DrOutput {
   DrOutput({
-    this.collateral,
-    this.commitAndRevealFee,
-    this.dataRequest,
-    this.minConsensusPercentage,
-    this.witnessReward,
-    this.witnesses,
+    required this.collateral,
+    required this.commitAndRevealFee,
+    required this.dataRequest,
+    required this.minConsensusPercentage,
+    required this.witnessReward,
+    required this.witnesses,
   });
 
   int collateral;

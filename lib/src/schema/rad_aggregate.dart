@@ -2,8 +2,8 @@ import 'dart:convert';
 
 class RADAggregate {
   RADAggregate({
-    this.filters,
-    this.reducer,
+    required this.filters,
+    required this.reducer,
   });
 
   List<dynamic> filters;

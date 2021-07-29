@@ -5,8 +5,8 @@ import 'value_transfer_output.dart';
 
 class DRTransactionBody {
   DRTransactionBody({
-    this.inputs,
-    this.outputs,
+    required this.inputs,
+    required this.outputs,
   });
   List<Input> inputs;
   List<ValueTransferOutput> outputs;

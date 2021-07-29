@@ -6,8 +6,8 @@ import 'dart:convert';
 
 class ResponseError {
   ResponseError({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
   });
 
   final int code;

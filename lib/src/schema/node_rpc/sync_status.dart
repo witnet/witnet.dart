@@ -8,9 +8,9 @@ import 'node_response.dart';
 
 class SyncStatus extends NodeResponse {
   SyncStatus({
-    this.chainBeacon,
-    this.currentEpoch,
-    this.nodeState,
+    required this.chainBeacon,
+    required this.currentEpoch,
+    required this.nodeState,
   });
 
   final ChainBeacon chainBeacon;

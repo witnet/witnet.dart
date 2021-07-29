@@ -3,7 +3,7 @@ import 'dart:typed_data';
 /// Bech32 is a dead simple wrapper around a Human Readable Part (HRP) and a
 /// bunch of bytes.
 class Bech32 {
-  Bech32({this.hrp, this.data});
+  Bech32({required this.hrp, required this.data});
 
   final String hrp;
   final List<int> data;

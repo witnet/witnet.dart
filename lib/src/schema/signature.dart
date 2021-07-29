@@ -4,7 +4,7 @@ import 'secp256k1_signature.dart';
 
 class Signature {
   Signature({
-    this.secp256K1,
+    required this.secp256K1,
   });
   Secp256k1Signature secp256K1;
   factory Signature.fromRawJson(String str) => Signature.fromJson(json.decode(str));
@@ -19,6 +19,5 @@ class Signature {
     "Secp256k1": secp256K1.jsonMap,
   };
 
-  Uint8List get pbBytes {}
 
 }

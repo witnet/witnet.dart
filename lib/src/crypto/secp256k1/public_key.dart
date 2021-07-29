@@ -7,11 +7,11 @@ import 'package:pointycastle/ecc/ecc_fp.dart' as ecc_fp;
 import 'private_key.dart';
 
 class WitPublicKey {
-  ecc_fp.ECPoint point;
-  BigInt X;
-  BigInt Y;
+  late ecc_fp.ECPoint point;
+  late BigInt X;
+  late BigInt Y;
 
-  WitPublicKey({this.X, this.Y});
+  WitPublicKey({required this.X, required this.Y});
   
   factory WitPublicKey.decode(Uint8List bytes) {
     List<int> key = bytes.toList();

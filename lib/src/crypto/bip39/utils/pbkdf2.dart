@@ -23,7 +23,7 @@ class PBKDF2 {
   }) : _derivator =
             new PBKDF2KeyDerivator(new HMac(digestAlgorithm, blockLength));
 
-  Uint8List process({Uint8List data, passphrase: "", Uint8List salt}) {
+  Uint8List process({required Uint8List data, passphrase: "", Uint8List ?salt}) {
     print('processing');
     salt = salt ?? Uint8List.fromList(utf8.encode(saltPrefix + passphrase));
 

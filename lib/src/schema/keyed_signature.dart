@@ -4,8 +4,8 @@ import 'signature.dart';
 
 class KeyedSignature {
   KeyedSignature({
-    this.publicKey,
-    this.signature
+    required this.publicKey,
+    required this.signature
   });
   PublicKey publicKey;
   Signature signature;

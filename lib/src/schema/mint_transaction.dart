@@ -3,8 +3,8 @@ import 'value_transfer_output.dart';
 
 class MintTransaction {
   MintTransaction({
-    this.epoch,
-    this.outputs,
+    required this.epoch,
+    required this.outputs,
   });
 
   int epoch;

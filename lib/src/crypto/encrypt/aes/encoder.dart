@@ -1,13 +1,13 @@
 
 import 'dart:convert';
 
-import 'package:aes_crypt/aes_crypt.dart';
+import 'package:witnet/src/crypto/aes/aes_crypt.dart';
 import 'package:witnet/src/utils/transformations/transformations.dart';
 
 class EncoderAES extends Converter<Object, String> {
-  final AesCrypt aes;
-  final AesMode mode;
-  EncoderAES(this.aes, {this.mode});
+  late AesCrypt aes;
+  late AesMode mode;
+  EncoderAES(this.aes, {required this.mode});
 
   @override
   String convert(dynamic input) {

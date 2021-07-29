@@ -3,7 +3,7 @@ import 'vrf_proof.dart';
 
 class DataRequestEligibilityClaim {
   DataRequestEligibilityClaim({
-    this.proof,
+    required this.proof,
   });
 
   VrfProof proof;

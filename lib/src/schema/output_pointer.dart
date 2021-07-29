@@ -6,8 +6,8 @@ import '../utils/transformations/transformations.dart';
 import 'hash.dart';
 class OutputPointer {
   OutputPointer({
-    this.transactionId,
-    this.outputIndex,
+    required this.transactionId,
+    required this.outputIndex,
   });
   Hash transactionId;
   int outputIndex;

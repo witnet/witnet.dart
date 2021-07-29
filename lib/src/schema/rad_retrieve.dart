@@ -2,9 +2,9 @@ import 'dart:convert';
 
 class RADRetrieve {
   RADRetrieve({
-    this.kind,
-    this.script,
-    this.url,
+    required this.kind,
+    required this.script,
+    required this.url,
   });
 
   String kind;

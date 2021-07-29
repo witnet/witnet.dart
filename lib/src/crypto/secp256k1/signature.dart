@@ -13,8 +13,8 @@ import '../crypto.dart';
 import '../number_theory.dart';
 import 'secp256k1.dart';
 class WitSignature {
-  BigInt R;
-  BigInt S;
+  late BigInt R;
+  late BigInt S;
 
   WitSignature(this.R, this.S){
     if(S > secp256k1.n ~/ BigInt.two) {

@@ -1,5 +1,6 @@
 
 import 'dart:convert' as convert;
+import 'dart:io';
 import 'dart:math';
 
 import 'package:witnet/src/schema/explorer/explorer_status.dart';
@@ -10,8 +11,8 @@ import 'package:http/http.dart' as http;
 class ExplorerAPI {
 
   ExplorerAPI({
-    this.url,
-    this.methods,
+    required this.url,
+    required this.methods,
   });
 
   final String url;
@@ -34,12 +35,13 @@ class ExplorerAPI {
       var jsonResponse =
       convert.jsonDecode(response.body) as Map<String, dynamic>;
       return ExplorerStatus.fromJson(jsonResponse);
+    } else {
+      throw HttpException('Error: ${response.statusCode}');
     }
   }
 
-  Future<List<Utxo>> getUtxoInfo({String address}) async {
+  Future<List<Utxo>> getUtxoInfo({required String address}) async {
     Uri urlEndpoint = Uri.https(url, api('utxos'), {'address': address});
-    print('Connecting to $url');
     int balance = 0;
     // Await the http get response, then decode the json-formatted response.
     var response = await http.get(urlEndpoint);
@@ -50,16 +52,14 @@ class ExplorerAPI {
       List<Utxo> utxos = [];
       for (int i = 0; i < utxoList.length; i++){
         Map<String, dynamic> _utxoMap = utxoList[i];
-        print(_utxoMap);
         Utxo _utxo = Utxo.fromJson(_utxoMap);
-        print(_utxo.value);
         utxos.add(_utxo);
 
         balance += _utxo.value;
       }
       return utxos;
     } else {
-      print('Request failed with status: ${response.statusCode}.');
+      throw HttpException('Request failed with status: ${response.statusCode}.');
     }
   }
 }

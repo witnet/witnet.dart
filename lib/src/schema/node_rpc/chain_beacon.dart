@@ -1,8 +1,8 @@
 import 'dart:convert';
 class ChainBeacon {
   ChainBeacon({
-    this.checkpoint,
-    this.hashPrevBlock,
+    required this.checkpoint,
+    required this.hashPrevBlock,
   });
 
   final int checkpoint;

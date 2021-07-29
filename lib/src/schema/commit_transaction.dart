@@ -4,8 +4,8 @@ import 'keyed_signature.dart';
 
 class Commit {
   Commit({
-    this.body,
-    this.signatures,
+    required this.body,
+    required this.signatures,
   });
 
   CommitBody body;

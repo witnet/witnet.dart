@@ -11,8 +11,13 @@ const secp256k1Params = {
 };
 
 class Curve {
- BigInt p, a, b, n, h;
- List<BigInt> G;
+ late BigInt p;
+ late BigInt a;
+ late BigInt b;
+ late BigInt n;
+ late BigInt h;
+
+ late  List<BigInt> G;
  Curve(Map params) {
   p = BigInt.parse(params['p'], radix: 16);
   a = BigInt.parse(params['a'], radix: 16);
@@ -20,8 +25,8 @@ class Curve {
   n = BigInt.parse(params['n'], radix: 16);
   h = BigInt.parse(params['h'], radix: 16);
   G = [
-   BigInt.parse(secp256k1Params['Gx'], radix: 16),
-   BigInt.parse(secp256k1Params['Gy'], radix: 16)
+   BigInt.parse(secp256k1Params['Gx']!, radix: 16),
+   BigInt.parse(secp256k1Params['Gy']!, radix: 16)
   ];
  }
 }
@@ -63,8 +68,8 @@ List<BigInt> addDiffPoint(BigInt x1, BigInt y1, BigInt x2, BigInt y2, BigInt mod
 }
 List<BigInt> getPointByBigInt(BigInt n, BigInt p, BigInt a, List<BigInt> pointG) {
  var bin = n.toRadixString(2);
- List<BigInt> nowPoint;
  var nextPoint = pointG;
+ List<BigInt>? nowPoint;
  for (var i = bin.length - 1; i >= 0; i--) {
   if (bin[i] == '1') {
    if (nowPoint == null) {
@@ -73,12 +78,13 @@ List<BigInt> getPointByBigInt(BigInt n, BigInt p, BigInt a, List<BigInt> pointG)
     nowPoint = addDiffPoint(
         nowPoint[0], nowPoint[1], nextPoint[0], nextPoint[1], p);
    }
+
   }
 
   nextPoint = addSamePoint(nextPoint[0], nextPoint[1], p, a);
  }
 
- return nowPoint;
+ return nowPoint!;
 }
 
 List<BigInt> hexToPointFromCompress(String hex) {

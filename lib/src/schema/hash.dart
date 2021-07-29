@@ -5,7 +5,7 @@ import '../utils/protobuf/serializer.dart' show varInt, fieldHeader;
 
 class Hash {
   Hash({
-    this.SHA256,
+    required this.SHA256,
   });
   Uint8List SHA256;
 

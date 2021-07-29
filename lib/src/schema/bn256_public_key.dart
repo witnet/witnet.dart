@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class Bn256PublicKey {
   Bn256PublicKey({
-    this.publicKey,
+    required this.publicKey,
   });
 
   List<int> publicKey;

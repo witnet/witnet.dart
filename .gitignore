@@ -12,4 +12,4 @@ build/
 doc/api/
 
 # dev testing file
-dev.dart
+dev/

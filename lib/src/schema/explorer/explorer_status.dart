@@ -5,11 +5,11 @@ import 'package:witnet/node_rpc.dart';
 
 class ExplorerStatus {
   ExplorerStatus({
-    this.databaseLastConfirmed,
-    this.databaseLastUnconfirmed,
-    this.databaseMessage,
-    this.syncStatus,
-    this.nodePoolMessage,
+    required this.databaseLastConfirmed,
+    required this.databaseLastUnconfirmed,
+    required this.databaseMessage,
+    required this.syncStatus,
+    required this.nodePoolMessage,
   });
 
   final List<dynamic> databaseLastConfirmed;

@@ -4,10 +4,10 @@ import 'rad_aggregate.dart';
 import 'rad_retrieve.dart';
 class DataRequest {
   DataRequest({
-    this.aggregate,
-    this.retrieve,
-    this.tally,
-    this.timeLock,
+    required this.aggregate,
+    required this.retrieve,
+    required this.tally,
+    required this.timeLock,
   });
 
   RADAggregate aggregate;

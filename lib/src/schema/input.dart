@@ -5,7 +5,7 @@ import '../utils/transformations/transformations.dart';
 import 'output_pointer.dart';
 class Input {
   Input({
-    this.outputPointer,
+    required this.outputPointer,
   });
   OutputPointer outputPointer;
   factory Input.fromRawJson(String str) => Input.fromJson(json.decode(str));

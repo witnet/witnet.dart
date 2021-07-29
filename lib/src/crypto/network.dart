@@ -1,7 +1,7 @@
 Map<String, Network> networks = {
   'WitnetNode'
   'WIT': Network(
-    path: 'm'
+    path: '', address: 'wit', feeLimit: 0, decimals: 9, network: NetworkType.WitnetMainnet
   ),
 
 };
@@ -25,5 +25,5 @@ class Network {
   final int feeLimit;
 
   Network(
-      {this.path, this.network, this.decimals, this.address, this.feeLimit});
+      {required this.path, required this.network, required this.decimals, required this.address, required this.feeLimit});
 }

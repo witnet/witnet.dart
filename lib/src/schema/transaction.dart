@@ -21,8 +21,8 @@ enum TransactionType {
 
 class Transaction {
   Transaction({
-    this.transaction,
-    this.transactionType,
+    required this.transaction,
+    required this.transactionType,
   });
 
   dynamic transaction;
@@ -67,13 +67,11 @@ class Transaction {
         _weight = 1 * numInputs * 3 * numOutputs * GAMMA;
         return _weight;
       }
-      break;
       case TransactionType.DataRequest: {
         DRTransaction drTransaction = transaction as DRTransaction;
         int _weight = 0;
         return _weight;
       }
-      break;
       case TransactionType.Mint:
         break;
       case TransactionType.Commit:
@@ -83,6 +81,7 @@ class Transaction {
       case TransactionType.Tally:
         break;
     }
+    return 0;
   }
 
   Map<String, dynamic> toJson() => {

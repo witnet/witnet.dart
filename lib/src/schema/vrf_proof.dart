@@ -4,8 +4,8 @@ import 'public_key.dart';
 
 class VrfProof {
   VrfProof({
-    this.proof,
-    this.publicKey,
+    required this.proof,
+    required this.publicKey,
   });
 
   List<int> proof;

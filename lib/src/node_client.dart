@@ -9,13 +9,13 @@ import 'schema/node_rpc/sync_status.dart';
 import 'schema/node_rpc/get_utxo_info.dart';
 
 class NodeClient {
-  Socket _socket;
+  late Socket _socket;
   String address;
   int port;
-  int _id;
+  late int _id;
   List<String> messages = [];
   bool keepAlive;
-  NodeClient({this.address, this.port, this.keepAlive = false});
+  NodeClient({required this.address, required this.port, this.keepAlive = false});
 
   Future<SyncStatus> syncStatus() async{
     var response = await sendMessage(_socket, formatRequest(method: 'syncStatus'))
@@ -25,7 +25,7 @@ class NodeClient {
     });
     return response;
   }
-  Future<NodeStats> nodeStats() async{
+  Future<dynamic> nodeStats() async{
     var response = await sendMessage(_socket, formatRequest(method: 'nodeStats'))
         .then((Map<String, dynamic> data)  {
       if(data.containsKey('result')){
@@ -49,7 +49,7 @@ class NodeClient {
     return response;
   }
 
-  Future<dynamic> getBlockChain({int epoch, int limit}) async{
+  Future<dynamic> getBlockChain({required int epoch, required int limit}) async{
     var response = await sendMessage(_socket, formatRequest(method: 'getBlockChain',params: {'epoch': epoch, 'limit': limit}))
         .then((Map<String, dynamic> data)  {
       if(data.containsKey('result')){
@@ -62,7 +62,7 @@ class NodeClient {
     return response;
   }
 
-  Future<Map<String, dynamic>> getBlock({String blockHash}) async{
+  Future<Map<String, dynamic>> getBlock({required String blockHash}) async{
     var response = await sendMessage(_socket, formatRequest(method: 'getBlock',params: [blockHash]))
         .then((Map<String, dynamic> data)  {
       if(data.containsKey('result')){
@@ -88,7 +88,7 @@ class NodeClient {
     return response;
   }
 
-  Future<Map<String, dynamic>> dataRequestReport({String transactionHash}) async{
+  Future<Map<String, dynamic>> dataRequestReport({required String transactionHash}) async{
     var response = await sendMessage(_socket, formatRequest(method: 'dataRequestReport',params: [transactionHash]))
         .then((Map<String, dynamic> data)  {
       if(data.containsKey('result')){
@@ -102,7 +102,7 @@ class NodeClient {
   }
 
 
-  Future<Map<String, dynamic>> getBalance({String address}) async{
+  Future<Map<String, dynamic>> getBalance({required String address}) async{
     var response = await sendMessage(_socket, formatRequest(method: 'getBalance',params: [address] ))
         .then((Map<String, dynamic> data)  {
       if(data.containsKey('result')){
@@ -115,7 +115,7 @@ class NodeClient {
     return response;
   }
 
-  Future<Map<String, dynamic>> getReputation({String address}) async{
+  Future<Map<String, dynamic>> getReputation({required String address}) async{
     var response = await sendMessage(_socket, formatRequest(method: 'getReputation',params: [address] ))
         .then((Map<String, dynamic> data)  {
       if(data.containsKey('result')){
@@ -202,7 +202,7 @@ class NodeClient {
   }
 /// protected methods
 
-  Future<UtxoInfo> getUtxoInfo({String address}) async{
+  Future<UtxoInfo> getUtxoInfo({required String address}) async{
     var response = await sendMessage(_socket, formatRequest(method: 'getUtxoInfo',params: [address] ))
         .then((Map<String, dynamic> data)  {
       if(data.containsKey('result')){
@@ -216,7 +216,7 @@ class NodeClient {
     return UtxoInfo.fromJson(response);
   }
 
-  Map<String, dynamic> formatRequest({String method, dynamic params}){
+  Map<String, dynamic> formatRequest({required String method, dynamic params}){
     Map<String, dynamic> request = {
       'jsonrpc': '2.0',
       'method': '$method',
@@ -244,7 +244,7 @@ class NodeClient {
   }
   Future<Map<String, dynamic>> _handle(String _request) async {
     String _errorData;
-    String _secureResponse;
+    String _secureResponse = '';
     _errorData = "Server_Error";
     if (_request != null) {
       // =============================================================

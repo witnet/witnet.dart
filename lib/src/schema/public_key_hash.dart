@@ -4,7 +4,7 @@ import '../utils/bech32/codec.dart';
 import '../utils/protobuf/serializer.dart';
 import '../utils/transformations/transformations.dart';
 class PublicKeyHash {
-  PublicKeyHash({this.hash});
+  PublicKeyHash({required this.hash});
 
   final Uint8List hash;
 

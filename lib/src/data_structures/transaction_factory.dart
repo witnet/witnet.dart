@@ -4,12 +4,17 @@ import 'package:witnet/schema.dart';
 import '../../node_rpc.dart';
 
 class TransactionInfo{
-  List<Input> inputs;
-  List<ValueTransferOutput> outputs;
-  int input_value;
-  int output_value;
-  int fee;
-
+  final List<Input> inputs;
+  final List<ValueTransferOutput> outputs;
+  final int input_value;
+  final int output_value;
+  final int fee;
+  TransactionInfo(
+      {required this.inputs,
+      required this.outputs,
+      required this.input_value,
+      required this.output_value,
+      required this.fee});
 }
 
 
@@ -19,13 +24,3 @@ enum FeeType{
 
 }
 
-VTTransaction buildVTT(
-{
-  List<ValueTransferOutput> outputs,
-  int fee,
-  List<Utxo> utxos,
-
-}
-){
-
-}

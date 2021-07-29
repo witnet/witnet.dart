@@ -8,13 +8,13 @@ import 'node_response.dart';
 
 class NodeStats extends NodeResponse {
   NodeStats({
-    this.blockMinedCount,
-    this.blockProposedCount,
-    this.commitsCount,
-    this.commitsProposedCount,
-    this.drEligibilityCount,
-    this.lastBlockProposed,
-    this.slashedCount,
+    required this.blockMinedCount,
+    required this.blockProposedCount,
+    required this.commitsCount,
+    required this.commitsProposedCount,
+    required this.drEligibilityCount,
+    required this.lastBlockProposed,
+    required this.slashedCount,
   });
 
   final int blockMinedCount;

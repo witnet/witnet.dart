@@ -6,15 +6,15 @@ import 'hash.dart';
 import 'input.dart';
 class CommitBody {
   CommitBody({
-    this.bn256PublicKey,
-    this.collateral,
-    this.commitment,
-    this.drPointer,
-    this.outputs,
-    this.proof,
+    required this.bn256PublicKey,
+    required this.collateral,
+    required this.commitment,
+    required this.drPointer,
+    required this.outputs,
+    required this.proof,
   });
 
-  Bn256PublicKey bn256PublicKey;
+  Bn256PublicKey? bn256PublicKey;
   List<Input> collateral;
   Hash commitment;
   Hash drPointer;
@@ -35,7 +35,7 @@ class CommitBody {
   );
 
   Map<String, dynamic> get jsonMap => {
-    "bn256_public_key": bn256PublicKey == null ? null : bn256PublicKey.toJson(),
+    "bn256_public_key": bn256PublicKey == null ? null : bn256PublicKey!.toJson(),
     "collateral": List<dynamic>.from(collateral.map((x) => x.jsonMap)),
     "commitment": commitment.toString(),
     "dr_pointer": drPointer.toString(),

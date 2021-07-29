@@ -16,11 +16,11 @@ import '../schema/public_key_hash.dart';
 
 class Address {
   String address;
-  WitPublicKey publicKey;
-  PublicKeyHash publicKeyHash;
-  UtxoInfo _utxoInfo;
-  UtxoPool utxoPool;
-  Address({this.address, this.publicKeyHash, this.publicKey});
+  WitPublicKey? publicKey;
+  PublicKeyHash? publicKeyHash;
+  UtxoInfo? _utxoInfo;
+  UtxoPool? utxoPool;
+  Address({required this.address, this.publicKeyHash, this.publicKey});
 
   factory Address.fromAddress(String address){
     return Address(
@@ -28,7 +28,7 @@ class Address {
       publicKeyHash: PublicKeyHash.fromAddress(address),
     );
   }
-  factory Address.fromPublicKeyHash({Uint8List hash}){
+  factory Address.fromPublicKeyHash({required Uint8List hash}){
     return Address(
       address: bech32.encode(Bech32(hrp: 'wit', data: hash.toList())),
       publicKeyHash: PublicKeyHash(hash: hash),
@@ -49,7 +49,7 @@ class Address {
 
   List<Utxo> get utxos {
     if(_utxoInfo != null) {
-      return _utxoInfo.utxos;
+      return _utxoInfo!.utxos;
     }
     return [];
 }
@@ -62,10 +62,10 @@ class Address {
   }
 
   VTTransaction createVTT({
-    List<ValueTransferOutput> to,
-    WitPrivateKey privateKey,
-    UtxoSelectionStrategy utxoStrategy,
-    FeeType feeType,
+    required List<ValueTransferOutput> to,
+    required WitPrivateKey privateKey,
+    required UtxoSelectionStrategy utxoStrategy,
+    FeeType? feeType,
     int fee = 0,
   }){
     int totalValue = 0;
@@ -75,7 +75,7 @@ class Address {
 
     List<Input> inputs = [];
 
-    List<Utxo> selectedUtxos = utxoPool.selectUtxos(outputs: to, utxoStrategy: utxoStrategy, fee: fee);
+    List<Utxo> selectedUtxos = utxoPool!.selectUtxos(outputs: to, utxoStrategy: utxoStrategy, fee: fee);
     selectedUtxos.forEach((Utxo utxo) {
       inputs.add(utxo.toInput());
       print(utxo.toInput().outputPointer.jsonMap);
@@ -117,7 +117,7 @@ class Address {
   void _setUtxoInfo(UtxoInfo utxoInfo) {
     _utxoInfo = utxoInfo;
     utxoPool = UtxoPool();
-    _utxoInfo.utxos.forEach((utxo) { utxoPool.insert(utxo); });
+    _utxoInfo!.utxos.forEach((utxo) { utxoPool!.insert(utxo); });
   }
 
   /// To get the UtxoInfo for an address. the `source` can be NodeClient
@@ -128,5 +128,6 @@ class Address {
       _setUtxoInfo(utxoInfo);
       return true;
     }
+    return false;
   }
 }

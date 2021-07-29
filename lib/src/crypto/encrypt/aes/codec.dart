@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
-import 'package:aes_crypt/aes_crypt.dart';
+import 'package:witnet/src/crypto/aes/aes_crypt.dart';
 import 'package:pointycastle/digests/sha256.dart';
 import 'package:witnet/src/crypto/bip39/utils/pbkdf2.dart';
 import 'package:witnet/utils.dart';
@@ -14,14 +14,14 @@ const PBKDF2_BLOCK_LENGTH = 64;
 const HASH_ITER_COUNT = 10000;
 
 class CodecAES extends Codec<Object, String> {
-  AesCrypt _aesCrypt;
-  DecoderAES _decoder;
-  EncoderAES _encoder;
-  CodecAES({Uint8List key, Uint8List iv, AesMode mode}){
+   late AesCrypt _aesCrypt;
+   late DecoderAES _decoder;
+   late EncoderAES _encoder;
+  CodecAES({required Uint8List key, required Uint8List iv, required AesMode mode}){
     _aesCrypt = AesCrypt(bytesToHex(key));
     _aesCrypt.aesSetParams(key, iv, mode);
     _decoder = DecoderAES(_aesCrypt);
-    _encoder = EncoderAES(_aesCrypt);
+    _encoder = EncoderAES(_aesCrypt, mode: mode);
   }
 
   @override
@@ -32,7 +32,7 @@ class CodecAES extends Codec<Object, String> {
 
 }
 
-Uint8List keyFromPassword({String password, Uint8List salt}){
+Uint8List keyFromPassword({required String password, required Uint8List salt}){
   final pbkdf2 = new PBKDF2(
       blockLength: PBKDF2_BLOCK_LENGTH,
       desiredKeyLength: 32,
@@ -42,7 +42,7 @@ Uint8List keyFromPassword({String password, Uint8List salt}){
   return pbkdf2.process(data: Uint8List.fromList(password.codeUnits), passphrase: '', salt: salt);
 }
 
-CodecAES getCodecAES(String password, {Uint8List iv, Uint8List salt}){
+CodecAES getCodecAES(String password, {required Uint8List iv, required Uint8List salt}){
   return CodecAES(key: keyFromPassword(password: password, salt: salt), iv: iv, mode: AesMode.cbc);
 }
 

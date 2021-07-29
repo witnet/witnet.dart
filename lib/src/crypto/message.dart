@@ -8,9 +8,9 @@ import '../schema/hash.dart';
 import 'package:pointycastle/digests/sha256.dart';
 class Message {
 
-  Message({this.message});
+  Message({required this.message});
   Uint8List message;
-  Hash _hash;
+  Hash? _hash;
   Uint8List fromBigInt(BigInt i){
     message = bigIntToBytes(i);
     return message;
@@ -47,13 +47,13 @@ class Message {
   }
 
   String get base64 {
-    Base64Encoder.urlSafe().convert(message.toList());
+    return Base64Encoder.urlSafe().convert(message.toList());
   }
 
   Uint8List get hash {
     if (_hash != null) {
       _hash = Hash(SHA256: SHA256Digest().process(message));
     }
-    return _hash.SHA256;
+    return _hash!.SHA256;
   }
 }

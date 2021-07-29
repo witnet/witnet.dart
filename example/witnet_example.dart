@@ -7,7 +7,7 @@ import 'package:witnet/schema.dart' show Input, VTTransaction, VTTransactionBody
 
 String nodeIp = '127.0.0.1';
 int nodePort = 21338;
-NodeClient nodeClient;
+NodeClient nodeClient = NodeClient(address: nodeIp, port: nodePort);
 
 List<Input> inputs = [
   Input.fromJson({'output_pointer':'0000000000000000000000000000000000000000000000000000000000000000:1'}),
@@ -21,7 +21,7 @@ String testMnemonic = 'abandon abandon abandon abandon abandon abandon abandon a
 main() async{
 
   print('Connecting to Node at $nodeIp:$nodePort...');
-  nodeClient = NodeClient(address: nodeIp, port: nodePort);
+
 
   NodeStats nodeStats = await nodeClient.nodeStats();
   SyncStatus syncStatus = await nodeClient.syncStatus();

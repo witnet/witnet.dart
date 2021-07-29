@@ -30,20 +30,20 @@ class Bech32Codec extends Codec<Bech32, String> {
   }
 
   String encodeAddress(String hrp, List<int> data){
-    var bin = bytesToBinary(data);
+    var bin = bytesToBinary(Uint8List.fromList(data));
     List<int> h3 = [];
     for (int i = 0; i < bin.length; i += 5){
-      h3.add(int.tryParse(bin.substring(i,i+5), radix: 2));
+      h3.add(int.tryParse(bin.substring(i,i+5), radix: 2)!);
     }
     Bech32 b = Bech32(hrp: hrp, data: h3);
     return encode(b);
   }
   String encodeXprv(String hrp, List<int> data){
 
-    var bin = bytesToBinary(data);
+    var bin = bytesToBinary(Uint8List.fromList(data));
     List<int> h3 = [];
     for (int i = 0; i < bin.length; i += 5){
-      h3.add(int.tryParse(bin.substring(i,i+5), radix: 2));
+      h3.add(int.tryParse(bin.substring(i,i+5), radix: 2)!);
     }
     print(h3);
     Bech32 b = Bech32(hrp: hrp, data: h3);

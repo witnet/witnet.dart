@@ -29,6 +29,8 @@ Uint8List varIntSerializer(dynamic value){
     return varInt(BigInt.from(value));
   } else if (value is BigInt){
     return varInt(value);
+  } else {
+    throw Exception('Unable to Serialize value type ${value.runtimeType}');
   }
 }
 

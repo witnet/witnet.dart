@@ -30,7 +30,7 @@ String bytesToHex(Uint8List bytes) {
 
 
 Uint8List stringToBytes(String string){
-  Uint8List tmp = utf8.encode(string);
+  Uint8List tmp = Uint8List.fromList(utf8.encode(string));
   return tmp;
 }
 
@@ -66,7 +66,7 @@ Uint8List hexToBytes(String hex){
   }
   return result;
 }
-List<int> convertBits({List<int> data, int from, int to, bool pad}) {
+List<int> convertBits({required List<int> data, required int from, required int to, required  bool pad}) {
   var acc = 0;
   var bits = 0;
   var result = <int>[];

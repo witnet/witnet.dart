@@ -8,9 +8,9 @@ import 'public_key_hash.dart';
 
 class ValueTransferOutput {
   ValueTransferOutput({
-    this.pkh,
-    this.timeLock,
-    this.value,
+    required this.pkh,
+    required this.timeLock,
+    required this.value,
   });
   PublicKeyHash pkh;
   int value;

@@ -6,8 +6,8 @@ import 'data_request_body.dart';
 
 class DRTransaction {
   DRTransaction({
-    this.body,
-    this.signatures,
+    required this.body,
+    required this.signatures,
   });
   DRTransactionBody body;
   List<KeyedSignature> signatures;

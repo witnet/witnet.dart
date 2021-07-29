@@ -63,7 +63,11 @@ class UtxoPool {
     return sortedUtxos;
   }
 
-  List<Utxo> selectUtxos({List<ValueTransferOutput> outputs, UtxoSelectionStrategy utxoStrategy, int fee, FeeType feeType}){
+  List<Utxo> selectUtxos({
+    required List<ValueTransferOutput> outputs,
+    required UtxoSelectionStrategy utxoStrategy,
+    required int fee,
+    FeeType? feeType}){
     List<Utxo> utxos = sortUtxos(utxoStrategy);
     if(utxos.isEmpty){
       print('Error -> no Utxos to select.');
