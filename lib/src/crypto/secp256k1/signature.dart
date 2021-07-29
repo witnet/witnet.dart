@@ -1,4 +1,3 @@
-
 import 'dart:typed_data';
 import 'private_key.dart';
 import 'public_key.dart';
@@ -12,16 +11,18 @@ import 'package:pointycastle/macs/hmac.dart';
 import '../crypto.dart';
 import '../number_theory.dart';
 import 'secp256k1.dart';
+
 class WitSignature {
   late BigInt R;
   late BigInt S;
 
-  WitSignature(this.R, this.S){
-    if(S > secp256k1.n ~/ BigInt.two) {
+  WitSignature(this.R, this.S) {
+    if (S > secp256k1.n ~/ BigInt.two) {
       print('normalized s value');
       S = secp256k1.n - S;
     }
   }
+
   WitSignature.fromHexes(String r, s) {
     R = BigInt.parse(r, radix: 16);
     S = BigInt.parse(s, radix: 16);
@@ -50,31 +51,31 @@ class WitSignature {
       S.toRadixString(16).padLeft(64, '0')
     ];
   }
-  factory WitSignature.decode(String sig){
+
+  factory WitSignature.decode(String sig) {
     Uint8List data = hexToBytes(sig);
     int lead = data.first;
     data.removeAt(0);
 
-    assert (lead == 30, 'Invalid leading byte');
+    assert(lead == 30, 'Invalid leading byte');
     int sequenceLength = data.first;
     data.removeAt(0);
-    assert (sequenceLength <= 70, 'Invalid Sequence length: $sequenceLength');
+    assert(sequenceLength <= 70, 'Invalid Sequence length: $sequenceLength');
     lead = data.first;
     data.removeAt(0);
-    assert (lead == 2, 'Invalid leading byte');
+    assert(lead == 2, 'Invalid leading byte');
     int rLength = data.first;
     data.removeAt(0);
-    assert (rLength <= 33, 'Invalid r length $rLength');
-    BigInt r = bytesToBigInt(Uint8List.fromList(data.sublist(0,rLength)));
+    assert(rLength <= 33, 'Invalid r length $rLength');
+    BigInt r = bytesToBigInt(Uint8List.fromList(data.sublist(0, rLength)));
     data.removeRange(0, rLength);
     lead = data.first;
     data.removeAt(0);
-    assert (lead == 2, 'Invalid leading byte');
+    assert(lead == 2, 'Invalid leading byte');
     int sLength = data.first;
     data.removeAt(0);
-    assert (sLength <= 33, 'Invalid r length $sLength');
-    BigInt s = bytesToBigInt(Uint8List.fromList(data.sublist(0,sLength)));
-
+    assert(sLength <= 33, 'Invalid r length $sLength');
+    BigInt s = bytesToBigInt(Uint8List.fromList(data.sublist(0, sLength)));
 
     return WitSignature(r, s);
   }
@@ -82,12 +83,12 @@ class WitSignature {
   Uint8List encode() {
     Uint8List _r = bigIntToBytes(R);
     Uint8List _s = bigIntToBytes(S);
-    if (_r[0] > 0x7f){
+    if (_r[0] > 0x7f) {
       // append 0x00 to the beginning
 
       _r = concatBytes([hexToBytes('00'), _r]);
     }
-    if(_s[0] > 0x7f) {
+    if (_s[0] > 0x7f) {
       _s = concatBytes([hexToBytes('00'), _s]);
     }
     Uint8List rLength = bigIntToBytes(BigInt.from(_r.length));
@@ -95,11 +96,17 @@ class WitSignature {
     Uint8List sigLength = bigIntToBytes(BigInt.from(_r.length + _s.length + 4));
     print(bytesToHex(sigLength));
     return concatBytes([
-      hexToBytes('30'), sigLength,
-      hexToBytes('02'), rLength, _r,
-      hexToBytes('02'), sLength, _s,
+      hexToBytes('30'),
+      sigLength,
+      hexToBytes('02'),
+      rLength,
+      _r,
+      hexToBytes('02'),
+      sLength,
+      _s,
     ]);
   }
+
   String toRawHex() {
     return R.toRadixString(16).padLeft(64, '0') +
         S.toRadixString(16).padLeft(64, '0');

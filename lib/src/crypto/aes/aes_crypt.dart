@@ -1,4 +1,3 @@
-
 import 'dart:typed_data';
 
 import 'package:witnet/utils.dart';
@@ -14,9 +13,11 @@ enum AesCryptOwMode {
   /// exception with [AesCryptExceptionType.destFileExists] type.
   /// This mode is set by default.
   warn,
+
   /// If the file exists, adds index '(1)' to its' name and tries to save.
   /// If such file also exists, adds '(2)' to its name, then '(3)', etc.
   rename,
+
   /// Overwrites the file if it exists.
   on,
 }
@@ -25,14 +26,16 @@ enum AesCryptOwMode {
 enum AesMode {
   /// ECB (Electronic Code Book)
   ecb,
+
   /// CBC (Cipher Block Chaining)
   cbc,
+
   /// CFB (Cipher Feedback)
   cfb,
+
   /// OFB (Output Feedback)
   ofb,
 }
-
 
 /// Wraps encryption and decryption methods and algorithms.
 class AesCrypt {
@@ -49,9 +52,7 @@ class AesCrypt {
     _password = password;
     _passBytes = stringToBytes(password);
     _owMode = AesCryptOwMode.warn;
-
   }
-
 
   /// Sets encryption/decryption password.
   void setPassword(String password) {
@@ -59,7 +60,6 @@ class AesCrypt {
     _password = password;
     _passBytes = stringToBytes(password);
   }
-
 
   /// Sets overwrite mode [mode] for write file operations during encryption
   /// or decryption process.
@@ -75,13 +75,6 @@ class AesCrypt {
   ///
   /// [AesCryptOwMode.on] - Overwrite the file if it exists.
   void setOverwriteMode(AesCryptOwMode mode) => _owMode = mode;
-
-
-
-
-
-
-
 
 //****************************************************************************
 //**************************** CRYPTO FUNCTIONS ******************************
@@ -105,7 +98,8 @@ class AesCrypt {
   /// Computes HMAC-SHA256 code for binary data [data] using cryptographic key [key].
   ///
   /// Returns [Uint8List] object containing computed code.
-  Uint8List hmacSha256(Uint8List key, Uint8List data) => Cryptor().hmacSha256(key, data);
+  Uint8List hmacSha256(Uint8List key, Uint8List data) =>
+      Cryptor().hmacSha256(key, data);
 
   /// Sets AES encryption key [key] and the initialization vector [iv].
   void aesSetKeys(Uint8List key, [Uint8List? iv]) => _aes.aesSetKeys(key, iv);
@@ -134,5 +128,4 @@ class AesCrypt {
   //
   // Returns [Uint8List] object containing decrypted data.
   Uint8List aesDecrypt(Uint8List data) => _aes.aesDecrypt(data);
-
 }

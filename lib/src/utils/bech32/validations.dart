@@ -1,4 +1,5 @@
 import 'bech32.dart';
+
 /// Generic validations for Bech32 standard.
 class Bech32Validations {
   static const int maxInputLength = 293;

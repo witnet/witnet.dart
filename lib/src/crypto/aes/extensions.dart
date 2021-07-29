@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -37,12 +36,15 @@ extension _Uint8ListExtension on Uint8List {
       i += 2;
     }
     while (i < this.length) {
-      int firstWord = (endian == Endian.big)?
-      (this[i] << 8) + this[i + 1] : (this[i + 1] << 8) + this[i];
+      int firstWord = (endian == Endian.big)
+          ? (this[i] << 8) + this[i + 1]
+          : (this[i + 1] << 8) + this[i];
       if (0xD800 <= firstWord && firstWord <= 0xDBFF) {
-        int secondWord = (endian == Endian.big)?
-        (this[i + 2] << 8) + this[i + 3] : (this[i + 3] << 8) + this[i + 2];
-        buffer.writeCharCode(((firstWord - 0xD800) << 10) + (secondWord - 0xDC00) + 0x10000);
+        int secondWord = (endian == Endian.big)
+            ? (this[i + 2] << 8) + this[i + 3]
+            : (this[i + 3] << 8) + this[i + 2];
+        buffer.writeCharCode(
+            ((firstWord - 0xD800) << 10) + (secondWord - 0xDC00) + 0x10000);
         i += 4;
       } else {
         buffer.writeCharCode(firstWord);
@@ -79,7 +81,7 @@ extension _StringExtension on String {
   // Converts UTF-16 string to bytes
   Uint8List toUtf16Bytes([Endian endian = Endian.big, bool bom = false]) {
     List<int> list =
-    bom ? (endian == Endian.big ? [0xFE, 0xFF] : [0xFF, 0xFE]) : [];
+        bom ? (endian == Endian.big ? [0xFE, 0xFF] : [0xFF, 0xFE]) : [];
     this.runes.forEach((rune) {
       if (rune >= 0x10000) {
         int firstWord = (rune >> 10) + 0xD800 - (0x10000 >> 10);

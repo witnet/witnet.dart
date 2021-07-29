@@ -1,5 +1,3 @@
-
-
 import 'response_error.dart';
 import 'get_transaction.dart';
 import 'get_utxo_info.dart';
@@ -13,9 +11,9 @@ class NodeResponse {
 
   factory NodeResponse.parse(Map<String, dynamic> json) {
     var resp;
-    if (json.containsKey('error')){
+    if (json.containsKey('error')) {
       resp = ResponseError.fromJson(json);
-    } else if (json.containsKey('transaction')){
+    } else if (json.containsKey('transaction')) {
       resp = TransactionResponse.fromJson(json);
     } else if (json.containsKey('utxos')) {
       resp = UtxoInfo.fromJson(json);
@@ -24,5 +22,4 @@ class NodeResponse {
     }
     return NodeResponse(response: resp);
   }
-
 }

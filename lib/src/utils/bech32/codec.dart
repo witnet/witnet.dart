@@ -16,6 +16,7 @@ class Bech32Codec extends Codec<Bech32, String> {
 
   @override
   Bech32Decoder get decoder => Bech32Decoder();
+
   @override
   Bech32Encoder get encoder => Bech32Encoder();
 
@@ -29,33 +30,29 @@ class Bech32Codec extends Codec<Bech32, String> {
     return Bech32Decoder().convert(data, maxLength);
   }
 
-  String encodeAddress(String hrp, List<int> data){
+  String encodeAddress(String hrp, List<int> data) {
     var bin = bytesToBinary(Uint8List.fromList(data));
     List<int> h3 = [];
-    for (int i = 0; i < bin.length; i += 5){
-      h3.add(int.tryParse(bin.substring(i,i+5), radix: 2)!);
+    for (int i = 0; i < bin.length; i += 5) {
+      h3.add(int.tryParse(bin.substring(i, i + 5), radix: 2)!);
     }
     Bech32 b = Bech32(hrp: hrp, data: h3);
     return encode(b);
   }
-  String encodeXprv(String hrp, List<int> data){
 
+  String encodeXprv(String hrp, List<int> data) {
     var bin = bytesToBinary(Uint8List.fromList(data));
     List<int> h3 = [];
-    for (int i = 0; i < bin.length; i += 5){
-      h3.add(int.tryParse(bin.substring(i,i+5), radix: 2)!);
+    for (int i = 0; i < bin.length; i += 5) {
+      h3.add(int.tryParse(bin.substring(i, i + 5), radix: 2)!);
     }
     print(h3);
     Bech32 b = Bech32(hrp: hrp, data: h3);
     return encode(b);
   }
-  Uint8List decodeAddress(String address){
-    return Uint8List.fromList(
-        convertBits(
-            data: bech32.decode(address).data,
-            from: 5,
-            to: 8,
-            pad: true)
-    );
+
+  Uint8List decodeAddress(String address) {
+    return Uint8List.fromList(convertBits(
+        data: bech32.decode(address).data, from: 5, to: 8, pad: true));
   }
 }

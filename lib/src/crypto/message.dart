@@ -1,36 +1,36 @@
-
-
 import 'dart:convert';
 import 'dart:typed_data';
 import 'secp256k1/secp256k1.dart';
 import '../utils/transformations/transformations.dart';
 import '../schema/hash.dart';
 import 'package:pointycastle/digests/sha256.dart';
-class Message {
 
+class Message {
   Message({required this.message});
+
   Uint8List message;
   Hash? _hash;
-  Uint8List fromBigInt(BigInt i){
+
+  Uint8List fromBigInt(BigInt i) {
     message = bigIntToBytes(i);
     return message;
   }
 
-  Uint8List fromString(String string){
+  Uint8List fromString(String string) {
     message = stringToBytes(string);
     return message;
   }
 
-  Uint8List fromBinary(String binary){
+  Uint8List fromBinary(String binary) {
     message = bigIntToBytes(binaryToBigInt(binary));
     return message;
   }
 
-  factory Message.fromBytes(Uint8List bytes){
+  factory Message.fromBytes(Uint8List bytes) {
     return Message(message: bytes);
   }
 
-  BigInt get bigInt{
+  BigInt get bigInt {
     return bytesToBigInt(message);
   }
 

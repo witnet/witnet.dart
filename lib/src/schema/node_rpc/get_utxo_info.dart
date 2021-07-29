@@ -12,19 +12,20 @@ class UtxoInfo {
   int collateralMin;
   List<Utxo> utxos;
 
-  factory UtxoInfo.fromRawJson(String str) => UtxoInfo.fromJson(json.decode(str));
+  factory UtxoInfo.fromRawJson(String str) =>
+      UtxoInfo.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory UtxoInfo.fromJson(Map<String, dynamic> json) => UtxoInfo(
-    collateralMin: json["collateral_min"],
-    utxos: List<Utxo>.from(json["utxos"].map((x) => Utxo.fromJson(x))),
-  );
+        collateralMin: json["collateral_min"],
+        utxos: List<Utxo>.from(json["utxos"].map((x) => Utxo.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "collateral_min": collateralMin,
-    "utxos": List<dynamic>.from(utxos.map((x) => x.toJson())),
-  };
+        "collateral_min": collateralMin,
+        "utxos": List<dynamic>.from(utxos.map((x) => x.toJson())),
+      };
 }
 
 class Utxo {
@@ -45,20 +46,20 @@ class Utxo {
   String toRawJson() => json.encode(toJson());
 
   factory Utxo.fromJson(Map<String, dynamic> json) => Utxo(
-    outputPointer: OutputPointer.fromString(json["output_pointer"]),
-    timelock: json["timelock"],
-    utxoMature: json["utxo_mature"],
-    value: json["value"],
-  );
+        outputPointer: OutputPointer.fromString(json["output_pointer"]),
+        timelock: json["timelock"],
+        utxoMature: json["utxo_mature"],
+        value: json["value"],
+      );
 
   Input toInput() {
     return Input(outputPointer: outputPointer);
   }
 
   Map<String, dynamic> toJson() => {
-    "output_pointer": outputPointer.jsonMap['output_pointer'],
-    "timelock": timelock,
-    "utxo_mature": utxoMature,
-    "value": value,
-  };
+        "output_pointer": outputPointer.jsonMap['output_pointer'],
+        "timelock": timelock,
+        "utxo_mature": utxoMature,
+        "value": value,
+      };
 }

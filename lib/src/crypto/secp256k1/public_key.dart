@@ -12,26 +12,28 @@ class WitPublicKey {
   late BigInt Y;
 
   WitPublicKey({required this.X, required this.Y});
-  
+
   factory WitPublicKey.decode(Uint8List bytes) {
     List<int> key = bytes.toList();
-    if (key.first == 0x04){ // uncompressed key
-      assert (key.length == 65, 'An uncompressed key must be 65 bytes long');
+    if (key.first == 0x04) {
+      // uncompressed key
+      assert(key.length == 65, 'An uncompressed key must be 65 bytes long');
       final point = hexToPoint(bytesToHex(bytes));
 
       return WitPublicKey(X: point[0], Y: point[1]);
-    } else { // compressed key
-      assert (key.length == 33, 'A compressed public key must be 33 bytes');
+    } else {
+      // compressed key
+      assert(key.length == 33, 'A compressed public key must be 33 bytes');
       final point = hexToPointFromCompress(bytesToHex(bytes));
       return WitPublicKey(X: point[0], Y: point[1]);
-      }
+    }
   }
 
-  factory WitPublicKey.fromPrivate(WitPrivateKey privateKey){
+  factory WitPublicKey.fromPrivate(WitPrivateKey privateKey) {
     return privateKey.publicKey;
   }
 
-  Uint8List encode({bool compressed: true}){
+  Uint8List encode({bool compressed: true}) {
     return hexToBytes(pointToHexInCompress([X, Y]));
   }
 
@@ -40,13 +42,10 @@ class WitPublicKey {
   }
 
   Uint8List get publicKeyHash {
-    return sha256(data: encode()).sublist(0,20);
+    return sha256(data: encode()).sublist(0, 20);
   }
-  
+
   String get address {
     return bech32.encodeAddress('wit', publicKeyHash);
   }
-
 }
-
-

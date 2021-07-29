@@ -17,8 +17,6 @@ enum TransactionType {
   Tally,
 }
 
-
-
 class Transaction {
   Transaction({
     required this.transaction,
@@ -28,7 +26,8 @@ class Transaction {
   dynamic transaction;
   TransactionType transactionType;
 
-  factory Transaction.fromRawJson(String str) => Transaction.fromJson(json.decode(str));
+  factory Transaction.fromRawJson(String str) =>
+      Transaction.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
@@ -43,9 +42,7 @@ class Transaction {
       _transaction = MintTransaction.fromJson(json['Mint']);
     } else if (json.containsKey('DataRequest')) {
       _transactionType = TransactionType.DataRequest;
-
-    }  else if (json.containsKey('Commit')) {
-
+    } else if (json.containsKey('Commit')) {
       _transactionType = TransactionType.Commit;
     } else if (json.containsKey('Reveal')) {
       _transactionType = TransactionType.Reveal;
@@ -57,21 +54,24 @@ class Transaction {
       transactionType: _transactionType,
     );
   }
+
   int get weight {
-    switch (transactionType){
-      case TransactionType.ValueTransfer: {
-        VTTransaction vtTransaction = transaction as VTTransaction;
-        int _weight = 0;
-        int numInputs = vtTransaction.body.inputs.length;
-        int numOutputs = vtTransaction.body.outputs.length;
-        _weight = 1 * numInputs * 3 * numOutputs * GAMMA;
-        return _weight;
-      }
-      case TransactionType.DataRequest: {
-        DRTransaction drTransaction = transaction as DRTransaction;
-        int _weight = 0;
-        return _weight;
-      }
+    switch (transactionType) {
+      case TransactionType.ValueTransfer:
+        {
+          VTTransaction vtTransaction = transaction as VTTransaction;
+          int _weight = 0;
+          int numInputs = vtTransaction.body.inputs.length;
+          int numOutputs = vtTransaction.body.outputs.length;
+          _weight = 1 * numInputs * 3 * numOutputs * GAMMA;
+          return _weight;
+        }
+      case TransactionType.DataRequest:
+        {
+          DRTransaction drTransaction = transaction as DRTransaction;
+          int _weight = 0;
+          return _weight;
+        }
       case TransactionType.Mint:
         break;
       case TransactionType.Commit:
@@ -85,6 +85,6 @@ class Transaction {
   }
 
   Map<String, dynamic> toJson() => {
-    "$transactionType": transaction.toJson(),
-  };
+        "$transactionType": transaction.toJson(),
+      };
 }

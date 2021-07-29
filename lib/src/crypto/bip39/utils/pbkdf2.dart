@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:pointycastle/digests/sha256.dart';
-import 'package:pointycastle/digests/sha512.dart';
 import 'package:pointycastle/key_derivators/api.dart' show Pbkdf2Parameters;
 import 'package:pointycastle/key_derivators/pbkdf2.dart';
 import 'package:pointycastle/macs/hmac.dart';
@@ -23,7 +21,8 @@ class PBKDF2 {
   }) : _derivator =
             new PBKDF2KeyDerivator(new HMac(digestAlgorithm, blockLength));
 
-  Uint8List process({required Uint8List data, passphrase: "", Uint8List ?salt}) {
+  Uint8List process(
+      {required Uint8List data, passphrase: "", Uint8List? salt}) {
     print('processing');
     salt = salt ?? Uint8List.fromList(utf8.encode(saltPrefix + passphrase));
 
@@ -32,7 +31,4 @@ class PBKDF2 {
         .init(new Pbkdf2Parameters(salt, iterationCount, desiredKeyLength));
     return _derivator.process(data);
   }
-
-
-
 }

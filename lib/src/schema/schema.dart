@@ -1,4 +1,8 @@
-
+export 'block.dart';
+export 'beacon.dart';
+export 'block_header.dart';
+export 'merkle_roots.dart';
+export 'mint.dart';
 export 'bn256_public_key.dart';
 
 export 'commit_body.dart';

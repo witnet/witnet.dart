@@ -1,4 +1,3 @@
-
 import 'dart:convert' as convert;
 import 'dart:io';
 import 'dart:math';
@@ -9,7 +8,6 @@ import '../node_rpc/get_utxo_info.dart';
 import 'package:http/http.dart' as http;
 
 class ExplorerAPI {
-
   ExplorerAPI({
     required this.url,
     required this.methods,
@@ -18,11 +16,11 @@ class ExplorerAPI {
   final String url;
   final List<String> methods;
 
-  String _buildUrl(String method, Map params){
+  String _buildUrl(String method, Map params) {
     return 'https://$url';
   }
 
-  String api(String method){
+  String api(String method) {
     return 'api/$method';
   }
 
@@ -33,7 +31,7 @@ class ExplorerAPI {
     var response = await http.get(urlEndpoint);
     if (response.statusCode == 200) {
       var jsonResponse =
-      convert.jsonDecode(response.body) as Map<String, dynamic>;
+          convert.jsonDecode(response.body) as Map<String, dynamic>;
       return ExplorerStatus.fromJson(jsonResponse);
     } else {
       throw HttpException('Error: ${response.statusCode}');
@@ -47,10 +45,10 @@ class ExplorerAPI {
     var response = await http.get(urlEndpoint);
     if (response.statusCode == 200) {
       var jsonResponse =
-      convert.jsonDecode(response.body) as Map<String, dynamic>;
+          convert.jsonDecode(response.body) as Map<String, dynamic>;
       List<dynamic> utxoList = jsonResponse['utxos'];
       List<Utxo> utxos = [];
-      for (int i = 0; i < utxoList.length; i++){
+      for (int i = 0; i < utxoList.length; i++) {
         Map<String, dynamic> _utxoMap = utxoList[i];
         Utxo _utxo = Utxo.fromJson(_utxoMap);
         utxos.add(_utxo);
@@ -59,7 +57,8 @@ class ExplorerAPI {
       }
       return utxos;
     } else {
-      throw HttpException('Request failed with status: ${response.statusCode}.');
+      throw HttpException(
+          'Request failed with status: ${response.statusCode}.');
     }
   }
 }

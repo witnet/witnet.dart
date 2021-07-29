@@ -13,17 +13,18 @@ class ResponseError {
   final int code;
   final String message;
 
-  factory ResponseError.fromRawJson(String str) => ResponseError.fromJson(json.decode(str));
+  factory ResponseError.fromRawJson(String str) =>
+      ResponseError.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory ResponseError.fromJson(Map<String, dynamic> json) => ResponseError(
-    code: json["code"],
-    message: json["message"],
-  );
+        code: json["code"],
+        message: json["message"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "code": code,
-    "message": message,
-  };
+        "code": code,
+        "message": message,
+      };
 }

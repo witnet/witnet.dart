@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 final _bigFF = BigInt.from(0xff);
@@ -47,12 +46,12 @@ BigInt randomBigInt(int bits, {BigInt? max, Random? random}) {
     // Make sure generated number is less than [max]
     if (!lessThanMax) {
       final maxByte = ((max! >> ((numBytes - i - 1) * 8)) & _bigFF).toInt();
-      if(next >= maxByte) {
+      if (next >= maxByte) {
         int mask = (next ^ maxByte) & next;
         int maskMask = 0x80;
-        if(i == 0) {
+        if (i == 0) {
           int safeBits = bits - (numBytes - 1) * 8;
-          if(safeBits == 1) {
+          if (safeBits == 1) {
             maskMask = 0;
           } else {
             maskMask = 1 << (safeBits - 2);
@@ -91,6 +90,7 @@ BigInt randomBigInt(int bits, {BigInt? max, Random? random}) {
 
   return ret;
 }
+
 extension BigIntBit on BigInt {
   int get trailingZeroBits {
     if (this == BigInt.zero) return 0;
@@ -194,6 +194,7 @@ extension BigIntPrime on BigInt {
 
     return true;
   }
+
   static const smallPrimes = <int>[
     3,
     5,
@@ -216,7 +217,6 @@ extension BigIntPrime on BigInt {
 
   static final smallPrimesProduct = BigInt.parse('58644190679703485491635');
 }
-
 
 BigInt positiveMod(BigInt n, BigInt modN) {
   return (n % modN + modN) % modN;

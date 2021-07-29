@@ -1,8 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
-
-
-import '../transformations/transformations.dart';
 
 import 'bech32.dart';
 import 'validations.dart';
@@ -11,7 +7,8 @@ import 'exceptions.dart';
 // This class converts a String to a Bech32 class instance.
 class Bech32Decoder extends Converter<String, Bech32> with Bech32Validations {
   @override
-  Bech32 convert(String input, [int maxLength = Bech32Validations.maxInputLength]) {
+  Bech32 convert(String input,
+      [int maxLength = Bech32Validations.maxInputLength]) {
     if (input.length > maxLength) {
       throw TooLong(input.length);
     }

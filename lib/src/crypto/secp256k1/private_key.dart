@@ -12,24 +12,21 @@ import 'dart:typed_data';
 class WitPrivateKey {
   late BigInt D;
   late WitPublicKey publicKey;
+
   WitPrivateKey({required Uint8List bytes}) {
     BigInt bts = bytesToBigInt(bytes);
-    assert (bts < secp256k1.n, 'Key Larger Than Curve Order');
+    assert(bts < secp256k1.n, 'Key Larger Than Curve Order');
     D = bts;
-    final point = getPointByBigInt(
-        D, secp256k1.p, secp256k1.a, secp256k1.G);
+    final point = getPointByBigInt(D, secp256k1.p, secp256k1.a, secp256k1.G);
 
-    publicKey = WitPublicKey(X:point[0], Y:point[1]);
+    publicKey = WitPublicKey(X: point[0], Y: point[1]);
   }
 
   Message get bytes => Message.fromBytes(bigIntToBytes(this.D));
 
-
-
-
-  WitSignature signature(String hash){
-    final rs = _sign(secp256k1.n, secp256k1.p, secp256k1.a,
-        D, secp256k1.G, BigInt.parse(hash, radix: 16));
+  WitSignature signature(String hash) {
+    final rs = _sign(secp256k1.n, secp256k1.p, secp256k1.a, D, secp256k1.G,
+        BigInt.parse(hash, radix: 16));
     return WitSignature(rs[0], rs[1]);
   }
 }
@@ -64,7 +61,7 @@ BigInt getPrivKeyByRand(BigInt n) {
 
   for (var i = 0; i < nHex.length; i++) {
     var rand16Num =
-    (random.nextInt(100) / 100 * int.parse(nHex[i], radix: 16)).round();
+        (random.nextInt(100) / 100 * int.parse(nHex[i], radix: 16)).round();
     privteKeyList.add(rand16Num.toRadixString(16));
   }
 

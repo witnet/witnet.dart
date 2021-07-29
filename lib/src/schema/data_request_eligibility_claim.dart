@@ -8,15 +8,17 @@ class DataRequestEligibilityClaim {
 
   VrfProof proof;
 
-  factory DataRequestEligibilityClaim.fromRawJson(String str) => DataRequestEligibilityClaim.fromJson(json.decode(str));
+  factory DataRequestEligibilityClaim.fromRawJson(String str) =>
+      DataRequestEligibilityClaim.fromJson(json.decode(str));
 
   String get rawJson => json.encode(jsonMap);
 
-  factory DataRequestEligibilityClaim.fromJson(Map<String, dynamic> json) => DataRequestEligibilityClaim(
-    proof: VrfProof.fromJson(json["proof"]),
-  );
+  factory DataRequestEligibilityClaim.fromJson(Map<String, dynamic> json) =>
+      DataRequestEligibilityClaim(
+        proof: VrfProof.fromJson(json["proof"]),
+      );
 
   Map<String, dynamic> get jsonMap => {
-    "proof": proof.jsonMap,
-  };
+        "proof": proof.jsonMap,
+      };
 }

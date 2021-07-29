@@ -5,7 +5,6 @@ import 'exceptions.dart';
 
 // This class converts a Bech32 class instance to a String.
 class Bech32Encoder extends Converter<Bech32, String> with Bech32Validations {
-
   @override
   String convert(Bech32 input,
       [int maxLength = Bech32Validations.maxInputLength]) {

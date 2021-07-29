@@ -15,9 +15,10 @@ import 'wordlists/italian.dart' as italian;
 import 'wordlists/japanese.dart' as japanese;
 import 'wordlists/korean.dart' as korean;
 import 'wordlists/spanish.dart' as spanish;
+
 /// The Word lists
 /// [BIP39 Reference](https://github.com/bitcoin/bips/blob/master/bip-0039/bip-0039-wordlists.md)
-const word_lists = { 
+const word_lists = {
   'ChineseSimplified': chineseSimplified.WORDLIST,
   'ChineseTraditional': chineseTraditional.WORDLIST,
   'English': english.WORDLIST,
@@ -59,25 +60,24 @@ Uint8List _randomBytes(int size) {
   return bytes;
 }
 
-String generateMnemonic(
-    {int wordCount=12, String language = 'English'}) {
+String generateMnemonic({int wordCount = 12, String language = 'English'}) {
   const strengthMap = {12: 128, 15: 160, 18: 192, 21: 224, 24: 256};
   var strength = 128;
 
   var idx = 0;
   strengthMap.forEach((key, value) {
-      if (key == wordCount){
-        strength = strengthMap.values.elementAt(idx);
-      }
-      idx += 1;
-    });
+    if (key == wordCount) {
+      strength = strengthMap.values.elementAt(idx);
+    }
+    idx += 1;
+  });
   RandomBytes randomBytes = _randomBytes;
   assert(strength % 32 == 0);
   final entropy = randomBytes(strength ~/ 8);
-  return entropyToMnemonic(HEX.encode(entropy), language:language);
+  return entropyToMnemonic(HEX.encode(entropy), language: language);
 }
 
-String entropyToMnemonic(String entropyString, { String language = "English"}) {
+String entropyToMnemonic(String entropyString, {String language = "English"}) {
   final entropy = Uint8List.fromList(HEX.decode(entropyString));
   if (entropy.length < 16) {
     throw ArgumentError(_INVALID_ENTROPY);
@@ -105,9 +105,7 @@ String entropyToMnemonic(String entropyString, { String language = "English"}) {
 Uint8List mnemonicToSeed(String mnemonic, {String passphrase = ""}) {
   final pbkdf2 = new PBKDF2(digestAlgorithm: new SHA512Digest());
   return pbkdf2.process(
-      data: Uint8List.fromList(mnemonic.codeUnits),
-      passphrase: passphrase
-  );
+      data: Uint8List.fromList(mnemonic.codeUnits), passphrase: passphrase);
 }
 
 String mnemonicToSeedHex(String mnemonic, {String passphrase = ""}) {

@@ -16,12 +16,13 @@ class Commit {
   String toRawJson() => json.encode(jsonMap);
 
   factory Commit.fromJson(Map<String, dynamic> json) => Commit(
-    body: CommitBody.fromJson(json["body"]),
-    signatures: List<KeyedSignature>.from(json["signatures"].map((x) => KeyedSignature.fromJson(x))),
-  );
+        body: CommitBody.fromJson(json["body"]),
+        signatures: List<KeyedSignature>.from(
+            json["signatures"].map((x) => KeyedSignature.fromJson(x))),
+      );
 
   Map<String, dynamic> get jsonMap => {
-    "body": body.jsonMap,
-    "signatures": List<dynamic>.from(signatures.map((x) => x.jsonMap)),
-  };
+        "body": body.jsonMap,
+        "signatures": List<dynamic>.from(signatures.map((x) => x.jsonMap)),
+      };
 }

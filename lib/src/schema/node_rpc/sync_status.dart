@@ -17,19 +17,20 @@ class SyncStatus extends NodeResponse {
   final int currentEpoch;
   final String nodeState;
 
-  factory SyncStatus.fromRawJson(String str) => SyncStatus.fromJson(json.decode(str));
+  factory SyncStatus.fromRawJson(String str) =>
+      SyncStatus.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory SyncStatus.fromJson(Map<String, dynamic> json) => SyncStatus(
-    chainBeacon: ChainBeacon.fromJson(json["chain_beacon"]),
-    currentEpoch: json["current_epoch"],
-    nodeState: json["node_state"],
-  );
+        chainBeacon: ChainBeacon.fromJson(json["chain_beacon"]),
+        currentEpoch: json["current_epoch"],
+        nodeState: json["node_state"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "chain_beacon": chainBeacon.toJson(),
-    "current_epoch": currentEpoch,
-    "node_state": nodeState,
-  };
+        "chain_beacon": chainBeacon.toJson(),
+        "current_epoch": currentEpoch,
+        "node_state": nodeState,
+      };
 }

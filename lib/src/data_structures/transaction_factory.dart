@@ -1,14 +1,14 @@
-
 import 'package:witnet/schema.dart';
 
 import '../../node_rpc.dart';
 
-class TransactionInfo{
+class TransactionInfo {
   final List<Input> inputs;
   final List<ValueTransferOutput> outputs;
   final int input_value;
   final int output_value;
   final int fee;
+
   TransactionInfo(
       {required this.inputs,
       required this.outputs,
@@ -17,10 +17,7 @@ class TransactionInfo{
       required this.fee});
 }
 
-
-enum FeeType{
+enum FeeType {
   Absolute,
   Weighted,
-
 }
-

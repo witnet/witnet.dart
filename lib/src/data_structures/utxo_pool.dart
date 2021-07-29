@@ -1,11 +1,10 @@
-
-
 import 'dart:math';
 
 import 'package:witnet/schema.dart';
 import 'package:witnet/src/data_structures/transaction_factory.dart';
 import 'package:witnet/src/schema/node_rpc/get_utxo_info.dart';
 import 'package:witnet/src/utils/transformations/transformations.dart';
+
 enum UtxoSelectionStrategy {
   Random,
   SmallFirst,
@@ -15,11 +14,11 @@ enum UtxoSelectionStrategy {
 class UtxoPool {
   Map<OutputPointer, Utxo> map = {};
 
-  void insert(Utxo utxo){
+  void insert(Utxo utxo) {
     map[utxo.outputPointer] = utxo;
   }
 
-  void remove(Utxo utxo){
+  void remove(Utxo utxo) {
     map.remove(utxo.outputPointer);
   }
 
@@ -37,59 +36,67 @@ class UtxoPool {
     return items;
   }
 
-  List<Utxo> sortUtxos(UtxoSelectionStrategy utxoSelectionStrategy){
+  List<Utxo> sortUtxos(UtxoSelectionStrategy utxoSelectionStrategy) {
     List<Utxo> sortedUtxos;
-    switch(utxoSelectionStrategy){
-      case UtxoSelectionStrategy.Random: {
-        sortedUtxos = shuffleUtxos();
-      }
-      break;
-      case UtxoSelectionStrategy.LargeFirst: {
-        sortedUtxos = map.values.toList()..sort((e1, e2) {
-          var diff = e2.value.compareTo(e1.value);
-          if (diff == 0) diff = e2.value.compareTo(e1.value);
-          return diff;
-        });
-      }
-      break;
-      case UtxoSelectionStrategy.SmallFirst:{
-        sortedUtxos = map.values.toList()..sort((e1, e2) {
-          var diff = e1.value.compareTo(e2.value);
-          if (diff == 0) diff = e1.value.compareTo(e2.value);
-          return diff;
-        });
-      }
+    switch (utxoSelectionStrategy) {
+      case UtxoSelectionStrategy.Random:
+        {
+          sortedUtxos = shuffleUtxos();
+        }
+        break;
+      case UtxoSelectionStrategy.LargeFirst:
+        {
+          sortedUtxos = map.values.toList()
+            ..sort((e1, e2) {
+              var diff = e2.value.compareTo(e1.value);
+              if (diff == 0) diff = e2.value.compareTo(e1.value);
+              return diff;
+            });
+        }
+        break;
+      case UtxoSelectionStrategy.SmallFirst:
+        {
+          sortedUtxos = map.values.toList()
+            ..sort((e1, e2) {
+              var diff = e1.value.compareTo(e2.value);
+              if (diff == 0) diff = e1.value.compareTo(e2.value);
+              return diff;
+            });
+        }
     }
     return sortedUtxos;
   }
 
-  List<Utxo> selectUtxos({
-    required List<ValueTransferOutput> outputs,
-    required UtxoSelectionStrategy utxoStrategy,
-    required int fee,
-    FeeType? feeType}){
+  List<Utxo> selectUtxos(
+      {required List<ValueTransferOutput> outputs,
+      required UtxoSelectionStrategy utxoStrategy,
+      required int fee,
+      FeeType? feeType}) {
     List<Utxo> utxos = sortUtxos(utxoStrategy);
-    if(utxos.isEmpty){
+    if (utxos.isEmpty) {
       print('Error -> no Utxos to select.');
       return [];
     }
     int utxoValue = 0;
     int outputValue = 0;
 
-    utxos.forEach((utxo) { utxoValue += utxo.value; });
-
+    utxos.forEach((utxo) {
+      utxoValue += utxo.value;
+    });
 
     // total the output value
-    outputs.forEach((output) { outputValue += output.value; });
+    outputs.forEach((output) {
+      outputValue += output.value;
+    });
     // add the fee
     outputValue += fee;
     List<Utxo> selectedUtxos = [];
     print('selecting Utxos to cover ${nanoWitToWit(outputValue)}');
-    if (outputValue > utxoValue){
+    if (outputValue > utxoValue) {
       print('Insufficient funds.');
       return [];
     }
-    while( outputValue > 0){
+    while (outputValue > 0) {
       // since the list is sorted - take the first item
       Utxo utxo = utxos.first;
       utxos.removeAt(0);

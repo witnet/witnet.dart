@@ -16,8 +16,6 @@ export 'src/crypto/network.dart';
 export 'src/crypto/number_theory.dart';
 export 'src/crypto/address.dart';
 
-
-
 export 'src/utils/bech32/bech32.dart';
 export 'src/utils/protobuf/serializer.dart';
 
