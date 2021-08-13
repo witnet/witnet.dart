@@ -9,9 +9,6 @@
 // (2,7 vs 200-240 seconds), and so on.
 
 import 'dart:typed_data';
-
-import 'package:pointycastle/srp/srp6_standard_groups.dart';
-
 import 'aes_crypt.dart';
 import 'exceptions.dart';
 

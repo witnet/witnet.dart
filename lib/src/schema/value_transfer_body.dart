@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import '../crypto/crypto.dart';
-import '../utils/transformations/transformations.dart' show concatBytes;
-
 import 'input.dart';
 import 'value_transfer_output.dart';
+
+import 'package:witnet/constants.dart' show INPUT_SIZE, OUTPUT_SIZE, GAMMA;
+import 'package:witnet/crypto.dart' show sha256;
+import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED, VARINT;
+import 'package:witnet/utils.dart' show concatBytes;
 
 class VTTransactionBody {
   VTTransactionBody({
@@ -34,12 +36,15 @@ class VTTransactionBody {
       };
 
   Uint8List get pbBytes {
-    var inputBytes =
-        concatBytes(List<Uint8List>.from(inputs.map((e) => e.pbBytes)));
-    var outputBytes =
-        concatBytes(List<Uint8List>.from(outputs.map((e) => e.pbBytes)));
+    var inputBytes = concatBytes(List<Uint8List>.from(inputs.map((e) =>  pbField(1, LENGTH_DELIMITED, e.pbBytes))));
+    var outputBytes = concatBytes(List<Uint8List>.from(outputs.map((e) => pbField(2, LENGTH_DELIMITED, e.pbBytes))));
+
     return concatBytes([inputBytes, outputBytes]);
   }
 
   Uint8List get hash => sha256(data: pbBytes);
+
+  // VT_weight = N*INPUT_SIZE + M*OUTPUT_SIZE*gamma
+  int get weight => (inputs.length * INPUT_SIZE) + (outputs.length * OUTPUT_SIZE * GAMMA);
+
 }

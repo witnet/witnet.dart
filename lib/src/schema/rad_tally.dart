@@ -6,30 +6,29 @@ import 'rad_filter.dart';
 import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED, VARINT;
 import 'package:witnet/utils.dart' show concatBytes;
 
-class RADAggregate {
-  RADAggregate({
-    required this.filters,
-    required this.reducer,
+class RADTally {
+  RADTally({
+     required this.filters,
+     required this.reducer,
   });
 
-  List<RADFilter> filters;
-  int reducer;
+  late List<RADFilter> filters;
+  late int reducer;
 
-  factory RADAggregate.fromRawJson(String str) =>
-      RADAggregate.fromJson(json.decode(str));
+  factory RADTally.fromRawJson(String str) =>
+      RADTally.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory RADAggregate.fromJson(Map<String, dynamic> json) => RADAggregate(
-        filters: List<RADFilter>.from(json["filters"].map((x) => RADFilter.fromJson(x))),
-        reducer: json["reducer"],
-      );
+  factory RADTally.fromJson(Map<String, dynamic> json) => RADTally(
+    filters: List<RADFilter>.from(json["filters"].map((x) => RADFilter.fromJson(x))),
+    reducer: json["reducer"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "filters": List<dynamic>.from(filters.map((x) => x)),
-        "reducer": reducer,
-      };
-
+    "filters": List<dynamic>.from(filters.map((x) => x)),
+    "reducer": reducer,
+  };
   Uint8List get pbBytes {
     var filtersBytes = (filters.length > 0) ?pbField(1, LENGTH_DELIMITED, concatBytes(List<Uint8List>.from(filters.map((e) => e.pbBytes)))) : Uint8List.fromList([]);
     var reducerBytes = pbField(2, VARINT, reducer);
@@ -37,7 +36,7 @@ class RADAggregate {
   }
 
   int get weight {
-    // reducer 4 bytes
+    // reducer: 4 bytes
     var filtersWeight = 0;
     for (var filter in filters) filtersWeight += filter.weight;
     return filtersWeight + 4;

@@ -1,8 +1,8 @@
 import 'dart:typed_data';
-import '../utils/bech32/bech32.dart';
-import '../utils/bech32/codec.dart';
-import '../utils/protobuf/serializer.dart';
-import '../utils/transformations/transformations.dart';
+
+
+import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED;
+import 'package:witnet/utils.dart' show bytesToHex, bech32;
 
 class PublicKeyHash {
   PublicKeyHash({required this.hash});
@@ -19,7 +19,6 @@ class PublicKeyHash {
   String get address => bech32.encodeAddress('wit', hash);
 
   Uint8List get pbBytes {
-    Uint8List content = concatBytes([fieldHeader, bytesSerializer(hash)]);
-    return concatBytes([fieldHeader, bytesSerializer(content)]);
+    return pbField(1, LENGTH_DELIMITED, hash);
   }
 }

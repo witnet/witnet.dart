@@ -6,7 +6,7 @@ import "package:pointycastle/macs/hmac.dart";
 import "package:pointycastle/digests/ripemd160.dart";
 import "package:pointycastle/digests/sha256.dart";
 
-final sha256digest = SHA256Digest();
+//final sha256digest = SHA256Digest();
 final ecParams = ECCurve_secp256k1();
 
 Uint8List sha256({required Uint8List data}) => new SHA256Digest().process(data);

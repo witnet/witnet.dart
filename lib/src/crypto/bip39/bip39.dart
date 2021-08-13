@@ -166,8 +166,3 @@ String mnemonicToEntropy(mnemonic, {String language = 'English'}) {
     return byte.toRadixString(16).padLeft(2, '0');
   }).join('');
 }
-// List<String>> _loadWordList() {
-//   final res = new Resource('package:bip39/src/wordlists/english.json').readAsString();
-//   List<String> words = (json.decode(res) as List).map((e) => e.toString()).toList();
-//   return words;
-// }

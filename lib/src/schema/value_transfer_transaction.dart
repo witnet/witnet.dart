@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import '../utils/transformations/transformations.dart';
-
 import 'keyed_signature.dart';
 import 'value_transfer_body.dart';
+import 'package:witnet/utils.dart' show bytesToHex;
+
 
 class VTTransaction {
   VTTransaction({

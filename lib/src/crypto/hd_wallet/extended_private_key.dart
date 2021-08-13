@@ -1,17 +1,16 @@
 import 'dart:typed_data';
 
 import 'package:pointycastle/ecc/curves/secp256k1.dart';
-import 'package:witnet/src/crypto/address.dart';
-import 'package:witnet/src/crypto/aes/exceptions.dart';
-import 'package:witnet/src/crypto/encrypt/aes/codec.dart';
+import '../address.dart';
+import '../encrypt/aes/exceptions.dart';
+import '../encrypt/aes/codec.dart';
 
 import '../bip39/bip39.dart' show mnemonicToSeed;
 
 import '../crypto.dart';
 import '../secp256k1/private_key.dart';
-import '../../utils/bech32/bech32.dart';
-import '../../utils/bech32/codec.dart';
-import '../../utils/transformations/transformations.dart';
+
+import 'package:witnet/utils.dart';
 
 import 'extended_public_key.dart';
 

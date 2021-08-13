@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show Socket;
 
-import 'package:witnet/src/schema/block.dart';
 
-import 'schema/node_rpc/node_response.dart';
 import 'schema/node_rpc/node_stats.dart';
 import 'schema/node_rpc/response_error.dart';
 import 'schema/node_rpc/sync_status.dart';
 import 'schema/node_rpc/get_utxo_info.dart';
+
+import 'package:witnet/schema.dart' show Block;
 
 class NodeClient {
   String address;
@@ -55,8 +55,7 @@ class NodeClient {
     return response;
   }
 
-  Future<dynamic> getBlockChain(
-      {required int epoch, required int limit}) async {
+  Future<dynamic> getBlockChain({required int epoch, required int limit}) async {
     var response = await sendMessage(formatRequest(
             method: 'getBlockChain', params: {'epoch': epoch, 'limit': limit}))
         .then((Map<String, dynamic> data) {
@@ -98,8 +97,7 @@ class NodeClient {
     return response;
   }
 
-  Future<Map<String, dynamic>> dataRequestReport(
-      {required String transactionHash}) async {
+  Future<Map<String, dynamic>> dataRequestReport({required String transactionHash}) async {
     var response = await sendMessage(formatRequest(
         method: 'dataRequestReport',
         params: [transactionHash])).then((Map<String, dynamic> data) {
@@ -272,7 +270,7 @@ class NodeClient {
     _errorData = "Server_Error";
     if (_request != null) {
       // =============================================================
-      await Socket.connect("10.0.0.3", 21338).then((Socket sock) {
+      await Socket.connect(address, port).then((Socket sock) {
         _socket = sock;
       }).then((_) {
         // SENT TO NODE

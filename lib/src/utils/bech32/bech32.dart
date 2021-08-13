@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 
 /// Bech32 is a dead simple wrapper around a Human Readable Part (HRP) and a
 /// bunch of bytes.

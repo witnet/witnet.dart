@@ -1,13 +1,14 @@
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'public_key.dart';
 import 'signature.dart';
 import 'secp256k1.dart';
 
 import '../message.dart';
-import '../../utils/transformations/transformations.dart';
 import '../number_theory.dart';
-import 'dart:typed_data';
+
+import 'package:witnet/utils.dart' show bytesToBigInt, bigIntToBytes;
 
 class WitPrivateKey {
   late BigInt D;

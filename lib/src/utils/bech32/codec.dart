@@ -5,8 +5,8 @@ import 'bech32.dart';
 import 'decoder.dart';
 import 'encoder.dart';
 import 'validations.dart';
-import '../transformations/transformations.dart'
-    show bytesToBinary, bytesToHex, convertBits;
+import '../transformations/transformations.dart' show
+  bytesToBinary, convertBits;
 
 /// An instance of the default implementation of the Bech32Codec.
 const Bech32Codec bech32 = Bech32Codec();

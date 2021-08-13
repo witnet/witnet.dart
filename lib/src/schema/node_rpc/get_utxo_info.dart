@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:witnet/schema.dart';
 
+import '../input.dart';
 import '../output_pointer.dart';
 
 class UtxoInfo {

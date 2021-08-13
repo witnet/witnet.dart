@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import '../utils/protobuf/serializer.dart';
-import '../utils/transformations/transformations.dart';
+
 import 'output_pointer.dart';
+
+import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED;
 
 class Input {
   Input({
@@ -22,10 +23,9 @@ class Input {
   Map<String, dynamic> get jsonMap => outputPointer.jsonMap;
 
   String toString() {
-    return 'Input(outputPointer:$outputPointer)';
+    return 'Input(outputPointer: $outputPointer)';
   }
-
   Uint8List get pbBytes {
-    return concatBytes([fieldHeader, bytesSerializer(outputPointer.pbBytes)]);
+    return pbField(1, LENGTH_DELIMITED, outputPointer.pbBytes);
   }
 }

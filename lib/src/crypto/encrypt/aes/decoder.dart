@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:witnet/src/crypto/aes/aes_crypt.dart';
+import 'aes_crypt.dart';
 import 'package:witnet/utils.dart' show hexToBytes;
 
 class DecoderAES extends Converter<String, Uint8List> {

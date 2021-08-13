@@ -1,6 +1,3 @@
-// To parse this JSON data, do
-//
-//     final nodeStatsResponse = nodeStatsResponseFromMap(jsonString);
 
 import 'dart:convert';
 

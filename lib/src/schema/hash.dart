@@ -1,13 +1,7 @@
 import 'dart:typed_data';
-import '../utils/transformations/transformations.dart'
-    show
-        bigIntToBytes,
-        bytesToHex,
-        hexToBigInt,
-        hexToBytes,
-        bytesToBigInt,
-        concatBytes;
-import '../utils/protobuf/serializer.dart' show varInt, fieldHeader;
+
+import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED;
+import 'package:witnet/utils.dart' show bytesToHex, hexToBytes;
 
 class Hash {
   Hash({
@@ -28,6 +22,15 @@ class Hash {
 
   Uint8List get bytes => SHA256;
 
-  Uint8List get pbBytes =>
-      concatBytes([fieldHeader, varInt(bytesToBigInt(SHA256))]);
+  Uint8List get pbBytes => pbField(1, LENGTH_DELIMITED, SHA256);
 }
+/*
+
+
+
+
+
+
+
+
+ */

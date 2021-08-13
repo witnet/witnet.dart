@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:witnet/src/crypto/aes/aes_crypt.dart';
+import 'aes_crypt.dart';
 import 'package:witnet/src/utils/transformations/transformations.dart';
 
 class EncoderAES extends Converter<Object, String> {

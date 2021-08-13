@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'secp256k1/secp256k1.dart';
-import '../utils/transformations/transformations.dart';
-import '../schema/hash.dart';
-import 'package:pointycastle/digests/sha256.dart';
+
+
+import 'package:witnet/crypto.dart';
+import 'package:witnet/schema.dart';
+import 'package:witnet/utils.dart';
 
 class Message {
   Message({required this.message});
@@ -52,7 +53,7 @@ class Message {
 
   Uint8List get hash {
     if (_hash != null) {
-      _hash = Hash(SHA256: SHA256Digest().process(message));
+      _hash = Hash(SHA256: sha256(data: message));
     }
     return _hash!.SHA256;
   }

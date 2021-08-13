@@ -1,0 +1,1 @@
+export 'src/utils/protobuf/wire_type.dart';

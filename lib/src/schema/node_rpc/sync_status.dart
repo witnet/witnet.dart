@@ -1,6 +1,3 @@
-// To parse this JSON data, do
-//
-//     final syncStatusResponse = syncStatusResponseFromJson(jsonString);
 
 import 'dart:convert';
 import 'chain_beacon.dart';

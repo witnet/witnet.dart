@@ -1,10 +1,12 @@
 import "dart:typed_data";
-import '../crypto.dart';
+
 import 'secp256k1.dart';
-import '../../utils/bech32/codec.dart';
-import '../../utils/transformations/transformations.dart';
-import 'package:pointycastle/ecc/ecc_fp.dart' as ecc_fp;
 import 'private_key.dart';
+import '../crypto.dart';
+
+
+import 'package:pointycastle/ecc/ecc_fp.dart' as ecc_fp;
+import 'package:witnet/utils.dart' show bech32, bytesToHex, hexToBytes;
 
 class WitPublicKey {
   late ecc_fp.ECPoint point;

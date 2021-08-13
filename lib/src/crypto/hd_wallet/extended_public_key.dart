@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import '../secp256k1/public_key.dart';
 import '../crypto.dart';
 import '../secp256k1/private_key.dart';
-import '../../utils/transformations/transformations.dart';
+import 'package:witnet/utils.dart' show bigIntToBytes;
 
 class Xpub {
   Xpub(

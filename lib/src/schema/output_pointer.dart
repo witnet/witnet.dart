@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import '../utils/protobuf/serializer.dart';
-import '../utils/transformations/transformations.dart';
 
 import 'hash.dart';
+
+import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED, VARINT;
+import 'package:witnet/utils.dart' show concatBytes;
 
 class OutputPointer {
   OutputPointer({
@@ -29,16 +30,11 @@ class OutputPointer {
       {'output_pointer': '${transactionId.hex}:$outputIndex'};
 
   Uint8List get pbBytes {
-    Uint8List outputIndexBytes = Uint8List.fromList([]);
-    if (outputIndex > 0) {
-      outputIndexBytes =
-          concatBytes([indexHeader, varInt(BigInt.from(outputIndex))]);
-    }
-    Uint8List content = Uint8List.fromList([]);
-    content = concatBytes([fieldHeader, bytesSerializer(transactionId.SHA256)]);
-    content =
-        concatBytes([fieldHeader, bytesSerializer(content), outputIndexBytes]);
-    content = concatBytes([fieldHeader, bytesSerializer(content)]);
-    return content;
+    return concatBytes([
+      pbField(1, LENGTH_DELIMITED, transactionId.pbBytes),
+      (outputIndex > 0)
+          ? pbField(2, VARINT, outputIndex)
+          : Uint8List.fromList([])
+    ]);
   }
 }

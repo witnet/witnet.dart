@@ -1,16 +1,11 @@
 import 'dart:typed_data';
-import 'private_key.dart';
+
 import 'public_key.dart';
-import '../../utils/transformations/transformations.dart';
-import 'package:convert/convert.dart';
-import 'package:pointycastle/pointycastle.dart';
-import 'package:pointycastle/api.dart';
-import 'package:pointycastle/ecc/api.dart';
-import 'package:pointycastle/signers/ecdsa_signer.dart';
-import 'package:pointycastle/macs/hmac.dart';
-import '../crypto.dart';
-import '../number_theory.dart';
 import 'secp256k1.dart';
+import '../number_theory.dart';
+
+import 'package:witnet/utils.dart' show
+  bigIntToBytes, bytesToBigInt, bytesToHex, concatBytes, hexToBytes;
 
 class WitSignature {
   late BigInt R;

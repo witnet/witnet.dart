@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:witnet/schema.dart';
-import 'package:witnet/src/data_structures/transaction_factory.dart';
-import 'package:witnet/src/schema/node_rpc/get_utxo_info.dart';
-import 'package:witnet/src/utils/transformations/transformations.dart';
+import 'transaction_factory.dart';
+import 'package:witnet/node_rpc.dart';
+import 'package:witnet/utils.dart';
 
 enum UtxoSelectionStrategy {
   Random,

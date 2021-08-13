@@ -1,11 +1,11 @@
+import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'dart:io';
+
 import 'dart:math';
 
-import 'package:witnet/src/schema/explorer/explorer_status.dart';
-
+import 'explorer_status.dart';
 import '../node_rpc/get_utxo_info.dart';
-import 'package:http/http.dart' as http;
 
 class ExplorerAPI {
   ExplorerAPI({
@@ -60,5 +60,14 @@ class ExplorerAPI {
       throw HttpException(
           'Request failed with status: ${response.statusCode}.');
     }
+  }
+
+  Future<Map<String, dynamic>> _process(Uri url) async {
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      return convert.jsonDecode(response.body) as Map<String, dynamic>;
+
+    }
+    return {};
   }
 }

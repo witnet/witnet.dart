@@ -1,6 +1,5 @@
 import 'package:witnet/schema.dart';
 
-import '../../node_rpc.dart';
 
 class TransactionInfo {
   final List<Input> inputs;

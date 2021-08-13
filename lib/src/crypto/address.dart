@@ -1,19 +1,12 @@
 import 'dart:typed_data' show Uint8List;
+import 'secp256k1/private_key.dart';
+import 'secp256k1/public_key.dart';
+
+import 'package:witnet/data_structures.dart' show FeeType, UtxoPool, UtxoSelectionStrategy;
+
 import 'package:witnet/node_rpc.dart';
 import 'package:witnet/schema.dart';
-import 'package:witnet/src/crypto/secp256k1/private_key.dart';
-import 'package:witnet/src/crypto/secp256k1/public_key.dart';
-import 'package:witnet/src/data_structures/transaction_factory.dart';
-import 'package:witnet/src/data_structures/utxo_pool.dart';
-import 'package:witnet/src/utils/bech32/bech32.dart';
-import 'package:witnet/src/utils/bech32/codec.dart';
-import 'package:witnet/src/utils/transformations/transformations.dart';
-
-import '../schema/node_rpc/get_utxo_info.dart';
-
-import '../schema/public_key.dart';
-import '../schema/public_key_hash.dart';
-
+import 'package:witnet/utils.dart' show bech32, Bech32, convertBits, nanoWitToWit;
 class Address {
   String address;
   WitPublicKey? publicKey;
@@ -32,7 +25,7 @@ class Address {
 
   factory Address.fromPublicKeyHash({required Uint8List hash}) {
     return Address(
-      address: bech32.encode(Bech32(hrp: 'wit', data: hash.toList())),
+      address: bech32.encode(Bech32(hrp: 'wit', data: Uint8List.fromList(convertBits(data: hash.toList(), from: 8, to: 5, pad: false)))),
       publicKeyHash: PublicKeyHash(hash: hash),
     );
   }

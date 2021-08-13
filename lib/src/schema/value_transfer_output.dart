@@ -1,10 +1,10 @@
 import 'dart:convert';
-
 import 'dart:typed_data';
 
-import '../utils/protobuf/serializer.dart';
-import '../utils/transformations/transformations.dart';
 import 'public_key_hash.dart';
+
+import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED, VARINT;
+import 'package:witnet/utils.dart' show concatBytes;
 
 class ValueTransferOutput {
   ValueTransferOutput({
@@ -36,18 +36,11 @@ class ValueTransferOutput {
       };
 
   Uint8List get pbBytes {
-    List<int> _timeLock = [];
-    if (timeLock > 0) {
-      _timeLock =
-          concatBytes([varInt(BigInt.from(24)), varInt(BigInt.from(timeLock))])
-              .toList();
-    }
-    var content = concatBytes([
-      pkh.pbBytes,
-      indexHeader,
-      varInt(BigInt.from(value)),
-      Uint8List.fromList(_timeLock)
+
+    return  concatBytes([
+      pbField(1, LENGTH_DELIMITED, pkh.pbBytes),
+      pbField(2, VARINT, value),
+      (timeLock > 0) ? pbField(3, VARINT, timeLock) : Uint8List.fromList([])
     ]);
-    return concatBytes([outputHeader, bytesSerializer(content)]);
   }
 }

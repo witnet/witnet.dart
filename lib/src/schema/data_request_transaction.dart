@@ -1,6 +1,5 @@
 import 'dart:convert';
-import 'input.dart';
-import 'value_transfer_output.dart';
+
 import 'keyed_signature.dart';
 import 'data_request_body.dart';
 

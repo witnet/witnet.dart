@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
-import 'package:witnet/src/crypto/aes/aes_crypt.dart';
+import 'aes_crypt.dart';
 import 'package:pointycastle/digests/sha256.dart';
 import 'package:witnet/src/crypto/bip39/utils/pbkdf2.dart';
 import 'package:witnet/utils.dart';
