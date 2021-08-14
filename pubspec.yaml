@@ -1,5 +1,5 @@
 name: witnet
-description: A starting point for Dart libraries or applications.
+description: A library to interface with the Witnet Protocol.
 version: 0.1.0
 # homepage: https://github.com/parodyBit/witnet.dart
 # author: parodyBit
