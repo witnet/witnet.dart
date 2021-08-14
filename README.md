@@ -14,19 +14,14 @@ For more information about Witnet visit [witnet.io][witnet_io]
 A simple usage example:
 
 ```dart
-import 'package:witnet/src/crypto/address.dart';
-import 'package:witnet/src/data_structures/utxo_pool.dart';
-import 'package:witnet/witnet.dart' show Xprv, nanoWitToWit, signMessage, verify;
-import 'package:witnet/node_rpc.dart' show NodeClient, NodeStats, SyncStatus;
-import 'package:witnet/schema.dart' show Input, VTTransaction, ValueTransferOutput;
+import 'package:witnet/node_rpc.dart' show NodeClient, SyncStatus;
 
 String nodeIp = '127.0.0.1';
 int nodePort = 21338;
-NodeClient nodeClient;
 
 main() async{
   print('Connecting to Node at $nodeIp:$nodePort...');
-  nodeClient = NodeClient(address: nodeIp, port: nodePort);
+  NodeClient nodeClient = NodeClient(address: nodeIp, port: nodePort);
   SyncStatus syncStatus = await nodeClient.syncStatus();
   if (syncStatus.nodeState == 'Synced'){
     print('Node is synced. Current Epoch ${syncStatus.currentEpoch}');
@@ -34,7 +29,6 @@ main() async{
     print('Node is not synced. Current State: [${syncStatus.nodeState}]');
     print('Current Epoch:   [${syncStatus.currentEpoch}]');
     print('Last checkpoint: [${syncStatus.chainBeacon.checkpoint}]');
-
     print('${(syncStatus.chainBeacon.checkpoint / syncStatus.currentEpoch) * 100} % synced.');
   }
 }
@@ -42,7 +36,7 @@ main() async{
 
 Recover Keys
 ```dart
-import 'package:witnet/witnet.dart' show Xprv;
+import 'package:witnet/witnet.dart' show WitPrivateKey, Xprv;
 
 void recoverKeys(){
   String xprvStr = 'xprv1qpujxsyd4hfu0dtwa524vac84e09mjsgnh5h9crl8wrqg58z5wmsuqqcxlqmar3fjhkprndzkpnp2xlze76g4hu7g7c4r4r2m2e6y8xlvu566tn6';
@@ -64,9 +58,10 @@ void recoverKeys(){
 ```
 Create a signed VTTransaction from UTXO data.
 ```dart
-import 'package:witnet/node_rpc.dart' show NodeClient, NodeStats, SyncStatus;
-import 'package:witnet/schema.dart' show Input, VTTransaction, ValueTransferOutput;
-import 'package:witnet/witnet.dart' show Xprv, nanoWitToWit, signMessage, verify;
+import 'package:witnet/data_structures.dart' show UtxoSelectionStrategy;
+import 'package:witnet/node_rpc.dart' show NodeClient, SyncStatus;
+import 'package:witnet/schema.dart' show VTTransaction, ValueTransferOutput;
+import 'package:witnet/witnet.dart' show Address, Xprv, nanoWitToWit, signMessage, verify;
 
 List<ValueTransferOutput> outputs = [
   ValueTransferOutput.fromJson({'pkh': 'wit174la8pevl74hczcpfepgmt036zkmjen4hu8zzs', 'time_lock': 0, 'value': 1000000000,}),
@@ -75,11 +70,11 @@ String testXprvStr = 'xprv1qpujxsyd4hfu0dtwa524vac84e09mjsgnh5h9crl8wrqg58z5wmsu
 String testMnemonic = 'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about';
 String nodeIp = '127.0.0.1';
 int nodePort = 21338;
-NodeClient nodeClient;
+
 
 main() async {
   print('Connecting to Node at $nodeIp:$nodePort...');
-  nodeClient = NodeClient(address: nodeIp, port: nodePort);
+  NodeClient nodeClient = NodeClient(address: nodeIp, port: nodePort);
   SyncStatus syncStatus = await nodeClient.syncStatus();
   if (syncStatus.nodeState == 'Synced') {
     Xprv nodeXprv = Xprv.fromXprv(testXprvStr);
@@ -100,17 +95,19 @@ main() async {
 ```
 Create a `KeyedSignature` from a Transaction hash with a Private Key.
 ```dart
+import 'dart:typed_data';
+
 import 'package:witnet/witnet.dart' show WitPrivateKey;
-import 'package:witnet/schema.dart' show KeyedSignature, PublicKey, Secp256k1Signature;
-  KeyedSignature signHash(String hash, WitPrivateKey privateKey){
-    final sig = privateKey.signature(hash);
-    int compressed = privateKey.publicKey.encode().elementAt(0);
-    Uint8List key_bytes = privateKey.publicKey.encode().sublist(1);
-    return KeyedSignature(
-      publicKey: PublicKey(bytes: key_bytes, compressed: compressed),
-      signature: Signature(secp256K1: Secp256k1Signature(der: sig.encode())),
-    );
-  }
+import 'package:witnet/schema.dart' show KeyedSignature, PublicKey, Secp256k1Signature, Signature;
+KeyedSignature signHash(String hash, WitPrivateKey privateKey){
+  final sig = privateKey.signature(hash);
+  int compressed = privateKey.publicKey.encode().elementAt(0);
+  Uint8List key_bytes = privateKey.publicKey.encode().sublist(1);
+  return KeyedSignature(
+    publicKey: PublicKey(bytes: key_bytes, compressed: compressed),
+    signature: Signature(secp256K1: Secp256k1Signature(der: sig.encode())),
+  );
+}
 ```
 Build a VTTransaction from inputs and outputs.
 ```dart
@@ -123,23 +120,25 @@ List<ValueTransferOutput> outputs = [
   ValueTransferOutput.fromJson({'pkh': 'wit174la8pevl74hczcpfepgmt036zkmjen4hu8zzs', 'time_lock': 0, 'value': 1000000000,}),
 ];
 Future<VTTransaction> basicTransaction({
-  List<Input> inputs,
-  List<ValueTransferOutput> outputs,
-  WitPrivateKey privateKey
+  required List<Input> inputs,
+  required List<ValueTransferOutput> outputs,
+  required WitPrivateKey privateKey
 }) async {
   VTTransactionBody body = VTTransactionBody(inputs: inputs, outputs: outputs);
   VTTransaction transaction = VTTransaction(body: body, signatures: []);
-  String transactionID = transaction.transactionID;
   return transaction;
 }
 ```
 Send a transaction.
 ```dart
+import 'package:witnet/node_rpc.dart';
+import 'package:witnet/schema.dart' show VTTransaction, VTTransactionBody;
+
 String nodeIp = '127.0.0.1';
 int nodePort = 21338;
-NodeClient nodeClient;
 
 main() async {
+  NodeClient nodeClient = NodeClient(address: nodeIp, port: nodePort);
   SyncStatus syncStatus = await nodeClient.syncStatus();
   if (syncStatus.nodeState == 'Synced') {
     // an empty transaction
