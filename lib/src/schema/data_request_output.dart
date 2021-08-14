@@ -73,10 +73,10 @@ class DataRequestOutput {
   }
   /// Data Request extra weight related by commits, reveals and tally
   int get extraWeight {
-    int commitsWeight = witnesses * COMMIT_WEIGHT;
-    int revealsWeight = witnesses * REVEAL_WEIGHT * BETA;
-    int tallyOutputsWeight = witnesses * OUTPUT_SIZE;
-    int tallyWeight = TALLY_WEIGHT * BETA + tallyOutputsWeight;
+    final commitsWeight = witnesses * COMMIT_WEIGHT;
+    final revealsWeight = witnesses * REVEAL_WEIGHT * BETA;
+    final tallyOutputsWeight = witnesses * OUTPUT_SIZE;
+    final tallyWeight = TALLY_WEIGHT * BETA + tallyOutputsWeight;
     return commitsWeight + revealsWeight + tallyWeight;
   }
 }

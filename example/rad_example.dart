@@ -9,7 +9,7 @@ void main() async {
   Stage vm = Stage();
   // runs the radRequest locally - retrieving data from urls
 
-  var response = await vm.runRadRequest(request, printDebug: true);
+  final response = await vm.runRadRequest(request, printDebug: true);
   print(response);
 
 }

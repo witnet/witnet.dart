@@ -49,10 +49,10 @@ class RADRequest {
       };
 
   Uint8List get pbBytes {
-    var timeLockBytes = (timeLock > 0) ? pbField(1, VARINT, timeLock) : Uint8List.fromList([]);
-    var retrieveBytes = concatBytes(List<Uint8List>.from(retrieve.map((e) => pbField(2, LENGTH_DELIMITED,e.pbBytes))));
-    var aggregateBytes = pbField(3, LENGTH_DELIMITED, aggregate.pbBytes);
-    var tallyBytes = pbField(4, LENGTH_DELIMITED, tally.pbBytes);
+    final timeLockBytes = (timeLock > 0) ? pbField(1, VARINT, timeLock) : Uint8List.fromList([]);
+    final retrieveBytes = concatBytes(List<Uint8List>.from(retrieve.map((e) => pbField(2, LENGTH_DELIMITED,e.pbBytes))));
+    final aggregateBytes = pbField(3, LENGTH_DELIMITED, aggregate.pbBytes);
+    final tallyBytes = pbField(4, LENGTH_DELIMITED, tally.pbBytes);
     return concatBytes([timeLockBytes, retrieveBytes, aggregateBytes,tallyBytes]);
   }
 }

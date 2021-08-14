@@ -33,8 +33,8 @@ class RADRetrieve {
       };
 
   Uint8List get pbBytes {
-    var urlBytes = pbField(2, LENGTH_DELIMITED, Uint8List.fromList(url.codeUnits));
-    var scriptBytes = pbField(3, LENGTH_DELIMITED, Uint8List.fromList(script));
+    final urlBytes = pbField(2, LENGTH_DELIMITED, Uint8List.fromList(url.codeUnits));
+    final scriptBytes = pbField(3, LENGTH_DELIMITED, Uint8List.fromList(script));
     return concatBytes([urlBytes, scriptBytes]);
   }
 

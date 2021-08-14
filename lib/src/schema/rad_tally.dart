@@ -30,8 +30,8 @@ class RADTally {
     "reducer": reducer,
   };
   Uint8List get pbBytes {
-    var filtersBytes = (filters.length > 0) ?pbField(1, LENGTH_DELIMITED, concatBytes(List<Uint8List>.from(filters.map((e) => e.pbBytes)))) : Uint8List.fromList([]);
-    var reducerBytes = pbField(2, VARINT, reducer);
+    final filtersBytes = (filters.length > 0) ?pbField(1, LENGTH_DELIMITED, concatBytes(List<Uint8List>.from(filters.map((e) => e.pbBytes)))) : Uint8List.fromList([]);
+    final reducerBytes = pbField(2, VARINT, reducer);
     return concatBytes([filtersBytes, reducerBytes]);
   }
 

@@ -27,8 +27,8 @@ class RADFilter {
   };
 
   Uint8List get pbBytes {
-    var opBytes = pbField(1, VARINT, op);
-    var argBytes =pbField(2, LENGTH_DELIMITED, Uint8List.fromList(args));
+    final opBytes = pbField(1, VARINT, op);
+    final argBytes =pbField(2, LENGTH_DELIMITED, Uint8List.fromList(args));
     return concatBytes([opBytes, argBytes]);
   }
 

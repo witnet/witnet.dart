@@ -158,7 +158,7 @@ class Xprv {
     Uint8List _iv = generateIV();
     Uint8List _salt = generateSalt();
     CodecAES codec = getCodecAES(password, salt: _salt, iv: _iv);
-    var encoded = codec.encode(dat);
+    final encoded = codec.encode(dat);
     Uint8List encData = concatBytes([_iv, _salt, hexToBytes(encoded)]);
     print(encData);
     Uint8List data1 = Uint8List.fromList(
@@ -176,7 +176,7 @@ class Xprv {
     bool hardened = index >= BigInt.from(1 << 31);
     Uint8List I;
     var data;
-    var indexBytes = leftJustify(bigIntToBytes(index), 4, 0);
+    final indexBytes = leftJustify(bigIntToBytes(index), 4, 0);
     if (hardened) {
       data = keyData + rightJustify(indexBytes, 4, 0);
     } else {

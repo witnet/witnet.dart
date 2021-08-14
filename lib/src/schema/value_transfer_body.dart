@@ -36,9 +36,8 @@ class VTTransactionBody {
       };
 
   Uint8List get pbBytes {
-    var inputBytes = concatBytes(List<Uint8List>.from(inputs.map((e) =>  pbField(1, LENGTH_DELIMITED, e.pbBytes))));
-    var outputBytes = concatBytes(List<Uint8List>.from(outputs.map((e) => pbField(2, LENGTH_DELIMITED, e.pbBytes))));
-
+    final inputBytes = concatBytes(List<Uint8List>.from(inputs.map((e) =>  pbField(1, LENGTH_DELIMITED, e.pbBytes))));
+    final outputBytes = concatBytes(List<Uint8List>.from(outputs.map((e) => pbField(2, LENGTH_DELIMITED, e.pbBytes))));
     return concatBytes([inputBytes, outputBytes]);
   }
 

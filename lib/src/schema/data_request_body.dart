@@ -10,7 +10,6 @@ import 'package:witnet/crypto.dart' show sha256;
 import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED;
 import 'package:witnet/utils.dart' show concatBytes;
 
-
 class DRTransactionBody {
   DRTransactionBody({
     required this.inputs,
@@ -41,9 +40,9 @@ class DRTransactionBody {
       };
 
   Uint8List get pbBytes {
-    var inputBytes =  concatBytes(List<Uint8List>.from(inputs.map((e) => pbField(1, LENGTH_DELIMITED,e.pbBytes))));
-    var outputBytes = concatBytes(List<Uint8List>.from(outputs.map((e) => pbField(2, LENGTH_DELIMITED,e.pbBytes))));
-    var drReqBytes = pbField(3, LENGTH_DELIMITED, dataRequestOutput.pbBytes);
+    final inputBytes =  concatBytes(List<Uint8List>.from(inputs.map((e) => pbField(1, LENGTH_DELIMITED,e.pbBytes))));
+    final outputBytes = concatBytes(List<Uint8List>.from(outputs.map((e) => pbField(2, LENGTH_DELIMITED,e.pbBytes))));
+    final drReqBytes = pbField(3, LENGTH_DELIMITED, dataRequestOutput.pbBytes);
     return  concatBytes([inputBytes, outputBytes, drReqBytes]);
   }
 
@@ -61,8 +60,8 @@ class DRTransactionBody {
     // DR_weight = DR_size*alpha + W*COMMIT + W*REVEAL*beta + TALLY*beta + W*OUTPUT_SIZE
     final int inputsWeight = inputs.length * INPUT_SIZE;
     final int outputsWeight = outputs.length * OUTPUT_SIZE;
-    int drWeight = inputsWeight + outputsWeight + dataRequestOutput.weight * ALPHA;
-    int drExtraWeight = dataRequestOutput.extraWeight;
+    final drWeight = inputsWeight + outputsWeight + dataRequestOutput.weight * ALPHA;
+    final drExtraWeight = dataRequestOutput.extraWeight;
     return drWeight + drExtraWeight;
   }
 }
