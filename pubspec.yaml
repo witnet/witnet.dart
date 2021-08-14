@@ -17,4 +17,3 @@ dependencies:
   path: ^1.4.1
   web_socket_channel: ^2.1.0
   async: ^2.8.1
-  fixnum: ^1.0.0
