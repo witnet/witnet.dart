@@ -1,7 +1,7 @@
 name: witnet
 description: A starting point for Dart libraries or applications.
 version: 0.1.0
-# homepage: https://www.example.com
+# homepage: https://github.com/parodyBit/witnet.dart
 # author: parodyBit
 
 environment:
