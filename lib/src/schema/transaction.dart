@@ -1,12 +1,11 @@
-import 'dart:convert';
-import 'data_request_transaction.dart';
-import 'input.dart';
-import 'value_transfer_output.dart';
+import 'dart:convert' show json;
+import 'data_request_transaction.dart' show DRTransaction;
 
-import 'value_transfer_transaction.dart';
-import 'mint_transaction.dart';
 
-import '../constants.dart';
+import 'value_transfer_transaction.dart' show VTTransaction;
+import 'mint_transaction.dart' show MintTransaction;
+
+import '../constants.dart' show GAMMA;
 
 enum TransactionType {
   ValueTransfer,

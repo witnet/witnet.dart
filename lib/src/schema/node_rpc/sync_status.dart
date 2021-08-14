@@ -1,7 +1,7 @@
 
-import 'dart:convert';
-import 'chain_beacon.dart';
-import 'node_response.dart';
+import 'dart:convert' show json;
+import 'chain_beacon.dart' show ChainBeacon;
+import 'node_response.dart' show NodeResponse;
 
 class SyncStatus extends NodeResponse {
   SyncStatus({

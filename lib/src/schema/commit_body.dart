@@ -1,9 +1,9 @@
-import 'dart:convert';
-import 'bn256_public_key.dart';
-import 'value_transfer_output.dart';
-import 'data_request_eligibility_claim.dart';
-import 'hash.dart';
-import 'input.dart';
+import 'dart:convert' show json;
+import 'bn256_public_key.dart' show Bn256PublicKey;
+import 'value_transfer_output.dart' show ValueTransferOutput;
+import 'data_request_eligibility_claim.dart' show DataRequestEligibilityClaim;
+import 'hash.dart' show Hash;
+import 'input.dart' show Input;
 
 class CommitBody {
   CommitBody({

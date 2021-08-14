@@ -1,7 +1,7 @@
 
-import 'dart:convert';
+import 'dart:convert' show json;
 
-import 'node_response.dart';
+import 'node_response.dart' show NodeResponse;
 
 class NodeStats extends NodeResponse {
   NodeStats({

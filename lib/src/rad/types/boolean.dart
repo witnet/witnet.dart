@@ -1,7 +1,7 @@
-import 'string.dart';
-import 'types.dart';
+import 'string.dart' show RadString;
+import 'types.dart' show TYPES;
 
-import '../op_codes.dart';
+import '../op_codes.dart' show OP;
 
 class RadBoolean{
   bool _value;

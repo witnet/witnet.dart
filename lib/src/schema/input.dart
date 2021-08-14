@@ -1,7 +1,7 @@
-import 'dart:convert';
-import 'dart:typed_data';
+import 'dart:convert' show json;
+import 'dart:typed_data' show Uint8List;
 
-import 'output_pointer.dart';
+import 'output_pointer.dart' show OutputPointer;
 
 import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED;
 

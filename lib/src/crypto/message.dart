@@ -1,10 +1,16 @@
-import 'dart:convert';
-import 'dart:typed_data';
+import 'dart:convert' show Base64Encoder;
+import 'dart:typed_data' show Uint8List;
 
 
-import 'package:witnet/crypto.dart';
-import 'package:witnet/schema.dart';
-import 'package:witnet/utils.dart';
+import 'package:witnet/crypto.dart' show sha256;
+import 'package:witnet/schema.dart' show Hash;
+import 'package:witnet/utils.dart' show
+  bigIntToBytes,
+  binaryToBigInt,
+  bytesToBigInt,
+  bytesToHex,
+  bytesToString,
+  stringToBytes;
 
 class Message {
   Message({required this.message});

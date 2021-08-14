@@ -1,7 +1,7 @@
-import 'dart:convert';
-import 'package:witnet/schema.dart';
+import 'dart:convert' show json;
+import 'value_transfer_transaction.dart' show VTTransaction;
 
-import 'mint.dart';
+import 'mint.dart' show Mint;
 
 class Transactions {
   Transactions({

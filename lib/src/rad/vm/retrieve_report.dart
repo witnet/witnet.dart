@@ -5,7 +5,6 @@ class RetrieveReport {
   RetrieveReport({required this.time, required this.trace, required this.script});
 
   void printDebug() {
-
     print('  │  Number of executed operators: ${script.length}');
     print('  │  Execution time: ${time.toStringAsPrecision(3)} ms');
     print('  │  Execution trace:');
@@ -14,6 +13,6 @@ class RetrieveReport {
     var _item = trace[i][1];
     print('  │    [$i] $_type: $_item');
     }
-
   }
+
 }

@@ -36,11 +36,11 @@ class ValueTransferOutput {
       };
 
   Uint8List get pbBytes {
-
     return  concatBytes([
       pbField(1, LENGTH_DELIMITED, pkh.pbBytes),
       pbField(2, VARINT, value),
       (timeLock > 0) ? pbField(3, VARINT, timeLock) : Uint8List.fromList([])
     ]);
   }
+
 }

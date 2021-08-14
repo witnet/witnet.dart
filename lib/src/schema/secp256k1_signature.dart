@@ -1,6 +1,6 @@
-import 'dart:convert';
+import 'dart:convert' show json;
 
-import 'dart:typed_data';
+import 'dart:typed_data' show Uint8List;
 
 class Secp256k1Signature {
   Secp256k1Signature({

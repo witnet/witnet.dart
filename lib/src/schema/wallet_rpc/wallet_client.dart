@@ -1,6 +1,6 @@
-import 'dart:convert';
+import 'dart:convert' show json;
 
-import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:web_socket_channel/web_socket_channel.dart' show WebSocketChannel;
 import 'package:web_socket_channel/status.dart' as status;
 import 'package:witnet/radon.dart';
 import '../rad_request.dart';

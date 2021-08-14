@@ -7,6 +7,7 @@ import 'package:witnet/data_structures.dart' show FeeType, UtxoPool, UtxoSelecti
 import 'package:witnet/node_rpc.dart';
 import 'package:witnet/schema.dart';
 import 'package:witnet/utils.dart' show bech32, Bech32, convertBits, nanoWitToWit;
+
 class Address {
   String address;
   WitPublicKey? publicKey;
@@ -98,9 +99,10 @@ class Address {
     for (int i = 0; i < transaction.body.inputs.length; i++) {
       transaction.signatures.add(signature);
     }
-    if (feeType == FeeType.Weighted) {}
-    print('Inputs: ${transaction.body.inputs.length}');
-    print('Signatures: ${transaction.signatures.length}');
+    if (feeType == FeeType.Weighted) {
+      // TODO implement weighted fee:
+
+    }
     return transaction;
   }
 

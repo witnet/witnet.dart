@@ -17,10 +17,8 @@ const int FIXED32 = 5;
 int getTagFieldNumber(int tag) => tag >> TAG_TYPE_BITS;
 int getTagWireType(int tag) => tag & TAG_TYPE_MASK;
 int makeTag(int fieldNumber, int tag) => (fieldNumber << TAG_TYPE_BITS) | tag;
-Uint8List makeTagBytes(int fieldNumber, int tag){
-  var value = makeTag(fieldNumber, tag);
-  return varIntSerializer(value);
-}
+Uint8List makeTagBytes(int fieldNumber, int tag) =>
+    varIntSerializer(makeTag(fieldNumber, tag));
 
 Uint8List pbField(int fieldNumber, int tag, dynamic value){
   Uint8List _value = Uint8List.fromList([]);

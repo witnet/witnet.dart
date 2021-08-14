@@ -1,6 +1,6 @@
-import 'dart:convert';
-import 'public_key.dart';
-import 'signature.dart';
+import 'dart:convert' show json;
+import 'public_key.dart' show PublicKey;
+import 'signature.dart' show Signature;
 
 class KeyedSignature {
   KeyedSignature({required this.publicKey, required this.signature});

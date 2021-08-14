@@ -1,9 +1,9 @@
-import 'dart:math';
+import 'dart:math' show Random;
 
-import 'package:witnet/schema.dart';
-import 'transaction_factory.dart';
-import 'package:witnet/node_rpc.dart';
-import 'package:witnet/utils.dart';
+import 'package:witnet/schema.dart' show OutputPointer, ValueTransferOutput;
+import 'transaction_factory.dart' show FeeType;
+import 'package:witnet/node_rpc.dart' show Utxo;
+import 'package:witnet/utils.dart' show nanoWitToWit;
 
 enum UtxoSelectionStrategy {
   Random,

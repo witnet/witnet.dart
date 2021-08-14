@@ -1,10 +1,10 @@
-import 'dart:convert';
+import 'dart:convert' show json;
 
-import 'block_header.dart';
-import 'public_key.dart';
-import 'signature.dart';
-import 'transactions.dart';
-import 'transaction_hashes.dart';
+import 'block_header.dart' show BlockHeader;
+import 'public_key.dart' show PublicKey;
+import 'signature.dart' show Signature;
+import 'transactions.dart' show Transactions;
+import 'transaction_hashes.dart' show TransactionsHashes;
 
 class Block {
   Block({

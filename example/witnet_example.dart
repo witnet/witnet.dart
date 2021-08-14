@@ -1,10 +1,10 @@
 
-import 'package:witnet/src/crypto/address.dart';
-import 'package:witnet/src/data_structures/utxo_pool.dart';
-import 'package:witnet/witnet.dart' show WitPrivateKey, Xprv, nanoWitToWit, signMessage, verify;
+import 'package:witnet/src/crypto/address.dart' show Address;
+import 'package:witnet/src/data_structures/utxo_pool.dart' show UtxoSelectionStrategy;
+import 'package:witnet/witnet.dart' show Xprv, signMessage, verify;
 import 'package:witnet/node_rpc.dart' show NodeClient, NodeStats, SyncStatus;
 import 'package:witnet/schema.dart' show Input, VTTransaction, VTTransactionBody, ValueTransferOutput;
-
+import 'package:witnet/utils.dart' show nanoWitToWit;
 String nodeIp = '127.0.0.1';
 int nodePort = 21338;
 NodeClient nodeClient = NodeClient(address: nodeIp, port: nodePort);

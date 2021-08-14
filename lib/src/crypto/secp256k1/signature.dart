@@ -1,7 +1,7 @@
-import 'dart:typed_data';
+import 'dart:typed_data' show Uint8List;
 
-import 'public_key.dart';
-import 'secp256k1.dart';
+import 'public_key.dart' show WitPublicKey;
+import 'secp256k1.dart' show secp256k1, addDiffPoint, addSamePoint, getPointByBigInt;
 import '../number_theory.dart';
 
 import 'package:witnet/utils.dart' show

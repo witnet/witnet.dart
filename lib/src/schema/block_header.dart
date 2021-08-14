@@ -1,9 +1,9 @@
-import 'dart:convert';
+import 'dart:convert' show json;
 
-import 'beacon.dart';
-import 'bn256_public_key.dart';
-import 'merkle_roots.dart';
-import 'public_key.dart';
+import 'beacon.dart' show Beacon;
+import 'bn256_public_key.dart' show Bn256PublicKey;
+import 'merkle_roots.dart' show MerkleRoots;
+import 'public_key.dart' show PublicKey;
 
 class BlockHeader {
   BlockHeader({

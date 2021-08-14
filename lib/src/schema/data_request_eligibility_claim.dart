@@ -1,5 +1,5 @@
-import 'dart:convert';
-import 'vrf_proof.dart';
+import 'dart:convert' show json;
+import 'vrf_proof.dart' show VrfProof;
 
 class DataRequestEligibilityClaim {
   DataRequestEligibilityClaim({

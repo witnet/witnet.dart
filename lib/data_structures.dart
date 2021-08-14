@@ -1,2 +1,2 @@
-export 'src/data_structures/utxo_pool.dart';
-export 'src/data_structures/transaction_factory.dart';
+export 'src/data_structures/utxo_pool.dart' show UtxoPool, UtxoSelectionStrategy;
+export 'src/data_structures/transaction_factory.dart' show FeeType, TransactionInfo;

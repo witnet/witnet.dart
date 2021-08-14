@@ -1,7 +1,7 @@
-import 'dart:convert';
+import 'dart:convert' show json;
 
-import '../input.dart';
-import '../output_pointer.dart';
+import '../input.dart' show Input;
+import '../output_pointer.dart' show OutputPointer;
 
 class UtxoInfo {
   UtxoInfo({

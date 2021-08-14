@@ -1,16 +1,16 @@
 
-import 'dart:convert';
+import 'dart:convert' show json;
 
-import '../op_codes.dart';
-import '../reducers.dart';
-import '../types/map.dart';
-import '../types/string.dart';
-import '../vm/retrieve_report.dart';
-import '../vm/statistics.dart';
-import '../vm/web_client.dart';
-import '../util.dart';
+import '../op_codes.dart' show OP;
+import '../reducers.dart' show Reducer;
+import '../types/map.dart' show RadMap;
+import '../types/string.dart' show RadString;
+import '../vm/retrieve_report.dart' show RetrieveReport;
+import '../vm/statistics.dart' show Stats;
+import '../vm/web_client.dart' show RadonWebClient;
+import '../util.dart' show cborToRad;
 
-import 'package:witnet/schema.dart';
+import 'package:witnet/schema.dart' show RADRequest, RADAggregate;
 
 
 class Stage {

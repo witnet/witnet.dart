@@ -1,18 +1,18 @@
 
-import 'dart:collection';
-import 'dart:convert';
+import 'dart:collection' show MapBase;
 
 
-import 'array.dart';
-import 'boolean.dart';
-import 'bytes.dart';
-import 'float.dart';
-import 'integer.dart';
-import 'string.dart';
+
+import 'array.dart' show RadArray;
+import 'boolean.dart' show RadBoolean;
+import 'bytes.dart' show RadBytes;
+import 'float.dart' show RadFloat;
+import 'integer.dart' show RadInteger;
+import 'string.dart' show RadString;
 import 'types.dart' show RadTypes, typesList, typesMap, TYPES;
-import '../util.dart';
-import '../exceptions.dart';
-import '../op_codes.dart';
+import '../util.dart' show cborToRad;
+import '../exceptions.dart' show RadError;
+import '../op_codes.dart' show OP;
 
 class RadMap extends MapBase {
   Map _value;

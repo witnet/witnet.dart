@@ -1,12 +1,12 @@
-import 'dart:async';
-import 'dart:convert';
+import 'dart:async' show AsyncError;
+import 'dart:convert' show json, utf8;
 import 'dart:io' show Socket;
 
 
-import 'schema/node_rpc/node_stats.dart';
-import 'schema/node_rpc/response_error.dart';
-import 'schema/node_rpc/sync_status.dart';
-import 'schema/node_rpc/get_utxo_info.dart';
+import 'schema/node_rpc/node_stats.dart' show NodeStats;
+import 'schema/node_rpc/response_error.dart' show ResponseError;
+import 'schema/node_rpc/sync_status.dart' show SyncStatus;
+import 'schema/node_rpc/get_utxo_info.dart' show UtxoInfo;
 
 import 'package:witnet/schema.dart' show Block;
 

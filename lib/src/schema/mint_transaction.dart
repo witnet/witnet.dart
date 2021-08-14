@@ -1,5 +1,5 @@
-import 'dart:convert';
-import 'value_transfer_output.dart';
+import 'dart:convert' show json;
+import 'value_transfer_output.dart' show ValueTransferOutput;
 
 class MintTransaction {
   MintTransaction({

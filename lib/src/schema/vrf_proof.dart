@@ -1,6 +1,6 @@
-import 'dart:convert';
+import 'dart:convert' show json;
 
-import 'public_key.dart';
+import 'public_key.dart' show PublicKey;
 
 class VrfProof {
   VrfProof({

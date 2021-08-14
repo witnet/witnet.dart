@@ -1,6 +1,6 @@
-import 'dart:convert';
+import 'dart:convert' show json;
 
-import 'package:witnet/node_rpc.dart';
+import 'package:witnet/node_rpc.dart' show SyncStatus;
 
 class ExplorerStatus {
   ExplorerStatus({

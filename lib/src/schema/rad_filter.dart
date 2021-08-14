@@ -1,5 +1,5 @@
-import 'dart:convert';
-import 'dart:typed_data';
+import 'dart:convert' show json;
+import 'dart:typed_data' show Uint8List;
 
 import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED, VARINT;
 import 'package:witnet/radon.dart' show radToCbor;

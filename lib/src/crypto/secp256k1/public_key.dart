@@ -1,8 +1,8 @@
-import "dart:typed_data";
+import "dart:typed_data" show Uint8List;
 
-import 'secp256k1.dart';
-import 'private_key.dart';
-import '../crypto.dart';
+import 'secp256k1.dart' show hexToPoint, hexToPointFromCompress, pointToHexInCompress;
+import 'private_key.dart' show WitPrivateKey;
+import '../crypto.dart' show sha256;
 
 
 import 'package:pointycastle/ecc/ecc_fp.dart' as ecc_fp;

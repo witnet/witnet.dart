@@ -1,9 +1,9 @@
-import 'dart:convert';
-import 'dart:typed_data';
+import 'dart:convert' show json;
+import 'dart:typed_data' show Uint8List;
 
-import 'package:witnet/constants.dart';
+import 'package:witnet/constants.dart' show BETA, COMMIT_WEIGHT, REVEAL_WEIGHT, TALLY_WEIGHT, OUTPUT_SIZE;
 
-import 'rad_request.dart';
+import 'rad_request.dart' show RADRequest;
 
 import 'package:witnet/crypto.dart' show sha256;
 import 'package:witnet/protobuf.dart'show pbField, LENGTH_DELIMITED, VARINT;

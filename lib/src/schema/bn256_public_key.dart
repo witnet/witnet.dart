@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:convert'show json;
 
 class Bn256PublicKey {
   Bn256PublicKey({

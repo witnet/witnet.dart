@@ -1,7 +1,7 @@
-import 'dart:convert';
-import 'dart:math';
-import 'dart:typed_data';
-import '../bech32/exceptions.dart';
+import 'dart:convert' show Utf8Codec;
+import 'dart:math' show pow;
+import 'dart:typed_data' show Uint8List, ByteData;
+import '../bech32/exceptions.dart' show InvalidPadding;
 
 const Utf8Codec utf8 = Utf8Codec();
 

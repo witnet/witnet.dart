@@ -1,5 +1,4 @@
-import 'dart:convert';
-import 'dart:typed_data';
+import 'dart:convert' show json;
 import 'secp256k1_signature.dart';
 
 class Signature {

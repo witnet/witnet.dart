@@ -1,8 +1,8 @@
-import 'dart:convert';
-import 'dart:typed_data';
+import 'dart:convert' show json;
+import 'dart:typed_data' show Uint8List;
 
-import 'input.dart';
-import 'value_transfer_output.dart';
+import 'input.dart' show Input;
+import 'value_transfer_output.dart' show ValueTransferOutput;
 
 import 'package:witnet/constants.dart' show INPUT_SIZE, OUTPUT_SIZE, GAMMA;
 import 'package:witnet/crypto.dart' show sha256;

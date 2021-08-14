@@ -1,9 +1,9 @@
-import 'dart:convert';
-import 'dart:typed_data';
+import 'dart:convert' show json;
+import 'dart:typed_data' show Uint8List;
 
-import 'rad_aggregate.dart';
-import 'rad_retrieve.dart';
-import 'rad_tally.dart';
+import 'rad_aggregate.dart' show RADAggregate;
+import 'rad_retrieve.dart' show RADRetrieve;
+import 'rad_tally.dart' show RADTally;
 
 import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED, VARINT;
 import 'package:witnet/utils.dart' show concatBytes;

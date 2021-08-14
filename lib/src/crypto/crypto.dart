@@ -1,10 +1,10 @@
-import "dart:typed_data";
-import "package:pointycastle/digests/sha512.dart";
+import "dart:typed_data" show Uint8List;
+import "package:pointycastle/digests/sha512.dart" show SHA512Digest;
 import "package:pointycastle/api.dart" show KeyParameter;
-import 'package:pointycastle/ecc/curves/secp256k1.dart';
-import "package:pointycastle/macs/hmac.dart";
-import "package:pointycastle/digests/ripemd160.dart";
-import "package:pointycastle/digests/sha256.dart";
+import 'package:pointycastle/ecc/curves/secp256k1.dart' show ECCurve_secp256k1;
+import "package:pointycastle/macs/hmac.dart" show HMac;
+import "package:pointycastle/digests/ripemd160.dart" show RIPEMD160Digest;
+import "package:pointycastle/digests/sha256.dart" show SHA256Digest;
 
 //final sha256digest = SHA256Digest();
 final ecParams = ECCurve_secp256k1();

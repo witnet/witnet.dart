@@ -1,11 +1,10 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-import 'dart:io';
+import 'dart:io' show HttpException;
 
-import 'dart:math';
 
-import 'explorer_status.dart';
-import '../node_rpc/get_utxo_info.dart';
+import 'explorer_status.dart' show ExplorerStatus;
+import '../node_rpc/get_utxo_info.dart' show Utxo;
 
 class ExplorerAPI {
   ExplorerAPI({

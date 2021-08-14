@@ -1,7 +1,7 @@
-import 'dart:convert';
+import 'dart:convert' show json;
 
-import 'keyed_signature.dart';
-import 'data_request_body.dart';
+import 'keyed_signature.dart' show KeyedSignature;
+import 'data_request_body.dart' show DRTransactionBody;
 
 class DRTransaction {
   DRTransaction({

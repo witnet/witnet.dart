@@ -1,4 +1,4 @@
-import '../number_theory.dart';
+import '../number_theory.dart' show inverseMulti, positiveMod;
 
 const secp256k1Params = {
   'p': 'fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f',

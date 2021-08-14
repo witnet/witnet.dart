@@ -1,5 +1,5 @@
 
-import 'dart:convert';
+import 'dart:convert' show json;
 
 class ResponseError {
   ResponseError({

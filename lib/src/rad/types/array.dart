@@ -1,11 +1,11 @@
-import 'dart:collection';
+import 'dart:collection' show ListBase;
 
-import 'boolean.dart';
-import 'bytes.dart';
-import 'integer.dart';
-import 'map.dart';
-import 'string.dart';
-import 'types.dart';
+import 'boolean.dart' show RadBoolean;
+import 'bytes.dart' show RadBytes;
+import 'integer.dart' show RadInteger;
+import 'map.dart' show RadMap;
+import 'string.dart' show RadString;
+import 'types.dart' show RadTypes, TYPES, typesList, typesMap;
 
 import '../op_codes.dart';
 import '../exceptions.dart';

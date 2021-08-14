@@ -1,6 +1,6 @@
-import 'dart:convert';
+import 'dart:convert' show json;
 
-import '../transaction.dart';
+import '../transaction.dart' show Transaction;
 
 class TransactionResponse {
   TransactionResponse({

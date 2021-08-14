@@ -1,6 +1,6 @@
-import 'dart:convert';
-import 'commit_body.dart';
-import 'keyed_signature.dart';
+import 'dart:convert' show json;
+import 'commit_body.dart' show CommitBody;
+import 'keyed_signature.dart' show KeyedSignature;
 
 class Commit {
   Commit({

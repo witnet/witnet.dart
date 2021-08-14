@@ -1,4 +1,4 @@
-import 'bech32.dart';
+import 'bech32.dart' show verifyChecksum, separator;
 
 /// Generic validations for Bech32 standard.
 class Bech32Validations {

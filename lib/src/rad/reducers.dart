@@ -1,6 +1,6 @@
 
-import 'types/types.dart';
-import 'vm/statistics.dart';
+import 'types/types.dart' show REDUCERS;
+import 'vm/statistics.dart' show Stats;
 
 class Reducer{
 

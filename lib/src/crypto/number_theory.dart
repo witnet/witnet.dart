@@ -196,23 +196,7 @@ extension BigIntPrime on BigInt {
   }
 
   static const smallPrimes = <int>[
-    3,
-    5,
-    7,
-    11,
-    13,
-    17,
-    19,
-    23,
-    29,
-    31,
-    37,
-    41,
-    43,
-    47,
-    53,
-    59,
-    61
+    3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61
   ];
 
   static final smallPrimesProduct = BigInt.parse('58644190679703485491635');

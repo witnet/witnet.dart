@@ -1,12 +1,12 @@
-import 'dart:math';
-import 'dart:typed_data';
+import 'dart:math' show Random;
+import 'dart:typed_data' show Uint8List;
 
-import 'public_key.dart';
-import 'signature.dart';
-import 'secp256k1.dart';
+import 'public_key.dart' show WitPublicKey;
+import 'signature.dart' show WitSignature;
+import 'secp256k1.dart' show secp256k1, getPointByBigInt;
 
-import '../message.dart';
-import '../number_theory.dart';
+import '../message.dart' show Message;
+import '../number_theory.dart' show inverseMulti, positiveMod;
 
 import 'package:witnet/utils.dart' show bytesToBigInt, bigIntToBytes;
 

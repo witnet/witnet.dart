@@ -1,4 +1,4 @@
-import 'package:witnet/schema.dart';
+import 'package:witnet/schema.dart' show Input, ValueTransferOutput;
 
 
 class TransactionInfo {

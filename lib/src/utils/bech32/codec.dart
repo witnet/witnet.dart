@@ -1,10 +1,10 @@
-import 'dart:convert';
-import 'dart:typed_data';
+import 'dart:convert' show Codec;
+import 'dart:typed_data' show Uint8List;
 
-import 'bech32.dart';
-import 'decoder.dart';
-import 'encoder.dart';
-import 'validations.dart';
+import 'bech32.dart' show Bech32;
+import 'decoder.dart' show Bech32Decoder;
+import 'encoder.dart' show Bech32Encoder;
+import 'validations.dart' show Bech32Validations;
 import '../transformations/transformations.dart' show
   bytesToBinary, convertBits;
 

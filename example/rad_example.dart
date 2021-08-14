@@ -1,6 +1,12 @@
 
 
-import 'package:witnet/schema.dart';
+import 'package:witnet/schema.dart' show
+  RADAggregate,
+  RADRetrieve,
+  RADRequest,
+  RADTally,
+  RADType;
+
 import 'package:witnet/radon.dart';
 
 

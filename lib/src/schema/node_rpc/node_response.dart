@@ -1,6 +1,6 @@
-import 'response_error.dart';
-import 'get_transaction.dart';
-import 'get_utxo_info.dart';
+import 'response_error.dart' show ResponseError;
+import 'get_transaction.dart' show TransactionResponse;
+import 'get_utxo_info.dart' show UtxoInfo;
 
 class NodeResponse {
   NodeResponse({
