@@ -161,6 +161,7 @@ display: block;
 margin-right: auto;
 width: 30%;"
 />
+
 Please file feature requests and bugs at the [issue tracker][tracker].
 
 Created by the Witnet Community and released under the [GNU General Public License v3.0][license]
