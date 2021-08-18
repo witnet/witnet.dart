@@ -154,7 +154,7 @@ main() async {
 ```
 
 ## Features and bugs
-<img src="../api/static-assets/community.svg"
+<img src="https://github.com/witnet/website/blob/master/assets/images/community.svg"
 alt="wit"
 style="
 display: block;
@@ -170,4 +170,3 @@ Created by the Witnet Community and released under the [GNU General Public Licen
 [tracker]: https://github.com/parodyBit/witnet/issues
 [license]: https://github.com/parodyBit/witnet/blob/main/LICENSE
 [pointy_castle]: https://pub.dev/packages/pointycastle
-
