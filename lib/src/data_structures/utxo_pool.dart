@@ -2,7 +2,7 @@ import 'dart:math' show Random;
 
 import 'package:witnet/schema.dart' show OutputPointer, ValueTransferOutput;
 import 'transaction_factory.dart' show FeeType;
-import 'package:witnet/node_rpc.dart' show Utxo;
+import 'utxo.dart' show Utxo;
 import 'package:witnet/utils.dart' show nanoWitToWit;
 
 enum UtxoSelectionStrategy {
@@ -70,8 +70,7 @@ class UtxoPool {
   List<Utxo> selectUtxos(
       {required List<ValueTransferOutput> outputs,
       required UtxoSelectionStrategy utxoStrategy,
-      required int fee,
-      FeeType? feeType}) {
+}) {
     List<Utxo> utxos = sortUtxos(utxoStrategy);
     if (utxos.isEmpty) {
       print('Error -> no Utxos to select.');
@@ -88,8 +87,6 @@ class UtxoPool {
     outputs.forEach((output) {
       outputValue += output.value;
     });
-    // add the fee
-    outputValue += fee;
     List<Utxo> selectedUtxos = [];
     print('selecting Utxos to cover ${nanoWitToWit(outputValue)}');
     if (outputValue > utxoValue) {

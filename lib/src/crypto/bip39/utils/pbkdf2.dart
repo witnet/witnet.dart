@@ -18,8 +18,7 @@ class PBKDF2 {
     this.iterationCount = 2048,
     this.desiredKeyLength = 64,
     this.digestAlgorithm,
-  }) : _derivator =
-            new PBKDF2KeyDerivator(new HMac(digestAlgorithm, blockLength));
+  }) : _derivator = new PBKDF2KeyDerivator(new HMac(digestAlgorithm, blockLength));
 
   Uint8List process(
       {required Uint8List data, passphrase: "", Uint8List? salt}) {
@@ -27,8 +26,7 @@ class PBKDF2 {
     salt = salt ?? Uint8List.fromList(utf8.encode(saltPrefix + passphrase));
 
     _derivator.reset();
-    _derivator
-        .init(new Pbkdf2Parameters(salt, iterationCount, desiredKeyLength));
+    _derivator.init(new Pbkdf2Parameters(salt, iterationCount, desiredKeyLength));
     return _derivator.process(data);
   }
 }

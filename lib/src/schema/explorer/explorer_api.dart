@@ -2,9 +2,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'dart:io' show HttpException;
 
-
+import 'package:witnet/data_structures.dart' show Utxo;
 import 'explorer_status.dart' show ExplorerStatus;
-import '../node_rpc/get_utxo_info.dart' show Utxo;
+
 
 class ExplorerAPI {
   ExplorerAPI({

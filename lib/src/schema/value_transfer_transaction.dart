@@ -34,7 +34,6 @@ class VTTransaction {
 
   String get transactionID => bytesToHex(body.hash);
 
-  int get weight {
-    return 0;
-  }
+  int get weight => body.weight;
+
 }

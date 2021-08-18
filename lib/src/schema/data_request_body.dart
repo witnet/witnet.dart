@@ -7,7 +7,7 @@ import 'value_transfer_output.dart' show ValueTransferOutput;
 import 'package:witnet/constants.dart' show INPUT_SIZE, OUTPUT_SIZE, ALPHA;
 import 'package:witnet/crypto.dart' show sha256;
 import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED;
-import 'package:witnet/utils.dart' show concatBytes;
+import 'package:witnet/utils.dart' show bytesToHex, concatBytes;
 
 class DRTransactionBody {
   DRTransactionBody({
@@ -34,6 +34,7 @@ class DRTransactionBody {
       );
 
   Map<String, dynamic> get jsonMap => {
+        "dr_output": dataRequestOutput.toJson(),
         "inputs": List<dynamic>.from(inputs.map((x) => x.jsonMap)),
         "outputs": List<dynamic>.from(outputs.map((x) => x.jsonMap)),
       };
@@ -63,4 +64,5 @@ class DRTransactionBody {
     final drExtraWeight = dataRequestOutput.extraWeight;
     return drWeight + drExtraWeight;
   }
+
 }

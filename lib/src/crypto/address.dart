@@ -1,12 +1,23 @@
 import 'dart:typed_data' show Uint8List;
-import 'secp256k1/private_key.dart';
-import 'secp256k1/public_key.dart';
+import 'package:witnet/src/data_structures/transaction_factory.dart';
+
+import 'secp256k1/private_key.dart' show WitPrivateKey;
+import 'secp256k1/public_key.dart' show WitPublicKey;
 
 import 'package:witnet/data_structures.dart' show FeeType, UtxoPool, UtxoSelectionStrategy;
-
-import 'package:witnet/node_rpc.dart';
-import 'package:witnet/schema.dart';
+import 'package:witnet/data_structures.dart' show Utxo;
+import 'package:witnet/node_rpc.dart' show UtxoInfo, NodeClient;
 import 'package:witnet/utils.dart' show bech32, Bech32, convertBits, nanoWitToWit;
+import 'package:witnet/schema.dart' show
+  DRTransaction,
+  DRTransactionBody,
+  KeyedSignature,
+  PublicKey,
+  PublicKeyHash,
+  Secp256k1Signature,
+  Signature,
+  VTTransaction,
+  ValueTransferOutput;
 
 class Address {
   String address;
@@ -60,50 +71,39 @@ class Address {
     });
   }
 
-  VTTransaction createVTT({
-    required List<ValueTransferOutput> to,
+  Future<VTTransaction> createVTT({
+    required List<ValueTransferOutput> outputs,
+    required WitPrivateKey privateKey,
+    Address? changeAddress,
+    required UtxoSelectionStrategy utxoStrategy,
+    FeeType? feeType,
+    int fee = 0,
+    required dynamic networkSource,
+  }) async {
+
+    return await createVTTransaction(
+        outputs: outputs,
+        privateKey: privateKey,
+        changeAddress: (changeAddress != null) ? changeAddress : Address.fromAddress(privateKey.publicKey.address),
+        feeType: feeType,
+        fee: fee,
+        utxoStrategy: utxoStrategy,
+        networkSource: networkSource);
+  }
+
+  Future<DRTransaction> createDRT({
+    required DRTransactionBody body,
     required WitPrivateKey privateKey,
     required UtxoSelectionStrategy utxoStrategy,
     FeeType? feeType,
     int fee = 0,
-  }) {
-    int totalValue = 0;
-    int utxoValue = 0;
-    to.forEach((ValueTransferOutput output) {
-      totalValue += output.value;
-    });
-    totalValue += fee;
-
-    List<Input> inputs = [];
-
-    List<Utxo> selectedUtxos = utxoPool!
-        .selectUtxos(outputs: to, utxoStrategy: utxoStrategy, fee: fee);
-    selectedUtxos.forEach((Utxo utxo) {
-      inputs.add(utxo.toInput());
-      print(utxo.toInput().outputPointer.jsonMap);
-      utxoValue += utxo.value;
-    });
-    int change = utxoValue - totalValue;
-    assert(change >= 0, 'Insufficient funds.');
-
-    if (change > 0) {
-      // receive the change to this address
-      to.add(receive(change));
-    }
-
-    VTTransactionBody body = VTTransactionBody(inputs: inputs, outputs: to);
-    VTTransaction transaction = VTTransaction(body: body, signatures: []);
-
-    //print(verify(transaction.transactionID, sig, privateKey.toPublicKey()));
-    KeyedSignature signature = signHash(transaction.transactionID, privateKey);
-    for (int i = 0; i < transaction.body.inputs.length; i++) {
-      transaction.signatures.add(signature);
-    }
-    if (feeType == FeeType.Weighted) {
-      // TODO implement weighted fee:
-
-    }
-    return transaction;
+    dynamic networkSource,
+  }) async{
+    return await createDRTransaction(
+      body.dataRequestOutput,
+      privateKey,
+      Address.fromAddress(privateKey.publicKey.address),
+      networkSource, feeType!, utxoStrategy);
   }
 
   KeyedSignature signHash(String hash, WitPrivateKey privateKey) {

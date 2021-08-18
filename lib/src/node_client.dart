@@ -281,7 +281,7 @@ class NodeClient {
         _secureResponse = new String.fromCharCodes(data).trim();
 
         _socket!.close();
-      }).catchError((AsyncError e) {
+      }).catchError(( e) {
         _secureResponse = _errorData;
       });
       // ==============================================================
