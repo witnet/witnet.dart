@@ -5,7 +5,7 @@ import '../address.dart';
 import '../encrypt/aes/exceptions.dart';
 import '../encrypt/aes/codec.dart';
 
-import '../bip39/bip39.dart' show mnemonicToSeed;
+import '../bip39/bip39.dart' as bip39;
 
 import '../crypto.dart';
 import '../secp256k1/private_key.dart';
@@ -85,11 +85,11 @@ class Xprv {
     return Xprv(key: IL, code: IR);
   }
 
-  factory Xprv.fromMnemonic(
-      {required String mnemonic, String passphrase = ''}) {
-    Uint8List seed = mnemonicToSeed(mnemonic, passphrase: passphrase);
-    return Xprv.fromSeed(seed: seed);
-  }
+  factory Xprv.fromMnemonic({required String mnemonic, String passphrase = ''}) =>
+     Xprv.fromSeed(seed: bip39.mnemonicToSeed(mnemonic, passphrase: passphrase));
+
+  factory Xprv.fromEntropy({required String entropy}) =>
+      Xprv.fromMnemonic(mnemonic: bip39.entropyToMnemonic(entropy));
 
   factory Xprv.fromXprv(String xprv) {
     Bech32 bech = bech32.decoder.convert(xprv);
@@ -130,7 +130,6 @@ class Xprv {
     CodecAES codec = getCodecAES(password, salt: salt, iv: iv);
     Uint8List decoded = codec.decode(bytesToHex(_data)) as Uint8List;
 
-    //String plainText = String.fromCharCodes(decoded).trim();
     String plainText;
     try {
       plainText = utf8.decode(decoded).trim();

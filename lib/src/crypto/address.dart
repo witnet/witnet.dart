@@ -1,11 +1,17 @@
 import 'dart:typed_data' show Uint8List;
-import 'package:witnet/src/data_structures/transaction_factory.dart';
+import 'package:witnet/data_structures.dart' show
+  createDRTransaction,
+  createVTTransaction,
+  FeeType,
+  Utxo,
+  UtxoPool,
+  UtxoSelectionStrategy;
 
+
+import '../../explorer_rpc.dart';
 import 'secp256k1/private_key.dart' show WitPrivateKey;
 import 'secp256k1/public_key.dart' show WitPublicKey;
 
-import 'package:witnet/data_structures.dart' show FeeType, UtxoPool, UtxoSelectionStrategy;
-import 'package:witnet/data_structures.dart' show Utxo;
 import 'package:witnet/node_rpc.dart' show UtxoInfo, NodeClient;
 import 'package:witnet/utils.dart' show bech32, Bech32, convertBits, nanoWitToWit;
 import 'package:witnet/schema.dart' show
@@ -131,6 +137,9 @@ class Address {
       UtxoInfo utxoInfo = await source.getUtxoInfo(address: address);
       _setUtxoInfo(utxoInfo);
       return true;
+    } else if (source.runtimeType == ExplorerClient) {
+      UtxoInfo utxoInfo = await source.getUtxoInfo(address: address);
+      _setUtxoInfo(utxoInfo);
     }
     return false;
   }

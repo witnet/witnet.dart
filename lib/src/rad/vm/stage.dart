@@ -20,6 +20,7 @@ class Stage {
 
   Future<Map<String,dynamic>> runRadRequest(RADRequest radRequest,
       {bool printDebug = false}) async{
+    int boxWidth = 37;
     if(printDebug) {
       print('╔════════════════════════════════════════════╗');
       print('║ Witnet data request local execution report ║');
@@ -41,9 +42,9 @@ class Stage {
       print('╚═╤══════════════════════════════════════════╝');
       print('  │');
       print('  │  ┌──────────────────────────────────────┐');
-      print('  ├──┤ ${padStr('Retrieval Stage', ' ', 37)}│');
+      print('  ├──┤ ${padStr('Retrieval Stage', ' ', boxWidth)}│');
       print('  │  ├──────────────────────────────────────┤');
-      print('  │  │ ${padStr('Number of retrieved data sources: ${reports.length}', ' ', 37)}│');
+      print('  │  │ ${padStr('Number of retrieved data sources: ${reports.length}', ' ', boxWidth)}│');
       print('  │  └──────────────────────────────────────┘');
       print('  │ ');
       for(int i = 0; i < reports.length; i++){
@@ -62,18 +63,18 @@ class Stage {
     timeElapsed = (stopwatch.elapsedMicroseconds* 0.001).toStringAsPrecision(3);
 
     print('  │  ┌──────────────────────────────────────┐');
-    print('  ├──┤ ${padStr('Aggregation Stage', ' ', 37)}│');
+    print('  ├──┤ ${padStr('Aggregation Stage', ' ', boxWidth)}│');
     print('  │  ├──────────────────────────────────────┤');
-    print('  │  │ ${padStr('Execution time: $timeElapsed ms', ' ', 37)}│');
-    print('  │  │ ${padStr('Result is ${typeConversion(ag)}: $ag', ' ', 37)}│');
+    print('  │  │ ${padStr('Execution time: $timeElapsed ms', ' ', boxWidth)}│');
+    print('  │  │ ${padStr('Result is ${typeConversion(ag)}: $ag', ' ', boxWidth)}│');
     print('  │  └──────────────────────────────────────┘');
     print('  │');
     stopwatch = new Stopwatch()..start();
     print('  │  ┌──────────────────────────────────────┐');
-    print('  └──┤ ${padStr('Tally Stage', ' ', 37)}│');
+    print('  └──┤ ${padStr('Tally Stage', ' ', boxWidth)}│');
     print('     ├──────────────────────────────────────┤');
-    print('     │ ${padStr('Execution time: ${ (stopwatch.elapsedMicroseconds* 0.001).toStringAsPrecision(3)} ms', ' ', 37)}│');
-    print('     │ ${padStr('Result is ${typeConversion(ag)}: $ag', ' ', 37)}│');
+    print('     │ ${padStr('Execution time: ${ (stopwatch.elapsedMicroseconds* 0.001).toStringAsPrecision(3)} ms', ' ', boxWidth)}│');
+    print('     │ ${padStr('Result is ${typeConversion(ag)}: $ag', ' ', boxWidth)}│');
     print('     └──────────────────────────────────────┘');
 
     return {'retrieval':reports,'aggregate':ag,'tally':ag};

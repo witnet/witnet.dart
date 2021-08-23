@@ -18,7 +18,7 @@ class WalletClient{
 
 
   Future<Map<String, dynamic>> runRadRequest(RADRequest request) async {
-    var rad = request.toJson();
+    var rad = request.jsonMap();
     print(rad);
     var req = formatRequest(method: 'run_rad_request', params: {'rad_request': rad});
     var response = await handle(json.encode(req));
@@ -33,15 +33,13 @@ class WalletClient{
   }
 
   Future<bool> canConnect() async{
-    bool valid;
-
-      var req = formatRequest(
-          method: 'create_mnemonics', params: {'length': 12});
-      var response = await handle(json.encode(req));
-      if (response.keys.contains('Error')){
-        return false;
-      }
-      return true;
+    var req = formatRequest(
+        method: 'create_mnemonics', params: {'length': 12});
+    var response = await handle(json.encode(req));
+    if (response.keys.contains('Error')){
+      return false;
+    }
+    return true;
   }
 
   Map<String, dynamic> formatRequest({required String method, dynamic params}) {

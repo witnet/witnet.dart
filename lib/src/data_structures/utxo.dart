@@ -32,7 +32,7 @@ class Utxo {
   }
 
   Map<String, dynamic> toJson() => {
-    "output_pointer": outputPointer.jsonMap['output_pointer'],
+    "output_pointer": outputPointer.jsonMap()['output_pointer'],
     "timelock": timelock,
     "utxo_mature": utxoMature,
     "value": value,

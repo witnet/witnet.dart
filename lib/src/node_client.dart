@@ -1,14 +1,18 @@
 import 'dart:async' show AsyncError;
 import 'dart:convert' show json, utf8;
 import 'dart:io' show Socket;
+import 'dart:math';
 
+
+import 'package:witnet/src/schema/reveal_transaction.dart';
+import 'package:witnet/src/schema/tally_transaction.dart';
 
 import 'schema/node_rpc/node_stats.dart' show NodeStats;
 import 'schema/node_rpc/response_error.dart' show ResponseError;
 import 'schema/node_rpc/sync_status.dart' show SyncStatus;
 import 'schema/node_rpc/get_utxo_info.dart' show UtxoInfo;
 
-import 'package:witnet/schema.dart' show Block;
+import 'package:witnet/schema.dart' show Block, CommitTransaction, Transaction, VTTransaction;
 
 class NodeClient {
   String address;
@@ -20,11 +24,13 @@ class NodeClient {
   NodeClient(
       {required this.address, required this.port, this.keepAlive = false});
 
-  Future<SyncStatus> syncStatus() async {
+  Future<dynamic> syncStatus() async {
     var response = await sendMessage(formatRequest(method: 'syncStatus'))
-        .then((Map<String, dynamic> _data) {
-      SyncStatus _response = SyncStatus.fromJson(_data['result']);
-      return _response;
+        .then((Map<String, dynamic> data) {
+      if (data.containsKey('result')) {
+        SyncStatus _response = SyncStatus.fromJson(data['result']);
+        return _response;
+      }
     });
     return response;
   }
@@ -88,9 +94,8 @@ class NodeClient {
             formatRequest(method: 'getTransaction', params: [transactionHash]))
         .then((Map<String, dynamic> data) {
       if (data.containsKey('result')) {
-        return data['result'];
+        return Transaction.fromJson(data['result']);
       } else if (data.containsKey('error')) {
-        print(json.encode(data));
         return ResponseError.fromJson(data['error']);
       }
     });
@@ -282,11 +287,17 @@ class NodeClient {
 
         _socket!.close();
       }).catchError(( e) {
+        print('error -> $e');
         _secureResponse = _errorData;
+
       });
       // ==============================================================
     } else {
       _secureResponse = _errorData;
+
+    }
+    if(_secureResponse == _errorData){
+      return {_secureResponse: e};
     }
     Map<String, dynamic> response = json.decode(_secureResponse);
     return response;

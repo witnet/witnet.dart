@@ -31,7 +31,7 @@ class TransactionResponse {
   Map<String, dynamic> toJson() => {
         "blockHash": blockHash,
         "confirmed": confirmed,
-        "transaction": transaction.toJson(),
+        "transaction": transaction.jsonMap(),
         "weight": weight,
       };
 }

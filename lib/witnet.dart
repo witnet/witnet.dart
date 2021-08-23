@@ -9,6 +9,5 @@ export 'src/crypto/secp256k1/secp256k1.dart' show secp256k1;
 export 'src/crypto/secp256k1/signature.dart' show WitSignature;
 
 export 'src/crypto/message.dart';
-export 'src/crypto/network.dart';
 export 'src/crypto/number_theory.dart';
 export 'src/crypto/address.dart';

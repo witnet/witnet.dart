@@ -1,2 +1,2 @@
-export 'src/schema/explorer/explorer_api.dart' show ExplorerAPI;
+export 'src/schema/explorer/explorer_client.dart' show ExplorerClient, ExplorerMode;
 export 'src/schema/explorer/explorer_status.dart' show ExplorerStatus;
