@@ -15,17 +15,21 @@ import 'wordlists/italian.dart' as italian;
 import 'wordlists/japanese.dart' as japanese;
 import 'wordlists/korean.dart' as korean;
 import 'wordlists/spanish.dart' as spanish;
+import 'wordlists/czech.dart' as czech;
+import 'wordlists/portuguese.dart' as portuguese;
 
 /// The Word lists
 /// [BIP39 Reference](https://github.com/bitcoin/bips/blob/master/bip-0039/bip-0039-wordlists.md)
 const word_lists = {
   'ChineseSimplified': chineseSimplified.WORDLIST,
   'ChineseTraditional': chineseTraditional.WORDLIST,
+  'Czech': czech.WORDLIST,
   'English': english.WORDLIST,
   'French': french.WORDLIST,
   'Italian': italian.WORDLIST,
   'Japanese': japanese.WORDLIST,
   'Korean': korean.WORDLIST,
+  'Portuguese': portuguese.WORDLIST,
   'Spanish': spanish.WORDLIST,
 };
 
