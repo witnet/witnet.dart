@@ -17,7 +17,7 @@ class VTTransaction {
   factory VTTransaction.fromRawJson(String str) =>
       VTTransaction.fromJson(json.decode(str));
 
-  String get rawJson => json.encode(jsonMap);
+  String rawJson({bool asHex=false}) => json.encode(jsonMap(asHex: asHex));
 
   factory VTTransaction.fromJson(Map<String, dynamic> json) => VTTransaction(
         body: VTTransactionBody.fromJson(json["body"]),
@@ -25,12 +25,16 @@ class VTTransaction {
             json["signatures"].map((x) => KeyedSignature.fromJson(x))),
       );
 
-  Map<String, dynamic> get jsonMap => {
+  Map<String, dynamic> jsonMap({bool asHex=false}) {
+      return {
         "ValueTransfer": {
-          "body": body.toJson(),
-          "signatures": List<dynamic>.from(signatures.map((x) => x.jsonMap)),
-        },
-      };
+          "body": body.jsonMap(),
+          "signatures": List<dynamic>.from(
+              signatures.map((x) => x.jsonMap(asHex: asHex))
+          ),
+      },
+    };
+  }
 
   String get transactionID => bytesToHex(body.hash);
 

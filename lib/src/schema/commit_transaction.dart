@@ -2,8 +2,8 @@ import 'dart:convert' show json;
 import 'commit_body.dart' show CommitBody;
 import 'keyed_signature.dart' show KeyedSignature;
 
-class Commit {
-  Commit({
+class CommitTransaction {
+  CommitTransaction({
     required this.body,
     required this.signatures,
   });
@@ -11,11 +11,11 @@ class Commit {
   CommitBody body;
   List<KeyedSignature> signatures;
 
-  factory Commit.fromRawJson(String str) => Commit.fromJson(json.decode(str));
+  factory CommitTransaction.fromRawJson(String str) => CommitTransaction.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(jsonMap);
 
-  factory Commit.fromJson(Map<String, dynamic> json) => Commit(
+  factory CommitTransaction.fromJson(Map<String, dynamic> json) => CommitTransaction(
         body: CommitBody.fromJson(json["body"]),
         signatures: List<KeyedSignature>.from(
             json["signatures"].map((x) => KeyedSignature.fromJson(x))),

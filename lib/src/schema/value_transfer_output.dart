@@ -27,9 +27,9 @@ class ValueTransferOutput {
         value: json["value"],
       );
 
-  String get rawJson => json.encode(jsonMap);
+  String get rawJson => json.encode(jsonMap());
 
-  Map<String, dynamic> get jsonMap => {
+  Map<String, dynamic> jsonMap() => {
         "pkh": pkh.address,
         "time_lock": timeLock,
         "value": value,

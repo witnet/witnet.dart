@@ -31,7 +31,7 @@ class RADRequest {
    return retrievalsWeight + aggregate.weight + tally.weight + 8;
   }
 
-  String toRawJson() => json.encode(toJson());
+  String toRawJson({bool asHex=false}) => json.encode(jsonMap(asHex: asHex));
 
   factory RADRequest.fromJson(Map<String, dynamic> json) => RADRequest(
         aggregate: RADAggregate.fromJson(json["aggregate"]),
@@ -41,10 +41,10 @@ class RADRequest {
         timeLock: json["time_lock"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "aggregate": aggregate.toJson(),
-        "retrieve": List<dynamic>.from(retrieve.map((x) => x.toJson())),
-        "tally": tally.toJson(),
+  Map<String, dynamic> jsonMap({bool asHex=false}) => {
+        "aggregate": aggregate.jsonMap(asHex: asHex),
+        "retrieve": List<dynamic>.from(retrieve.map((x) => x.jsonMap(asHex: asHex))),
+        "tally": tally.jsonMap(asHex: asHex),
         "time_lock": timeLock,
       };
 

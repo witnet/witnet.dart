@@ -1,4 +1,5 @@
 import 'dart:convert' show json;
+
 import 'public_key.dart' show PublicKey;
 import 'signature.dart' show Signature;
 
@@ -18,8 +19,10 @@ class KeyedSignature {
         signature: Signature.fromJson(json["signature"]),
       );
 
-  Map<String, dynamic> get jsonMap => {
-        "public_key": publicKey.jsonMap,
-        "signature": signature.jsonMap,
-      };
+  Map<String, dynamic> jsonMap({bool asHex=false}) {
+    return {
+      "public_key": publicKey.jsonMap(asHex: asHex),
+      "signature": signature.jsonMap(asHex: asHex),
+    };
+  }
 }

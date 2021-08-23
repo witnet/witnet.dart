@@ -33,10 +33,10 @@ class DRTransactionBody {
         dataRequestOutput: DataRequestOutput.fromJson(json['dr_output']),
       );
 
-  Map<String, dynamic> get jsonMap => {
-        "dr_output": dataRequestOutput.toJson(),
-        "inputs": List<dynamic>.from(inputs.map((x) => x.jsonMap)),
-        "outputs": List<dynamic>.from(outputs.map((x) => x.jsonMap)),
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
+        "dr_output": dataRequestOutput.jsonMap(asHex: asHex),
+        "inputs": List<dynamic>.from(inputs.map((x) => x.jsonMap())),
+        "outputs": List<dynamic>.from(outputs.map((x) => x.jsonMap())),
       };
 
   Uint8List get pbBytes {

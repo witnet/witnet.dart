@@ -18,9 +18,9 @@ class Input {
         outputPointer: OutputPointer.fromString(json["output_pointer"]),
       );
 
-  String get rawJson => json.encode(jsonMap);
+  String get rawJson => json.encode(jsonMap());
 
-  Map<String, dynamic> get jsonMap => outputPointer.jsonMap;
+  Map<String, dynamic> jsonMap() => outputPointer.jsonMap();
 
   String toString() {
     return 'Input(outputPointer: $outputPointer)';

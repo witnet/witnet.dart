@@ -1,4 +1,5 @@
 import 'dart:convert' show json;
+
 import 'dart:typed_data' show Uint8List;
 
 import 'package:witnet/constants.dart' show BETA, COMMIT_WEIGHT, REVEAL_WEIGHT, TALLY_WEIGHT, OUTPUT_SIZE;
@@ -29,7 +30,7 @@ class DataRequestOutput {
   factory DataRequestOutput.fromRawJson(String str) =>
       DataRequestOutput.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
+  String toRawJson({bool asHex=false}) => json.encode(jsonMap(asHex: asHex));
 
   factory DataRequestOutput.fromJson(Map<String, dynamic> json) => DataRequestOutput(
         collateral: json["collateral"],
@@ -40,10 +41,10 @@ class DataRequestOutput {
         witnesses: json["witnesses"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "collateral": collateral,
         "commit_and_reveal_fee": commitAndRevealFee,
-        "data_request": dataRequest.toJson(),
+        "data_request": dataRequest.jsonMap(asHex: asHex),
         "min_consensus_percentage": minConsensusPercentage,
         "witness_reward": witnessReward,
         "witnesses": witnesses,

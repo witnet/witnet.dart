@@ -17,7 +17,7 @@ class Signature {
         secp256K1: Secp256k1Signature.fromJson(json["Secp256k1"]),
       );
 
-  Map<String, dynamic> get jsonMap => {
-        "Secp256k1": secp256K1.jsonMap,
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
+        "Secp256k1": secp256K1.jsonMap(asHex: asHex),
       };
 }

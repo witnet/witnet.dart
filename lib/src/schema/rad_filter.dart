@@ -3,27 +3,27 @@ import 'dart:typed_data' show Uint8List;
 
 import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED, VARINT;
 import 'package:witnet/radon.dart' show radToCbor;
-import 'package:witnet/utils.dart' show concatBytes;
+import 'package:witnet/utils.dart' show bytesToHex, concatBytes;
 
 class RADFilter {
   late int op;
   late List<int> args;
   RADFilter({required this.op, required this.args});
   @override
-  String toString() => '{"op": $op. "args": [$args]}';
+  String toString() => '{"op": $op, "args": [$args]}';
   factory RADFilter.fromRawJson(String str) =>
       RADFilter.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
+  String toRawJson() => json.encode(jsonMap());
 
   factory RADFilter.fromJson(Map<String, dynamic> json) => RADFilter(
     op: json['op'],
     args: List<int>.from(json["args"].map((x) => x)),
   );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
     "op": op,
-    "args": radToCbor([args]),
+    "args": (asHex) ? bytesToHex(Uint8List.fromList(radToCbor([args]))):radToCbor([args]),
   };
 
   Uint8List get pbBytes {

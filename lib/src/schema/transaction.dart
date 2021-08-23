@@ -1,4 +1,8 @@
 import 'dart:convert' show json;
+import 'package:witnet/schema.dart';
+import 'package:witnet/src/schema/reveal_transaction.dart';
+import 'package:witnet/src/schema/tally_transaction.dart';
+
 import 'data_request_transaction.dart' show DRTransaction;
 
 
@@ -28,30 +32,44 @@ class Transaction {
   factory Transaction.fromRawJson(String str) =>
       Transaction.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex:asHex));
 
   factory Transaction.fromJson(Map<String, dynamic> json) {
     var _transaction;
     var _transactionType;
-    if (json.containsKey('ValueTransfer')) {
-      _transactionType = TransactionType.ValueTransfer;
-      _transaction = VTTransaction.fromJson(json['ValueTransfer']);
-    } else if (json.containsKey('Mint')) {
-      _transactionType = TransactionType.Mint;
-      _transaction = MintTransaction.fromJson(json['Mint']);
-    } else if (json.containsKey('DataRequest')) {
-      _transactionType = TransactionType.DataRequest;
-    } else if (json.containsKey('Commit')) {
-      _transactionType = TransactionType.Commit;
-    } else if (json.containsKey('Reveal')) {
-      _transactionType = TransactionType.Reveal;
-    } else if (json.containsKey('Tally')) {
-      _transactionType = TransactionType.Tally;
+    if (json.containsKey('transaction')) {
+      Map<String, dynamic> _txn = json['transaction'];
+      var type = _txn.keys.first;
+      switch (type) {
+        case 'ValueTransfer':
+            _transaction = VTTransaction.fromJson(_txn['ValueTransfer']);
+            _transactionType = TransactionType.ValueTransfer;
+            break;
+        case 'Mint':
+            _transaction = MintTransaction.fromJson(_txn['Mint']);
+            _transactionType = TransactionType.Mint;
+            break;
+        case 'DataRequest':
+            _transaction = DRTransaction.fromJson(_txn['DataRequest']);
+            _transactionType = TransactionType.DataRequest;
+            break;
+        case 'Commit':
+            _transaction = CommitTransaction.fromJson(_txn['Commit']);
+            _transactionType = TransactionType.Commit;
+            break;
+        case 'Reveal':
+            _transaction = RevealTransaction.fromJson(_txn['Reveal']);
+            _transactionType = TransactionType.Reveal;
+            break;
+        case 'Tally':
+            _transaction = TallyTransaction.fromJson(_txn['Tally']);
+            _transactionType = TransactionType.Tally;
+            break;
+      }
+    } else{
+      throw ArgumentError('Invalid json');
     }
-    return Transaction(
-      transaction: _transaction,
-      transactionType: _transactionType,
-    );
+    return Transaction(transaction: _transaction, transactionType: _transactionType);
   }
 
   int get weight {
@@ -83,7 +101,7 @@ class Transaction {
     return 0;
   }
 
-  Map<String, dynamic> toJson() => {
-        "$transactionType": transaction.toJson(),
+  Map<String, dynamic> jsonMap({bool asHex=false}) => {
+        "transaction": transaction.jsonMap(asHex),
       };
 }

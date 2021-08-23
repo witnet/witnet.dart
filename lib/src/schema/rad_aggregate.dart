@@ -18,15 +18,15 @@ class RADAggregate {
   factory RADAggregate.fromRawJson(String str) =>
       RADAggregate.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
+  String toRawJson() => json.encode(jsonMap());
 
   factory RADAggregate.fromJson(Map<String, dynamic> json) => RADAggregate(
         filters: List<RADFilter>.from(json["filters"].map((x) => RADFilter.fromJson(x))),
         reducer: json["reducer"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "filters": List<dynamic>.from(filters.map((x) => x)),
+  Map<String, dynamic> jsonMap({bool asHex=false}) => {
+        "filters": List<dynamic>.from(filters.map((x) => x.jsonMap(asHex: asHex))),
         "reducer": reducer,
       };
 

@@ -2,7 +2,7 @@ import 'dart:convert' show json;
 import 'dart:typed_data' show Uint8List;
 
 import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED;
-import 'package:witnet/utils.dart' show concatBytes;
+import 'package:witnet/utils.dart' show bytesToHex, concatBytes;
 
 class RADRetrieve {
   RADRetrieve({
@@ -18,7 +18,7 @@ class RADRetrieve {
   factory RADRetrieve.fromRawJson(String str) =>
       RADRetrieve.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory RADRetrieve.fromJson(Map<String, dynamic> json) => RADRetrieve(
         kind: (json["kind"] == 'HTTP-GET') ? 0 : 1,
@@ -26,9 +26,9 @@ class RADRetrieve {
         url: json["url"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "kind": (kind == 0) ? 'HTTP-GET' : 'HTTP-POST',
-        "script": List<dynamic>.from(script.map((x) => x)),
+        "script": (asHex) ? bytesToHex(Uint8List.fromList(script)) : List<int>.from(script.map((x) => x)),
         "url": url,
       };
 
