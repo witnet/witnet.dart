@@ -8,11 +8,11 @@ import 'package:witnet/data_structures.dart' show
   UtxoSelectionStrategy;
 
 
-import '../../explorer_rpc.dart';
 import 'secp256k1/private_key.dart' show WitPrivateKey;
 import 'secp256k1/public_key.dart' show WitPublicKey;
 
-import 'package:witnet/node_rpc.dart' show UtxoInfo, NodeClient;
+import 'package:witnet/explorer.dart' show ExplorerClient;
+import 'package:witnet/node.dart' show UtxoInfo, NodeClient;
 import 'package:witnet/utils.dart' show bech32, Bech32, convertBits, nanoWitToWit;
 import 'package:witnet/schema.dart' show
   DRTransaction,

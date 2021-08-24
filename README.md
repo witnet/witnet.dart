@@ -14,7 +14,7 @@ For more information about Witnet visit [witnet.io][witnet_io]
 A simple usage example:
 
 ```dart
-import 'package:witnet/node_rpc.dart' show NodeClient, SyncStatus;
+import 'package:witnet/node.dart' show NodeClient, SyncStatus;
 
 String nodeIp = '127.0.0.1';
 int nodePort = 21338;
@@ -59,7 +59,7 @@ void recoverKeys(){
 Create a signed VTTransaction from UTXO data.
 ```dart
 import 'package:witnet/data_structures.dart' show UtxoSelectionStrategy;
-import 'package:witnet/node_rpc.dart' show NodeClient, SyncStatus;
+import 'package:witnet/node.dart' show NodeClient, SyncStatus;
 import 'package:witnet/schema.dart' show VTTransaction, ValueTransferOutput;
 import 'package:witnet/witnet.dart' show Address, Xprv, nanoWitToWit, signMessage, verify;
 
@@ -131,7 +131,7 @@ Future<VTTransaction> basicTransaction({
 ```
 Send a transaction.
 ```dart
-import 'package:witnet/node_rpc.dart';
+import 'package:witnet/node.dart';
 import 'package:witnet/schema.dart' show VTTransaction, VTTransactionBody;
 
 String nodeIp = '127.0.0.1';

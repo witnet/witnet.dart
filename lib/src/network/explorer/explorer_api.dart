@@ -8,7 +8,17 @@ import 'package:witnet/schema.dart';
 class ExplorerResponse {
 
 }
+class ExplorerException {
+  ExplorerException({
+   required this.code,
+   required this.message
+});
+  final int code;
+  final String message;
 
+  @override
+  String toString() => message;
+}
 
 class ValueTransferTxn{
   ValueTransferTxn({
@@ -972,4 +982,191 @@ class DataRequestResult{
     return [accepted, value];
   }
 
+}
+// To parse this JSON data, do
+//
+//     final tapi = tapiFromJson(jsonString);
+
+
+class Tapi {
+  Tapi({
+    required this.tapis,
+  });
+
+  final Map<String, TapiInfo> tapis;
+
+  factory Tapi.fromRawJson(String str) => Tapi.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(jsonMap());
+
+  factory Tapi.fromJson(Map<String, dynamic> json) {
+    Map<String, TapiInfo> _tapis = {};
+    json.forEach((key, value) {
+      _tapis[key] = TapiInfo.fromJson(value);
+    });
+    return Tapi(tapis: _tapis);
+  }
+  Map<String, dynamic> jsonMap() => tapis;
+}
+
+class TapiInfo {
+  TapiInfo({
+    required this.accept,
+    required this.active,
+    required this.bit,
+    required this.currentEpoch,
+    required this.description,
+    required this.globalAcceptanceRate,
+    required this.previousEpoch,
+    required this.rates,
+    required this.relativeAcceptanceRate,
+    required this.startEpoch,
+    required this.startTime,
+    required this.stopEpoch,
+    required this.stopTime,
+    required this.tapiId,
+    required this.title,
+    required this.urls,
+  });
+
+  final List<dynamic> accept;
+  final bool active;
+  final int bit;
+  final int currentEpoch;
+  final String description;
+  final double globalAcceptanceRate;
+  final int previousEpoch;
+  final List<Rate> rates;
+  final double relativeAcceptanceRate;
+  final int startEpoch;
+  final int startTime;
+  final int stopEpoch;
+  final int stopTime;
+  final int tapiId;
+  final String title;
+  final List<String> urls;
+
+  factory TapiInfo.fromRawJson(String str) => TapiInfo.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(jsonMap());
+
+  factory TapiInfo.fromJson(Map<String, dynamic> json) => TapiInfo(
+    accept: List<dynamic>.from(json["accept"].map((x) => x)),
+    active: json["active"],
+    bit: json["bit"],
+    currentEpoch: json["current_epoch"],
+    description: json["description"],
+    globalAcceptanceRate: json["global_acceptance_rate"].toDouble(),
+    previousEpoch: json["previous_epoch"],
+    rates: List<Rate>.from(json["rates"].map((x) => Rate.fromJson(x))),
+    relativeAcceptanceRate: json["relative_acceptance_rate"].toDouble(),
+    startEpoch: json["start_epoch"],
+    startTime: json["start_time"],
+    stopEpoch: json["stop_epoch"],
+    stopTime: json["stop_time"],
+    tapiId: json["tapi_id"],
+    title: json["title"],
+    urls: List<String>.from(json["urls"].map((x) => x)),
+  );
+
+  Map<String, dynamic> jsonMap() => {
+    "accept": List<dynamic>.from(accept.map((x) => x)),
+    "active": active,
+    "bit": bit,
+    "current_epoch": currentEpoch,
+    "description": description,
+    "global_acceptance_rate": globalAcceptanceRate,
+    "previous_epoch": previousEpoch,
+    "rates": List<dynamic>.from(rates.map((x) => x.jsonMap())),
+    "relative_acceptance_rate": relativeAcceptanceRate,
+    "start_epoch": startEpoch,
+    "start_time": startTime,
+    "stop_epoch": stopEpoch,
+    "stop_time": stopTime,
+    "tapi_id": tapiId,
+    "title": title,
+    "urls": List<dynamic>.from(urls.map((x) => x)),
+  };
+}
+
+class Rate {
+  Rate({
+    required this.globalRate,
+    required this.periodicRate,
+    required this.relativeRate,
+  });
+
+  final double globalRate;
+  final double periodicRate;
+  final double relativeRate;
+
+  factory Rate.fromRawJson(String str) => Rate.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(jsonMap());
+
+  factory Rate.fromJson(Map<String, dynamic> json) => Rate(
+    globalRate: json["global_rate"].toDouble(),
+    periodicRate: json["periodic_rate"].toDouble(),
+    relativeRate: json["relative_rate"].toDouble(),
+  );
+
+  Map<String, dynamic> jsonMap() => {
+    "global_rate": globalRate,
+    "periodic_rate": periodicRate,
+    "relative_rate": relativeRate,
+  };
+}
+
+
+class Blockchain {
+  Blockchain({
+    required this.blockchain
+});
+  final List<BlockchainInfo> blockchain;
+
+  factory Blockchain.fromJson(Map<String, dynamic> data){
+    return Blockchain(blockchain: List<BlockchainInfo>.from(data['blockchain'].map((e) => BlockchainInfo.fromList(e))));
+  }
+}
+class BlockchainInfo {
+  BlockchainInfo({
+    required this.blockID,
+    required this.epoch,
+    required this.timestamp,
+    required this.minerAddress,
+    required this.fee,
+    required this.valueTransferCount,
+    required this.dataRequestCount,
+    required this.commitCount,
+    required this.revealCount,
+    required this.tallyCount,
+    required this.confirmed
+});
+  final String blockID;
+  final int epoch;
+  final int timestamp;
+  final String minerAddress;
+  final int fee;
+  final int valueTransferCount;
+  final int dataRequestCount;
+  final int commitCount;
+  final int revealCount;
+  final int tallyCount;
+  final bool confirmed;
+
+  factory BlockchainInfo.fromList(List<dynamic> data){
+    return BlockchainInfo(
+        blockID: data[0],
+        epoch: data[1],
+        timestamp: data[2],
+        minerAddress: data[3],
+        fee: data[4],
+        valueTransferCount: data[5],
+        dataRequestCount: data[6],
+        commitCount: data[7],
+        revealCount: data[8],
+        tallyCount: data[9],
+        confirmed: data[10]
+    );
+  }
 }

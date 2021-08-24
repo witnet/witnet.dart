@@ -1,4 +1,4 @@
-import 'package:witnet/node_rpc.dart';
+import 'package:witnet/node.dart';
 import 'package:witnet/schema.dart' show VTTransaction, VTTransactionBody;
 import 'package:witnet/src/crypto/bip39/bip39.dart';
 import 'package:witnet/src/crypto/hd_wallet/extended_private_key.dart';

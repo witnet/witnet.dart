@@ -18,7 +18,7 @@ class Utxo {
 
   factory Utxo.fromRawJson(String str) => Utxo.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
+  String toRawJson() => json.encode(jsonMap());
 
   factory Utxo.fromJson(Map<String, dynamic> json) => Utxo(
     outputPointer: OutputPointer.fromString(json["output_pointer"]),
@@ -31,7 +31,7 @@ class Utxo {
     return Input(outputPointer: outputPointer);
   }
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> jsonMap() => {
     "output_pointer": outputPointer.jsonMap()['output_pointer'],
     "timelock": timelock,
     "utxo_mature": utxoMature,
