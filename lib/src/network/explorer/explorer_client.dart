@@ -108,7 +108,7 @@ class ExplorerClient {
     try {
       return Home.fromJson(await _process(api('home')));
     } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"hash": "${e.message}"}');
+      throw ExplorerException(code: e.code, message: '{"home": "${e.message}"}');
     }
   }
 
@@ -116,7 +116,7 @@ class ExplorerClient {
     try {
       return Network.fromJson(await _process(api('network')));
     } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"hash": "${e.message}"}');
+      throw ExplorerException(code: e.code, message: '{"network": "${e.message}"}');
     }
   }
 
@@ -124,7 +124,7 @@ class ExplorerClient {
     try {
       return Status.fromJson(await _process(api('status')));
     } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"hash": "${e.message}"}');
+      throw ExplorerException(code: e.code, message: '{"status": "${e.message}"}');
     }
   }
 
@@ -132,7 +132,7 @@ class ExplorerClient {
     try {
       return await _process(api('pending'));
     } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"hash": "${e.message}"}');
+      throw ExplorerException(code: e.code, message: '{"pending": "${e.message}"}');
     }
   }
 
@@ -140,7 +140,7 @@ class ExplorerClient {
     try {
       return await _process(api('reputation'));
     } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"hash": "${e.message}"}');
+      throw ExplorerException(code: e.code, message: '{"reputation": "${e.message}"}');
     }
   }
 
@@ -149,7 +149,7 @@ class ExplorerClient {
       return await _process(
           api('richlist', {'start': '$start', 'stop': '$stop'}));
     } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"hash": "${e.message}"}');
+      throw ExplorerException(code: e.code, message: '{"richList": "${e.message}"}');
     }
   }
 
@@ -176,7 +176,7 @@ class ExplorerClient {
       }
       return data;
     } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"hash": "${e.message}"}');
+      throw ExplorerException(code: e.code, message: '{"address": "${e.message}"}');
     }
   }
 
@@ -185,7 +185,7 @@ class ExplorerClient {
       return Blockchain.fromJson(
           await _process(api('blockchain', {'block': '$block'})));
     } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"hash": "${e.message}"}');
+      throw ExplorerException(code: e.code, message: '{"blockchain": "${e.message}"}');
     }
   }
 
@@ -193,7 +193,7 @@ class ExplorerClient {
     try {
       return Tapi.fromJson(await _process(api('tapi')));
     } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"hash": "${e.message}"}');
+      throw ExplorerException(code: e.code, message: '{"tapi": "${e.message}"}');
     }
   }
 
