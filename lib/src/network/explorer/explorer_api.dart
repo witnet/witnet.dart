@@ -983,9 +983,7 @@ class DataRequestResult{
   }
 
 }
-// To parse this JSON data, do
-//
-//     final tapi = tapiFromJson(jsonString);
+
 
 
 class Tapi {
