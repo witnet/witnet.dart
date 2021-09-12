@@ -102,6 +102,6 @@ class Transaction {
   }
 
   Map<String, dynamic> jsonMap({bool asHex=false}) => {
-        "transaction": transaction.jsonMap(asHex),
+        "transaction": transaction.jsonMap(asHex: asHex),
       };
 }
