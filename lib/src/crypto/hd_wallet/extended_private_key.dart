@@ -119,25 +119,25 @@ class Xprv {
   }
 
   factory Xprv.fromEncryptedXprv(String xprv, String password) {
-    Bech32 bech = bech32.decode(xprv);
-    Uint8List data = Uint8List.fromList(
-        convertBits(data: bech.data, from: 5, to: 8, pad: false));
 
-    Uint8List iv = data.sublist(0, 16);
-    Uint8List salt = data.sublist(16, 48);
-    Uint8List _data = data.sublist(48);
-
-    CodecAES codec = getCodecAES(password, salt: salt, iv: iv);
-    Uint8List decoded = codec.decode(bytesToHex(_data)) as Uint8List;
-
-    String plainText;
     try {
+      Bech32 bech = bech32.decode(xprv);
+
+      Uint8List data = Uint8List.fromList(
+          convertBits(data: bech.data, from: 5, to: 8, pad: false));
+
+      Uint8List iv = data.sublist(0, 16);
+      Uint8List salt = data.sublist(16, 48);
+      Uint8List _data = data.sublist(48);
+
+      CodecAES codec = getCodecAES(password, salt: salt, iv: iv);
+      Uint8List decoded = codec.decode(bytesToHex(_data)) as Uint8List;
+
+      String plainText;
       plainText = utf8.decode(decoded).trim();
       return Xprv.fromXprv(plainText);
     } catch (e) {
-      print(e);
-      plainText = 'Aes Decode Error';
-      throw AesCryptDataException('Invalid Password');
+      throw AesCryptDataException('${e.toString()}');
     }
   }
 
