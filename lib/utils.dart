@@ -20,3 +20,4 @@ export 'src/utils/transformations/transformations.dart' show
 
 export 'src/utils/bech32/codec.dart' show bech32;
 export 'src/utils/bech32/bech32.dart' show Bech32;
+export 'src/utils/bech32/validations.dart' show Bech32Validations;
