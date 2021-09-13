@@ -216,12 +216,10 @@ class ExplorerClient {
   Future<dynamic> send({required Map<String, dynamic> transaction, bool test = false} ) async {
     try{
 
-    var response = await _processPost(api('send'),transaction['transaction']);
+    var response = await _processPost(api('send'),transaction);
     print(response);
     if(response.containsKey('error')){
-      print('We Got an error: ${response['error']}');
       throw ExplorerException(code: -3, message: response['error']);
-
     }
     return response;
     }catch(e){
