@@ -6,3 +6,8 @@ const TALLY_WEIGHT = 100;
 const ALPHA = 1;
 const BETA = 1;
 const GAMMA = 10;
+
+const KEYPATH_PURPOSE = 3.0;
+const KEYPATH_COIN_TYPE = 4919.0;
+const EXTERNAL_KEYCHAIN = 0;
+const INTERNAL_KEYCHAIN = 1;
