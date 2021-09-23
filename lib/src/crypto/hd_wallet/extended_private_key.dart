@@ -144,7 +144,7 @@ class Xprv {
   String toEncryptedXprv({required String password}) {
     String xprvStr = toSlip32();
     List<int> tmp = xprvStr.codeUnits;
-    print(tmp.length);
+
     Uint8List dat = Uint8List(128);
     int padLength = dat.length - tmp.length;
     Uint8List padding = Uint8List(padLength);
@@ -153,21 +153,21 @@ class Xprv {
     }
     dat.setRange(0, tmp.length, tmp);
     dat.setRange(tmp.length, dat.length, padding);
-    print(dat);
+
     Uint8List _iv = generateIV();
     Uint8List _salt = generateSalt();
     CodecAES codec = getCodecAES(password, salt: _salt, iv: _iv);
     final encoded = codec.encode(dat);
     Uint8List encData = concatBytes([_iv, _salt, hexToBytes(encoded)]);
-    print(encData);
+
     Uint8List data1 = Uint8List.fromList(
         convertBits(data: encData, from: 8, to: 5, pad: true));
-    print(data1);
+
     Bech32 b1 = Bech32(hrp: 'xprv', data: data1);
 
     String bech1 = bech32.encode(b1, 293);
     // 32bit to 256bit
-    print(bech1);
+
     return bech1;
   }
 
