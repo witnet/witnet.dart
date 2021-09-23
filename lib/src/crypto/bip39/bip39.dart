@@ -122,8 +122,7 @@ bool validateMnemonic(String mnemonic) {
   try {
     mnemonicToEntropy(mnemonic);
   } catch (e) {
-    print(e);
-    return false;
+    rethrow;
   }
   return true;
 }
