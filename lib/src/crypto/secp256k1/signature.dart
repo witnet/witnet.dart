@@ -13,7 +13,6 @@ class WitSignature {
 
   WitSignature(this.R, this.S) {
     if (S > secp256k1.n ~/ BigInt.two) {
-      print('normalized s value');
       S = secp256k1.n - S;
     }
   }
@@ -89,7 +88,7 @@ class WitSignature {
     Uint8List rLength = bigIntToBytes(BigInt.from(_r.length));
     Uint8List sLength = bigIntToBytes(BigInt.from(_s.length));
     Uint8List sigLength = bigIntToBytes(BigInt.from(_r.length + _s.length + 4));
-    print(bytesToHex(sigLength));
+
     return concatBytes([
       hexToBytes('30'),
       sigLength,
