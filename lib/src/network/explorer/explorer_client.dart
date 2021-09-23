@@ -5,20 +5,10 @@ import 'dart:convert' as convert;
 import 'dart:io' show HttpException;
 
 import 'package:witnet/data_structures.dart' show Utxo;
+import 'package:witnet/explorer.dart';
 import 'package:witnet/schema.dart' show VTTransaction;
 import 'explorer_api.dart'
-    show
-        AddressBlocks,
-        AddressDataRequestsSolved,
-        AddressDetails,
-        AddressValueTransfers,
-        Blockchain,
-        ExplorerError,
-        ExplorerException,
-        Home,
-        Network,
-        Status,
-        Tapi;
+    show AddressBlocks, AddressDataRequestsSolved, AddressDetails, AddressValueTransfers, Blockchain, ExplorerError, ExplorerException, Home, MintInfo, Network, Status, Tapi;
 
 enum ExplorerMode {
   production,
@@ -71,7 +61,6 @@ class ExplorerClient {
   Future<List<Utxo>> getUtxoInfo({required String address}) async {
     Uri urlEndpoint = api('utxos', {'address': address});
     print(urlEndpoint);
-    int balance = 0;
     // Await the http get response, then decode the json-formatted response.
     try {
       var response = await http.get(urlEndpoint);
@@ -84,8 +73,6 @@ class ExplorerClient {
           Map<String, dynamic> _utxoMap = utxoList[i];
           Utxo _utxo = Utxo.fromJson(_utxoMap);
           utxos.add(_utxo);
-
-          balance += _utxo.value;
         }
         return utxos;
       } else {
@@ -110,10 +97,32 @@ class ExplorerClient {
     );
   }
 
-  Future<dynamic> hash(String value, bool utxos) async {
+  Future<dynamic> hash(String value, bool simple) async {
+    /// TODO:
     try {
-      Uri uri = api('hash', {'value': value, 'utxos': 'True'});
+      Uri uri = api('hash', {'value': value, 'simple': simple.toString()});
       var data = await _processGet(uri);
+      print(json.encode(data));
+      if(data.containsKey('type')){
+        switch (data['type'] as String){
+          case 'value_transfer_txn':
+            ValueTransferInfo vtInfo = ValueTransferInfo.fromJson(data);
+            return vtInfo.jsonMap();
+          case 'data_request_txn':
+          case 'commit_txn':
+          case 'reveal_txn':
+          case 'tally_txn':
+          case 'mint_txn':
+            MintInfo mintInfo = MintInfo.fromJson(data);
+            mintInfo.printDebug();
+            break;
+          case 'block':
+
+        }
+
+
+      }
+
       return data;
     } on ExplorerException catch(e) {
       throw ExplorerException(code: e.code, message: '{"hash": "${e.message}"}');

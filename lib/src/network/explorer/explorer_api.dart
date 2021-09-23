@@ -3,7 +3,9 @@
 import 'dart:convert' show json;
 import 'dart:typed_data';
 
+import 'package:witnet/data_structures.dart';
 import 'package:witnet/schema.dart';
+import 'package:witnet/src/crypto/address.dart';
 
 class ExplorerResponse {
 
@@ -834,14 +836,14 @@ class AddressValueTransfers {
     required this.address,
     required this.numValueTransfers,
     required this.type,
-    required this.valueTransfers,
+    required this.transactionHashes,
+
   });
 
   final String address;
   final int numValueTransfers;
   final String type;
-  final List<List<dynamic>> valueTransfers;
-
+  final List<String> transactionHashes;
   factory AddressValueTransfers.fromRawJson(String str) => AddressValueTransfers.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(jsonMap());
@@ -850,19 +852,223 @@ class AddressValueTransfers {
     address: json["address"],
     numValueTransfers: json["num_value_transfers"],
     type: json["type"],
-    valueTransfers: List<List<dynamic>>.from(json["value_transfers"].map((x) => List<dynamic>.from(x.map((x) => x)))),
+    transactionHashes: List<String>.from(
+        json["value_transfers"].map((x) => x[1])),
   );
 
   Map<String, dynamic> jsonMap() => {
     "address": address,
     "num_value_transfers": numValueTransfers,
     "type": type,
-    "value_transfers": List<dynamic>.from(valueTransfers.map((x) => List<dynamic>.from(x.map((x) => x)))),
+    "transaction_hashes": transactionHashes,
   };
 }
+
+class MintInfo {
+  MintInfo({
+    required this.blockHash,
+    required this.outputs,
+    required this.status,
+    required this.txnEpoch,
+    required this.txnHash,
+    required this.txnTime,
+    required this.type,
+  });
+
+  final String blockHash;
+  final List<ValueTransferOutput> outputs;
+  final String status;
+  final int txnEpoch;
+  final String txnHash;
+  final int txnTime;
+  final String type;
+
+  factory MintInfo.fromRawJson(String str) => MintInfo.fromJson(json.decode(str));
+
+  String rawJson() => json.encode(jsonMap());
+
+  factory MintInfo.fromJson(Map<String, dynamic> json) => MintInfo(
+    blockHash: json["block_hash"],
+    outputs: List<ValueTransferOutput>.from(
+        json["mint_outputs"].map((x) =>
+            ValueTransferOutput(
+                pkh: Address.fromAddress(x[0]).publicKeyHash!,
+                timeLock: 0,
+                value: x[1]))),
+    status: json["status"],
+    txnEpoch: json["txn_epoch"],
+    txnHash: json["txn_hash"],
+    txnTime: json["txn_time"],
+    type: json["type"],
+  );
+
+  Map<String, dynamic> jsonMap() => {
+    "block_hash": blockHash,
+    "mint_outputs": List<Map<String, dynamic>>.from(outputs.map((x) => x.jsonMap())),
+    "status": status,
+    "txn_epoch": txnEpoch,
+    "txn_hash": txnHash,
+    "txn_time": txnTime,
+    "type": type,
+  };
+
+  void printDebug(){
+    print('Mint Info');
+    print('block_hash: $blockHash');
+    print('mint_outputs: $outputs');
+    print('status: $status');
+    print('txn_epoch: $txnEpoch');
+    print('txn_hash: $txnHash');
+    print('txn_time: $txnTime');
+    print('type: $type');
+
+
+
+
+  }
+}
+
+class InputUtxo{
+  InputUtxo({
+    required this.address,
+  required this.input,
+  required this.value,
+  });
+  final String address;
+  final Input input;
+  final int value;
+
+
+  String rawJson() => json.encode(jsonMap());
+
+  Map<String, dynamic> jsonMap(){
+    return {
+      "pkh": address,
+      "output_pointer": '${input.outputPointer.transactionId.hex}:${input.outputPointer.outputIndex}',
+      "value": value,
+    };
+  }
+  @override
+  String toString() {
+    // TODO: implement toString
+    return rawJson();
+  }
+}
+
 class ValueTransferInfo{
+  ValueTransferInfo({
+    required this.blockHash,
+    required this.fee,
+    required this.inputs,
+    required this.outputs,
+    required this.priority,
+    required this.status,
+    required this.txnEpoch,
+    required this.txnHash,
+    required this.txnTime,
+    required this.type,
+    required this.weight,
+  });
+
+  final String blockHash;
+  final int fee;
+  final List<InputUtxo> inputs;
+  final List<ValueTransferOutput> outputs;
+  final int priority;
+  final String status;
+  final int txnEpoch;
+  final String txnHash;
+  final int txnTime;
+  final String type;
+  final int weight;
+
+  factory ValueTransferInfo.fromJson(Map<String, dynamic> data) {
+
+    List<InputUtxo> inputs = [];
+    List<ValueTransferOutput> outputs = [];
+    List<dynamic> inputAddresses = data['input_addresses'] as List<dynamic>;
+    List<dynamic> outputAddresses = data['output_addresses'] as List<dynamic>;
+    Map<String, dynamic> inputUxtos = data['input_utxos'];
+    inputAddresses.forEach((element) {
 
 
+      if (inputUxtos.containsKey(element[0])){
+        var _sub = inputUxtos[element[0]]!.first;
+
+
+        String outputPointer = '${_sub[1]}:${_sub[2]}';
+
+        inputs.add(
+          InputUtxo(
+            address: element[0] as String,
+            input: Input(outputPointer: OutputPointer.fromString(outputPointer)),
+            value: element[1] as int,
+          ),
+        );
+      }
+
+
+
+    });
+
+    outputAddresses.forEach((element) {
+      Address address = Address.fromAddress(element[0]);
+
+      outputs.add(ValueTransferOutput(pkh: address.publicKeyHash!, timeLock: element[2], value: element[1]));
+
+    });
+    return ValueTransferInfo(
+      blockHash: data["block_hash"],
+      fee: data["fee"],
+      priority: data["priority"],
+      status: data["status"],
+      txnEpoch: data["txn_epoch"],
+      txnHash: data["txn_hash"],
+      txnTime: data["txn_time"],
+      type: data["type"],
+      weight: data["weight"],
+      inputs: inputs,
+      outputs: outputs,
+    );
+
+
+  }
+
+  String rawJson() => json.encode(jsonMap());
+  Map<String, dynamic> jsonMap(){
+    return {
+    "block_hash": blockHash,
+    "fee": fee,
+    "priority": priority,
+    "status": status,
+    "txn_epoch": txnEpoch,
+    "txn_hash": txnHash,
+    "txn_time": txnTime,
+    "weight": weight,
+      "inputs": List<Map<String, dynamic>>.from(inputs.map((e) => e.jsonMap())),
+      "outputs": List<Map<String, dynamic>>.from(outputs.map((e) => e.jsonMap())),
+    };
+  }
+  void printDebug(){
+
+    print('ValueTransferInfo:');
+
+    print('blockHash: $blockHash');
+    print('txnHash: $txnHash');
+    print('txnEpoch: $txnEpoch txnTime: ${DateTime.fromMillisecondsSinceEpoch(txnTime * 1000)}');
+
+    print('status: $status');
+    print('fee: $fee');
+    print('priority: $priority');
+    print('Inputs:');
+    inputs.forEach((element) {
+      print(element);
+    });
+    print('Outputs:');
+    outputs.forEach((element) {
+      print(element.rawJson);
+    });
+  }
 
 }
 
