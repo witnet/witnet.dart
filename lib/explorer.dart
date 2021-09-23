@@ -10,5 +10,8 @@ SupplyInfo,
 Tapi,
 TapiInfo,
 Blockchain,
-AddressDetails;
+AddressDetails,
+InputUtxo,
+
+ValueTransferInfo;
 
