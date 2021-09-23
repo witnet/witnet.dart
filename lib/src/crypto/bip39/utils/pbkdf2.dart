@@ -22,7 +22,7 @@ class PBKDF2 {
 
   Uint8List process(
       {required Uint8List data, passphrase: "", Uint8List? salt}) {
-    print('processing');
+
     salt = salt ?? Uint8List.fromList(utf8.encode(saltPrefix + passphrase));
 
     _derivator.reset();
