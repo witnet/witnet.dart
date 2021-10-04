@@ -72,6 +72,7 @@ class REDUCERS{
   static final deviation_average = 0x08;
   static final deviation_median = 0x09;
   static final deviation_maximum = 0x0A;
+  static final hash_concatenate = 0x0B;
 }
 
 class FILTERS{
