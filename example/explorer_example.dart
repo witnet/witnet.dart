@@ -2,8 +2,7 @@ import 'package:witnet/explorer.dart';
 import 'package:witnet/src/network/explorer/explorer_api.dart';
 
 String explorerUrl = 'witnet.network';
-String explorerTest = '209.145.51.142';
-ExplorerClient explorer = ExplorerClient(url: explorerTest, mode: ExplorerMode.development);
+ExplorerClient explorer = ExplorerClient(url: explorerUrl, mode: ExplorerMode.production);
 
 void main() async{
   try{
