@@ -12,6 +12,8 @@ TapiInfo,
 Blockchain,
 AddressDetails,
 InputUtxo,
-
+AddressValueTransfers,
+MintInfo,
+TallyTxn,
 ValueTransferInfo;
 

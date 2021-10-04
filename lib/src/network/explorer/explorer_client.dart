@@ -8,7 +8,19 @@ import 'package:witnet/data_structures.dart' show Utxo;
 import 'package:witnet/explorer.dart';
 import 'package:witnet/schema.dart' show VTTransaction;
 import 'explorer_api.dart'
-    show AddressBlocks, AddressDataRequestsSolved, AddressDetails, AddressValueTransfers, Blockchain, ExplorerError, ExplorerException, Home, MintInfo, Network, Status, Tapi;
+    show
+        AddressBlocks,
+        AddressDataRequestsSolved,
+        AddressDetails,
+        AddressValueTransfers,
+        Blockchain,
+        ExplorerError,
+        ExplorerException,
+        Home,
+        MintInfo,
+        Network,
+        Status,
+        Tapi;
 
 enum ExplorerMode {
   production,
@@ -41,10 +53,12 @@ class ExplorerClient {
     } else if (response.statusCode == 500) {
       throw HttpException(response.reasonPhrase!);
     }
-    throw ExplorerException(code: response.statusCode, message: response.reasonPhrase!);
+    throw ExplorerException(
+        code: response.statusCode, message: response.reasonPhrase!);
   }
-  Future<Map<String, dynamic>> _processPost(Uri uri, Map<String, dynamic> postData) async {
 
+  Future<Map<String, dynamic>> _processPost(
+      Uri uri, Map<String, dynamic> postData) async {
     var response = await http.post(
       uri,
       body: json.encode(postData),
@@ -55,12 +69,13 @@ class ExplorerClient {
     } else if (response.statusCode == 500) {
       throw HttpException(response.reasonPhrase!);
     }
-    throw ExplorerException(code: response.statusCode, message: response.reasonPhrase!);
+    throw ExplorerException(
+        code: response.statusCode, message: response.reasonPhrase!);
   }
 
   Future<List<Utxo>> getUtxoInfo({required String address}) async {
     Uri urlEndpoint = api('utxos', {'address': address});
-    print(urlEndpoint);
+
     // Await the http get response, then decode the json-formatted response.
     try {
       var response = await http.get(urlEndpoint);
@@ -80,11 +95,9 @@ class ExplorerClient {
             'Request failed with status: ${response.statusCode}.');
       }
     } catch (e) {
-      print(e);
       return [];
     }
   }
-
 
   Future<dynamic> sendVTTransaction(VTTransaction transaction,
       {bool testing = true}) async {
@@ -102,12 +115,10 @@ class ExplorerClient {
     try {
       Uri uri = api('hash', {'value': value, 'simple': simple.toString()});
       var data = await _processGet(uri);
-      print(json.encode(data));
-      if(data.containsKey('type')){
-        switch (data['type'] as String){
+      if (data.containsKey('type')) {
+        switch (data['type'] as String) {
           case 'value_transfer_txn':
-            ValueTransferInfo vtInfo = ValueTransferInfo.fromJson(data);
-            return vtInfo.jsonMap();
+            return ValueTransferInfo.fromJson(data);
           case 'data_request_txn':
           case 'commit_txn':
           case 'reveal_txn':
@@ -117,55 +128,58 @@ class ExplorerClient {
             mintInfo.printDebug();
             break;
           case 'block':
-
         }
-
-
       }
 
       return data;
-    } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"hash": "${e.message}"}');
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"hash": "${e.message}"}');
     }
   }
 
   Future<Home> home() async {
     try {
       return Home.fromJson(await _processGet(api('home')));
-    } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"home": "${e.message}"}');
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"home": "${e.message}"}');
     }
   }
 
   Future<Network> network() async {
     try {
       return Network.fromJson(await _processGet(api('network')));
-    } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"network": "${e.message}"}');
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"network": "${e.message}"}');
     }
   }
 
   Future<Status> status() async {
     try {
       return Status.fromJson(await _processGet(api('status')));
-    } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"status": "${e.message}"}');
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"status": "${e.message}"}');
     }
   }
 
   Future<dynamic> pending() async {
     try {
       return await _processGet(api('pending'));
-    } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"pending": "${e.message}"}');
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"pending": "${e.message}"}');
     }
   }
 
   Future<dynamic> reputation() async {
     try {
       return await _processGet(api('reputation'));
-    } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"reputation": "${e.message}"}');
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"reputation": "${e.message}"}');
     }
   }
 
@@ -173,8 +187,9 @@ class ExplorerClient {
     try {
       return await _processGet(
           api('richlist', {'start': '$start', 'stop': '$stop'}));
-    } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"richList": "${e.message}"}');
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"richList": "${e.message}"}');
     }
   }
 
@@ -184,7 +199,8 @@ class ExplorerClient {
       int limit = 0,
       epoch = 1}) async {
     try {
-      var data = await _processGet(api('address', {'value': value, 'tab': tab}));
+      var data =
+          await _processGet(api('address', {'value': value, 'tab': tab}));
       switch (tab) {
         case 'blocks':
           return AddressBlocks.fromJson(data);
@@ -200,8 +216,9 @@ class ExplorerClient {
           return AddressValueTransfers.fromJson(data);
       }
       return data;
-    } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"address": "${e.message}"}');
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"address": "${e.message}"}');
     }
   }
 
@@ -209,30 +226,31 @@ class ExplorerClient {
     try {
       return Blockchain.fromJson(
           await _processGet(api('blockchain', {'block': '$block'})));
-    } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"blockchain": "${e.message}"}');
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"blockchain": "${e.message}"}');
     }
   }
 
   Future<Tapi> tapi() async {
     try {
       return Tapi.fromJson(await _processGet(api('tapi')));
-    } on ExplorerException catch(e) {
-      throw ExplorerException(code: e.code, message: '{"tapi": "${e.message}"}');
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"tapi": "${e.message}"}');
     }
   }
 
-  Future<dynamic> send({required Map<String, dynamic> transaction, bool test = false} ) async {
-    try{
-
-    var response = await _processPost(api('send'),transaction);
-    print(response);
-    if(response.containsKey('error')){
-      throw ExplorerException(code: -3, message: response['error']);
-    }
-    return response;
-    }catch(e){
-      print(e.toString());
+  Future<dynamic> send(
+      {required Map<String, dynamic> transaction, bool test = false}) async {
+    try {
+      var response = await _processPost(api('send'), transaction);
+      if (response.containsKey('error')) {
+        throw ExplorerException(code: -3, message: response['error']);
+      }
+      return response;
+    } catch (e) {
+      rethrow;
     }
   }
 }
