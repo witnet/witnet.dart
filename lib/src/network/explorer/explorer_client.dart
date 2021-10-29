@@ -47,6 +47,8 @@ class ExplorerClient {
 
   Future<Map<String, dynamic>> _processGet(Uri uri) async {
     var response = await http.get(uri);
+    print(uri.toString());
+    print(response.body);
     if (response.statusCode == 200) {
       // response is okay
       return convert.jsonDecode(response.body) as Map<String, dynamic>;
@@ -67,6 +69,8 @@ class ExplorerClient {
       // response is okay
       return convert.jsonDecode(response.body) as Map<String, dynamic>;
     } else if (response.statusCode == 500) {
+      print(response.headers);
+      print(response.body);
       throw HttpException(response.reasonPhrase!);
     }
     throw ExplorerException(
@@ -80,21 +84,24 @@ class ExplorerClient {
     try {
       var response = await http.get(urlEndpoint);
       if (response.statusCode == 200) {
+        print(response.body);
         var jsonResponse =
-            convert.jsonDecode(response.body) as Map<String, dynamic>;
-        List<dynamic> utxoList = jsonResponse['utxos'];
+            convert.jsonDecode(response.body);
+        print(jsonResponse);
+        print(jsonResponse[address]['utxos']);
+        List<dynamic> _utxos = jsonResponse[address]['utxos'] as List<dynamic>;
         List<Utxo> utxos = [];
-        for (int i = 0; i < utxoList.length; i++) {
-          Map<String, dynamic> _utxoMap = utxoList[i];
-          Utxo _utxo = Utxo.fromJson(_utxoMap);
-          utxos.add(_utxo);
-        }
+        _utxos.forEach((element) {
+          utxos.add(Utxo.fromJson(element));
+        });
+
         return utxos;
       } else {
         throw HttpException(
             'Request failed with status: ${response.statusCode}.');
       }
     } catch (e) {
+      print(e);
       return [];
     }
   }
@@ -196,8 +203,8 @@ class ExplorerClient {
   Future<dynamic> address(
       {required String value,
       required String tab,
-      int limit = 0,
-      epoch = 1}) async {
+      int? limit,
+      int? epoch}) async {
     try {
       var data =
           await _processGet(api('address', {'value': value, 'tab': tab}));
@@ -254,3 +261,8 @@ class ExplorerClient {
     }
   }
 }
+
+
+/*
+
+ */

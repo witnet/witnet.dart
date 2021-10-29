@@ -134,11 +134,14 @@ class Address {
   /// TODO: add ExplorerClient as a source
   Future<bool> getUtxoInfo({dynamic source}) async {
     if (source.runtimeType == NodeClient) {
+
+
       UtxoInfo utxoInfo = await source.getUtxoInfo(address: address);
       _setUtxoInfo(utxoInfo);
       return true;
     } else if (source.runtimeType == ExplorerClient) {
-      UtxoInfo utxoInfo = await source.getUtxoInfo(address: address);
+      List<Utxo> _utxos =  await source.getUtxoInfo(address: address);
+      UtxoInfo utxoInfo = UtxoInfo(collateralMin: 0,utxos: _utxos);
       _setUtxoInfo(utxoInfo);
     }
     return false;

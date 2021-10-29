@@ -337,7 +337,9 @@ class NodeClient {
         _socket!.close();
       });
     } on SocketException catch(e){
-      throw NodeException(code: e.osError!.errorCode, message: 'Error Connecting to Node');
+      throw NodeException(code: e.osError!.errorCode, message: e.message);
+    } catch (e) {
+      throw NodeException(code: -1, message: e.toString());
     }
     Map<String, dynamic> response = json.decode(_secureResponse);
     return response;

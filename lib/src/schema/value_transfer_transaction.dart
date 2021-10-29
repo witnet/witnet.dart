@@ -27,12 +27,13 @@ class VTTransaction {
 
   Map<String, dynamic> jsonMap({bool asHex=false}) {
       return {
+        "transaction": {
         "ValueTransfer": {
           "body": body.jsonMap(),
           "signatures": List<dynamic>.from(
-              signatures.map((x) => x.jsonMap(asHex: asHex))
-          ),
-      },
+              signatures.map((x) => x.jsonMap(asHex: asHex))),
+        },
+      }
     };
   }
 
