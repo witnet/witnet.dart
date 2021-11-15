@@ -14,7 +14,6 @@ import 'explorer_api.dart'
         AddressDetails,
         AddressValueTransfers,
         Blockchain,
-        ExplorerError,
         ExplorerException,
         Home,
         MintInfo,
@@ -47,8 +46,7 @@ class ExplorerClient {
 
   Future<Map<String, dynamic>> _processGet(Uri uri) async {
     var response = await http.get(uri);
-    print(uri.toString());
-    print(response.body);
+
     if (response.statusCode == 200) {
       // response is okay
       return convert.jsonDecode(response.body) as Map<String, dynamic>;
@@ -69,8 +67,6 @@ class ExplorerClient {
       // response is okay
       return convert.jsonDecode(response.body) as Map<String, dynamic>;
     } else if (response.statusCode == 500) {
-      print(response.headers);
-      print(response.body);
       throw HttpException(response.reasonPhrase!);
     }
     throw ExplorerException(
@@ -84,11 +80,7 @@ class ExplorerClient {
     try {
       var response = await http.get(urlEndpoint);
       if (response.statusCode == 200) {
-        print(response.body);
-        var jsonResponse =
-            convert.jsonDecode(response.body);
-        print(jsonResponse);
-        print(jsonResponse[address]['utxos']);
+        var jsonResponse = convert.jsonDecode(response.body);
         List<dynamic> _utxos = jsonResponse[address]['utxos'] as List<dynamic>;
         List<Utxo> utxos = [];
         _utxos.forEach((element) {
@@ -101,8 +93,50 @@ class ExplorerClient {
             'Request failed with status: ${response.statusCode}.');
       }
     } catch (e) {
-      print(e);
       return [];
+    }
+  }
+
+  Future<Map<String, List<Utxo>>> getMultiUtxoInfo(
+      {required List<String> addresses}) async {
+    int addressLimit = 20;
+    Map<String, List<Utxo>> addressMap = {};
+
+    Uri urlEndpoint = api('utxos', {'address': addresses.join(',')});
+    List<Uri> urlCalls = [];
+
+    for (int i = 0; i < addresses.length; i += addressLimit) {
+      int end = (i + addressLimit < addresses.length)
+          ? i + addressLimit
+          : addresses.length;
+      urlCalls
+          .add(api('utxos', {'address': addresses.sublist(i, end).join(',')}));
+    }
+
+    // Await the http get response, then decode the json-formatted response.
+    try {
+      for (int i = 0; i < urlCalls.length; i++) {
+        var response = await http.get(urlCalls[i]);
+        if (response.statusCode == 200) {
+          var jsonResponse = convert.jsonDecode(response.body);
+          addresses.forEach((_address) {
+            List<dynamic> _utxos =
+                jsonResponse[_address]['utxos'] as List<dynamic>;
+            List<Utxo> utxos = [];
+            _utxos.forEach((element) {
+              utxos.add(Utxo.fromJson(element));
+            });
+            addressMap[_address] = utxos;
+          });
+        } else {
+          throw HttpException(
+              'Request failed with status: ${response.statusCode}.');
+        }
+      }
+
+      return addressMap;
+    } catch (e) {
+      return {};
     }
   }
 
@@ -132,8 +166,7 @@ class ExplorerClient {
           case 'tally_txn':
           case 'mint_txn':
             MintInfo mintInfo = MintInfo.fromJson(data);
-            mintInfo.printDebug();
-            break;
+            return mintInfo;
           case 'block':
         }
       }
@@ -261,7 +294,6 @@ class ExplorerClient {
     }
   }
 }
-
 
 /*
 
