@@ -7,14 +7,14 @@ import 'dart:io' show HttpException;
 import 'package:witnet/data_structures.dart' show Utxo;
 import 'package:witnet/explorer.dart';
 import 'package:witnet/schema.dart' show VTTransaction;
-import 'explorer_api.dart'
-    show
+import 'explorer_api.dart' show
         AddressBlocks,
         AddressDataRequestsSolved,
         AddressDetails,
         AddressValueTransfers,
         Blockchain,
         ExplorerException,
+        HashInfo,
         Home,
         MintInfo,
         Network,
@@ -156,22 +156,24 @@ class ExplorerClient {
     try {
       Uri uri = api('hash', {'value': value, 'simple': simple.toString()});
       var data = await _processGet(uri);
-      if (data.containsKey('type')) {
-        switch (data['type'] as String) {
-          case 'value_transfer_txn':
-            return ValueTransferInfo.fromJson(data);
-          case 'data_request_txn':
-          case 'commit_txn':
-          case 'reveal_txn':
-          case 'tally_txn':
-          case 'mint_txn':
-            MintInfo mintInfo = MintInfo.fromJson(data);
-            return mintInfo;
-          case 'block':
+      HashInfo hashInfo = HashInfo.fromJson(data);
+      if(hashInfo.isMined() || hashInfo.isConfirmed()){
+        if (data.containsKey('type')) {
+          switch (data['type'] as String) {
+            case 'value_transfer_txn':
+              return ValueTransferInfo.fromJson(data);
+            case 'data_request_txn':
+            case 'commit_txn':
+            case 'reveal_txn':
+            case 'tally_txn':
+            case 'mint_txn':
+              MintInfo mintInfo = MintInfo.fromJson(data);
+              return mintInfo;
+            case 'block':
+          }
         }
       }
-
-      return data;
+      return hashInfo;
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"hash": "${e.message}"}');
