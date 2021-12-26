@@ -3,12 +3,6 @@ import 'package:witnet/schema.dart';
 import 'package:witnet/src/schema/reveal_transaction.dart';
 import 'package:witnet/src/schema/tally_transaction.dart';
 
-import 'data_request_transaction.dart' show DRTransaction;
-
-
-import 'value_transfer_transaction.dart' show VTTransaction;
-import 'mint_transaction.dart' show MintTransaction;
-
 import '../constants.dart' show GAMMA;
 
 enum TransactionType {
@@ -86,7 +80,7 @@ class Transaction {
       case TransactionType.DataRequest:
         {
           DRTransaction drTransaction = transaction as DRTransaction;
-          int _weight = 0;
+          int _weight = drTransaction.body.weight;
           return _weight;
         }
       case TransactionType.Mint:

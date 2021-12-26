@@ -41,24 +41,24 @@ enum AesMode {
 class AesCrypt {
   final _aes = Aes();
 
-  late String _password;
-  late Uint8List _passBytes;
-  late AesCryptOwMode _owMode;
+  late String password;
+  late Uint8List passBytes;
+  late AesCryptOwMode owMode;
 
   /// Creates the library wrapper.
   ///
   /// Optionally sets encryption/decryption password as [password].
   AesCrypt([String password = '']) {
-    _password = password;
-    _passBytes = stringToBytes(password);
-    _owMode = AesCryptOwMode.warn;
+    password = password;
+    passBytes = stringToBytes(password);
+    owMode = AesCryptOwMode.warn;
   }
 
   /// Sets encryption/decryption password.
-  void setPassword(String password) {
-    AesCryptArgumentError.checkNullOrEmpty(password, 'Empty password.');
-    _password = password;
-    _passBytes = stringToBytes(password);
+  void setPassword(String data) {
+    AesCryptArgumentError.checkNullOrEmpty(data, 'Empty password.');
+    password = data;
+    passBytes = stringToBytes(data);
   }
 
   /// Sets overwrite mode [mode] for write file operations during encryption
@@ -74,7 +74,7 @@ class AesCrypt {
   /// and tries to save. If such file also exists, adds '(2)' to its name, then '(3)', etc.
   ///
   /// [AesCryptOwMode.on] - Overwrite the file if it exists.
-  void setOverwriteMode(AesCryptOwMode mode) => _owMode = mode;
+  void setOverwriteMode(AesCryptOwMode mode) => owMode = mode;
 
 //****************************************************************************
 //**************************** CRYPTO FUNCTIONS ******************************

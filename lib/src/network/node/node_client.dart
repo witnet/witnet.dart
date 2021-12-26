@@ -1,11 +1,11 @@
-import 'dart:async' show AsyncError;
+
 import 'dart:convert' show json, utf8;
 import 'dart:io' show Socket, SocketException;
-import 'dart:math';
+
 
 import 'node_api.dart' show NodeStats, NodeException, UtxoInfo, SyncStatus;
-import 'package:witnet/data_structures.dart' show Utxo;
-import 'package:witnet/schema.dart' show Block, CommitTransaction, Transaction, VTTransaction;
+
+import 'package:witnet/schema.dart' show Block, Transaction;
 
 class NodeClient {
   String address;
@@ -300,13 +300,10 @@ class NodeClient {
       request['params'] = params;
     }
     if (keepAlive) {
-      if (_id != null) {
-        _id += 1;
-        request['id'] = _id;
-      } else {
-        _id = 1;
-        request['id'] = _id;
-      }
+
+      _id += 1;
+      request['id'] = _id;
+
     } else {
       request['id'] = 1;
     }

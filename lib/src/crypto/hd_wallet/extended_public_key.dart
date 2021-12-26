@@ -76,7 +76,7 @@ class Xpub extends ExtendedKey{
         key: code, data: Uint8List.fromList(data));
     Uint8List IL = I.sublist(0, 32);
     Uint8List IR = I.sublist(32);
-    Point _key = WitPrivateKey(bytes: I.sublist(0, 32)).publicKey.point + publicKey.point;
+    Point _key = WitPrivateKey(bytes: IL).publicKey.point + publicKey.point;
 
     return Xpub(
         key: hexToBytes(pointToHexInCompress(_key)),

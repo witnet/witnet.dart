@@ -1,8 +1,5 @@
-import 'package:witnet/node.dart';
-import 'package:witnet/schema.dart' show VTTransaction, VTTransactionBody;
+
 import 'package:witnet/src/crypto/bip39/bip39.dart';
-import 'package:witnet/src/crypto/hd_wallet/extended_private_key.dart';
-import 'package:witnet/src/utils/transformations/transformations.dart';
 import 'package:test/test.dart';
 
 /// https://github.com/trezor/python-mnemonic/blob/master/vectors.json

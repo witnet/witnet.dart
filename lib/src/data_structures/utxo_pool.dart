@@ -1,7 +1,7 @@
 import 'dart:math' show Random;
 
 import 'package:witnet/schema.dart' show OutputPointer, ValueTransferOutput;
-import 'transaction_factory.dart' show FeeType;
+
 import 'utxo.dart' show Utxo;
 import 'package:witnet/utils.dart' show nanoWitToWit;
 

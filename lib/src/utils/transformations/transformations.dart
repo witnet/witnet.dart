@@ -1,6 +1,6 @@
 import 'dart:convert' show Utf8Codec;
 import 'dart:math' show pow;
-import 'dart:typed_data' show Uint8List, ByteData;
+import 'dart:typed_data' show ByteData, Endian, Uint8List;
 import '../bech32/exceptions.dart' show InvalidPadding;
 
 const Utf8Codec utf8 = Utf8Codec();
@@ -137,3 +137,50 @@ Uint8List leftJustify(Uint8List bytes, int size, int value) {
 
   return Uint8List.fromList(_pad);
 }
+
+// Converts string to UTF-8 bytes
+List<int> toUtf8Bytes(String string, [bool bom = false]) {
+  if (bom) {
+    Uint8List data = Uint8List.fromList(utf8.encode(string));
+    Uint8List dataWithBom = Uint8List(data.length + 3)
+      ..setAll(0, [0xEF, 0xBB, 0xBF])
+      ..setRange(3, data.length + 3, data);
+    return dataWithBom;
+  }
+  return utf8.encode(string);
+}
+// Converts UTF-16 string to bytes
+Uint8List toUtf16Bytes(String string, [Endian endian = Endian.big, bool bom = false]) {
+  List<int> list =
+  bom ? (endian == Endian.big ? [0xFE, 0xFF] : [0xFF, 0xFE]) : [];
+  string.runes.forEach((rune) {
+    if (rune >= 0x10000) {
+      int firstWord = (rune >> 10) + 0xD800 - (0x10000 >> 10);
+      int secondWord = (rune & 0x3FF) + 0xDC00;
+      if (endian == Endian.big) {
+        list.add(firstWord >> 8);
+        list.add(firstWord & 0xFF);
+        list.add(secondWord >> 8);
+        list.add(secondWord & 0xFF);
+      } else {
+        list.add(firstWord & 0xFF);
+        list.add(firstWord >> 8);
+        list.add(secondWord & 0xFF);
+        list.add(secondWord >> 8);
+      }
+    } else {
+      if (endian == Endian.big) {
+        list.add(rune >> 8);
+        list.add(rune & 0xFF);
+      } else {
+        list.add(rune & 0xFF);
+        list.add(rune >> 8);
+      }
+    }
+  });
+  return Uint8List.fromList(list);
+}
+
+
+bool isStringNullOrEmpty(String? string)=> string == null || string.isEmpty;
+

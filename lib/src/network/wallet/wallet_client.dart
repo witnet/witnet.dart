@@ -3,10 +3,8 @@ import 'dart:convert' show json;
 import 'package:web_socket_channel/web_socket_channel.dart'
     show WebSocketChannel, WebSocketChannelException;
 import 'package:web_socket_channel/status.dart' as status;
-import 'package:witnet/radon.dart';
 import 'package:witnet/schema.dart';
 import 'package:witnet/src/network/wallet/wallet_api.dart';
-import '../../schema/rad_request.dart';
 
 class WalletClient {
   String address;
@@ -15,7 +13,6 @@ class WalletClient {
   late WebSocketChannel channel;
   bool keepAlive;
   bool awaitingWallet = false;
-  late String _message = '';
 
   WalletClient(this.address, this.port, {this.keepAlive = false});
 
@@ -104,7 +101,7 @@ class WalletClient {
     } on WalletException catch (e) {
       throw WalletException(
           code: e.code, message: '{"unlock_wallet": "${e.message}"}');
-      ;
+
     }
   }
 
@@ -124,7 +121,7 @@ class WalletClient {
     } on WalletException catch (e) {
       throw WalletException(
           code: e.code, message: '{"lock_wallet": "${e.message}"}');
-      ;
+
     }
   }
 
@@ -191,13 +188,10 @@ class WalletClient {
       request['params'] = params;
     }
     if (keepAlive) {
-      if (_id != null) {
-        _id += 1;
-        request['id'] = _id;
-      } else {
-        _id = 1;
-        request['id'] = _id;
-      }
+
+      _id += 1;
+      request['id'] = _id;
+
     } else {
       request['id'] = 1;
     }

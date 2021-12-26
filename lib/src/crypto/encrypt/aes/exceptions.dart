@@ -38,8 +38,7 @@ class AesCryptArgumentError extends ArgumentError {
 
   /// Throws [AesCryptArgumentError] if [argument] is: null [Object], empty [String] or empty [Iterable]
   static void checkNullOrEmpty(Object argument, String message) {
-    if (argument == null ||
-        ((argument is String) ? argument.isEmpty : false) ||
+    if (((argument is String) ? argument.isEmpty : false) ||
         ((argument is Iterable) ? argument.isEmpty : false)) {
       throw AesCryptArgumentError(message);
     }

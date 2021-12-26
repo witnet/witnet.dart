@@ -5,7 +5,7 @@ import 'secp256k1.dart' show Point, Secp256k1, addDiffPoint, addSamePoint, getPo
 import '../number_theory.dart';
 
 import 'package:witnet/utils.dart' show
-  bigIntToBytes, bytesToBigInt, bytesToHex, concatBytes, hexToBytes;
+  bigIntToBytes, bytesToBigInt, concatBytes, hexToBytes;
 
 class WitSignature {
   late BigInt R;
@@ -115,6 +115,10 @@ class WitSignature {
   bool operator ==(other) {
     return other is WitSignature && (R == other.R && S == other.S);
   }
+
+  @override
+  int get hashCode => super.hashCode;
+
 }
 
 bool _verify(BigInt n, BigInt p, BigInt a, Point pointG,

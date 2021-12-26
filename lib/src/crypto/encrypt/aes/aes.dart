@@ -161,7 +161,7 @@ class Aes {
   // - [AesMode.cfb] - CFB (Cipher Feedback)
   // - [AesMode.ofb] - OFB (Output Feedback)
   void aesSetMode(AesMode mode) {
-    if (_aesMode == AesMode.ecb && _aesMode != mode && _aesIV == null) {
+    if (_aesMode == AesMode.ecb && _aesMode != mode) {
       throw AesCryptArgumentError(
           'Failed to change AES mode. The initialization vector is not set. When changing the mode from ECB to another one, set IV at first.');
     }
@@ -320,7 +320,6 @@ class Aes {
 
   // Encrypts the 16-byte data block.
   Uint8List aesEncryptBlock(Uint8List data) {
-    assert(_Nr != null);
 
     Uint8List encBlock = Uint8List(16); // 16-byte string
     int i;
@@ -360,7 +359,6 @@ class Aes {
 
   // Decrypts the 16-byte data block.
   Uint8List aesDecryptBlock(Uint8List data) {
-    assert(_Nr != null);
 
     Uint8List decBlock = Uint8List(16); // 16-byte string
     int i;

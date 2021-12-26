@@ -76,15 +76,17 @@ class Stats<T extends num>{
 
     // variance
     // The average of the squared difference from the Mean
+    /*
     num sumOfSquaredDiffFromMean = 0;
     for (var value in list) {
       final squareDiffFromMean = math.pow(value - mean, 2);
       sumOfSquaredDiffFromMean += squareDiffFromMean;
     }
-    final variance = sumOfSquaredDiffFromMean / count;
+     */
+    // final variance = sumOfSquaredDiffFromMean / count;
 
     // standardDeviation: sqrt of the variance
-    final standardDeviation = math.sqrt(variance);
+    // final standardDeviation = math.sqrt(variance);
 
     final middleIndex = count ~/ 2;
     num median = list[middleIndex];

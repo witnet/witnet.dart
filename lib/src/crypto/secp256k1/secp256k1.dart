@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:witnet/utils.dart';
 
 import '../number_theory.dart' show inverseMulti, positiveMod;
-import '';
+
 class Secp256k1 {
   static final BigInt p = BigInt.parse('fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f', radix: 16);
   static final BigInt a = BigInt.parse('0', radix: 16);

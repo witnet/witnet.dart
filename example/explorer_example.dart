@@ -1,5 +1,4 @@
 import 'package:witnet/explorer.dart';
-import 'package:witnet/src/network/explorer/explorer_api.dart';
 
 String explorerUrl = 'witnet.network';
 ExplorerClient explorer = ExplorerClient(url: explorerUrl, mode: ExplorerMode.production);

@@ -21,7 +21,7 @@ class Reducer{
     return ops[operator];
   }
 
-  bool _homogeneous(List<dynamic> values){
+  bool homogeneous(List<dynamic> values){
     var firstType = values[0].runtimeType;
     for(int i = 0; i < values.length; i ++){
       if(values[i].runtimeType != firstType){

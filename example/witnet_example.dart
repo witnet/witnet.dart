@@ -1,7 +1,6 @@
 
 import 'package:witnet/data_structures.dart';
 import 'package:witnet/src/crypto/address.dart' show Address;
-import 'package:witnet/src/data_structures/utxo_pool.dart' show UtxoSelectionStrategy;
 import 'package:witnet/src/network/node/node_api.dart';
 import 'package:witnet/witnet.dart' show Xprv;
 import 'package:witnet/node.dart' show NodeClient, SyncStatus;
@@ -47,13 +46,10 @@ main() async{
       print(transaction.body.toRawJson());
       print(transaction.transactionID);
 
-      // change to true if you really want to send the transaction
-      bool sendTrx = false;
+      // uncomment to send the transaction
+      // var resp = await nodeClient.inventory({'transaction': transaction.jsonMap});
+      // print(resp);
 
-      if(sendTrx){
-        var resp = await nodeClient.inventory({'transaction': transaction.jsonMap});
-        print(resp);
-      }
 
     } else {
       print('Node is not synced. Current State: [${syncStatus.nodeState}]');

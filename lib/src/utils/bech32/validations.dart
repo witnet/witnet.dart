@@ -1,5 +1,4 @@
 import 'package:witnet/src/utils/bech32/codec.dart';
-import 'package:witnet/src/utils/bech32/decoder.dart';
 
 import 'bech32.dart' show Bech32, createChecksum, separator, verifyChecksum;
 

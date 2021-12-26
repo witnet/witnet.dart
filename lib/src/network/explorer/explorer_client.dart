@@ -102,7 +102,6 @@ class ExplorerClient {
     int addressLimit = 20;
     Map<String, List<Utxo>> addressMap = {};
 
-    Uri urlEndpoint = api('utxos', {'address': addresses.join(',')});
     List<Uri> urlCalls = [];
 
     for (int i = 0; i < addresses.length; i += addressLimit) {
@@ -149,9 +148,10 @@ class ExplorerClient {
       body: transaction.jsonMap,
       encoding: convert.utf8,
     );
+    return response;
   }
 
-  Future<dynamic> hash(String value, bool simple) async {
+  Future<dynamic> hash(String value, [bool simple = true]) async {
     /// TODO:
     try {
       Uri uri = api('hash', {'value': value, 'simple': simple.toString()});

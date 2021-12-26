@@ -1,7 +1,6 @@
 import 'dart:convert' show json;
 import 'dart:typed_data';
 
-import 'package:witnet/data_structures.dart';
 import 'package:witnet/schema.dart';
 import 'package:witnet/src/crypto/address.dart';
 
@@ -1459,4 +1458,10 @@ class BlockchainInfo {
         tallyCount: data[9],
         confirmed: data[10]);
   }
+}
+
+
+
+class HashInfo {
+
 }

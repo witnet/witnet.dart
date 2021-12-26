@@ -29,7 +29,6 @@ class Stage {
     }
 
 
-    List<dynamic> results = [];
     List<RetrieveReport> reports = [];
     // retrieve
     Stopwatch stopwatch = new Stopwatch()..start();

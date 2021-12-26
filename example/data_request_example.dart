@@ -2,7 +2,7 @@ import 'package:witnet/data_structures.dart';
 import 'package:witnet/node.dart';
 import 'package:witnet/schema.dart' show DRTransaction, DataRequestOutput;
 import 'package:witnet/src/data_structures/transaction_factory.dart';
-import 'package:witnet/utils.dart' show bytesToHex;
+
 import 'package:witnet/witnet.dart';
 
 String nodeIp = '127.0.0.1';

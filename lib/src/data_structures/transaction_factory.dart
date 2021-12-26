@@ -12,7 +12,7 @@ import 'package:witnet/src/crypto/address.dart' show Address;
 import 'package:witnet/src/crypto/secp256k1/private_key.dart';
 import 'package:witnet/constants.dart' show ALPHA, GAMMA, INPUT_SIZE, OUTPUT_SIZE;
 import '../../data_structures.dart';
-import '../../node.dart';
+
 
 
 class TransactionInfo {
