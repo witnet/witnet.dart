@@ -1,19 +1,15 @@
 import "dart:typed_data" show Uint8List;
 
-import 'secp256k1.dart' show hexToPoint, hexToPointFromCompress, pointToHexInCompress;
+import 'secp256k1.dart' show Point, hexToPoint, hexToPointFromCompress, pointToHexInCompress;
 import 'private_key.dart' show WitPrivateKey;
 import '../crypto.dart' show sha256;
 
-
-import 'package:pointycastle/ecc/ecc_fp.dart' as ecc_fp;
 import 'package:witnet/utils.dart' show bech32, bytesToHex, hexToBytes;
 
 class WitPublicKey {
-  late ecc_fp.ECPoint point;
-  late BigInt X;
-  late BigInt Y;
+  final Point point;
 
-  WitPublicKey({required this.X, required this.Y});
+  WitPublicKey(this.point);
 
   factory WitPublicKey.decode(Uint8List bytes) {
     List<int> key = bytes.toList();
@@ -21,13 +17,12 @@ class WitPublicKey {
       // uncompressed key
       assert(key.length == 65, 'An uncompressed key must be 65 bytes long');
       final point = hexToPoint(bytesToHex(bytes));
-
-      return WitPublicKey(X: point[0], Y: point[1]);
+      return WitPublicKey(point);
     } else {
       // compressed key
       assert(key.length == 33, 'A compressed public key must be 33 bytes');
       final point = hexToPointFromCompress(bytesToHex(bytes));
-      return WitPublicKey(X: point[0], Y: point[1]);
+      return WitPublicKey(point);
     }
   }
 
@@ -36,11 +31,11 @@ class WitPublicKey {
   }
 
   Uint8List encode({bool compressed: true}) {
-    return hexToBytes(pointToHexInCompress([X, Y]));
+    return hexToBytes(pointToHexInCompress(point));
   }
 
   String get hex {
-    return bytesToHex(point.getEncoded());
+    return pointToHexInCompress(point);
   }
 
   Uint8List get publicKeyHash {

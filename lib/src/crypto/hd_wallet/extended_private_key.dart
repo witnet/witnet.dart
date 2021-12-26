@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:pointycastle/ecc/curves/secp256k1.dart';
+import 'package:witnet/src/crypto/hd_wallet/extended_key.dart';
+import 'package:witnet/src/crypto/secp256k1/secp256k1.dart';
 import '../address.dart';
 import '../encrypt/aes/exceptions.dart';
 import '../encrypt/aes/codec.dart';
@@ -14,57 +15,67 @@ import 'package:witnet/utils.dart';
 
 import 'extended_public_key.dart';
 
-final _ecParams = ECCurve_secp256k1();
 
-class Xprv {
+class Xprv  extends ExtendedKey{
   Xprv({
-    required this.key,
-    required this.code,
-    this.depth = 0,
-    this.index,
-    this.parent,
-    this.path,
-    this.masterKey = false,
-  }) {
-    assert(this.depth >= 0 && this.depth <= 256);
+    required Uint8List key,
+    required Uint8List code,
+    required BigInt? index,
+    required Uint8List? parent,
+    required String? path,
+    int depth = 0,
+    bool masterKey = false,
+  }) : super(
+    rootPath: 'm',
+    key: key,
+    code: code,
+    depth: depth,
+    index: index,
+    parent: parent,
+    path: path,
+  ) {
 
     privateKey = WitPrivateKey(bytes: key);
     if (path == null) {
-      this.path = rootPath;
+      path = rootPath;
     }
   }
 
   @override
   String get rootPath => 'm';
 
+
+  void printDebug(){
+    print('----------------');
+    print('  path: ${path}');
+    print('address: ${privateKey.publicKey.address}');
+    print('   key: ${bytesToHex(key)}');
+    print('  code:${bytesToHex(code)}');
+  }
+
   Xpub toXpub() {
     return Xpub(
-        publicKey: privateKey.publicKey,
+        key: privateKey.publicKey.encode(),
         code: code,
         depth: depth,
-        index: index != null ? index! : BigInt.from(0),
+        index: index != null ? index! : (BigInt.from(0)),
         parent: parent != null ? parent! : Uint8List(4),
         path: (path != null)
             ? path!.replaceAll('m', 'M')
             : rootPath.replaceAll('m', 'M'));
   }
 
-  Xpub toChildXpub(BigInt index) => toXpub().child(index);
+  Xpub toChildXpub(BigInt index) => toXpub().child(index: index);
   late WitPrivateKey privateKey;
   Uint8List? _id;
-  final Uint8List key;
-  Uint8List code;
-  Uint8List? parent;
-  BigInt? index;
-  int depth;
-  String? path;
-  late bool masterKey;
+
 
   Uint8List get keyData {
     return leftJustify(key, 33, 0);
   }
 
-  Uint8List get id {
+  @override
+  Uint8List id() {
     if (_id == null) {
       _id = hash160(data: keyData);
     }
@@ -82,7 +93,7 @@ class Xprv {
     var I = hmacSHA512(key: stringToBytes(networkKey), data: seed);
     var IL = I.sublist(0, 32);
     var IR = I.sublist(32);
-    return Xprv(key: IL, code: IR);
+    return Xprv(key: IL, code: IR, depth: 0, index: null, parent: null, path: null);
   }
 
   factory Xprv.fromMnemonic({required String mnemonic, String passphrase = ''}) =>
@@ -106,7 +117,7 @@ class Xprv {
       masterKey = true;
     }
     return Xprv(
-        key: keyData, code: chainCode, depth: depth[0], masterKey: masterKey);
+        key: keyData, code: chainCode, depth: depth[0], masterKey: masterKey, path: null, index: null, parent: null);
   }
 
   String toSlip32() {
@@ -171,6 +182,7 @@ class Xprv {
     return bech1;
   }
 
+  @override
   Xprv child({required BigInt index}) {
     bool hardened = index >= BigInt.from(1 << 31);
     Uint8List I;
@@ -185,11 +197,10 @@ class Xprv {
     I = hmacSHA512(key: code, data: Uint8List.fromList(data));
     BigInt IL = bytesToBigInt(I.sublist(0, 32));
     Uint8List IR = I.sublist(32);
-    Uint8List _key = bigIntToBytes((IL + bytesToBigInt(key)) % _ecParams.n);
-    if (IL >= _ecParams.n || bytesToBigInt(_key) == BigInt.zero) {
+    Uint8List _key = bigIntToBytes((IL + bytesToBigInt(key)) % Secp256k1.n);
+    if (IL >= Secp256k1.n || bytesToBigInt(_key) == BigInt.zero) {
       return this.child(index: index + BigInt.one);
     }
-    Uint8List returnCode = IR;
     String _path = (path != null) ? path! : rootPath;
     if (hardened) {
       _path += '/${index - BigInt.two.pow(31)}h';
@@ -199,7 +210,7 @@ class Xprv {
 
     return Xprv(
       key: _key,
-      code: returnCode,
+      code: IR,
       depth: depth + 1,
       index: index,
       parent: fingerPrint,
@@ -207,28 +218,5 @@ class Xprv {
     );
   }
 
-  Xprv operator /(dynamic index) {
-    BigInt i;
 
-    if (index is double) {
-      // hardened child derivation
-      i = BigInt.from(index) + BigInt.two.pow(31);
-    } else {
-      // if ( index is int )
-      // non-hardened child derivation
-      i = BigInt.from(index);
-    }
-    return this.child(index: i);
-  }
-
-  Xprv operator ~/(int index) {
-    return this.child(index: BigInt.from(index) + BigInt.two.pow(31));
-  }
-
-  bool get isMaster {
-    if (depth == 0 && index == null && path == rootPath) {
-      return true;
-    }
-    return false;
-  }
 }

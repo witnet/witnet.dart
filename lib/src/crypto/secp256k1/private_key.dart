@@ -3,7 +3,7 @@ import 'dart:typed_data' show Uint8List;
 
 import 'public_key.dart' show WitPublicKey;
 import 'signature.dart' show WitSignature;
-import 'secp256k1.dart' show secp256k1, getPointByBigInt;
+import 'secp256k1.dart' show Secp256k1, getPointByBigInt, Point;
 
 import '../message.dart' show Message;
 import '../number_theory.dart' show inverseMulti, positiveMod;
@@ -16,26 +16,26 @@ class WitPrivateKey {
 
   WitPrivateKey({required Uint8List bytes}) {
     BigInt bts = bytesToBigInt(bytes);
-    assert(bts < secp256k1.n, 'Key Larger Than Curve Order');
+    assert(bts < Secp256k1.n, 'Key Larger Than Curve Order');
     D = bts;
-    final point = getPointByBigInt(D, secp256k1.p, secp256k1.a, secp256k1.G);
+    final point = getPointByBigInt(D, Secp256k1.p, Secp256k1.a, Secp256k1.G);
 
-    publicKey = WitPublicKey(X: point[0], Y: point[1]);
+    publicKey = WitPublicKey(point);
   }
 
   Message get bytes => Message.fromBytes(bigIntToBytes(this.D));
 
   WitSignature signature(String hash) {
-    final rs = _sign(secp256k1.n, secp256k1.p, secp256k1.a, D, secp256k1.G,
+    final rs = _sign(Secp256k1.n, Secp256k1.p, Secp256k1.a, D, Secp256k1.G,
         BigInt.parse(hash, radix: 16));
     return WitSignature(rs[0], rs[1]);
   }
 }
 
-List<BigInt> _sign(BigInt n, BigInt p, BigInt a, BigInt d, List<BigInt> pointG,
+List<BigInt> _sign(BigInt n, BigInt p, BigInt a, BigInt d, Point pointG,
     BigInt bigHash) {
   BigInt k;
-  List<BigInt> R;
+  Point R;
   var r = BigInt.zero;
 
   while (true) {
@@ -43,7 +43,7 @@ List<BigInt> _sign(BigInt n, BigInt p, BigInt a, BigInt d, List<BigInt> pointG,
     if (k < BigInt.one || k >= n - BigInt.one) continue;
 
     R = getPointByBigInt(k, p, a, pointG);
-    r = positiveMod(R[0], n);
+    r = positiveMod(R.x, n);
     if (r == BigInt.zero) continue;
 
     var e = bigHash;

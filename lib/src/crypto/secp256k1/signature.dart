@@ -1,7 +1,7 @@
 import 'dart:typed_data' show Uint8List;
 
 import 'public_key.dart' show WitPublicKey;
-import 'secp256k1.dart' show secp256k1, addDiffPoint, addSamePoint, getPointByBigInt;
+import 'secp256k1.dart' show Point, Secp256k1, addDiffPoint, addSamePoint, getPointByBigInt;
 import '../number_theory.dart';
 
 import 'package:witnet/utils.dart' show
@@ -12,8 +12,8 @@ class WitSignature {
   late BigInt S;
 
   WitSignature(this.R, this.S) {
-    if (S > secp256k1.n ~/ BigInt.two) {
-      S = secp256k1.n - S;
+    if (S > Secp256k1.n ~/ BigInt.two) {
+      S = Secp256k1.n - S;
     }
   }
 
@@ -25,11 +25,11 @@ class WitSignature {
   /// verify the sign and the **hash** of message with the public key
   bool verify(WitPublicKey publicKey, String hexHash) {
     return _verify(
-      secp256k1.n,
-      secp256k1.p,
-      secp256k1.a,
-      secp256k1.G,
-      [publicKey.X, publicKey.Y],
+      Secp256k1.n,
+      Secp256k1.p,
+      Secp256k1.a,
+      Secp256k1.G,
+      publicKey.point,
       [R, S],
       BigInt.parse(hexHash, radix: 16),
     );
@@ -117,8 +117,8 @@ class WitSignature {
   }
 }
 
-bool _verify(BigInt n, BigInt p, BigInt a, List<BigInt> pointG,
-    List<BigInt> pointQ, List<BigInt> sign, BigInt bigHash) {
+bool _verify(BigInt n, BigInt p, BigInt a, Point pointG,
+    Point pointQ, List<BigInt> sign, BigInt bigHash) {
   var r = sign[0];
   var s = sign[1];
 
@@ -136,16 +136,16 @@ bool _verify(BigInt n, BigInt p, BigInt a, List<BigInt> pointG,
   var u1Point = getPointByBigInt(u1, p, a, pointG);
   var u2Point = getPointByBigInt(u2, p, a, pointQ);
 
-  List<BigInt> pointR;
-  if (u1Point[0] == u2Point[0] && u1Point[1] == u2Point[1]) {
-    pointR = addSamePoint(u1Point[0], u1Point[1], p, a);
+  Point pointR;
+  if (u1Point.x == u2Point.x && u1Point.y == u2Point.y) {
+    pointR = addSamePoint(u1Point, p, a);
   } else {
-    pointR = addDiffPoint(u1Point[0], u1Point[1], u2Point[0], u2Point[1], p);
+    pointR = addDiffPoint(u1Point, u2Point, p);
   }
-  if (pointR[0] == BigInt.zero && pointR[1] == BigInt.zero) {
+  if (pointR.x == BigInt.zero && pointR.y == BigInt.zero) {
     return false;
   }
-  var v = positiveMod(pointR[0], n);
+  var v = positiveMod(pointR.x, n);
   if (v == r) {
     return true;
   }

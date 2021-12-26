@@ -3,7 +3,7 @@ import 'package:witnet/schema.dart' show VTTransaction, VTTransactionBody;
 import 'package:witnet/src/crypto/bip39/bip39.dart';
 import 'package:witnet/src/crypto/hd_wallet/extended_private_key.dart';
 import 'package:witnet/src/utils/transformations/transformations.dart';
-
+import 'package:test/test.dart';
 
 /// https://github.com/trezor/python-mnemonic/blob/master/vectors.json
 var vectors =
@@ -108,13 +108,21 @@ var vectors =
 
 main() async {
   // entropy and mnemonic for test vectors
-  bool failed = false;
-  vectors.forEach((testVector) {
-    if(!bip39Test(testVector[0], testVector[1])) failed = true;
-  });
-  if(failed){
-    print('Failed bip39 entropy test.');
-  }
+
+
+    test('BIP39', (){
+      bool failed = false;
+      vectors.forEach((testVector) {
+        if(!bip39Test(testVector[0], testVector[1])) failed = true;
+      });
+      expect(failed, false);
+      if(failed){
+        print('Failed bip39 entropy test.');
+      }
+
+    });
+
+
 }
 
 bool bip39Test(String entropy, String mnemonic) {
