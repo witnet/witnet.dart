@@ -7,7 +7,8 @@ import 'dart:io' show HttpException;
 import 'package:witnet/data_structures.dart' show Utxo;
 import 'package:witnet/explorer.dart';
 import 'package:witnet/schema.dart' show VTTransaction;
-import 'explorer_api.dart' show
+import 'explorer_api.dart'
+    show
         AddressBlocks,
         AddressDataRequestsSolved,
         AddressDetails,
@@ -50,9 +51,7 @@ class ExplorerClient {
     if (response.statusCode == 200) {
       // response is okay
       return convert.jsonDecode(response.body) as Map<String, dynamic>;
-    } else if (response.statusCode == 500) {
-      throw HttpException(response.reasonPhrase!);
-    }
+    } else if (response.statusCode == 500) {}
     throw ExplorerException(
         code: response.statusCode, message: response.reasonPhrase!);
   }
@@ -99,7 +98,7 @@ class ExplorerClient {
 
   Future<Map<String, List<Utxo>>> getMultiUtxoInfo(
       {required List<String> addresses}) async {
-    int addressLimit = 20;
+    int addressLimit = 10;
     Map<String, List<Utxo>> addressMap = {};
 
     List<Uri> urlCalls = [];
@@ -111,30 +110,27 @@ class ExplorerClient {
       urlCalls
           .add(api('utxos', {'address': addresses.sublist(i, end).join(',')}));
     }
-
     // Await the http get response, then decode the json-formatted response.
     try {
       for (int i = 0; i < urlCalls.length; i++) {
+        print('call $i');
         var response = await http.get(urlCalls[i]);
+        print(response.body);
+        print(response.statusCode);
         if (response.statusCode == 200) {
-          var jsonResponse = convert.jsonDecode(response.body);
-          addresses.forEach((_address) {
-            List<dynamic> _utxos =
-                jsonResponse[_address]['utxos'] as List<dynamic>;
-            List<Utxo> utxos = [];
-            _utxos.forEach((element) {
-              utxos.add(Utxo.fromJson(element));
-            });
-            addressMap[_address] = utxos;
+          var jsonResponse = Map.from(convert.jsonDecode(response.body));
+          jsonResponse.forEach((key, value) {
+            List<Utxo> _utxos =
+                List<Utxo>.from(value['utxos'].map((ut) => Utxo.fromJson(ut)));
+            print(_utxos);
+            addressMap[key] = _utxos;
           });
-        } else {
-          throw HttpException(
-              'Request failed with status: ${response.statusCode}.');
         }
       }
 
       return addressMap;
     } catch (e) {
+      print(e);
       return {};
     }
   }
@@ -156,8 +152,9 @@ class ExplorerClient {
     try {
       Uri uri = api('hash', {'value': value, 'simple': simple.toString()});
       var data = await _processGet(uri);
+      print(data);
       HashInfo hashInfo = HashInfo.fromJson(data);
-      if(hashInfo.isMined() || hashInfo.isConfirmed()){
+      if (hashInfo.isMined() || hashInfo.isConfirmed()) {
         if (data.containsKey('type')) {
           switch (data['type'] as String) {
             case 'value_transfer_txn':
