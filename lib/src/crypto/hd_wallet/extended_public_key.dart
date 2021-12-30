@@ -123,7 +123,7 @@ class Xpub extends ExtendedKey{
       BigInt currentIndex = bytesToBigInt(_index.sublist(i,i+4));
       lastIndex = _index.sublist(i,i+4);
       if (currentIndex < BigInt.from(1 << 31)) {
-       _path+='/${currentIndex.toString()}';
+       _path+='/${currentIndex}';
       } else {
         _path += '/${currentIndex - BigInt.from(1 << 31)}h';
       }
@@ -149,7 +149,7 @@ class Xpub extends ExtendedKey{
             + BigInt.from(1 << 31);
       indexParts.add(bigIntToBytes(value));
       } else {
-        indexParts.add(rightJustify(bigIntToBytes( BigInt.from(int.parse(element))),4,0));
+        indexParts.add(leftJustify(bigIntToBytes( BigInt.from(int.parse(element))),4,0));
       }
     });
     Uint8List indexData = concatBytes(indexParts);
