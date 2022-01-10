@@ -22,6 +22,10 @@ class UtxoPool {
     map.remove(utxo.outputPointer);
   }
 
+  void clear(){
+    map.clear();
+  }
+
   List<Utxo> shuffleUtxos() {
     List<Utxo> items = map.values.toList();
     var random = new Random();
@@ -65,6 +69,39 @@ class UtxoPool {
         }
     }
     return sortedUtxos;
+  }
+
+  List<Utxo> cover({
+    required int amountNanoWit,
+    required UtxoSelectionStrategy utxoStrategy,
+  }){
+    List<Utxo> utxos = sortUtxos(utxoStrategy);
+    if (utxos.isEmpty) {
+      print('Error -> no Utxos to select.');
+      return [];
+    }
+    int utxoValue = 0;
+
+
+    utxos.forEach((utxo) {
+      utxoValue += utxo.value;
+    });
+
+    List<Utxo> selectedUtxos = [];
+    print('selecting Utxos to cover ${nanoWitToWit(amountNanoWit)}');
+    if (amountNanoWit > utxoValue) {
+      print('Insufficient funds.');
+      return [];
+    }
+    while (amountNanoWit > 0) {
+      // since the list is sorted - take the first item
+      Utxo utxo = utxos.first;
+      utxos.removeAt(0);
+      selectedUtxos.add(utxo);
+      amountNanoWit -= utxo.value;
+    }
+
+    return selectedUtxos;
   }
 
   List<Utxo> selectUtxos(
