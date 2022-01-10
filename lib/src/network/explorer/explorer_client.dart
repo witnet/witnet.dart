@@ -47,7 +47,6 @@ class ExplorerClient {
 
   Future<Map<String, dynamic>> _processGet(Uri uri) async {
     var response = await http.get(uri);
-
     if (response.statusCode == 200) {
       // response is okay
       return convert.jsonDecode(response.body) as Map<String, dynamic>;
@@ -113,16 +112,12 @@ class ExplorerClient {
     // Await the http get response, then decode the json-formatted response.
     try {
       for (int i = 0; i < urlCalls.length; i++) {
-        print('call $i');
         var response = await http.get(urlCalls[i]);
-        print(response.body);
-        print(response.statusCode);
         if (response.statusCode == 200) {
           var jsonResponse = Map.from(convert.jsonDecode(response.body));
           jsonResponse.forEach((key, value) {
             List<Utxo> _utxos =
                 List<Utxo>.from(value['utxos'].map((ut) => Utxo.fromJson(ut)));
-            print(_utxos);
             addressMap[key] = _utxos;
           });
         }
@@ -130,7 +125,6 @@ class ExplorerClient {
 
       return addressMap;
     } catch (e) {
-      print(e);
       return {};
     }
   }
@@ -152,7 +146,7 @@ class ExplorerClient {
     try {
       Uri uri = api('hash', {'value': value, 'simple': simple.toString()});
       var data = await _processGet(uri);
-      print(data);
+
       HashInfo hashInfo = HashInfo.fromJson(data);
       if (hashInfo.isMined() || hashInfo.isConfirmed()) {
         if (data.containsKey('type')) {
@@ -293,7 +287,3 @@ class ExplorerClient {
     }
   }
 }
-
-/*
-
- */

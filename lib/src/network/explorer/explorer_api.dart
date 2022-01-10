@@ -82,8 +82,6 @@ class ValueTransferTxn {
       };
 }
 
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 
 class Report {
   Report({
@@ -492,6 +490,15 @@ class Status {
         "node_pool": nodePool.jsonMap(),
         "node_pool_message": nodePoolMessage,
       };
+
+  void printDebug(){
+    print('Status:');
+    print('databaseLastConfirmed: $databaseLastConfirmed');
+    print('databaseLastUnconfirmed: $databaseLastUnconfirmed');
+    print('databaseMessage: $databaseMessage');
+    print('nodePool: ${nodePool.toRawJson()}');
+    print('nodePoolMessage: $nodePoolMessage');
+  }
 }
 
 class Network {
