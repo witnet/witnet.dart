@@ -1,8 +1,4 @@
-import 'dart:convert' show json;
-
-import 'keyed_signature.dart' show KeyedSignature;
-import 'value_transfer_body.dart' show VTTransactionBody;
-import 'package:witnet/utils.dart' show bytesToHex;
+part of 'schema.dart';
 
 
 class VTTransaction {
@@ -27,18 +23,25 @@ class VTTransaction {
 
   Map<String, dynamic> jsonMap({bool asHex=false}) {
       return {
-        "transaction": {
-        "ValueTransfer": {
           "body": body.jsonMap(),
           "signatures": List<dynamic>.from(
               signatures.map((x) => x.jsonMap(asHex: asHex))),
-        },
-      }
     };
   }
 
   String get transactionID => bytesToHex(body.hash);
 
   int get weight => body.weight;
+
+  Uint8List get pbBytes {
+    final sigBytes = concatBytes(List<Uint8List>.from(signatures.map((e) =>  pbField(1, LENGTH_DELIMITED, e.pbBytes))));
+
+    return concatBytes([
+      pbField(1, LENGTH_DELIMITED, body.pbBytes),
+      sigBytes
+    ]);
+
+
+  }
 
 }

@@ -1,17 +1,4 @@
-
-import 'dart:convert' show json;
-
-import '../op_codes.dart' show OP;
-import '../reducers.dart' show Reducer;
-import '../types/map.dart' show RadMap;
-import '../types/string.dart' show RadString;
-import '../vm/retrieve_report.dart' show RetrieveReport;
-import '../vm/statistics.dart' show Stats;
-import '../vm/web_client.dart' show RadonWebClient;
-import '../util.dart' show cborToRad;
-
-import 'package:witnet/schema.dart' show RADRequest, RADAggregate;
-
+part of 'virtual_machine.dart';
 
 class Stage {
   Stage();

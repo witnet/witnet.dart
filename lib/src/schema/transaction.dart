@@ -1,9 +1,4 @@
-import 'dart:convert' show json;
-import 'package:witnet/schema.dart';
-import 'package:witnet/src/schema/reveal_transaction.dart';
-import 'package:witnet/src/schema/tally_transaction.dart';
-
-import '../constants.dart' show GAMMA;
+part of 'schema.dart';
 
 enum TransactionType {
   ValueTransfer,

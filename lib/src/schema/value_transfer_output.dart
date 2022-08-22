@@ -1,10 +1,5 @@
-import 'dart:convert';
-import 'dart:typed_data';
+part of 'schema.dart';
 
-import 'public_key_hash.dart';
-
-import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED, VARINT;
-import 'package:witnet/utils.dart' show concatBytes;
 
 class ValueTransferOutput {
   ValueTransferOutput({

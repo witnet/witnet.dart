@@ -1,3 +1,5 @@
+part of 'radon.dart';
+
 class Filter {
   static greaterThan(num value, List<num> values){return values.where((element) => (value > element)).toList();}
   static lessThan(num value, List<num> values){return values.where((element) => (value < element)).toList();}

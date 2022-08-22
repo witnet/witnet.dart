@@ -1,13 +1,5 @@
-import 'dart:convert' show json;
-import 'dart:typed_data' show Uint8List;
+part of 'schema.dart';
 
-import 'input.dart' show Input;
-import 'value_transfer_output.dart' show ValueTransferOutput;
-
-import 'package:witnet/constants.dart' show INPUT_SIZE, OUTPUT_SIZE, GAMMA;
-import 'package:witnet/crypto.dart' show sha256;
-import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED;
-import 'package:witnet/utils.dart' show concatBytes;
 
 class VTTransactionBody {
   VTTransactionBody({

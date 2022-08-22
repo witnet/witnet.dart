@@ -88,7 +88,7 @@ class UtxoPool {
     });
 
     List<Utxo> selectedUtxos = [];
-    print('selecting Utxos to cover ${nanoWitToWit(amountNanoWit)}');
+
     if (amountNanoWit > utxoValue) {
       print('Insufficient funds.');
       return [];
@@ -100,7 +100,6 @@ class UtxoPool {
       selectedUtxos.add(utxo);
       amountNanoWit -= utxo.value;
     }
-
     return selectedUtxos;
   }
 
@@ -126,10 +125,12 @@ class UtxoPool {
     });
     List<Utxo> selectedUtxos = [];
     print('selecting Utxos to cover ${nanoWitToWit(outputValue)}');
+
     if (outputValue > utxoValue) {
       print('Insufficient funds.');
       return [];
     }
+
     while (outputValue > 0) {
       // since the list is sorted - take the first item
       Utxo utxo = utxos.first;
@@ -140,4 +141,5 @@ class UtxoPool {
 
     return selectedUtxos;
   }
+
 }

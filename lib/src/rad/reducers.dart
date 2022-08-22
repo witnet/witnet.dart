@@ -1,6 +1,4 @@
-
-import 'types/types.dart' show REDUCERS;
-import 'vm/statistics.dart' show Stats;
+part of 'radon.dart';
 
 class Reducer{
 

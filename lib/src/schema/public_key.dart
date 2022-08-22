@@ -1,7 +1,5 @@
-import 'dart:convert' show json;
-import 'dart:typed_data';
+part of 'schema.dart';
 
-import 'package:witnet/src/utils/transformations/transformations.dart';
 
 class PublicKey {
   PublicKey({
@@ -15,7 +13,7 @@ class PublicKey {
   factory PublicKey.fromRawJson(String str) =>
       PublicKey.fromJson(json.decode(str));
 
-  String get rawJson => json.encode(jsonMap);
+  String get rawJson => json.encode(jsonMap());
 
   factory PublicKey.fromJson(Map<String, dynamic> json) =>
       PublicKey(
@@ -28,5 +26,15 @@ class PublicKey {
       "bytes": (asHex) ? bytesToHex(Uint8List.fromList(bytes)) : bytes,
       "compressed": compressed,
     };
+  }
+
+
+  Uint8List get pbBytes {
+    Uint8List bts = concatBytes([
+      bigIntToBytes(BigInt.from(compressed)), Uint8List.fromList(bytes)
+    ]);
+    return concatBytes([
+      pbField(1, LENGTH_DELIMITED, bts),
+    ]);
   }
 }

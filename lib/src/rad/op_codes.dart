@@ -1,7 +1,10 @@
+part of 'radon.dart';
+
 class ANY {
   static final FAIL = 0xFF;
   static final IDENTITY = 0x00;
 }
+
 class ARRAY{
   static final COUNT = 0x10;
   static final FILTER = 0x11;
@@ -16,14 +19,17 @@ class ARRAY{
   static final REDUCE = 0x1B;
   static final SORT = 0x1D;
 }
+
 class BOOLEAN{
   static final AS_STRING = 0x20;
   static final NEGATE = 0x22;
 }
+
 class BYTES{
   static final AS_STRING = 0x30;
   static final HASH = 0x31;
 }
+
 class FLOAT{
   static final ABSOLUTE = 0x50;
   static final AS_STRING = 0x51;
@@ -38,6 +44,7 @@ class FLOAT{
   static final ROUND = 0x5B;
   static final TRUNCATE = 0x5d;
 }
+
 class INTEGER{
   static final ABSOLUTE = 0x40;
   static final AS_FLOAT = 0x41;
@@ -49,6 +56,7 @@ class INTEGER{
   static final NEGATE = 0x48;
   static final POWER = 0x49;
 }
+
 class MAP{
   static final GET_ARRAY = 0x61;
   static final GET_BOOLEAN = 0x62;
@@ -60,6 +68,7 @@ class MAP{
   static final KEYS = 0x68;
   static final VALUES_AS_ARRAY = 0x69;
 }
+
 class STRING{
   static final AS_BOOLEAN = 0x70;
   static final AS_FLOAT = 0x72;
@@ -68,10 +77,11 @@ class STRING{
   static final MATCH = 0x75;
   static final PARSE_JSON_ARRAY = 0x76;
   static final PARSE_JSON_MAP = 0x77;
+  static final PARSE_XML = 0x78;
   static final TO_LOWER_CASE = 0x79;
   static final TO_UPPER_CASE = 0x7A;
-
 }
+
 class OP {
   static final ANY_FAIL = ANY.FAIL;
   static final ANY_IDENTITY = ANY.IDENTITY;

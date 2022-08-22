@@ -1,12 +1,18 @@
 import 'dart:typed_data';
-
 import 'serializer.dart';
-
 import 'package:witnet/utils.dart' show concatBytes;
 
 const int TAG_TYPE_BITS = 3;
 const int TAG_TYPE_MASK = (1 << TAG_TYPE_BITS) - 1;
 
+enum WIRE_TYPE{
+  VARINT,
+  FIXED64,
+  LENGTH_DELIMITED,
+  START_GROUP,
+  END_GROUP,
+  FIXED32
+}
 const int VARINT = 0;
 const int FIXED64 = 1;
 const int LENGTH_DELIMITED = 2;
@@ -15,8 +21,11 @@ const int END_GROUP = 4;
 const int FIXED32 = 5;
 
 int getTagFieldNumber(int tag) => tag >> TAG_TYPE_BITS;
+
 int getTagWireType(int tag) => tag & TAG_TYPE_MASK;
+
 int makeTag(int fieldNumber, int tag) => (fieldNumber << TAG_TYPE_BITS) | tag;
+
 Uint8List makeTagBytes(int fieldNumber, int tag) =>
     varIntSerializer(makeTag(fieldNumber, tag));
 

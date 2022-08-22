@@ -1,7 +1,5 @@
-import 'dart:typed_data' show Uint8List;
+part of 'schema.dart';
 
-import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED;
-import 'package:witnet/utils.dart' show bytesToHex, hexToBytes;
 
 class Hash {
   Hash({
