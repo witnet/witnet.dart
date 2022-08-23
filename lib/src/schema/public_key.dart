@@ -13,7 +13,7 @@ class PublicKey {
   factory PublicKey.fromRawJson(String str) =>
       PublicKey.fromJson(json.decode(str));
 
-  String get rawJson => json.encode(jsonMap());
+  String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory PublicKey.fromJson(Map<String, dynamic> json) =>
       PublicKey(

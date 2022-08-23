@@ -11,7 +11,7 @@ class CommitTransaction {
 
   factory CommitTransaction.fromRawJson(String str) => CommitTransaction.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory CommitTransaction.fromJson(Map<String, dynamic> json) => CommitTransaction(
         body: CommitBody.fromJson(json["body"]),

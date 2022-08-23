@@ -13,7 +13,7 @@ class VrfProof {
   factory VrfProof.fromRawJson(String str) =>
       VrfProof.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory VrfProof.fromJson(Map<String, dynamic> json) => VrfProof(
         proof: List<int>.from(json["proof"].map((x) => x)),

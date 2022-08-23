@@ -135,7 +135,7 @@ class ExplorerClient {
     http.Response response = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
-      body: transaction.jsonMap,
+      body: transaction.jsonMap(asHex: true),
       encoding: convert.utf8,
     );
     return response;

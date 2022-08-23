@@ -14,7 +14,7 @@ class DRTransactionBody {
   factory DRTransactionBody.fromRawJson(String str) =>
       DRTransactionBody.fromJson(json.decode(str));
 
-  String get rawJson => json.encode(jsonMap());
+  String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory DRTransactionBody.fromJson(Map<String, dynamic> json) =>
       DRTransactionBody(
@@ -26,7 +26,7 @@ class DRTransactionBody {
 
   Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "dr_output": dataRequestOutput.jsonMap(asHex: asHex),
-        "inputs": List<dynamic>.from(inputs.map((x) => x.jsonMap())),
+        "inputs": List<dynamic>.from(inputs.map((x) => x.jsonMap(asHex: asHex))),
         "outputs": List<dynamic>.from(outputs.map((x) => x.jsonMap())),
       };
 

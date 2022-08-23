@@ -22,7 +22,7 @@ class Transactions {
   factory Transactions.fromRawJson(String str) =>
       Transactions.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory Transactions.fromJson(Map<String, dynamic> json) => Transactions(
         commitTxns: List<dynamic>.from(json["commit_txns"].map((x) => x)),
@@ -42,7 +42,7 @@ class Transactions {
     "reveal_txns": List<dynamic>.from(revealTxns.map((x) => x)),
     "tally_txns": List<dynamic>.from(tallyTxns.map((x) => x)),
     "value_transfer_txns":
-      List<dynamic>.from(valueTransferTxns.map((x) => x.jsonMap())),
+      List<dynamic>.from(valueTransferTxns.map((x) => x.jsonMap(asHex: asHex))),
   };
 
   Uint8List get pbBytes {

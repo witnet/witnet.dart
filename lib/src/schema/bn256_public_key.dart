@@ -10,7 +10,7 @@ class Bn256PublicKey {
   factory Bn256PublicKey.fromRawJson(String str) =>
       Bn256PublicKey.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory Bn256PublicKey.fromJson(Map<String, dynamic> json) => Bn256PublicKey(
         publicKey: List<int>.from(json["public_key"].map((x) => x)),

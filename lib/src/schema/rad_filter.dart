@@ -9,7 +9,7 @@ class RADFilter {
   factory RADFilter.fromRawJson(String str) =>
       RADFilter.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory RADFilter.fromJson(Map<String, dynamic> json) => RADFilter(
     op: json['op'],

@@ -13,7 +13,7 @@ class RADTally {
   factory RADTally.fromRawJson(String str) =>
       RADTally.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory RADTally.fromJson(Map<String, dynamic> json) => RADTally(
     filters: List<RADFilter>.from(json["filters"].map((x) => RADFilter.fromJson(x))),

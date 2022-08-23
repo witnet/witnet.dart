@@ -22,7 +22,7 @@ class CommitBody {
   factory CommitBody.fromRawJson(String str) =>
       CommitBody.fromJson(json.decode(str));
 
-  String get rawJson => json.encode(jsonMap());
+  String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory CommitBody.fromJson(Map<String, dynamic> json) => CommitBody(
         bn256PublicKey: json["bn256_public_key"] == null
@@ -39,8 +39,8 @@ class CommitBody {
 
   Map<String, dynamic> jsonMap({bool asHex=false}) => {
         "bn256_public_key":
-            bn256PublicKey == null ? null : bn256PublicKey!.jsonMap(),
-        "collateral": List<dynamic>.from(collateral.map((x) => x.jsonMap())),
+            bn256PublicKey == null ? null : bn256PublicKey!.jsonMap(asHex: asHex),
+        "collateral": List<dynamic>.from(collateral.map((x) => x.jsonMap(asHex: asHex))),
         "commitment": commitment.toString(),
         "dr_pointer": drPointer.toString(),
         "outputs": List<dynamic>.from(outputs.map((x) => x.jsonMap())),

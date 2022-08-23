@@ -20,11 +20,11 @@ class VTTransactionBody {
             json["outputs"].map((x) => ValueTransferOutput.fromJson(x))),
       );
 
-  String toRawJson() => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap() => {
-        "inputs": List<dynamic>.from(inputs.map((x) => x.jsonMap())),
-        "outputs": List<dynamic>.from(outputs.map((x) => x.jsonMap())),
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
+        "inputs": List<dynamic>.from(inputs.map((x) => x.jsonMap(asHex: asHex))),
+        "outputs": List<dynamic>.from(outputs.map((x) => x.jsonMap(asHex: asHex))),
       };
 
   Uint8List get pbBytes {

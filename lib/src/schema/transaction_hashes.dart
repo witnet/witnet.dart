@@ -21,7 +21,7 @@ class TransactionsHashes {
   factory TransactionsHashes.fromRawJson(String str) =>
       TransactionsHashes.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory TransactionsHashes.fromJson(Map<String, dynamic> json) =>
       TransactionsHashes(

@@ -13,7 +13,7 @@ class RevealBody {
 
   factory RevealBody.fromRawJson(String str) => RevealBody.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory RevealBody.fromJson(Map<String, dynamic> json) => RevealBody(
     drPointer: json["dr_pointer"],
@@ -21,10 +21,12 @@ class RevealBody {
     reveal: Uint8List.fromList(List<int>.from(json["reveal"].map((x) => x))),
   );
 
-  Map<String, dynamic> jsonMap() => {
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
     "dr_pointer": drPointer,
     "pkh": pkh,
-    "reveal": List<dynamic>.from(reveal.map((x) => x)),
+    "reveal": (asHex)
+        ? bytesToHex(Uint8List.fromList(List<int>.from(reveal.map((x) => x))))
+        : List<int>.from(reveal.map((x) => x))
   };
 }
 /*

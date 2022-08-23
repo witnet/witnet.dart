@@ -18,7 +18,7 @@ class BlockHeader {
   factory BlockHeader.fromRawJson(String str) =>
       BlockHeader.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory BlockHeader.fromJson(Map<String, dynamic> json) => BlockHeader(
         beacon: Beacon.fromJson(json["beacon"]),
@@ -56,7 +56,7 @@ class BlockHeaderProof {
   factory BlockHeaderProof.fromRawJson(String str) =>
       BlockHeaderProof.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory BlockHeaderProof.fromJson(Map<String, dynamic> json) =>
       BlockHeaderProof(

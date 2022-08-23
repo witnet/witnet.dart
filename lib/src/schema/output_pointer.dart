@@ -18,7 +18,7 @@ class OutputPointer {
     return 'OuputPointer(transactionID: $transactionId, index: $outputIndex)';
   }
 
-  String get rawJson => json.encode(jsonMap());
+  String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   Map<String, dynamic> jsonMap({bool asHex=false}) =>
       {'output_pointer': '${transactionId.hex}:$outputIndex'};

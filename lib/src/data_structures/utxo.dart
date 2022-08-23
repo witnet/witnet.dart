@@ -18,7 +18,7 @@ class Utxo {
 
   factory Utxo.fromRawJson(String str) => Utxo.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory Utxo.fromJson(Map<String, dynamic> json) => Utxo(
     outputPointer: OutputPointer.fromString(json["output_pointer"]),
@@ -31,8 +31,8 @@ class Utxo {
     return Input(outputPointer: outputPointer);
   }
 
-  Map<String, dynamic> jsonMap() => {
-    "output_pointer": outputPointer.jsonMap()['output_pointer'],
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
+    "output_pointer": outputPointer.jsonMap(asHex: asHex)['output_pointer'],
     "timelock": timelock,
     "utxo_mature": utxoMature,
     "value": value,

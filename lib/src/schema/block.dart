@@ -17,7 +17,7 @@ class Block {
 
   factory Block.fromRawJson(String str) => Block.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory Block.fromJson(Map<String, dynamic> json) => Block(
     blockHeader: BlockHeader.fromJson(json["block_header"]),

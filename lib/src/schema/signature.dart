@@ -11,7 +11,7 @@ class Signature {
   factory Signature.fromRawJson(String str) =>
       Signature.fromJson(json.decode(str));
 
-  String get rawJson => json.encode(jsonMap());
+  String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory Signature.fromJson(Map<String, dynamic> json) => Signature(
         secp256K1: Secp256k1Signature.fromJson(json["Secp256k1"]),

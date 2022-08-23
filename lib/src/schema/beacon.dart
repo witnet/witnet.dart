@@ -11,7 +11,7 @@ class Beacon {
 
   factory Beacon.fromRawJson(String str) => Beacon.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory Beacon.fromJson(Map<String, dynamic> json) => Beacon(
         checkpoint: json["checkpoint"],
