@@ -1,5 +1,4 @@
 import 'dart:convert' show json;
-import 'dart:html';
 import 'dart:typed_data' show Uint8List;
 
 import 'package:witnet/src/utils/transformations/transformations.dart' show
