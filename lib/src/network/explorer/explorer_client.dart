@@ -19,6 +19,7 @@ import 'explorer_api.dart'
         Home,
         MintInfo,
         Network,
+        PrioritiesEstimate,
         Status,
         Tapi;
 
@@ -281,6 +282,15 @@ class ExplorerClient {
       return response;
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<PrioritiesEstimate> valueTransferPriority() async {
+    try {
+      return PrioritiesEstimate.fromJson(await _processGet(api('priority', { "type": "vtt" })));
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"priority": "${e.message}"}');
     }
   }
 }

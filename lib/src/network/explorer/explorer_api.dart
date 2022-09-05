@@ -1535,3 +1535,82 @@ class HashInfo {
         "block_hash": blockHash,
       };
 }
+
+class PrioritiesEstimate {
+  PrioritiesEstimate({
+    // required this.drtStinky,
+    // required this.drtLow,
+    // required this.drtMedium,
+    // required this.drtHigh,
+    // required this.drtOpulent,
+    required this.vttStinky,
+    required this.vttLow,
+    required this.vttMedium,
+    required this.vttHigh,
+    required this.vttOpulent,
+  });
+
+  // final PriorityEstimate drtStinky;
+  // final PriorityEstimate drtLow;
+  // final PriorityEstimate drtMedium;
+  // final PriorityEstimate drtHigh;
+  // final PriorityEstimate drtOpulent;
+  final PriorityEstimate vttStinky;
+  final PriorityEstimate vttLow;
+  final PriorityEstimate vttMedium;
+  final PriorityEstimate vttHigh;
+  final PriorityEstimate vttOpulent;
+
+  factory PrioritiesEstimate.fromRawJson(String str) =>
+      PrioritiesEstimate.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(jsonMap());
+
+  factory PrioritiesEstimate.fromJson(Map<String, dynamic> json) {
+    return PrioritiesEstimate(
+        // drtStinky: PriorityEstimate.fromJson(json["drt_stinky"]),
+        // drtLow: PriorityEstimate.fromJson(json["drt_low"]),
+        // drtMedium: PriorityEstimate.fromJson(json["drt_medium"]),
+        // drtHigh: PriorityEstimate.fromJson(json["drt_high"]),
+        // drtOpulent: PriorityEstimate.fromJson(json["drt_opulent"]),
+        vttStinky: PriorityEstimate.fromJson(json["vtt_stinky"]),
+        vttLow: PriorityEstimate.fromJson(json["vtt_low"]),
+        vttMedium: PriorityEstimate.fromJson(json["vtt_medium"]),
+        vttHigh: PriorityEstimate.fromJson(json["vtt_high"]),
+        vttOpulent: PriorityEstimate.fromJson(json["vtt_opulent"]));
+  }
+
+  Map<String, PriorityEstimate> jsonMap() => {
+        // "drt_stinky": drtStinky,
+        // "drt_low": drtLow,
+        // "drt_medium": drtMedium,
+        // "drt_high": drtHigh,
+        // "drt_opulent": drtOpulent,
+        "vtt_stinky": vttStinky,
+        "vtt_low": vttLow,
+        "vtt_medium": vttMedium,
+        "vtt_high": vttHigh,
+        "vtt_opulent": vttOpulent,
+      };
+}
+
+class PriorityEstimate {
+  PriorityEstimate({
+    required this.priority,
+    required this.timeToBlock,
+  });
+
+  final double priority;
+  final int timeToBlock;
+
+  factory PriorityEstimate.fromJson(Map<String, dynamic> json) =>
+      PriorityEstimate(
+        priority: json["priority"],
+        timeToBlock: json["time_to_block"],
+      );
+
+  Map<String, dynamic> jsonMap() => {
+        "priority": priority,
+        "time_to_block": timeToBlock,
+      };
+}

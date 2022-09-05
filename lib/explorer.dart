@@ -1,3 +1,5 @@
+import 'package:witnet/src/network/explorer/explorer_api.dart';
+
 export 'src/network/explorer/explorer_client.dart'
     show ExplorerClient, ExplorerMode;
 
@@ -18,4 +20,5 @@ export 'src/network/explorer/explorer_api.dart'
         AddressValueTransfers,
         MintInfo,
         TallyTxn,
-        ValueTransferInfo;
+        ValueTransferInfo,
+        PrioritiesEstimate;

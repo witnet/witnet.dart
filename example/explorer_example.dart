@@ -7,7 +7,7 @@ ExplorerClient explorer =
 void main() async {
   try {
     Status status = await explorer.status();
-    print(status.databaseMessage);
+    print("Status: ${status.databaseMessage}");
   } on ExplorerException catch (e) {
     print(e.message);
   }
