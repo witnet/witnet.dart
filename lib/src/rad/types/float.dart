@@ -6,6 +6,7 @@ class RadFloat{
   RadFloat(this._value);
   final String type = TYPES.FLOAT;
   double get value => _value;
+
   @override
   String toString(){
     return 'RadFloat($_value)';
@@ -27,11 +28,16 @@ class RadFloat{
     }
     return RadBoolean(false);
   }
-  RadInteger modulo(RadFloat i) => RadInteger((_value % i._value.toInt()) as int);
-  RadFloat multiply(RadFloat i) => RadFloat(_value * i._value);
-  RadFloat negate(RadFloat i) => RadFloat((_value > 0) ? -_value : _value.abs());
-  RadFloat power(RadInteger i) => RadFloat(pow(_value, i.value) as double);
+  RadInteger modulo(dynamic i) => RadInteger((_value % i.toInt()) as int);
+
+  RadFloat multiply(num i) {
+    return RadFloat(_value * i.toDouble());
+  }
+  RadFloat negate(dynamic i) => RadFloat((_value > 0) ? -_value : _value.abs());
+  RadFloat power(dynamic i) => RadFloat(pow(_value, i) as double);
+
   RadInteger round() => RadInteger(_value.round());
+
   RadFloat truncate(int precision) => RadFloat(double.parse((_value).toStringAsPrecision(precision)));
 
   dynamic op(int op, [dynamic key]){
@@ -54,5 +60,4 @@ class RadFloat{
       return ops[op](key);
     } else return ops[op];
   }
-
 }

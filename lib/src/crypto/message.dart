@@ -1,7 +1,6 @@
 import 'dart:convert' show Base64Encoder;
 import 'dart:typed_data' show Uint8List;
 
-
 import 'package:witnet/crypto.dart' show sha256;
 import 'package:witnet/schema.dart' show Hash;
 import 'package:witnet/utils.dart' show
@@ -57,10 +56,10 @@ class Message {
     return Base64Encoder.urlSafe().convert(message.toList());
   }
 
-  Uint8List get hash {
+  Hash get hash {
     if (_hash != null) {
       _hash = Hash(SHA256: sha256(data: message));
     }
-    return _hash!.SHA256;
+    return _hash!;
   }
 }

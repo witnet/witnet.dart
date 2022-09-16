@@ -4,10 +4,12 @@ class RadBoolean{
   bool _value;
   RadBoolean(this._value);
   final String type = TYPES.BOOLEAN;
+
   @override
   String toString() {
     return _value.toString();
   }
+
   static RadBoolean get False{
     return RadBoolean(false);
   }
@@ -17,7 +19,9 @@ class RadBoolean{
   }
 
   RadString asString() => RadString(_value.toString());
+
   RadBoolean negate() => (_value == true) ? RadBoolean.True : RadBoolean.False;
+
   dynamic op(int op, [dynamic key]){
     Map<int, dynamic> ops = {};
     if(key != null) {

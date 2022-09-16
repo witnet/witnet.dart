@@ -2,7 +2,7 @@ import 'dart:convert' show Utf8Codec;
 import 'dart:math' show pow;
 import 'dart:typed_data' show ByteData, Endian, Uint8List;
 import '../bech32/exceptions.dart' show InvalidPadding;
-
+export 'dart:math' show pow;
 const Utf8Codec utf8 = Utf8Codec();
 
 BigInt binaryToBigInt(String binary) {

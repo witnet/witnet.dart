@@ -16,5 +16,4 @@ class RetrieveReport {
     print('  │    [$i] $_type: $_item');
     }
   }
-
 }

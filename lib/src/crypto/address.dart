@@ -106,7 +106,7 @@ class Address {
     dynamic networkSource,
   }) async{
     return await createDRTransaction(
-      body.dataRequestOutput,
+      body.drOutput,
       privateKey,
       Address.fromAddress(privateKey.publicKey.address),
       networkSource, feeType!, utxoStrategy);
@@ -117,8 +117,8 @@ class Address {
     int compressed = privateKey.publicKey.encode().elementAt(0);
     Uint8List key_bytes = privateKey.publicKey.encode().sublist(1);
     return KeyedSignature(
-      publicKey: PublicKey(bytes: key_bytes, compressed: compressed),
-      signature: Signature(secp256K1: Secp256k1Signature(der: sig.encode())),
+      publicKey: PublicKey(bytes: privateKey.publicKey.encode()),
+      signature: Signature(secp256k1: Secp256k1Signature(der: sig.encode())),
     );
   }
 

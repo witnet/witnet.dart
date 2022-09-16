@@ -7,14 +7,14 @@ class Reducer{
       REDUCERS.min: stats.min,
       REDUCERS.max: stats.max,
       REDUCERS.mode: stats.mode,
-      REDUCERS.average_mean: stats.mean,
-      REDUCERS.average_mean_weighted: stats,
-      REDUCERS.average_median: stats,
-      REDUCERS.average_median_weighted: stats,
-      REDUCERS.deviation_standard: stats,
-      REDUCERS.deviation_average: stats,
-      REDUCERS.deviation_median: stats,
-      REDUCERS.deviation_maximum: stats,
+      REDUCERS.averageMean: stats.mean,
+      REDUCERS.averageMeanWeighted: stats,
+      REDUCERS.averageMedian: stats,
+      REDUCERS.averageMedianWeighted: stats,
+      REDUCERS.deviationStandard: stats,
+      REDUCERS.deviationAverage: stats,
+      REDUCERS.deviationMedian: stats,
+      REDUCERS.deviationMaximum: stats,
     };
     return ops[operator];
   }

@@ -62,17 +62,20 @@ class RadMap extends MapBase {
   }
 
   RadArray getArray(String key){
-    if(_value.containsKey(key)){
-      var value = _value[key];
-      if (value.runtimeType.toString() == 'RadArray<dynamic>'){
-        return value as RadArray;
-      } else {
+    try {
+      if(_value.containsKey(key)) {
+        var value = _value[key];
+        if (value.runtimeType.toString() == 'RadArray<dynamic>') {
+          return value as RadArray;
+        }
         throw RadError('RadMap', 'getArray', 'value is not an Array.');
       }
-    } else {
       throw RadError('RadMap', 'getArray', 'key $key is not in the Map.');
+    } catch (e) {
+      rethrow;
     }
   }
+
   RadBoolean getBoolean(String key){
     if(_value.containsKey(key)){
       var value = _value[key];

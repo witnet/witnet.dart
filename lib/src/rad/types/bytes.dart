@@ -5,8 +5,11 @@ class RadBytes{
   RadBytes(this._value);
   final String type = TYPES.BYTES;
   Uint8List get value => _value;
+
   RadString get asString => RadString(_value.toString());
+
   RadString get hash => RadString(bytesToHex(sha256(data: _value)));
+
   dynamic op(int op, [dynamic key]){
     Map<int, dynamic> ops = {};
     if(key != null) {

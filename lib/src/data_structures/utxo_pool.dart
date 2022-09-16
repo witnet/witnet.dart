@@ -121,7 +121,7 @@ class UtxoPool {
 
     // total the output value
     outputs.forEach((output) {
-      outputValue += output.value;
+      outputValue += output.value.toInt();
     });
     List<Utxo> selectedUtxos = [];
     print('selecting Utxos to cover ${nanoWitToWit(outputValue)}');

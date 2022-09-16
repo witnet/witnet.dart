@@ -41,6 +41,7 @@ class RadArray<E> extends ListBase<E>{
       throw RadError('RadArray', 'getArray', 'unable to parse $_value as RadArray.');
     }
   }
+
   RadBoolean getBoolean(int index){
     if([index].runtimeType.toString() == 'RadBoolean'){
       return _value[index] as RadBoolean;
@@ -48,6 +49,7 @@ class RadArray<E> extends ListBase<E>{
       throw RadError('RadArray', 'getBoolean', 'unable to parse $_value as RadBoolean.');
     }
   }
+
   RadBytes getBytes(int index){
     if([index].runtimeType.toString() == 'RadBytes'){
       return _value[index] as RadBytes;
@@ -55,22 +57,29 @@ class RadArray<E> extends ListBase<E>{
       throw RadError('RadArray', 'getBytes', 'unable to parse $_value as RadBytes.');
     }
   }
+
   RadInteger getInteger(int index){
-    if([index].runtimeType.toString() == 'RadBytes'){
+    if(_value[index].runtimeType.toString() == 'RadBytes'){
       return _value[index] as RadInteger;
     } else {
       throw RadError('RadArray', 'getInteger', 'unable to parse $_value as RadInteger.');
     }
   }
+
   RadMap getMap(int index){
-    if([index].runtimeType.toString() == 'RadMap'){
+    if(_value[index].runtimeType.toString() == 'RadMap'){
       return _value[index] as RadMap;
     } else {
-      throw RadError('RadArray', 'getMap', 'unable to parse $_value as RadMap.');
+      try {
+        return RadMap.fromJson(_value[index] as Map<String, dynamic>);
+      } catch(e){
+        throw RadError('RadArray', 'getMap', 'unable to parse $_value as RadMap.');
+      }
     }
   }
+
   RadString getString(int index){
-    if([index].runtimeType.toString() == 'RadString'){
+    if(_value[index].runtimeType.toString() == 'RadString'){
       return _value[index] as RadString;
     } else {
       throw RadError('RadArray', 'getString', 'unable to parse $_value as RadString.');

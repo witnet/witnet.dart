@@ -6,9 +6,12 @@ import 'dart:typed_data' show Uint8List;
 
 
 import 'package:witnet/crypto.dart' show sha256;
+import 'package:witnet/src/rad/radon.dart';
 import 'package:witnet/utils.dart' show bytesToHex;
 
-import 'package:witnet/radon.dart' show RadError, OP, cborToRad;
+import 'package:witnet/radon.dart' show OP, RadError, RadonString, cborToRad, radToCbor;
+
+import '../../../schema.dart';
 
 part 'array.dart';
 part 'boolean.dart';
@@ -77,34 +80,34 @@ class REDUCERS{
   static final min = 0x00;
   static final max = 0x01;
   static final mode = 0x02;
-  static final average_mean = 0x03;
-  static final average_mean_weighted = 0x04;
-  static final average_median = 0x05;
-  static final average_median_weighted = 0x06;
-  static final deviation_standard = 0x07;
-  static final deviation_average = 0x08;
-  static final deviation_median = 0x09;
-  static final deviation_maximum = 0x0A;
-  static final hash_concatenate = 0x0B;
+  static final averageMean = 0x03;
+  static final averageMeanWeighted = 0x04;
+  static final averageMedian = 0x05;
+  static final averageMedianWeighted = 0x06;
+  static final deviationStandard = 0x07;
+  static final deviationAverage = 0x08;
+  static final deviationMedian = 0x09;
+  static final deviationMaximum = 0x0A;
+  static final hashConcatenate = 0x0B;
 }
 
 class FILTERS{
-  static final greater_than = 0x00;
-  static final less_than = 0x01;
+  static final greaterThan = 0x00;
+  static final lessThan = 0x01;
   static final equals = 0x02;
-  static final deviation_absolute = 0x03;
-  static final deviation_relative = 0x04;
-  static final deviation_standard = 0x05;
+  static final deviationAbsolute = 0x03;
+  static final deviationRelative = 0x04;
+  static final deviationStandard = 0x05;
   static final top = 0x06;
   static final bottom = 0x07;
-  static final less_or_equal_than = 0x80;
-  static final greater_or_equal_than = 0x81;
-  static final not_equals = 0x82;
-  static final not_deviation_absolute = 0x83;
-  static final not_deviation_relative = 0x84;
-  static final not_deviation_standard = 0x85;
-  static final not_top = 0x86;
-  static final not_bottom = 0x87;
+  static final lessOrEqualThan = 0x80;
+  static final greaterOrEqualThan = 0x81;
+  static final notEquals = 0x82;
+  static final notDeviationAbsolute = 0x83;
+  static final notDeviationRelative = 0x84;
+  static final notDeviationStandard = 0x85;
+  static final notTop = 0x86;
+  static final notBottom = 0x87;
 }
 
 Map<String, Map<String, List<dynamic>>>  typeSystem = {
@@ -200,3 +203,4 @@ Map<String, Map<String, List<dynamic>>>  typeSystem = {
     'toUpperCase': [0x7A, [TYPES.STRING]],
   },
 };
+

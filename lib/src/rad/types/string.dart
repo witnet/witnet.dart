@@ -32,15 +32,18 @@ class RadString {
       throw RadError(type, 'asInteger', 'Unable to parse Integer from value [$value].');
     }
   }
+
   RadInteger length() {
     return RadInteger(value.length);
   }
+
   RadBoolean match(String other){
     if (value == other){
       return RadBoolean(true);
     }
     return RadBoolean(false);
   }
+
   RadArray parseJSONArray() {
     try {
       var tmp = json.decode(value);
@@ -50,15 +53,16 @@ class RadString {
       throw RadError(type, 'parseJSONArray', e.toString());
     }
   }
-  RadMap parseJSONMap() {
 
+  RadMap parseJSONMap() {
     Map<String, dynamic> jsonMap = json.decode(value);
     return RadMap.fromJson(jsonMap);
-
   }
+
   RadString toLowerCase() {
     return RadString(value.toLowerCase());
   }
+
   RadString toUpperCase() {
     return RadString(value.toUpperCase());
   }
@@ -80,6 +84,4 @@ class RadString {
       return ops[op](key);
     } else return ops[op];
   }
-
-
 }

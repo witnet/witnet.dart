@@ -10,10 +10,10 @@ class RadInteger{
   RadString asString() => RadString(_value.toString());
   RadBoolean greaterThan(RadInteger i) => (_value > i._value) ? RadBoolean(true) : RadBoolean(false);
   RadBoolean lessThan(RadInteger i) => (_value < i._value) ? RadBoolean(true) : RadBoolean(false);
-  RadInteger modulo(RadInteger i) => RadInteger(_value % i._value);
-  RadInteger multiply(RadInteger i) => RadInteger(_value * i._value);
-  RadInteger negate(RadInteger i) => RadInteger((_value < 0) ? -_value : _value.abs());
-  RadInteger power(RadInteger i) => RadInteger(pow(_value, i._value) as int);
+  RadInteger modulo(int i) => RadInteger(_value % i);
+  RadInteger multiply(int i) => RadInteger(_value * i);
+  RadInteger negate(dynamic i) => RadInteger((_value < 0) ? -_value : _value.abs());
+  RadInteger power(dynamic i) => RadInteger(pow(_value, i._value) as int);
   dynamic op(int op, [dynamic key]){
     Map<int, dynamic> ops = {};
     if(key != null) {

@@ -193,4 +193,3 @@ final Map<int, String> OP_STR = {
   OP.STRING_TO_LOWER_CASE: 'String.toLowerCase',
   OP.STRING_TO_UPPER_CASE: 'String.toUpperCase',
 };
-

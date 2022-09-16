@@ -27,8 +27,11 @@ export 'src/rad/radon.dart' show
   RadonFloat,
   RadonInteger,
   RadonMap,
-  RadonString;
+  RadonString,
+  Witnet,
+  parseJSONMap;
 
 export 'src/rad/util.dart' show
   cborToRad,
   radToCbor;
+

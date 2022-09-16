@@ -47,22 +47,28 @@ class Stage {
 
     var ag = aggregateStage(reports, aggregate);
     timeElapsed = (stopwatch.elapsedMicroseconds* 0.001).toStringAsPrecision(3);
-
-    print('  │  ┌──────────────────────────────────────┐');
-    print('  ├──┤ ${padStr('Aggregation Stage', ' ', boxWidth)}│');
-    print('  │  ├──────────────────────────────────────┤');
-    print('  │  │ ${padStr('Execution time: $timeElapsed ms', ' ', boxWidth)}│');
-    print('  │  │ ${padStr('Result is ${typeConversion(ag)}: $ag', ' ', boxWidth)}│');
-    print('  │  └──────────────────────────────────────┘');
-    print('  │');
-    stopwatch = new Stopwatch()..start();
-    print('  │  ┌──────────────────────────────────────┐');
-    print('  └──┤ ${padStr('Tally Stage', ' ', boxWidth)}│');
-    print('     ├──────────────────────────────────────┤');
-    print('     │ ${padStr('Execution time: ${ (stopwatch.elapsedMicroseconds* 0.001).toStringAsPrecision(3)} ms', ' ', boxWidth)}│');
-    print('     │ ${padStr('Result is ${typeConversion(ag)}: $ag', ' ', boxWidth)}│');
-    print('     └──────────────────────────────────────┘');
-
+    if(printDebug) {
+      print('  │  ┌──────────────────────────────────────┐');
+      print('  ├──┤ ${padStr('Aggregation Stage', ' ', boxWidth)}│');
+      print('  │  ├──────────────────────────────────────┤');
+      print('  │  │ ${padStr(
+          'Execution time: $timeElapsed ms', ' ', boxWidth)}│');
+      print('  │  │ ${padStr(
+          'Result is ${typeConversion(ag)}: $ag', ' ', boxWidth)}│');
+      print('  │  └──────────────────────────────────────┘');
+      print('  │');
+      stopwatch = new Stopwatch()
+        ..start();
+      print('  │  ┌──────────────────────────────────────┐');
+      print('  └──┤ ${padStr('Tally Stage', ' ', boxWidth)}│');
+      print('     ├──────────────────────────────────────┤');
+      print('     │ ${padStr(
+          'Execution time: ${ (stopwatch.elapsedMicroseconds * 0.001)
+              .toStringAsPrecision(3)} ms', ' ', boxWidth)}│');
+      print('     │ ${padStr(
+          'Result is ${typeConversion(ag)}: $ag', ' ', boxWidth)}│');
+      print('     └──────────────────────────────────────┘');
+    }
     return {'retrieval':reports,'aggregate':ag,'tally':ag};
   }
 
@@ -82,7 +88,7 @@ class Stage {
         requestCache[retrieve.url] = result;
       }
 
-      var resp = processScript(result, retrieve.script);
+      var resp = processScript(result, retrieve.script.toList());
       var trace = resp['trace'];
       var script = resp['script'];
 
@@ -95,7 +101,13 @@ class Stage {
   dynamic aggregateStage(List<RetrieveReport> reports, RADAggregate aggregate ){
     List<num> values = [];
     for(int i = 0; i < reports.length; i++){
-      values.add(reports[i].trace.last[1].value);
+      RetrieveReport report = reports[i];
+
+      if(report.trace.last[1] == null) {
+        report.trace.removeLast();
+      }
+
+      values.add(report.trace.last[1].value);
     }
     Stats stats = Stats.fromData(values);
 
@@ -107,26 +119,22 @@ class Stage {
   }
 
   dynamic processScript(String data, List<int> script){
-    var radScript = cborToRad(script);
-    var root = RadString(data);
+
+
+    List<dynamic> radScript = cborToRad(script);
+    RadString root = RadString(data);
     List<dynamic> opStack = [];
     opStack.add([root.runtimeType.toString(), root]);
-
     if (radScript[0] == OP.STRING_PARSE_JSON_MAP){
       opStack.add(['RadonMap', RadMap.fromJson(json.decode(data))]);
     }
-    print(opStack);
-
     for (int i = 1; i < radScript.length; i ++ ){
-      print('${radScript[i]}');
       var lastOp = opStack.last[1];
       var _op = radScript[i];
       var currentOp;
       if(_op.runtimeType == int){
         currentOp = lastOp.op(_op);
       } else {
-        print('last op: ${lastOp}');
-        print('op: ${_op}');
         currentOp = lastOp.op(_op[0], _op[1]);
       }
       opStack.add([currentOp.runtimeType.toString(), currentOp]);

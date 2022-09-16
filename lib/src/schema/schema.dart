@@ -1,20 +1,11 @@
 import 'dart:convert' show json;
 import 'dart:typed_data' show Uint8List;
-
-import 'package:witnet/src/utils/transformations/transformations.dart' show
-  bigIntToBytes,
-  bytesToHex,
-  concatBytes,
-  hexToBytes,
-  stringToBytes;
-
+import 'package:protobuf/protobuf.dart';
+import 'package:witnet/src/utils/transformations/transformations.dart' show bigIntToBytes, bytesToBigInt, bytesToHex, concatBytes, hexToBytes, stringToBytes;
+import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:witnet/crypto.dart' show
   sha256;
 
-import 'package:witnet/protobuf.dart' show
-  pbField,
-  LENGTH_DELIMITED,
-  VARINT;
 
 import 'package:witnet/utils.dart' show
   bech32,
@@ -34,22 +25,37 @@ import '../../radon.dart' show
   radToCbor,
   cborToRad;
 
-part 'beacon.dart';
+part 'peer_address.dart';
+part 'checkpoint_beacon.dart';
+part 'checkpoint_vrf.dart';
 part 'block.dart';
+part 'block_eligibility_claim.dart';
 part 'block_header.dart';
-part 'merkle_roots.dart';
+part 'block_merkle_roots.dart';
 part 'bn256_public_key.dart';
+part 'bn256_keyed_signatured.dart';
+part 'bn256_signature.dart';
 part 'commit_body.dart';
 part 'commit_transaction.dart';
+part 'consensus_constants.dart';
 part 'data_request_body.dart';
 part 'data_request_eligibility_claim.dart';
 part 'data_request_output.dart';
 part 'data_request_transaction.dart';
+part 'data_request_vrf_message.dart';
+part 'get_peers.dart';
 part 'hash.dart';
 part 'input.dart';
+part 'inventory_announcement.dart';
+part 'inventory_entry.dart';
+part 'inventory_request.dart';
 part 'keyed_signature.dart';
+part 'last_beacon.dart';
+part 'message.dart';
+part 'message_command.dart';
 part 'mint_transaction.dart';
 part 'output_pointer.dart';
+part 'peers.dart';
 part 'public_key.dart';
 part 'public_key_hash.dart';
 part 'rad_aggregate.dart';
@@ -62,12 +68,16 @@ part 'reveal_body.dart';
 part 'reveal_transaction.dart';
 part 'secp256k1_signature.dart';
 part 'signature.dart';
+part 'string_pair.dart';
+part 'super_block.dart';
+part 'super_block_vote.dart';
 part 'tally_transaction.dart';
 part 'transaction.dart';
 part 'transaction_hashes.dart';
-part 'transactions.dart';
+part 'block_transactions.dart';
 part 'value_transfer_body.dart';
 part 'value_transfer_output.dart';
 part 'value_transfer_transaction.dart';
+part 'verack.dart';
+part 'version.dart';
 part 'vrf_proof.dart';
-//

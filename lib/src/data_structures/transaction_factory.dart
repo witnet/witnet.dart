@@ -50,7 +50,7 @@ Future<dynamic> createVTTransaction({
     int outputValue = 0;
     int totalUtxoValue = 0;
     int selectedUtxoValue = 0;
-    outputs.forEach((ValueTransferOutput output) {outputValue += output.value;});
+    outputs.forEach((ValueTransferOutput output) {outputValue += output.value.toInt();});
 
     Address signerAddress = Address.fromAddress(privateKey.publicKey.address);
     // if the changeAddress param is left blank send the change to the signer
@@ -166,7 +166,7 @@ Future<dynamic> createDRTransaction(
   List<Input> inputs = [];
   List<ValueTransferOutput> outputs = [];
   // value owed from the data request
-  int droValue = dataRequestOutput.witnesses * dataRequestOutput.witnessReward;
+  int droValue = dataRequestOutput.witnesses * dataRequestOutput.witnessReward.toInt();
   int amountOwed = droValue;
   print('Total Witness Reward -> $droValue');
   dataRequestOutput;
@@ -241,7 +241,7 @@ Future<dynamic> createDRTransaction(
 
       break;
   }
-  DRTransactionBody body = DRTransactionBody(inputs: inputs, outputs: outputs, dataRequestOutput: dataRequestOutput);
+  DRTransactionBody body = DRTransactionBody(inputs: inputs, outputs: outputs, drOutput: dataRequestOutput);
   DRTransaction transaction = DRTransaction(body: body, signatures: []);
   KeyedSignature signature = signerAddress.signHash(transaction.transactionID, privateKey);
   for (int i = 0; i < transaction.body.inputs.length; i++) {
