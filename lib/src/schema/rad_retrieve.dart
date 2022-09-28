@@ -22,7 +22,7 @@ class RADRetrieve extends GeneratedMessage {
     RADType? kind,
     String? url,
     List<int>? script,
-    List<int>? body,
+    List<int>? body = null,
     Iterable<StringPair>? headers,
   }) {
     final _result = create();
@@ -67,16 +67,19 @@ class RADRetrieve extends GeneratedMessage {
   String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   @override
-  Map<String, dynamic> jsonMap({bool asHex = false}) => {
-    "kind": kind.value,
-    "script": (asHex)
-        ? bytesToHex(Uint8List.fromList(script))
-        : List<int>.from(script.map((x) => x)),
-    "url": url,
-    "body": (asHex) ? bytesToHex(Uint8List.fromList(body)) : body,
-    "headers": (headers != null) ? Map<String,String>.from(headers.asMap().map((key, value) => MapEntry(value.left, value.right))) : null
+  Map<String, dynamic> jsonMap({bool asHex = false}) {
+    Map<String, dynamic> _map = {
+      "kind": kind.value,
+      "script": (asHex)
+          ? bytesToHex(Uint8List.fromList(script))
+          : List<int>.from(script.map((x) => x)),
+      "url": url,
+    };
+    if (body.isNotEmpty) _map["body"] = (asHex) ? bytesToHex(Uint8List.fromList(body)) : body;
+    if(headers.isNotEmpty) _map["headers"] = Map<String,String>.from(headers.asMap().map((key, value) => MapEntry(value.left, value.right)));
 
-  };
+    return _map;
+  }
 
   @override
   BuilderInfo get info_ => _i;

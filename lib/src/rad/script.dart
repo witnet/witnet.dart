@@ -127,7 +127,7 @@ class Witnet {
    ) {
     return RADRetrieve(
         kind: kind,
-        url: url,
+        url: bytesToString(Uint8List.fromList(toUtf8Bytes(url))),
         script: radToCbor(script.encode()),
     );
   }
@@ -238,10 +238,9 @@ class DataRequest {
 
   DataRequestOutput get output => _dro;
 }
+
 String _formatBody(String _body) =>
     '{"query":"${_body.replaceAll('"', '\\"')}"}'.replaceAll(' ', '');
 
 
-
 RadonMap parseJSONMap() => RadonString().parseJSONMap();
-
