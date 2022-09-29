@@ -166,5 +166,6 @@ bool testGraphQlSource() {
   DataRequestOutput dro = request.output;
 
   assert(test_dro == dro);
+  assert(bytesToHex(test_dro.pbBytes) == bytesToHex(dro.pbBytes));
   return true;
 }
