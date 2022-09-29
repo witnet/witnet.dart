@@ -1,6 +1,5 @@
 library witnet;
 
-
 export 'src/crypto/hd_wallet/extended_private_key.dart' show Xprv;
 export 'src/crypto/hd_wallet/extended_public_key.dart' show Xpub;
 export 'src/crypto/secp256k1/private_key.dart' show WitPrivateKey;

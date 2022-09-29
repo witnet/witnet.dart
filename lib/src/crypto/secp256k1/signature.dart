@@ -1,11 +1,12 @@
 import 'dart:typed_data' show Uint8List;
 
 import 'public_key.dart' show WitPublicKey;
-import 'secp256k1.dart' show Point, Secp256k1, addDiffPoint, addSamePoint, getPointByBigInt;
+import 'secp256k1.dart'
+    show Point, Secp256k1, addDiffPoint, addSamePoint, getPointByBigInt;
 import '../number_theory.dart';
 
-import 'package:witnet/utils.dart' show
-  bigIntToBytes, bytesToBigInt, concatBytes, hexToBytes;
+import 'package:witnet/utils.dart'
+    show bigIntToBytes, bytesToBigInt, concatBytes, hexToBytes;
 
 class WitSignature {
   late BigInt R;
@@ -118,11 +119,10 @@ class WitSignature {
 
   @override
   int get hashCode => super.hashCode;
-
 }
 
-bool _verify(BigInt n, BigInt p, BigInt a, Point pointG,
-    Point pointQ, List<BigInt> sign, BigInt bigHash) {
+bool _verify(BigInt n, BigInt p, BigInt a, Point pointG, Point pointQ,
+    List<BigInt> sign, BigInt bigHash) {
   var r = sign[0];
   var s = sign[1];
 

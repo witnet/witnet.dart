@@ -7,30 +7,27 @@ class Bech32Validations {
   static const int maxInputLength = 293;
   static const checksumLength = 6;
 
-  bool validateAddress(String address){
+  bool validateAddress(String address) {
     Bech32 bech32 = Bech32Codec().decode(address);
     String hrp = bech32.hrp;
     List<int> data = bech32.data;
     List<int> checksum = createChecksum(hrp, data);
     int separatorPosition = 4;
-    if(isChecksumTooShort(separatorPosition, address)) {
+    if (isChecksumTooShort(separatorPosition, address)) {
       print('ChecksumTooShort');
       return false;
-    }
-    else if(hasOutOfBoundsChars(data)) {
+    } else if (hasOutOfBoundsChars(data)) {
       print('hasOutOfBoundsChars');
       return false;
-    }
-    else if(isHrpTooShort(separatorPosition)) {
+    } else if (isHrpTooShort(separatorPosition)) {
       print('HrpTooShort');
       return false;
-    }
-    else if(isInvalidChecksum(hrp,data,checksum)) {
+    } else if (isInvalidChecksum(hrp, data, checksum)) {
       print('InvalidChecksum');
       return false;
-    } else return true;
-    }
-
+    } else
+      return true;
+  }
 
   // From the entire input subtract the hrp length, the separator and the required checksum length
   bool isChecksumTooShort(int separatorPosition, String input) {

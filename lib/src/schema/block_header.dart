@@ -1,16 +1,17 @@
 part of 'schema.dart';
 
-class BlockHeader  extends GeneratedMessage {
-  static final BuilderInfo _i = BuilderInfo(
-    'Block.BlockHeader',
-    package: const PackageName('witnet'),
-    createEmptyInstance: create)
-      ..a<int>(1, 'signals', PbFieldType.OU3)
-      ..aOM<CheckpointBeacon>(2, 'beacon', subBuilder: CheckpointBeacon.create)
-      ..aOM<BlockMerkleRoots>(3, 'merkleRoots', subBuilder: BlockMerkleRoots.create)
-      ..aOM<BlockEligibilityClaim>(4, 'proof', subBuilder: BlockEligibilityClaim.create)
-      ..aOM<Bn256PublicKey>(5, 'bn256PublicKey', subBuilder: Bn256PublicKey.create)
-      ..hasRequiredFields = false;
+class BlockHeader extends GeneratedMessage {
+  static final BuilderInfo _i = BuilderInfo('Block.BlockHeader',
+      package: const PackageName('witnet'), createEmptyInstance: create)
+    ..a<int>(1, 'signals', PbFieldType.OU3)
+    ..aOM<CheckpointBeacon>(2, 'beacon', subBuilder: CheckpointBeacon.create)
+    ..aOM<BlockMerkleRoots>(3, 'merkleRoots',
+        subBuilder: BlockMerkleRoots.create)
+    ..aOM<BlockEligibilityClaim>(4, 'proof',
+        subBuilder: BlockEligibilityClaim.create)
+    ..aOM<Bn256PublicKey>(5, 'bn256PublicKey',
+        subBuilder: Bn256PublicKey.create)
+    ..hasRequiredFields = false;
 
   static BlockHeader create() => BlockHeader._();
 
@@ -54,21 +55,20 @@ class BlockHeader  extends GeneratedMessage {
   String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory BlockHeader.fromJson(Map<String, dynamic> json) => BlockHeader(
-    beacon: CheckpointBeacon.fromJson(json["beacon"]),
-    bn256PublicKey: (json["bn256_public_key"] == null )
-      ? Bn256PublicKey(publicKey: [])
-      : Bn256PublicKey.fromJson(json["bn256_public_key"]),
-    merkleRoots: BlockMerkleRoots.fromJson(json["merkle_roots"]),
-    proof: BlockEligibilityClaim.fromJson(json["proof"]),
-    signals: json["signals"],
-  );
+        beacon: CheckpointBeacon.fromJson(json["beacon"]),
+        bn256PublicKey: (json["bn256_public_key"] == null)
+            ? Bn256PublicKey(publicKey: [])
+            : Bn256PublicKey.fromJson(json["bn256_public_key"]),
+        merkleRoots: BlockMerkleRoots.fromJson(json["merkle_roots"]),
+        proof: BlockEligibilityClaim.fromJson(json["proof"]),
+        signals: json["signals"],
+      );
 
-  factory BlockHeader.fromBuffer(
-    List<int> i,
-    [ExtensionRegistry r = ExtensionRegistry.EMPTY]
-  )=> create()..mergeFromBuffer(i, r);
+  factory BlockHeader.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
-  Map<String, dynamic> jsonMap({bool asHex=false}) {
+  Map<String, dynamic> jsonMap({bool asHex = false}) {
     return {
       "beacon": beacon.jsonMap(asHex: asHex),
       "bn256_public_key": bn256PublicKey.jsonMap(asHex: asHex),
@@ -83,7 +83,10 @@ class BlockHeader  extends GeneratedMessage {
   @TagNumber(1)
   int get signals => $_getIZ(0);
   @TagNumber(1)
-  set signals(int v) { $_setUnsignedInt32(0, v); }
+  set signals(int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @TagNumber(1)
   bool hasSignals() => $_has(0);
   @TagNumber(1)
@@ -92,7 +95,10 @@ class BlockHeader  extends GeneratedMessage {
   @TagNumber(2)
   CheckpointBeacon get beacon => $_getN(1);
   @TagNumber(2)
-  set beacon(CheckpointBeacon v) { setField(2, v); }
+  set beacon(CheckpointBeacon v) {
+    setField(2, v);
+  }
+
   @TagNumber(2)
   bool hasBeacon() => $_has(1);
   @TagNumber(2)
@@ -103,7 +109,10 @@ class BlockHeader  extends GeneratedMessage {
   @TagNumber(3)
   BlockMerkleRoots get merkleRoots => $_getN(2);
   @TagNumber(3)
-  set merkleRoots(BlockMerkleRoots v) { setField(3, v); }
+  set merkleRoots(BlockMerkleRoots v) {
+    setField(3, v);
+  }
+
   @TagNumber(3)
   bool hasMerkleRoots() => $_has(2);
   @TagNumber(3)
@@ -114,7 +123,10 @@ class BlockHeader  extends GeneratedMessage {
   @TagNumber(4)
   BlockEligibilityClaim get proof => $_getN(3);
   @TagNumber(4)
-  set proof(BlockEligibilityClaim v) { setField(4, v); }
+  set proof(BlockEligibilityClaim v) {
+    setField(4, v);
+  }
+
   @TagNumber(4)
   bool hasProof() => $_has(3);
   @TagNumber(4)
@@ -125,7 +137,10 @@ class BlockHeader  extends GeneratedMessage {
   @TagNumber(5)
   Bn256PublicKey get bn256PublicKey => $_getN(4);
   @TagNumber(5)
-  set bn256PublicKey(Bn256PublicKey v) { setField(5, v); }
+  set bn256PublicKey(Bn256PublicKey v) {
+    setField(5, v);
+  }
+
   @TagNumber(5)
   bool hasBn256PublicKey() => $_has(4);
   @TagNumber(5)

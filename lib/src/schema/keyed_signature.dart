@@ -1,15 +1,11 @@
 part of 'schema.dart';
 
-
 class KeyedSignature extends GeneratedMessage {
-
-  static final BuilderInfo _i = BuilderInfo(
-    'KeyedSignature',
-    package: const PackageName('witnet'),
-    createEmptyInstance: create)
-      ..aOM<Signature>(1, 'signature', subBuilder: Signature.create)
-      ..aOM<PublicKey>(2, 'publicKey', subBuilder: PublicKey.create)
-      ..hasRequiredFields = false;
+  static final BuilderInfo _i = BuilderInfo('KeyedSignature',
+      package: const PackageName('witnet'), createEmptyInstance: create)
+    ..aOM<Signature>(1, 'signature', subBuilder: Signature.create)
+    ..aOM<PublicKey>(2, 'publicKey', subBuilder: PublicKey.create)
+    ..hasRequiredFields = false;
 
   static KeyedSignature create() => KeyedSignature._();
   static PbList<KeyedSignature> createRepeated() => PbList<KeyedSignature>();
@@ -37,9 +33,12 @@ class KeyedSignature extends GeneratedMessage {
   }
 
   @override
-  factory KeyedSignature.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory KeyedSignature.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
-  factory KeyedSignature.fromRawJson(String str) => KeyedSignature.fromJson(json.decode(str));
+  factory KeyedSignature.fromRawJson(String str) =>
+      KeyedSignature.fromJson(json.decode(str));
 
   @override
   factory KeyedSignature.fromJson(Map<String, dynamic> json) => KeyedSignature(
@@ -49,10 +48,10 @@ class KeyedSignature extends GeneratedMessage {
 
   String get rawJson => json.encode(jsonMap());
 
-  Map<String, dynamic> jsonMap({bool asHex=false}) => {
-      "public_key": publicKey.jsonMap(asHex: asHex),
-      "signature": signature.jsonMap(asHex: asHex),
-    };
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
+        "public_key": publicKey.jsonMap(asHex: asHex),
+        "signature": signature.jsonMap(asHex: asHex),
+      };
 
   Uint8List get pbBytes => writeToBuffer();
 
@@ -62,7 +61,10 @@ class KeyedSignature extends GeneratedMessage {
   @TagNumber(1)
   Signature get signature => $_getN(0);
   @TagNumber(1)
-  set signature(Signature v) { setField(1, v); }
+  set signature(Signature v) {
+    setField(1, v);
+  }
+
   @TagNumber(1)
   bool hasSignature() => $_has(0);
   @TagNumber(1)
@@ -73,7 +75,10 @@ class KeyedSignature extends GeneratedMessage {
   @TagNumber(2)
   PublicKey get publicKey => $_getN(1);
   @TagNumber(2)
-  set publicKey(PublicKey v) { setField(2, v); }
+  set publicKey(PublicKey v) {
+    setField(2, v);
+  }
+
   @TagNumber(2)
   bool hasPublicKey() => $_has(1);
   @TagNumber(2)

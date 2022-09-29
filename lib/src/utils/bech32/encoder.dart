@@ -1,7 +1,13 @@
 import 'dart:convert' show Converter;
 import 'bech32.dart' show Bech32, separator, createChecksum, charset;
 import 'validations.dart' show Bech32Validations;
-import 'exceptions.dart' show OutOfBoundChars, TooShortHrp, TooLong, OutOfRangeHrpCharacters, MixedCase;
+import 'exceptions.dart'
+    show
+        OutOfBoundChars,
+        TooShortHrp,
+        TooLong,
+        OutOfRangeHrpCharacters,
+        MixedCase;
 
 // This class converts a Bech32 class instance to a String.
 class Bech32Encoder extends Converter<Bech32, String> with Bech32Validations {

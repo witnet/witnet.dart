@@ -1,28 +1,24 @@
 part of 'schema.dart';
 
-enum SignatureKind {
-  secp256k1,
-  notSet
-}
+enum SignatureKind { secp256k1, notSet }
 
 const Map<int, SignatureKind> _Signature_KindByTag = {
-  1 : SignatureKind.secp256k1,
-  0 : SignatureKind.notSet
+  1: SignatureKind.secp256k1,
+  0: SignatureKind.notSet
 };
 
 class Signature extends GeneratedMessage {
-
-  static final BuilderInfo _i = BuilderInfo(
-    'Signature',
-    package: const PackageName('witnet'),
-    createEmptyInstance: create)
-      ..oo(0, [1])
-      ..aOM<Secp256k1Signature>(1, 'Secp256k1', protoName: 'Secp256k1', subBuilder: Secp256k1Signature.create)
-      ..hasRequiredFields = false;
+  static final BuilderInfo _i = BuilderInfo('Signature',
+      package: const PackageName('witnet'), createEmptyInstance: create)
+    ..oo(0, [1])
+    ..aOM<Secp256k1Signature>(1, 'Secp256k1',
+        protoName: 'Secp256k1', subBuilder: Secp256k1Signature.create)
+    ..hasRequiredFields = false;
 
   static Signature create() => Signature._();
   static PbList<Signature> createRepeated() => PbList<Signature>();
-  static Signature getDefault() => _defaultInstance ??= GeneratedMessage.$_defaultFor<Signature>(create);
+  static Signature getDefault() =>
+      _defaultInstance ??= GeneratedMessage.$_defaultFor<Signature>(create);
   static Signature? _defaultInstance;
 
   Signature._() : super();
@@ -31,7 +27,9 @@ class Signature extends GeneratedMessage {
   Signature clone() => Signature()..mergeFromMessage(this);
 
   @override
-  Signature copyWith(void Function(Signature) updates) => super.copyWith((message) => updates(message as Signature)) as Signature; // ignore: deprecated_member_use
+  Signature copyWith(void Function(Signature) updates) =>
+      super.copyWith((message) => updates(message as Signature))
+          as Signature; // ignore: deprecated_member_use
 
   @override
   Signature createEmptyInstance() => create();
@@ -46,23 +44,26 @@ class Signature extends GeneratedMessage {
     return _result;
   }
 
-  factory Signature.fromRawJson(String str) => Signature.fromJson(json.decode(str));
+  factory Signature.fromRawJson(String str) =>
+      Signature.fromJson(json.decode(str));
 
   @override
-  factory Signature.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Signature.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
   @override
   factory Signature.fromJson(Map<String, dynamic> json) => Signature(
-    secp256k1: Secp256k1Signature.fromJson(json["Secp256k1"]),
-  );
+        secp256k1: Secp256k1Signature.fromJson(json["Secp256k1"]),
+      );
 
   String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
   Map<String, dynamic> jsonMap({bool asHex = false}) {
-   if(secp256k1.pbBytes.isNotEmpty)
-    return {
-      "Secp256k1": secp256k1.jsonMap(asHex: asHex),
-    };
-   return {};
+    if (secp256k1.pbBytes.isNotEmpty)
+      return {
+        "Secp256k1": secp256k1.jsonMap(asHex: asHex),
+      };
+    return {};
   }
 
   @override
@@ -73,7 +74,10 @@ class Signature extends GeneratedMessage {
   @TagNumber(1)
   Secp256k1Signature get secp256k1 => $_getN(0);
   @TagNumber(1)
-  set secp256k1(Secp256k1Signature v) { setField(1, v); }
+  set secp256k1(Secp256k1Signature v) {
+    setField(1, v);
+  }
+
   @TagNumber(1)
   bool hasSecp256k1() => $_has(0);
   @TagNumber(1)

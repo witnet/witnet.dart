@@ -1,17 +1,18 @@
 part of 'schema.dart';
 
 class LastBeacon extends GeneratedMessage {
-  static final BuilderInfo _i = BuilderInfo(
-    'LastBeacon',
-    package: const PackageName('witnet'),
-    createEmptyInstance: create)
-      ..aOM<CheckpointBeacon>(1, 'highestBlockCheckpoint', subBuilder: CheckpointBeacon.create)
-      ..aOM<CheckpointBeacon>(2, 'highestSuperblockCheckpoint', subBuilder: CheckpointBeacon.create)
-      ..hasRequiredFields = false;
+  static final BuilderInfo _i = BuilderInfo('LastBeacon',
+      package: const PackageName('witnet'), createEmptyInstance: create)
+    ..aOM<CheckpointBeacon>(1, 'highestBlockCheckpoint',
+        subBuilder: CheckpointBeacon.create)
+    ..aOM<CheckpointBeacon>(2, 'highestSuperblockCheckpoint',
+        subBuilder: CheckpointBeacon.create)
+    ..hasRequiredFields = false;
 
   static LastBeacon create() => LastBeacon._();
   static PbList<LastBeacon> createRepeated() => PbList<LastBeacon>();
-  static LastBeacon getDefault() => _defaultInstance ??= GeneratedMessage.$_defaultFor<LastBeacon>(create);
+  static LastBeacon getDefault() =>
+      _defaultInstance ??= GeneratedMessage.$_defaultFor<LastBeacon>(create);
   static LastBeacon? _defaultInstance;
 
   LastBeacon._() : super();
@@ -20,7 +21,9 @@ class LastBeacon extends GeneratedMessage {
   LastBeacon clone() => LastBeacon()..mergeFromMessage(this);
 
   @override
-  LastBeacon copyWith(void Function(LastBeacon) updates) => super.copyWith((message) => updates(message as LastBeacon)) as LastBeacon; // ignore: deprecated_member_use
+  LastBeacon copyWith(void Function(LastBeacon) updates) =>
+      super.copyWith((message) => updates(message as LastBeacon))
+          as LastBeacon; // ignore: deprecated_member_use
 
   @override
   LastBeacon createEmptyInstance() => create();
@@ -40,10 +43,14 @@ class LastBeacon extends GeneratedMessage {
   }
 
   @override
-  factory LastBeacon.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LastBeacon.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
   @override
-  factory LastBeacon.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory LastBeacon.fromJson(String i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
   @override
   BuilderInfo get info_ => _i;
@@ -51,7 +58,10 @@ class LastBeacon extends GeneratedMessage {
   @TagNumber(1)
   CheckpointBeacon get highestBlockCheckpoint => $_getN(0);
   @TagNumber(1)
-  set highestBlockCheckpoint(CheckpointBeacon v) { setField(1, v); }
+  set highestBlockCheckpoint(CheckpointBeacon v) {
+    setField(1, v);
+  }
+
   @TagNumber(1)
   bool hasHighestBlockCheckpoint() => $_has(0);
   @TagNumber(1)
@@ -62,7 +72,10 @@ class LastBeacon extends GeneratedMessage {
   @TagNumber(2)
   CheckpointBeacon get highestSuperblockCheckpoint => $_getN(1);
   @TagNumber(2)
-  set highestSuperblockCheckpoint(CheckpointBeacon v) { setField(2, v); }
+  set highestSuperblockCheckpoint(CheckpointBeacon v) {
+    setField(2, v);
+  }
+
   @TagNumber(2)
   bool hasHighestSuperblockCheckpoint() => $_has(1);
   @TagNumber(2)

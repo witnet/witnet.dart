@@ -6,7 +6,7 @@ class RADType extends ProtobufEnum {
   static const RADType Rng = RADType._(2, 'Rng');
   static const RADType HttpPost = RADType._(3, 'HttpPost');
 
-  static const List<RADType> values = <RADType> [
+  static const List<RADType> values = <RADType>[
     Unknown,
     HttpGet,
     Rng,

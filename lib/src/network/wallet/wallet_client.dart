@@ -101,7 +101,6 @@ class WalletClient {
     } on WalletException catch (e) {
       throw WalletException(
           code: e.code, message: '{"unlock_wallet": "${e.message}"}');
-
     }
   }
 
@@ -121,7 +120,6 @@ class WalletClient {
     } on WalletException catch (e) {
       throw WalletException(
           code: e.code, message: '{"lock_wallet": "${e.message}"}');
-
     }
   }
 
@@ -143,7 +141,6 @@ class WalletClient {
     } on WalletException catch (e) {
       throw WalletException(
           code: e.code, message: '{"generate_address": "${e.message}"}');
-
     }
   }
 
@@ -188,10 +185,8 @@ class WalletClient {
       request['params'] = params;
     }
     if (keepAlive) {
-
       _id += 1;
       request['id'] = _id;
-
     } else {
       request['id'] = 1;
     }

@@ -1,26 +1,30 @@
 part of 'schema.dart';
 
 class DataRequestVrfMessage extends GeneratedMessage {
-  static final BuilderInfo _i = BuilderInfo(
-    'DataRequestVrfMessage',
-    package: const PackageName('witnet'),
-    createEmptyInstance: create)
-      ..aOM<CheckpointVRF>(1, 'vrfInput', subBuilder: CheckpointVRF.create)
-      ..aOM<Hash>(2, 'drHash', subBuilder: Hash.create)
-      ..hasRequiredFields = false;
+  static final BuilderInfo _i = BuilderInfo('DataRequestVrfMessage',
+      package: const PackageName('witnet'), createEmptyInstance: create)
+    ..aOM<CheckpointVRF>(1, 'vrfInput', subBuilder: CheckpointVRF.create)
+    ..aOM<Hash>(2, 'drHash', subBuilder: Hash.create)
+    ..hasRequiredFields = false;
 
   static DataRequestVrfMessage create() => DataRequestVrfMessage._();
-  static PbList<DataRequestVrfMessage> createRepeated() => PbList<DataRequestVrfMessage>();
-  static DataRequestVrfMessage getDefault() => _defaultInstance ??= GeneratedMessage.$_defaultFor<DataRequestVrfMessage>(create);
+  static PbList<DataRequestVrfMessage> createRepeated() =>
+      PbList<DataRequestVrfMessage>();
+  static DataRequestVrfMessage getDefault() => _defaultInstance ??=
+      GeneratedMessage.$_defaultFor<DataRequestVrfMessage>(create);
   static DataRequestVrfMessage? _defaultInstance;
 
   DataRequestVrfMessage._() : super();
 
   @override
-  DataRequestVrfMessage clone() => DataRequestVrfMessage()..mergeFromMessage(this);
+  DataRequestVrfMessage clone() =>
+      DataRequestVrfMessage()..mergeFromMessage(this);
 
   @override
-  DataRequestVrfMessage copyWith(void Function(DataRequestVrfMessage) updates) => super.copyWith((message) => updates(message as DataRequestVrfMessage)) as DataRequestVrfMessage; // ignore: deprecated_member_use
+  DataRequestVrfMessage copyWith(
+          void Function(DataRequestVrfMessage) updates) =>
+      super.copyWith((message) => updates(message as DataRequestVrfMessage))
+          as DataRequestVrfMessage; // ignore: deprecated_member_use
 
   @override
   DataRequestVrfMessage createEmptyInstance() => create();
@@ -40,10 +44,14 @@ class DataRequestVrfMessage extends GeneratedMessage {
   }
 
   @override
-  factory DataRequestVrfMessage.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory DataRequestVrfMessage.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
   @override
-  factory DataRequestVrfMessage.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory DataRequestVrfMessage.fromJson(String i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
   @override
   BuilderInfo get info_ => _i;
@@ -51,7 +59,10 @@ class DataRequestVrfMessage extends GeneratedMessage {
   @TagNumber(1)
   CheckpointVRF get vrfInput => $_getN(0);
   @TagNumber(1)
-  set vrfInput(CheckpointVRF v) { setField(1, v); }
+  set vrfInput(CheckpointVRF v) {
+    setField(1, v);
+  }
+
   @TagNumber(1)
   bool hasVrfInput() => $_has(0);
   @TagNumber(1)
@@ -62,7 +73,10 @@ class DataRequestVrfMessage extends GeneratedMessage {
   @TagNumber(2)
   Hash get drHash => $_getN(1);
   @TagNumber(2)
-  set drHash(Hash v) { setField(2, v); }
+  set drHash(Hash v) {
+    setField(2, v);
+  }
+
   @TagNumber(2)
   bool hasDrHash() => $_has(1);
   @TagNumber(2)

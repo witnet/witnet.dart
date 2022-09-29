@@ -5,16 +5,21 @@ class RADRetrieve extends GeneratedMessage {
       'DataRequestOutput.RADRequest.RADRetrieve',
       package: const PackageName('witnet'),
       createEmptyInstance: create)
-    ..e<RADType>(1, 'kind', PbFieldType.OE, defaultOrMaker: RADType.Unknown, valueOf: RADType.valueOf, enumValues: RADType.values)
+    ..e<RADType>(1, 'kind', PbFieldType.OE,
+        defaultOrMaker: RADType.Unknown,
+        valueOf: RADType.valueOf,
+        enumValues: RADType.values)
     ..aOS(2, 'url')
     ..a<List<int>>(3, 'script', PbFieldType.OY)
     ..a<List<int>>(4, 'body', PbFieldType.OY)
-    ..pc<StringPair>(5, 'headers', PbFieldType.PM, subBuilder: StringPair.create)
+    ..pc<StringPair>(5, 'headers', PbFieldType.PM,
+        subBuilder: StringPair.create)
     ..hasRequiredFields = false;
 
   static RADRetrieve create() => RADRetrieve._();
   static PbList<RADRetrieve> createRepeated() => PbList<RADRetrieve>();
-  static RADRetrieve getDefault() => _defaultInstance ??= GeneratedMessage.$_defaultFor<RADRetrieve>(create);
+  static RADRetrieve getDefault() =>
+      _defaultInstance ??= GeneratedMessage.$_defaultFor<RADRetrieve>(create);
   static RADRetrieve? _defaultInstance;
 
   RADRetrieve._() : super();
@@ -51,17 +56,26 @@ class RADRetrieve extends GeneratedMessage {
   RADRetrieve createEmptyInstance() => create();
 
   @override
-  factory RADRetrieve.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RADRetrieve.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
-  factory RADRetrieve.fromRawJson(String str) => RADRetrieve.fromJson(json.decode(str));
+  factory RADRetrieve.fromRawJson(String str) =>
+      RADRetrieve.fromJson(json.decode(str));
 
   @override
   factory RADRetrieve.fromJson(Map<String, dynamic> json) => RADRetrieve(
         kind: RADType.valueOf(json["kind"]),
         script: List<int>.from(json["script"].map((x) => x)),
         url: json["url"],
-        body: (json["body"] != null) ? List<int>.from(json["body"].map((x) => x)) : null,
-        headers: (json["headers"] != null) ? List<StringPair>.from((json["headers"] as Map<String, String> ).entries.map((e) => StringPair(left: e.key, right: e.value))) : null,
+        body: (json["body"] != null)
+            ? List<int>.from(json["body"].map((x) => x))
+            : null,
+        headers: (json["headers"] != null)
+            ? List<StringPair>.from((json["headers"] as Map<String, String>)
+                .entries
+                .map((e) => StringPair(left: e.key, right: e.value)))
+            : null,
       );
 
   String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
@@ -75,8 +89,12 @@ class RADRetrieve extends GeneratedMessage {
           : List<int>.from(script.map((x) => x)),
       "url": url,
     };
-    if (body.isNotEmpty) _map["body"] = (asHex) ? bytesToHex(Uint8List.fromList(body)) : body;
-    if(headers.isNotEmpty) _map["headers"] = Map<String,String>.from(headers.asMap().map((key, value) => MapEntry(value.left, value.right)));
+    if (body.isNotEmpty)
+      _map["body"] = (asHex) ? bytesToHex(Uint8List.fromList(body)) : body;
+    if (headers.isNotEmpty)
+      _map["headers"] = Map<String, String>.from(headers
+          .asMap()
+          .map((key, value) => MapEntry(value.left, value.right)));
 
     return _map;
   }
@@ -92,14 +110,17 @@ class RADRetrieve extends GeneratedMessage {
   }
 
   @override
-  String toString(){
+  String toString() {
     return '${this.kind}\n${this.url}';
   }
 
   @TagNumber(1)
   RADType get kind => $_getN(0);
   @TagNumber(1)
-  set kind(RADType v) { setField(1, v); }
+  set kind(RADType v) {
+    setField(1, v);
+  }
+
   @TagNumber(1)
   bool hasKind() => $_has(0);
   @TagNumber(1)
@@ -108,7 +129,10 @@ class RADRetrieve extends GeneratedMessage {
   @TagNumber(2)
   String get url => $_getSZ(1);
   @TagNumber(2)
-  set url(String v) { $_setString(1, v); }
+  set url(String v) {
+    $_setString(1, v);
+  }
+
   @TagNumber(2)
   bool hasUrl() => $_has(1);
   @TagNumber(2)
@@ -117,7 +141,10 @@ class RADRetrieve extends GeneratedMessage {
   @TagNumber(3)
   List<int> get script => $_getN(2);
   @TagNumber(3)
-  set script(List<int> v) { $_setBytes(2, v); }
+  set script(List<int> v) {
+    $_setBytes(2, v);
+  }
+
   @TagNumber(3)
   bool hasScript() => $_has(2);
   @TagNumber(3)
@@ -126,7 +153,10 @@ class RADRetrieve extends GeneratedMessage {
   @TagNumber(4)
   List<int> get body => $_getN(3);
   @TagNumber(4)
-  set body(List<int> v) { $_setBytes(3, v); }
+  set body(List<int> v) {
+    $_setBytes(3, v);
+  }
+
   @TagNumber(4)
   bool hasBody() => $_has(3);
   @TagNumber(4)

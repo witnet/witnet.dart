@@ -1,6 +1,6 @@
 part of 'types.dart';
 
-class RadBytes{
+class RadBytes {
   Uint8List _value;
   RadBytes(this._value);
   final String type = TYPES.BYTES;
@@ -10,14 +10,15 @@ class RadBytes{
 
   RadString get hash => RadString(bytesToHex(sha256(data: _value)));
 
-  dynamic op(int op, [dynamic key]){
+  dynamic op(int op, [dynamic key]) {
     Map<int, dynamic> ops = {};
-    if(key != null) {
+    if (key != null) {
       ops.addAll({
         OP.BYTES_AS_STRING: asString,
         OP.BYTES_HASH: hash,
       });
       return ops[op](key);
-    } else return ops[op];
+    } else
+      return ops[op];
   }
 }

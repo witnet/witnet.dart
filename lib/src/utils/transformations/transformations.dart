@@ -3,6 +3,7 @@ import 'dart:math' show pow;
 import 'dart:typed_data' show ByteData, Endian, Uint8List;
 import '../bech32/exceptions.dart' show InvalidPadding;
 export 'dart:math' show pow;
+
 const Utf8Codec utf8 = Utf8Codec();
 
 BigInt binaryToBigInt(String binary) {
@@ -149,10 +150,12 @@ List<int> toUtf8Bytes(String string, [bool bom = false]) {
   }
   return utf8.encode(string);
 }
+
 // Converts UTF-16 string to bytes
-Uint8List toUtf16Bytes(String string, [Endian endian = Endian.big, bool bom = false]) {
+Uint8List toUtf16Bytes(String string,
+    [Endian endian = Endian.big, bool bom = false]) {
   List<int> list =
-  bom ? (endian == Endian.big ? [0xFE, 0xFF] : [0xFF, 0xFE]) : [];
+      bom ? (endian == Endian.big ? [0xFE, 0xFF] : [0xFF, 0xFE]) : [];
   string.runes.forEach((rune) {
     if (rune >= 0x10000) {
       int firstWord = (rune >> 10) + 0xD800 - (0x10000 >> 10);
@@ -181,6 +184,4 @@ Uint8List toUtf16Bytes(String string, [Endian endian = Endian.big, bool bom = fa
   return Uint8List.fromList(list);
 }
 
-
-bool isStringNullOrEmpty(String? string)=> string == null || string.isEmpty;
-
+bool isStringNullOrEmpty(String? string) => string == null || string.isEmpty;

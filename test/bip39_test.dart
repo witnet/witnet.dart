@@ -1,10 +1,8 @@
-
 import 'package:witnet/src/crypto/bip39/bip39.dart';
 import 'package:test/test.dart';
 
 /// https://github.com/trezor/python-mnemonic/blob/master/vectors.json
-var vectors =
-[
+var vectors = [
   [
     "00000000000000000000000000000000",
     "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",
@@ -106,20 +104,16 @@ var vectors =
 main() async {
   // entropy and mnemonic for test vectors
 
-
-    test('BIP39', (){
-      bool failed = false;
-      vectors.forEach((testVector) {
-        if(!bip39Test(testVector[0], testVector[1])) failed = true;
-      });
-      expect(failed, false);
-      if(failed){
-        print('Failed bip39 entropy test.');
-      }
-
+  test('BIP39', () {
+    bool failed = false;
+    vectors.forEach((testVector) {
+      if (!bip39Test(testVector[0], testVector[1])) failed = true;
     });
-
-
+    expect(failed, false);
+    if (failed) {
+      print('Failed bip39 entropy test.');
+    }
+  });
 }
 
 bool bip39Test(String entropy, String mnemonic) {
@@ -127,6 +121,3 @@ bool bip39Test(String entropy, String mnemonic) {
   if (mnemonicToEntropy(mnemonic) != entropy) return false;
   return true;
 }
-
-
-

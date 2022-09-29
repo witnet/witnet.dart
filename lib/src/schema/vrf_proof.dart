@@ -9,7 +9,8 @@ class VrfProof extends GeneratedMessage {
 
   static VrfProof create() => VrfProof._();
   static PbList<VrfProof> createRepeated() => PbList<VrfProof>();
-  static VrfProof getDefault() => _defaultInstance ??= GeneratedMessage.$_defaultFor<VrfProof>(create);
+  static VrfProof getDefault() =>
+      _defaultInstance ??= GeneratedMessage.$_defaultFor<VrfProof>(create);
   static VrfProof? _defaultInstance;
 
   VrfProof._() : super();
@@ -18,12 +19,15 @@ class VrfProof extends GeneratedMessage {
   VrfProof clone() => VrfProof()..mergeFromMessage(this);
 
   @override
-  VrfProof copyWith(void Function(VrfProof) updates) => super.copyWith((message) => updates(message as VrfProof)) as VrfProof;
+  VrfProof copyWith(void Function(VrfProof) updates) =>
+      super.copyWith((message) => updates(message as VrfProof)) as VrfProof;
 
   @override
   VrfProof createEmptyInstance() => create();
 
-  factory VrfProof({List<int>? proof, PublicKey? publicKey,
+  factory VrfProof({
+    List<int>? proof,
+    PublicKey? publicKey,
   }) {
     final _result = create();
     if (proof != null) {
@@ -35,27 +39,30 @@ class VrfProof extends GeneratedMessage {
     return _result;
   }
 
-  factory VrfProof.fromRawJson(String str) => VrfProof.fromJson(json.decode(str));
+  factory VrfProof.fromRawJson(String str) =>
+      VrfProof.fromJson(json.decode(str));
 
   @override
-  factory VrfProof.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory VrfProof.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
   @override
   factory VrfProof.fromJson(Map<String, dynamic> json) => VrfProof(
-    proof: (json["proof"].runtimeType == String)
-      ? hexToBytes(json["proof"])
-      : List<int>.from(json["proof"].map((x) => x)),
-    publicKey: PublicKey.fromJson(json["public_key"]),
-  );
+        proof: (json["proof"].runtimeType == String)
+            ? hexToBytes(json["proof"])
+            : List<int>.from(json["proof"].map((x) => x)),
+        publicKey: PublicKey.fromJson(json["public_key"]),
+      );
 
   String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   Map<String, dynamic> jsonMap({bool asHex = false}) => {
-    "proof": (asHex)
-      ? bytesToHex(Uint8List.fromList(proof))
-      : List<dynamic>.from(proof.map((x) => x)),
-    "public_key": publicKey.jsonMap(asHex: asHex),
-  };
+        "proof": (asHex)
+            ? bytesToHex(Uint8List.fromList(proof))
+            : List<dynamic>.from(proof.map((x) => x)),
+        "public_key": publicKey.jsonMap(asHex: asHex),
+      };
 
   @override
   BuilderInfo get info_ => _i;
@@ -65,7 +72,9 @@ class VrfProof extends GeneratedMessage {
   @TagNumber(1)
   List<int> get proof => $_getN(0);
   @TagNumber(1)
-  set proof(List<int> v) {$_setBytes(0, v);}
+  set proof(List<int> v) {
+    $_setBytes(0, v);
+  }
 
   @TagNumber(1)
   bool hasProof() => $_has(0);
@@ -75,7 +84,9 @@ class VrfProof extends GeneratedMessage {
   @TagNumber(2)
   PublicKey get publicKey => $_getN(1);
   @TagNumber(2)
-  set publicKey(PublicKey v) {setField(2, v);}
+  set publicKey(PublicKey v) {
+    setField(2, v);
+  }
 
   @TagNumber(2)
   bool hasPublicKey() => $_has(1);

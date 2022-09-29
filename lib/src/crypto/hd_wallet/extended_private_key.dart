@@ -15,8 +15,7 @@ import 'package:witnet/utils.dart';
 
 import 'extended_public_key.dart';
 
-
-class Xprv  extends ExtendedKey{
+class Xprv extends ExtendedKey {
   Xprv({
     required Uint8List key,
     required Uint8List code,
@@ -26,15 +25,14 @@ class Xprv  extends ExtendedKey{
     int depth = 0,
     bool masterKey = false,
   }) : super(
-    rootPath: 'm',
-    key: key,
-    code: code,
-    depth: depth,
-    index: index,
-    parent: parent,
-    path: path,
-  ) {
-
+          rootPath: 'm',
+          key: key,
+          code: code,
+          depth: depth,
+          index: index,
+          parent: parent,
+          path: path,
+        ) {
     privateKey = WitPrivateKey(bytes: key);
     if (path == null) {
       path = rootPath;
@@ -44,8 +42,7 @@ class Xprv  extends ExtendedKey{
   @override
   String get rootPath => 'm';
 
-
-  void printDebug(){
+  void printDebug() {
     print('----------------');
     print('  path: ${path}');
     print('address: ${privateKey.publicKey.address}');
@@ -68,7 +65,6 @@ class Xprv  extends ExtendedKey{
   Xpub toChildXpub(BigInt index) => toXpub().child(index: index);
   late WitPrivateKey privateKey;
   Uint8List? _id;
-
 
   Uint8List get keyData {
     return leftJustify(key, 33, 0);
@@ -93,11 +89,14 @@ class Xprv  extends ExtendedKey{
     var I = hmacSHA512(key: stringToBytes(networkKey), data: seed);
     var IL = I.sublist(0, 32);
     var IR = I.sublist(32);
-    return Xprv(key: IL, code: IR, depth: 0, index: null, parent: null, path: null);
+    return Xprv(
+        key: IL, code: IR, depth: 0, index: null, parent: null, path: null);
   }
 
-  factory Xprv.fromMnemonic({required String mnemonic, String passphrase = ''}) =>
-     Xprv.fromSeed(seed: bip39.mnemonicToSeed(mnemonic, passphrase: passphrase));
+  factory Xprv.fromMnemonic(
+          {required String mnemonic, String passphrase = ''}) =>
+      Xprv.fromSeed(
+          seed: bip39.mnemonicToSeed(mnemonic, passphrase: passphrase));
 
   factory Xprv.fromEntropy({required String entropy}) =>
       Xprv.fromMnemonic(mnemonic: bip39.entropyToMnemonic(entropy));
@@ -117,7 +116,13 @@ class Xprv  extends ExtendedKey{
       masterKey = true;
     }
     return Xprv(
-        key: keyData, code: chainCode, depth: depth[0], masterKey: masterKey, path: null, index: null, parent: null);
+        key: keyData,
+        code: chainCode,
+        depth: depth[0],
+        masterKey: masterKey,
+        path: null,
+        index: null,
+        parent: null);
   }
 
   String toSlip32() {
@@ -130,7 +135,6 @@ class Xprv  extends ExtendedKey{
   }
 
   factory Xprv.fromEncryptedXprv(String xprv, String password) {
-
     try {
       Bech32 bech = bech32.decode(xprv);
 
@@ -217,6 +221,4 @@ class Xprv  extends ExtendedKey{
       path: _path,
     );
   }
-
-
 }

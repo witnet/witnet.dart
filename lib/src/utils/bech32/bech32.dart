@@ -1,4 +1,3 @@
-
 /// Bech32 is a dead simple wrapper around a Human Readable Part (HRP) and a
 /// bunch of bytes.
 class Bech32 {
@@ -11,10 +10,38 @@ class Bech32 {
 const String separator = '1';
 
 const List<String> charset = [
-  'q', 'p', 'z', 'r', 'y', '9', 'x', '8',
-  'g', 'f', '2', 't', 'v', 'd', 'w', '0',
-  's', '3', 'j', 'n', '5', '4', 'k', 'h',
-  'c', 'e', '6', 'm', 'u', 'a', '7', 'l',
+  'q',
+  'p',
+  'z',
+  'r',
+  'y',
+  '9',
+  'x',
+  '8',
+  'g',
+  'f',
+  '2',
+  't',
+  'v',
+  'd',
+  'w',
+  '0',
+  's',
+  '3',
+  'j',
+  'n',
+  '5',
+  '4',
+  'k',
+  'h',
+  'c',
+  'e',
+  '6',
+  'm',
+  'u',
+  'a',
+  '7',
+  'l',
 ];
 
 const List<int> generator = [

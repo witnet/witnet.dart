@@ -1,17 +1,17 @@
 part of 'schema.dart';
 
 class DRTransaction extends GeneratedMessage {
-  static final BuilderInfo _i = BuilderInfo(
-    'DRTransaction',
-    package: const PackageName('witnet'),
-    createEmptyInstance: create)
-      ..aOM<DRTransactionBody>(1, 'body', subBuilder: DRTransactionBody.create)
-      ..pc<KeyedSignature>(2, 'signatures', PbFieldType.PM, subBuilder: KeyedSignature.create)
-      ..hasRequiredFields = false;
+  static final BuilderInfo _i = BuilderInfo('DRTransaction',
+      package: const PackageName('witnet'), createEmptyInstance: create)
+    ..aOM<DRTransactionBody>(1, 'body', subBuilder: DRTransactionBody.create)
+    ..pc<KeyedSignature>(2, 'signatures', PbFieldType.PM,
+        subBuilder: KeyedSignature.create)
+    ..hasRequiredFields = false;
 
   static DRTransaction create() => DRTransaction._();
   static PbList<DRTransaction> createRepeated() => PbList<DRTransaction>();
-  static DRTransaction getDefault() => _defaultInstance ??= GeneratedMessage.$_defaultFor<DRTransaction>(create);
+  static DRTransaction getDefault() =>
+      _defaultInstance ??= GeneratedMessage.$_defaultFor<DRTransaction>(create);
   static DRTransaction? _defaultInstance;
 
   DRTransaction._() : super();
@@ -36,14 +36,16 @@ class DRTransaction extends GeneratedMessage {
     return _result;
   }
 
-  factory DRTransaction.fromRawJson(String str) => DRTransaction.fromJson(json.decode(str));
+  factory DRTransaction.fromRawJson(String str) =>
+      DRTransaction.fromJson(json.decode(str));
 
   @override
-  factory DRTransaction.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory DRTransaction.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
   @override
-  factory DRTransaction.fromJson(Map<String, dynamic> json) =>
-      DRTransaction(
+  factory DRTransaction.fromJson(Map<String, dynamic> json) => DRTransaction(
         body: DRTransactionBody.fromJson(json["body"]),
         signatures: List<KeyedSignature>.from(
             json["signatures"].map((x) => KeyedSignature.fromJson(x))),
@@ -55,7 +57,8 @@ class DRTransaction extends GeneratedMessage {
     return {
       "DataRequest": {
         "body": body.jsonMap(asHex: asHex),
-        "signatures": List<dynamic>.from(signatures.map((x) => x.jsonMap(asHex: asHex))),
+        "signatures":
+            List<dynamic>.from(signatures.map((x) => x.jsonMap(asHex: asHex))),
       }
     };
   }
@@ -65,7 +68,7 @@ class DRTransaction extends GeneratedMessage {
 
   String get transactionID => bytesToHex(body.hash);
   int get weight => body.weight;
-  void printDebug(){
+  void printDebug() {
     body.drOutput.dataRequest.retrieve.forEach((element) {
       print(element.url);
     });
@@ -74,7 +77,10 @@ class DRTransaction extends GeneratedMessage {
   @TagNumber(1)
   DRTransactionBody get body => $_getN(0);
   @TagNumber(1)
-  set body(DRTransactionBody v) { setField(1, v); }
+  set body(DRTransactionBody v) {
+    setField(1, v);
+  }
+
   @TagNumber(1)
   bool hasBody() => $_has(0);
   @TagNumber(1)

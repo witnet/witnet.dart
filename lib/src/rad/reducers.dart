@@ -1,8 +1,7 @@
 part of 'radon.dart';
 
-class Reducer{
-
-  static op(int operator, Stats stats){
+class Reducer {
+  static op(int operator, Stats stats) {
     var ops = {
       REDUCERS.min: stats.min,
       REDUCERS.max: stats.max,
@@ -19,10 +18,10 @@ class Reducer{
     return ops[operator];
   }
 
-  bool homogeneous(List<dynamic> values){
+  bool homogeneous(List<dynamic> values) {
     var firstType = values[0].runtimeType;
-    for(int i = 0; i < values.length; i ++){
-      if(values[i].runtimeType != firstType){
+    for (int i = 0; i < values.length; i++) {
+      if (values[i].runtimeType != firstType) {
         return false;
       }
     }

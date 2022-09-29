@@ -4,7 +4,7 @@ class RadString {
   String _value;
   RadString(this._value);
   final String type = TYPES.STRING;
-  String toString(){
+  String toString() {
     return '$value';
   }
 
@@ -18,18 +18,22 @@ class RadString {
       throw RadError(type, 'asBoolean', 'Unable to parse value [$value].');
     }
   }
+
   RadFloat asFloat() {
-    if(double.tryParse(value) != null){
+    if (double.tryParse(value) != null) {
       return RadFloat(double.parse(value));
     } else {
-      throw RadError(type, 'asFloat', 'Unable to parse Float from value [$value].');
+      throw RadError(
+          type, 'asFloat', 'Unable to parse Float from value [$value].');
     }
   }
+
   RadInteger asInteger() {
-    if(int.tryParse(value) != null){
+    if (int.tryParse(value) != null) {
       return RadInteger(int.parse(value));
     } else {
-      throw RadError(type, 'asInteger', 'Unable to parse Integer from value [$value].');
+      throw RadError(
+          type, 'asInteger', 'Unable to parse Integer from value [$value].');
     }
   }
 
@@ -37,8 +41,8 @@ class RadString {
     return RadInteger(value.length);
   }
 
-  RadBoolean match(String other){
-    if (value == other){
+  RadBoolean match(String other) {
+    if (value == other) {
       return RadBoolean(true);
     }
     return RadBoolean(false);
@@ -47,7 +51,8 @@ class RadString {
   RadArray parseJSONArray() {
     try {
       var tmp = json.decode(value);
-      assert (tmp.runtimeType == List,'Unable to parse JSON Array from value [$value].');
+      assert(tmp.runtimeType == List,
+          'Unable to parse JSON Array from value [$value].');
       return RadArray(tmp);
     } catch (e) {
       throw RadError(type, 'parseJSONArray', e.toString());
@@ -67,9 +72,9 @@ class RadString {
     return RadString(value.toUpperCase());
   }
 
-  dynamic op(int op, [dynamic key]){
+  dynamic op(int op, [dynamic key]) {
     Map<int, dynamic> ops = {};
-    if(key != null) {
+    if (key != null) {
       ops.addAll({
         OP.STRING_AS_BOOLEAN: asBoolean,
         OP.STRING_AS_FLOAT: asFloat,
@@ -82,6 +87,7 @@ class RadString {
         OP.STRING_TO_UPPER_CASE: toUpperCase,
       });
       return ops[op](key);
-    } else return ops[op];
+    } else
+      return ops[op];
   }
 }

@@ -1,9 +1,6 @@
-
-
 import 'dart:typed_data';
 
 class ExtendedKey {
-
   final String rootPath;
   final Uint8List key;
   final Uint8List code;
@@ -12,8 +9,7 @@ class ExtendedKey {
   final Uint8List? parent;
   late String? path;
 
-  ExtendedKey(
-      {
+  ExtendedKey({
     required this.rootPath,
     required this.code,
     required this.key,
@@ -21,20 +17,22 @@ class ExtendedKey {
     required this.index,
     required this.parent,
     required this.path,
-  }){
+  }) {
     assert(0 <= depth && depth <= 255, 'Depth [$depth] can only be 0-255');
-    if (index != null){
-      assert(BigInt.zero <= index! && index! < BigInt.one << 32, 'Invalid Index');
-    } else index = BigInt.zero;
+    if (index != null) {
+      assert(
+          BigInt.zero <= index! && index! < BigInt.one << 32, 'Invalid Index');
+    } else
+      index = BigInt.zero;
   }
-  Uint8List id(){
+  Uint8List id() {
     throw Exception('Not Implemented');
   }
 
   /// fingerPrint 4 bytes (the first 4 bytes of the parent key hash)
-  Uint8List get fingerPrint => this.id().sublist(0,4);
+  Uint8List get fingerPrint => this.id().sublist(0, 4);
 
-  ExtendedKey child({required BigInt index}){
+  ExtendedKey child({required BigInt index}) {
     throw Exception('Not Implemented');
   }
 

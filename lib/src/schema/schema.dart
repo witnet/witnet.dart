@@ -1,29 +1,31 @@
 import 'dart:convert' show json;
 import 'dart:typed_data' show Uint8List;
 import 'package:protobuf/protobuf.dart';
-import 'package:witnet/src/utils/transformations/transformations.dart' show bigIntToBytes, bytesToBigInt, bytesToHex, concatBytes, hexToBytes, stringToBytes;
+import 'package:witnet/src/utils/transformations/transformations.dart'
+    show
+        bigIntToBytes,
+        bytesToBigInt,
+        bytesToHex,
+        concatBytes,
+        hexToBytes,
+        stringToBytes;
 import 'package:fixnum/fixnum.dart' show Int64;
-import 'package:witnet/crypto.dart' show
-  sha256;
+import 'package:witnet/crypto.dart' show sha256;
 
+import 'package:witnet/utils.dart' show bech32, concatBytes;
 
-import 'package:witnet/utils.dart' show
-  bech32,
-  concatBytes;
+import 'package:witnet/constants.dart'
+    show
+        ALPHA,
+        BETA,
+        GAMMA,
+        COMMIT_WEIGHT,
+        REVEAL_WEIGHT,
+        TALLY_WEIGHT,
+        INPUT_SIZE,
+        OUTPUT_SIZE;
 
-import 'package:witnet/constants.dart' show
-  ALPHA,
-  BETA,
-  GAMMA,
-  COMMIT_WEIGHT,
-  REVEAL_WEIGHT,
-  TALLY_WEIGHT,
-  INPUT_SIZE,
-  OUTPUT_SIZE;
-
-import '../../radon.dart' show
-  radToCbor,
-  cborToRad;
+import '../../radon.dart' show radToCbor, cborToRad;
 
 part 'peer_address.dart';
 part 'checkpoint_beacon.dart';

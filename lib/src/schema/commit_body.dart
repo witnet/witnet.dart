@@ -1,21 +1,23 @@
 part of 'schema.dart';
 
 class CommitBody extends GeneratedMessage {
-  static final BuilderInfo _i = BuilderInfo(
-    'CommitTransactionBody',
-    package: const PackageName('witnet'),
-    createEmptyInstance: create)
-      ..aOM<Hash>(1, 'drPointer', subBuilder: Hash.create)
-      ..aOM<Hash>(2, 'commitment', subBuilder: Hash.create)
-      ..aOM<DataRequestEligibilityClaim>(3, 'proof', subBuilder: DataRequestEligibilityClaim.create)
-      ..pc<Input>(4, 'collateral', PbFieldType.PM, subBuilder: Input.create)
-      ..pc<ValueTransferOutput>(5, 'outputs', PbFieldType.PM, subBuilder: ValueTransferOutput.create)
-      ..aOM<Bn256PublicKey>(6, 'bn256PublicKey', subBuilder: Bn256PublicKey.create)
-      ..hasRequiredFields = false;
+  static final BuilderInfo _i = BuilderInfo('CommitTransactionBody',
+      package: const PackageName('witnet'), createEmptyInstance: create)
+    ..aOM<Hash>(1, 'drPointer', subBuilder: Hash.create)
+    ..aOM<Hash>(2, 'commitment', subBuilder: Hash.create)
+    ..aOM<DataRequestEligibilityClaim>(3, 'proof',
+        subBuilder: DataRequestEligibilityClaim.create)
+    ..pc<Input>(4, 'collateral', PbFieldType.PM, subBuilder: Input.create)
+    ..pc<ValueTransferOutput>(5, 'outputs', PbFieldType.PM,
+        subBuilder: ValueTransferOutput.create)
+    ..aOM<Bn256PublicKey>(6, 'bn256PublicKey',
+        subBuilder: Bn256PublicKey.create)
+    ..hasRequiredFields = false;
 
   static CommitBody create() => CommitBody._();
   static PbList<CommitBody> createRepeated() => PbList<CommitBody>();
-  static CommitBody getDefault() => _defaultInstance ??= GeneratedMessage.$_defaultFor<CommitBody>(create);
+  static CommitBody getDefault() =>
+      _defaultInstance ??= GeneratedMessage.$_defaultFor<CommitBody>(create);
   static CommitBody? _defaultInstance;
 
   CommitBody._() : super();
@@ -57,9 +59,12 @@ class CommitBody extends GeneratedMessage {
   }
 
   @override
-  factory CommitBody.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CommitBody.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
-  factory CommitBody.fromRawJson(String str) => CommitBody.fromJson(json.decode(str));
+  factory CommitBody.fromRawJson(String str) =>
+      CommitBody.fromJson(json.decode(str));
 
   @override
   factory CommitBody.fromJson(Map<String, dynamic> json) => CommitBody(
@@ -77,12 +82,14 @@ class CommitBody extends GeneratedMessage {
 
   String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap({bool asHex=false}) => {
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "bn256_public_key": bn256PublicKey.jsonMap(asHex: asHex),
-        "collateral": List<dynamic>.from(collateral.map((x) => x.jsonMap(asHex: asHex))),
+        "collateral":
+            List<dynamic>.from(collateral.map((x) => x.jsonMap(asHex: asHex))),
         "commitment": (asHex) ? commitment.hex : commitment.bytes,
         "dr_pointer": (asHex) ? drPointer.hex : drPointer.bytes,
-        "outputs": List<dynamic>.from(outputs.map((x) => x.jsonMap(asHex: asHex))),
+        "outputs":
+            List<dynamic>.from(outputs.map((x) => x.jsonMap(asHex: asHex))),
         "proof": proof.jsonMap(asHex: asHex),
       };
 
@@ -94,7 +101,10 @@ class CommitBody extends GeneratedMessage {
   @TagNumber(1)
   Hash get drPointer => $_getN(0);
   @TagNumber(1)
-  set drPointer(Hash v) { setField(1, v); }
+  set drPointer(Hash v) {
+    setField(1, v);
+  }
+
   @TagNumber(1)
   bool hasDrPointer() => $_has(0);
   @TagNumber(1)
@@ -105,7 +115,10 @@ class CommitBody extends GeneratedMessage {
   @TagNumber(2)
   Hash get commitment => $_getN(1);
   @TagNumber(2)
-  set commitment(Hash v) { setField(2, v); }
+  set commitment(Hash v) {
+    setField(2, v);
+  }
+
   @TagNumber(2)
   bool hasCommitment() => $_has(1);
   @TagNumber(2)
@@ -116,7 +129,10 @@ class CommitBody extends GeneratedMessage {
   @TagNumber(3)
   DataRequestEligibilityClaim get proof => $_getN(2);
   @TagNumber(3)
-  set proof(DataRequestEligibilityClaim v) { setField(3, v); }
+  set proof(DataRequestEligibilityClaim v) {
+    setField(3, v);
+  }
+
   @TagNumber(3)
   bool hasProof() => $_has(2);
   @TagNumber(3)
@@ -133,7 +149,10 @@ class CommitBody extends GeneratedMessage {
   @TagNumber(6)
   Bn256PublicKey get bn256PublicKey => $_getN(5);
   @TagNumber(6)
-  set bn256PublicKey(Bn256PublicKey v) { setField(6, v); }
+  set bn256PublicKey(Bn256PublicKey v) {
+    setField(6, v);
+  }
+
   @TagNumber(6)
   bool hasBn256PublicKey() => $_has(5);
   @TagNumber(6)

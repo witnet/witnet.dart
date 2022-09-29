@@ -1,12 +1,9 @@
-
 import 'dart:math';
 
 import 'dart:typed_data';
 
 import 'aes_crypt.dart';
 import 'exceptions.dart';
-
-
 
 class Cryptor {
   final _secureRandom = Random.secure();
@@ -237,7 +234,7 @@ class Cryptor {
     _processChunk();
 
     Uint32List hash =
-    Uint32List.fromList([_h0, _h1, _h2, _h3, _h4, _h5, _h6, _h7]);
+        Uint32List.fromList([_h0, _h1, _h2, _h3, _h4, _h5, _h6, _h7]);
     for (int i = 0; i < 8; ++i) {
       hash[i] = _byteSwap32(hash[i]);
     }
@@ -249,11 +246,11 @@ class Cryptor {
 
     for (i = 16; i < 64; i++) {
       _s0 = _rotr(_chunkBuff[i - 15], 7) ^
-      _rotr(_chunkBuff[i - 15], 18) ^
-      (_chunkBuff[i - 15] >> 3);
+          _rotr(_chunkBuff[i - 15], 18) ^
+          (_chunkBuff[i - 15] >> 3);
       _s1 = _rotr(_chunkBuff[i - 2], 17) ^
-      _rotr(_chunkBuff[i - 2], 19) ^
-      (_chunkBuff[i - 2] >> 10);
+          _rotr(_chunkBuff[i - 2], 19) ^
+          (_chunkBuff[i - 2] >> 10);
       // _chunkBuff is Uint32List and because of that it does'n need in '& _mask32' at the end
       _chunkBuff[i] = _chunkBuff[i - 16] + _s0 + _chunkBuff[i - 7] + _s1;
     }
@@ -273,49 +270,49 @@ class Cryptor {
     for (i = 0; i < 8; ++i) {
       // t = 8 * i
       _h = (_h + _Sum1(_e) + _Ch(_e, _f, _g) + _K[t] + _chunkBuff[t++]) &
-      _mask32;
+          _mask32;
       _d = (_d + _h) & _mask32;
       _h = (_h + _Sum0(_a) + _Maj(_a, _b, _c)) & _mask32;
 
       // t = 8 * i + 1
       _g = (_g + _Sum1(_d) + _Ch(_d, _e, _f) + _K[t] + _chunkBuff[t++]) &
-      _mask32;
+          _mask32;
       _c = (_c + _g) & _mask32;
       _g = (_g + _Sum0(_h) + _Maj(_h, _a, _b)) & _mask32;
 
       // t = 8 * i + 2
       _f = (_f + _Sum1(_c) + _Ch(_c, _d, _e) + _K[t] + _chunkBuff[t++]) &
-      _mask32;
+          _mask32;
       _b = (_b + _f) & _mask32;
       _f = (_f + _Sum0(_g) + _Maj(_g, _h, _a)) & _mask32;
 
       // t = 8 * i + 3
       _e = (_e + _Sum1(_b) + _Ch(_b, _c, _d) + _K[t] + _chunkBuff[t++]) &
-      _mask32;
+          _mask32;
       _a = (_a + _e) & _mask32;
       _e = (_e + _Sum0(_f) + _Maj(_f, _g, _h)) & _mask32;
 
       // t = 8 * i + 4
       _d = (_d + _Sum1(_a) + _Ch(_a, _b, _c) + _K[t] + _chunkBuff[t++]) &
-      _mask32;
+          _mask32;
       _h = (_h + _d) & _mask32;
       _d = (_d + _Sum0(_e) + _Maj(_e, _f, _g)) & _mask32;
 
       // t = 8 * i + 5
       _c = (_c + _Sum1(_h) + _Ch(_h, _a, _b) + _K[t] + _chunkBuff[t++]) &
-      _mask32;
+          _mask32;
       _g = (_g + _c) & _mask32;
       _c = (_c + _Sum0(_d) + _Maj(_d, _e, _f)) & _mask32;
 
       // t = 8 * i + 6
       _b = (_b + _Sum1(_g) + _Ch(_g, _h, _a) + _K[t] + _chunkBuff[t++]) &
-      _mask32;
+          _mask32;
       _f = (_f + _b) & _mask32;
       _b = (_b + _Sum0(_c) + _Maj(_c, _d, _e)) & _mask32;
 
       // t = 8 * i + 7
       _a = (_a + _Sum1(_f) + _Ch(_f, _g, _h) + _K[t] + _chunkBuff[t++]) &
-      _mask32;
+          _mask32;
       _e = (_e + _a) & _mask32;
       _a = (_a + _Sum0(_b) + _Maj(_b, _c, _d)) & _mask32;
     }
@@ -369,9 +366,9 @@ class Cryptor {
 //****************************************************************************
 
   final Int32x4 _magic_i =
-  Int32x4(0x36363636, 0x36363636, 0x36363636, 0x36363636);
+      Int32x4(0x36363636, 0x36363636, 0x36363636, 0x36363636);
   final Int32x4 _magic_o =
-  Int32x4(0x5C5C5C5C, 0x5C5C5C5C, 0x5C5C5C5C, 0x5C5C5C5C);
+      Int32x4(0x5C5C5C5C, 0x5C5C5C5C, 0x5C5C5C5C, 0x5C5C5C5C);
 
   // Computes HMAC-SHA256 code for binary data [data] using cryptographic key [key].
   //
@@ -383,8 +380,7 @@ class Cryptor {
     final Int32x4List o_pad = Int32x4List(6);
 
     if (key.length > 64) key = sha256(key);
-    key = Uint8List(64)
-      ..setRange(0, key.length, key);
+    key = Uint8List(64)..setRange(0, key.length, key);
 
     for (int i = 0; i < 4; i++) {
       i_pad[i] = key.buffer.asInt32x4List()[i] ^ _magic_i;
@@ -394,9 +390,7 @@ class Cryptor {
     }
 
     Uint8List temp = sha256(data, i_pad.buffer.asUint8List());
-    Uint8List buff2 = o_pad.buffer.asUint8List()
-      ..setRange(64, 96, temp);
+    Uint8List buff2 = o_pad.buffer.asUint8List()..setRange(64, 96, temp);
     return sha256(buff2);
   }
-
 }

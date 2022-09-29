@@ -3,13 +3,14 @@ import 'dart:typed_data' show Uint8List;
 
 import 'package:witnet/crypto.dart' show sha256;
 import 'package:witnet/schema.dart' show Hash;
-import 'package:witnet/utils.dart' show
-  bigIntToBytes,
-  binaryToBigInt,
-  bytesToBigInt,
-  bytesToHex,
-  bytesToString,
-  stringToBytes;
+import 'package:witnet/utils.dart'
+    show
+        bigIntToBytes,
+        binaryToBigInt,
+        bytesToBigInt,
+        bytesToHex,
+        bytesToString,
+        stringToBytes;
 
 class Message {
   Message({required this.message});

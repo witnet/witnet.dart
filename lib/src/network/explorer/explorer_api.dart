@@ -82,7 +82,6 @@ class ValueTransferTxn {
       };
 }
 
-
 class Report {
   Report({
     required this.commitTxns,
@@ -491,7 +490,7 @@ class Status {
         "node_pool_message": nodePoolMessage,
       };
 
-  void printDebug(){
+  void printDebug() {
     print('Status:');
     print('databaseLastConfirmed: $databaseLastConfirmed');
     print('databaseLastUnconfirmed: $databaseLastUnconfirmed');
@@ -998,7 +997,7 @@ class InputUtxo {
   }
 }
 
-class ValueTransferInfo extends HashInfo{
+class ValueTransferInfo extends HashInfo {
   ValueTransferInfo({
     required this.blockHash,
     required this.fee,
@@ -1011,7 +1010,12 @@ class ValueTransferInfo extends HashInfo{
     required this.txnTime,
     required this.type,
     required this.weight,
-  }) : super(txnHash: txnHash, status: status, type: type, txnTime: txnTime, blockHash: blockHash);
+  }) : super(
+            txnHash: txnHash,
+            status: status,
+            type: type,
+            txnTime: txnTime,
+            blockHash: blockHash);
 
   final String? blockHash;
   final int fee;
@@ -1466,8 +1470,6 @@ class BlockchainInfo {
   }
 }
 
-
-
 class HashInfo {
   HashInfo({
     required this.txnHash,
@@ -1483,7 +1485,8 @@ class HashInfo {
   final int txnTime;
   final dynamic blockHash;
 
-  factory HashInfo.fromRawJson(String str) => HashInfo.fromJson(json.decode(str));
+  factory HashInfo.fromRawJson(String str) =>
+      HashInfo.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(jsonMap());
 
@@ -1492,7 +1495,7 @@ class HashInfo {
   bool isUnkown() => (status == 'unknown hash') ? true : false;
   bool isConfirmed() => (status == 'confirmed') ? true : false;
 
-  void printDebug(){
+  void printDebug() {
     print('HashInfo');
     print('  Transaction Hash: $txnHash');
     print('  status: $status');
@@ -1502,18 +1505,18 @@ class HashInfo {
   }
 
   factory HashInfo.fromJson(Map<String, dynamic> json) => HashInfo(
-    txnHash: json["txn_hash"],
-    status: json["status"],
-    type: json["type"],
-    txnTime: json["txn_time"],
-    blockHash: json["block_hash"],
-  );
+        txnHash: json["txn_hash"],
+        status: json["status"],
+        type: json["type"],
+        txnTime: json["txn_time"],
+        blockHash: json["block_hash"],
+      );
 
   Map<String, dynamic> jsonMap() => {
-    "txn_hash": txnHash,
-    "status": status,
-    "type": type,
-    "txn_time": txnTime,
-    "block_hash": blockHash,
-  };
+        "txn_hash": txnHash,
+        "status": status,
+        "type": type,
+        "txn_time": txnTime,
+        "block_hash": blockHash,
+      };
 }

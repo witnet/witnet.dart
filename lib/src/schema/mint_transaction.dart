@@ -1,19 +1,17 @@
 part of 'schema.dart';
 
-
-
 class MintTransaction extends GeneratedMessage {
-  static final BuilderInfo _i = BuilderInfo(
-    'MintTransaction',
-    package: const PackageName('witnet'),
-    createEmptyInstance: create)
-      ..a<int>(1, 'epoch', PbFieldType.OF3)
-      ..pc<ValueTransferOutput>(2, 'outputs', PbFieldType.PM, subBuilder: ValueTransferOutput.create)
-      ..hasRequiredFields = false;
+  static final BuilderInfo _i = BuilderInfo('MintTransaction',
+      package: const PackageName('witnet'), createEmptyInstance: create)
+    ..a<int>(1, 'epoch', PbFieldType.OF3)
+    ..pc<ValueTransferOutput>(2, 'outputs', PbFieldType.PM,
+        subBuilder: ValueTransferOutput.create)
+    ..hasRequiredFields = false;
 
   static MintTransaction create() => MintTransaction._();
   static PbList<MintTransaction> createRepeated() => PbList<MintTransaction>();
-  static MintTransaction getDefault() => _defaultInstance ??= GeneratedMessage.$_defaultFor<MintTransaction>(create);
+  static MintTransaction getDefault() => _defaultInstance ??=
+      GeneratedMessage.$_defaultFor<MintTransaction>(create);
   static MintTransaction? _defaultInstance;
 
   MintTransaction._() : super();
@@ -39,24 +37,27 @@ class MintTransaction extends GeneratedMessage {
   }
 
   @override
-  factory MintTransaction.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory MintTransaction.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
-  factory MintTransaction.fromRawJson(String str) => MintTransaction.fromJson(json.decode(str));
+  factory MintTransaction.fromRawJson(String str) =>
+      MintTransaction.fromJson(json.decode(str));
 
   @override
   factory MintTransaction.fromJson(Map<String, dynamic> json) =>
-    MintTransaction(
-      epoch: json['epoch'],
-      outputs: List<ValueTransferOutput>.from(
-          json["outputs"].map((x) => ValueTransferOutput.fromJson(x))),
-    );
+      MintTransaction(
+        epoch: json['epoch'],
+        outputs: List<ValueTransferOutput>.from(
+            json["outputs"].map((x) => ValueTransferOutput.fromJson(x))),
+      );
 
   String get rawJson => json.encode(jsonMap());
 
-  Map<String, dynamic> jsonMap({bool asHex=false}) => {
-    "epoch": epoch,
-    "outputs": List<dynamic>.from(outputs.map((x) => x.jsonMap())),
-  };
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
+        "epoch": epoch,
+        "outputs": List<dynamic>.from(outputs.map((x) => x.jsonMap())),
+      };
 
   @override
   BuilderInfo get info_ => _i;
@@ -66,7 +67,10 @@ class MintTransaction extends GeneratedMessage {
   @TagNumber(1)
   int get epoch => $_getIZ(0);
   @TagNumber(1)
-  set epoch(int v) { $_setUnsignedInt32(0, v); }
+  set epoch(int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @TagNumber(1)
   bool hasEpoch() => $_has(0);
   @TagNumber(1)

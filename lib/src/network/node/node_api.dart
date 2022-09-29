@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:witnet/data_structures.dart' show Utxo;
@@ -19,16 +18,17 @@ class NodeException {
   String toRawJson() => json.encode(jsonMap());
 
   factory NodeException.fromJson(Map<String, dynamic> json) => NodeException(
-    code: json["code"],
-    message: json["message"],
-  );
+        code: json["code"],
+        message: json["message"],
+      );
 
   Map<String, dynamic> jsonMap() => {
-    "code": code,
-    "message": message,
-  };
+        "code": code,
+        "message": message,
+      };
 
-  @override String toString() => 'NodeException(code: $code, message:$message)';
+  @override
+  String toString() => 'NodeException(code: $code, message:$message)';
 }
 
 class ChainBeacon {
@@ -46,14 +46,14 @@ class ChainBeacon {
   String toRawJson() => json.encode(jsonMap());
 
   factory ChainBeacon.fromJson(Map<String, dynamic> json) => ChainBeacon(
-    checkpoint: json["checkpoint"],
-    hashPrevBlock: json["hashPrevBlock"],
-  );
+        checkpoint: json["checkpoint"],
+        hashPrevBlock: json["hashPrevBlock"],
+      );
 
   Map<String, dynamic> jsonMap() => {
-    "checkpoint": checkpoint,
-    "hashPrevBlock": hashPrevBlock,
-  };
+        "checkpoint": checkpoint,
+        "hashPrevBlock": hashPrevBlock,
+      };
 }
 
 class TransactionResponse {
@@ -83,11 +83,11 @@ class TransactionResponse {
       );
 
   Map<String, dynamic> jsonMap() => {
-    "blockHash": blockHash,
-    "confirmed": confirmed,
-    "transaction": transaction.jsonMap(),
-    "weight": weight,
-  };
+        "blockHash": blockHash,
+        "confirmed": confirmed,
+        "transaction": transaction.jsonMap(),
+        "weight": weight,
+      };
 }
 
 class UtxoInfo {
@@ -105,14 +105,14 @@ class UtxoInfo {
   String toRawJson() => json.encode(jsonMap());
 
   factory UtxoInfo.fromJson(Map<String, dynamic> json) => UtxoInfo(
-    collateralMin: json["collateral_min"],
-    utxos: List<Utxo>.from(json["utxos"].map((x) => Utxo.fromJson(x))),
-  );
+        collateralMin: json["collateral_min"],
+        utxos: List<Utxo>.from(json["utxos"].map((x) => Utxo.fromJson(x))),
+      );
 
   Map<String, dynamic> jsonMap() => {
-    "collateral_min": collateralMin,
-    "utxos": List<dynamic>.from(utxos.map((x) => x.jsonMap())),
-  };
+        "collateral_min": collateralMin,
+        "utxos": List<dynamic>.from(utxos.map((x) => x.jsonMap())),
+      };
 }
 
 class NodeStats {
@@ -139,24 +139,24 @@ class NodeStats {
   String jsonMap() => json.encode(toMap());
 
   factory NodeStats.fromMap(Map<String, dynamic> json) => NodeStats(
-    blockMinedCount: json["block_mined_count"],
-    blockProposedCount: json["block_proposed_count"],
-    commitsCount: json["commits_count"],
-    commitsProposedCount: json["commits_proposed_count"],
-    drEligibilityCount: json["dr_eligibility_count"],
-    lastBlockProposed: json["last_block_proposed"],
-    slashedCount: json["slashed_count"],
-  );
+        blockMinedCount: json["block_mined_count"],
+        blockProposedCount: json["block_proposed_count"],
+        commitsCount: json["commits_count"],
+        commitsProposedCount: json["commits_proposed_count"],
+        drEligibilityCount: json["dr_eligibility_count"],
+        lastBlockProposed: json["last_block_proposed"],
+        slashedCount: json["slashed_count"],
+      );
 
   Map<String, dynamic> toMap() => {
-    "block_mined_count": blockMinedCount,
-    "block_proposed_count": blockProposedCount,
-    "commits_count": commitsCount,
-    "commits_proposed_count": commitsProposedCount,
-    "dr_eligibility_count": drEligibilityCount,
-    "last_block_proposed": lastBlockProposed,
-    "slashed_count": slashedCount,
-  };
+        "block_mined_count": blockMinedCount,
+        "block_proposed_count": blockProposedCount,
+        "commits_count": commitsCount,
+        "commits_proposed_count": commitsProposedCount,
+        "dr_eligibility_count": drEligibilityCount,
+        "last_block_proposed": lastBlockProposed,
+        "slashed_count": slashedCount,
+      };
 }
 
 class SyncStatus {
@@ -176,14 +176,14 @@ class SyncStatus {
   String toRawJson() => json.encode(jsonMap());
 
   factory SyncStatus.fromJson(Map<String, dynamic> json) => SyncStatus(
-    chainBeacon: ChainBeacon.fromJson(json["chain_beacon"]),
-    currentEpoch: json["current_epoch"],
-    nodeState: json["node_state"],
-  );
+        chainBeacon: ChainBeacon.fromJson(json["chain_beacon"]),
+        currentEpoch: json["current_epoch"],
+        nodeState: json["node_state"],
+      );
 
   Map<String, dynamic> jsonMap() => {
-    "chain_beacon": chainBeacon.jsonMap(),
-    "current_epoch": currentEpoch,
-    "node_state": nodeState,
-  };
+        "chain_beacon": chainBeacon.jsonMap(),
+        "current_epoch": currentEpoch,
+        "node_state": nodeState,
+      };
 }

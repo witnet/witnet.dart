@@ -11,33 +11,37 @@ enum TransactionKind {
 }
 
 const Map<int, TransactionKind> _Transaction_KindByTag = {
-  1 : TransactionKind.valueTransfer,
-  2 : TransactionKind.dataRequest,
-  3 : TransactionKind.commit,
-  4 : TransactionKind.reveal,
-  5 : TransactionKind.tally,
-  6 : TransactionKind.mint,
-  0 : TransactionKind.notSet
+  1: TransactionKind.valueTransfer,
+  2: TransactionKind.dataRequest,
+  3: TransactionKind.commit,
+  4: TransactionKind.reveal,
+  5: TransactionKind.tally,
+  6: TransactionKind.mint,
+  0: TransactionKind.notSet
 };
 
 class Transaction extends GeneratedMessage {
-
-  static final BuilderInfo _i = BuilderInfo(
-    'Transaction',
-    package: const PackageName('witnet'),
-    createEmptyInstance: create)
-      ..oo(0, [1, 2, 3, 4, 5, 6])
-      ..aOM<VTTransaction>(1, 'ValueTransfer', protoName: 'ValueTransfer', subBuilder: VTTransaction.create)
-      ..aOM<DRTransaction>(2, 'DataRequest', protoName: 'DataRequest', subBuilder: DRTransaction.create)
-      ..aOM<CommitTransaction>(3, 'Commit', protoName: 'Commit', subBuilder: CommitTransaction.create)
-      ..aOM<RevealTransaction>(4, 'Reveal', protoName: 'Reveal', subBuilder: RevealTransaction.create)
-      ..aOM<TallyTransaction>(5, 'Tally', protoName: 'Tally', subBuilder: TallyTransaction.create)
-      ..aOM<MintTransaction>(6, 'Mint', protoName: 'Mint', subBuilder: MintTransaction.create)
-      ..hasRequiredFields = false;
+  static final BuilderInfo _i = BuilderInfo('Transaction',
+      package: const PackageName('witnet'), createEmptyInstance: create)
+    ..oo(0, [1, 2, 3, 4, 5, 6])
+    ..aOM<VTTransaction>(1, 'ValueTransfer',
+        protoName: 'ValueTransfer', subBuilder: VTTransaction.create)
+    ..aOM<DRTransaction>(2, 'DataRequest',
+        protoName: 'DataRequest', subBuilder: DRTransaction.create)
+    ..aOM<CommitTransaction>(3, 'Commit',
+        protoName: 'Commit', subBuilder: CommitTransaction.create)
+    ..aOM<RevealTransaction>(4, 'Reveal',
+        protoName: 'Reveal', subBuilder: RevealTransaction.create)
+    ..aOM<TallyTransaction>(5, 'Tally',
+        protoName: 'Tally', subBuilder: TallyTransaction.create)
+    ..aOM<MintTransaction>(6, 'Mint',
+        protoName: 'Mint', subBuilder: MintTransaction.create)
+    ..hasRequiredFields = false;
 
   static Transaction create() => Transaction._();
   static PbList<Transaction> createRepeated() => PbList<Transaction>();
-  static Transaction getDefault() => _defaultInstance ??= GeneratedMessage.$_defaultFor<Transaction>(create);
+  static Transaction getDefault() =>
+      _defaultInstance ??= GeneratedMessage.$_defaultFor<Transaction>(create);
   static Transaction? _defaultInstance;
 
   Transaction._() : super();
@@ -46,7 +50,9 @@ class Transaction extends GeneratedMessage {
   Transaction clone() => Transaction()..mergeFromMessage(this);
 
   @override
-  Transaction copyWith(void Function(Transaction) updates) => super.copyWith((message) => updates(message as Transaction)) as Transaction; // ignore: deprecated_member_use
+  Transaction copyWith(void Function(Transaction) updates) =>
+      super.copyWith((message) => updates(message as Transaction))
+          as Transaction; // ignore: deprecated_member_use
 
   @override
   Transaction createEmptyInstance() => create();
@@ -81,10 +87,13 @@ class Transaction extends GeneratedMessage {
     return _result;
   }
 
-  factory Transaction.fromRawJson(String str) => Transaction.fromJson(json.decode(str));
+  factory Transaction.fromRawJson(String str) =>
+      Transaction.fromJson(json.decode(str));
 
   @override
-  factory Transaction.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Transaction.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
   @override
   factory Transaction.fromJson(Map<String, dynamic> json) {
@@ -93,42 +102,44 @@ class Transaction extends GeneratedMessage {
       var type = _txn.keys.first;
       switch (type) {
         case 'ValueTransfer':
-          return Transaction(valueTransfer: VTTransaction.fromJson(_txn['ValueTransfer']));
+          return Transaction(
+              valueTransfer: VTTransaction.fromJson(_txn['ValueTransfer']));
         case 'Mint':
           return Transaction(mint: MintTransaction.fromJson(_txn['Mint']));
         case 'DataRequest':
-          return Transaction(dataRequest: DRTransaction.fromJson(_txn['DataRequest']));
+          return Transaction(
+              dataRequest: DRTransaction.fromJson(_txn['DataRequest']));
         case 'Commit':
-          return Transaction(commit: CommitTransaction.fromJson(_txn['Commit']));
+          return Transaction(
+              commit: CommitTransaction.fromJson(_txn['Commit']));
         case 'Reveal':
-          return Transaction(reveal: RevealTransaction.fromJson(_txn['Reveal']));
+          return Transaction(
+              reveal: RevealTransaction.fromJson(_txn['Reveal']));
 
         case 'Tally':
           return Transaction(tally: TallyTransaction.fromJson(_txn['Tally']));
       }
-    } else{
+    } else {
       throw ArgumentError('Invalid json');
     }
     return Transaction();
   }
 
-  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex:asHex));
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap({bool asHex=false}) => {
-    "transaction": transaction.jsonMap()
-  };
+  Map<String, dynamic> jsonMap({bool asHex = false}) =>
+      {"transaction": transaction.jsonMap()};
 
   @override
   BuilderInfo get info_ => _i;
 
   int get weight {
-
-    if(hasDataRequest()){
+    if (hasDataRequest()) {
       int _weight = dataRequest.body.weight;
       return _weight;
     }
 
-    if(hasValueTransfer()) {
+    if (hasValueTransfer()) {
       int _weight = 0;
       int numInputs = valueTransfer.body.inputs.length;
       int numOutputs = valueTransfer.body.outputs.length;
@@ -139,13 +150,12 @@ class Transaction extends GeneratedMessage {
   }
 
   dynamic get transaction {
-    if(hasValueTransfer()) return valueTransfer;
-    if(hasDataRequest()) return dataRequest;
-    if(hasCommit()) return commit;
-    if(hasReveal()) return reveal;
-    if(hasTally()) return tally;
-    if(hasMint()) return mint;
-
+    if (hasValueTransfer()) return valueTransfer;
+    if (hasDataRequest()) return dataRequest;
+    if (hasCommit()) return commit;
+    if (hasReveal()) return reveal;
+    if (hasTally()) return tally;
+    if (hasMint()) return mint;
   }
 
   TransactionKind whichKind() => _Transaction_KindByTag[$_whichOneof(0)]!;
@@ -155,7 +165,10 @@ class Transaction extends GeneratedMessage {
   @TagNumber(1)
   VTTransaction get valueTransfer => $_getN(0);
   @TagNumber(1)
-  set valueTransfer(VTTransaction v) { setField(1, v); }
+  set valueTransfer(VTTransaction v) {
+    setField(1, v);
+  }
+
   @TagNumber(1)
   bool hasValueTransfer() => $_has(0);
   @TagNumber(1)
@@ -166,7 +179,10 @@ class Transaction extends GeneratedMessage {
   @TagNumber(2)
   DRTransaction get dataRequest => $_getN(1);
   @TagNumber(2)
-  set dataRequest(DRTransaction v) { setField(2, v); }
+  set dataRequest(DRTransaction v) {
+    setField(2, v);
+  }
+
   @TagNumber(2)
   bool hasDataRequest() => $_has(1);
   @TagNumber(2)
@@ -177,7 +193,10 @@ class Transaction extends GeneratedMessage {
   @TagNumber(3)
   CommitTransaction get commit => $_getN(2);
   @TagNumber(3)
-  set commit(CommitTransaction v) { setField(3, v); }
+  set commit(CommitTransaction v) {
+    setField(3, v);
+  }
+
   @TagNumber(3)
   bool hasCommit() => $_has(2);
   @TagNumber(3)
@@ -188,7 +207,10 @@ class Transaction extends GeneratedMessage {
   @TagNumber(4)
   RevealTransaction get reveal => $_getN(3);
   @TagNumber(4)
-  set reveal(RevealTransaction v) { setField(4, v); }
+  set reveal(RevealTransaction v) {
+    setField(4, v);
+  }
+
   @TagNumber(4)
   bool hasReveal() => $_has(3);
   @TagNumber(4)
@@ -199,7 +221,10 @@ class Transaction extends GeneratedMessage {
   @TagNumber(5)
   TallyTransaction get tally => $_getN(4);
   @TagNumber(5)
-  set tally(TallyTransaction v) { setField(5, v); }
+  set tally(TallyTransaction v) {
+    setField(5, v);
+  }
+
   @TagNumber(5)
   bool hasTally() => $_has(4);
   @TagNumber(5)
@@ -210,7 +235,10 @@ class Transaction extends GeneratedMessage {
   @TagNumber(6)
   MintTransaction get mint => $_getN(5);
   @TagNumber(6)
-  set mint(MintTransaction v) { setField(6, v); }
+  set mint(MintTransaction v) {
+    setField(6, v);
+  }
+
   @TagNumber(6)
   bool hasMint() => $_has(5);
   @TagNumber(6)

@@ -32,8 +32,8 @@ class WitPrivateKey {
   }
 }
 
-List<BigInt> _sign(BigInt n, BigInt p, BigInt a, BigInt d, Point pointG,
-    BigInt bigHash) {
+List<BigInt> _sign(
+    BigInt n, BigInt p, BigInt a, BigInt d, Point pointG, BigInt bigHash) {
   BigInt k;
   Point R;
   var r = BigInt.zero;

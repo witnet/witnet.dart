@@ -1,6 +1,5 @@
 part of 'schema.dart';
 
-
 class TransactionsHashes {
   TransactionsHashes({
     required this.commit,

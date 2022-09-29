@@ -1,6 +1,7 @@
 import "dart:typed_data" show Uint8List;
 
-import 'secp256k1.dart' show Point, hexToPoint, hexToPointFromCompress, pointToHexInCompress;
+import 'secp256k1.dart'
+    show Point, hexToPoint, hexToPointFromCompress, pointToHexInCompress;
 import 'private_key.dart' show WitPrivateKey;
 import '../crypto.dart' show sha256;
 

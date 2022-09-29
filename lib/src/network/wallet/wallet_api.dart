@@ -1,12 +1,9 @@
-
-
-
 import 'dart:convert';
 
 class WalletException {
   WalletException({
-   required this.code,
-   required this.message,
+    required this.code,
+    required this.message,
   });
 
   final int code;
@@ -15,7 +12,6 @@ class WalletException {
   String toString() => 'WalletException(code: $code, message: $message)';
 }
 
-
 class GetWalletInfosResponse {
   GetWalletInfosResponse({
     required this.infos,
@@ -23,17 +19,19 @@ class GetWalletInfosResponse {
 
   final List<Info> infos;
 
-  factory GetWalletInfosResponse.fromRawJson(String str) => GetWalletInfosResponse.fromJson(json.decode(str));
+  factory GetWalletInfosResponse.fromRawJson(String str) =>
+      GetWalletInfosResponse.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory GetWalletInfosResponse.fromJson(Map<String, dynamic> json) => GetWalletInfosResponse(
-    infos: List<Info>.from(json["infos"].map((x) => Info.fromJson(x))),
-  );
+  factory GetWalletInfosResponse.fromJson(Map<String, dynamic> json) =>
+      GetWalletInfosResponse(
+        infos: List<Info>.from(json["infos"].map((x) => Info.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "infos": List<dynamic>.from(infos.map((x) => x.toJson())),
-  };
+        "infos": List<dynamic>.from(infos.map((x) => x.toJson())),
+      };
 }
 
 class Info {
@@ -50,18 +48,16 @@ class Info {
   String toRawJson() => json.encode(toJson());
 
   factory Info.fromJson(Map<String, dynamic> json) {
-
-    return
-        Info(
-          id: json["id"],
-          name: (json["name"] != null) ? json["name"] : 'null',
-        );
+    return Info(
+      id: json["id"],
+      name: (json["name"] != null) ? json["name"] : 'null',
+    );
   }
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-  };
+        "id": id,
+        "name": name,
+      };
 }
 
 class WalletInfo {
@@ -85,31 +81,34 @@ class WalletInfo {
   final int sessionExpirationSecs;
   final String sessionId;
 
-  factory WalletInfo.fromRawJson(String str) => WalletInfo.fromJson(json.decode(str));
+  factory WalletInfo.fromRawJson(String str) =>
+      WalletInfo.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory WalletInfo.fromJson(Map<String, dynamic> json) => WalletInfo(
-    accountBalance: AccountBalance.fromJson(json["account_balance"]),
-    availableAccounts: List<int>.from(json["available_accounts"].map((x) => x)),
-    birthDate: json["birth_date"],
-    currentAccount: json["current_account"],
-    description: json["description"],
-    name: json["name"],
-    sessionExpirationSecs: json["session_expiration_secs"],
-    sessionId: json["session_id"],
-  );
+        accountBalance: AccountBalance.fromJson(json["account_balance"]),
+        availableAccounts:
+            List<int>.from(json["available_accounts"].map((x) => x)),
+        birthDate: json["birth_date"],
+        currentAccount: json["current_account"],
+        description: json["description"],
+        name: json["name"],
+        sessionExpirationSecs: json["session_expiration_secs"],
+        sessionId: json["session_id"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "account_balance": accountBalance.toJson(),
-    "available_accounts": List<dynamic>.from(availableAccounts.map((x) => x)),
-    "birth_date": birthDate,
-    "current_account": currentAccount,
-    "description": description,
-    "name": name,
-    "session_expiration_secs": sessionExpirationSecs,
-    "session_id": sessionId,
-  };
+        "account_balance": accountBalance.toJson(),
+        "available_accounts":
+            List<dynamic>.from(availableAccounts.map((x) => x)),
+        "birth_date": birthDate,
+        "current_account": currentAccount,
+        "description": description,
+        "name": name,
+        "session_expiration_secs": sessionExpirationSecs,
+        "session_id": sessionId,
+      };
 }
 
 class AccountBalance {
@@ -123,21 +122,22 @@ class AccountBalance {
   final String local;
   final Confirmed unconfirmed;
 
-  factory AccountBalance.fromRawJson(String str) => AccountBalance.fromJson(json.decode(str));
+  factory AccountBalance.fromRawJson(String str) =>
+      AccountBalance.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory AccountBalance.fromJson(Map<String, dynamic> json) => AccountBalance(
-    confirmed: Confirmed.fromJson(json["confirmed"]),
-    local: json["local"],
-    unconfirmed: Confirmed.fromJson(json["unconfirmed"]),
-  );
+        confirmed: Confirmed.fromJson(json["confirmed"]),
+        local: json["local"],
+        unconfirmed: Confirmed.fromJson(json["unconfirmed"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "confirmed": confirmed.toJson(),
-    "local": local,
-    "unconfirmed": unconfirmed.toJson(),
-  };
+        "confirmed": confirmed.toJson(),
+        "local": local,
+        "unconfirmed": unconfirmed.toJson(),
+      };
 }
 
 class Confirmed {
@@ -149,21 +149,21 @@ class Confirmed {
   final String available;
   final String locked;
 
-  factory Confirmed.fromRawJson(String str) => Confirmed.fromJson(json.decode(str));
+  factory Confirmed.fromRawJson(String str) =>
+      Confirmed.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory Confirmed.fromJson(Map<String, dynamic> json) => Confirmed(
-    available: json["available"],
-    locked: json["locked"],
-  );
+        available: json["available"],
+        locked: json["locked"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "available": available,
-    "locked": locked,
-  };
+        "available": available,
+        "locked": locked,
+      };
 }
-
 
 class GetAddressesResponse {
   GetAddressesResponse({
@@ -174,19 +174,22 @@ class GetAddressesResponse {
   final List<Address> addresses;
   final int total;
 
-  factory GetAddressesResponse.fromRawJson(String str) => GetAddressesResponse.fromJson(json.decode(str));
+  factory GetAddressesResponse.fromRawJson(String str) =>
+      GetAddressesResponse.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory GetAddressesResponse.fromJson(Map<String, dynamic> json) => GetAddressesResponse(
-    addresses: List<Address>.from(json["addresses"].map((x) => Address.fromJson(x))),
-    total: json["total"],
-  );
+  factory GetAddressesResponse.fromJson(Map<String, dynamic> json) =>
+      GetAddressesResponse(
+        addresses: List<Address>.from(
+            json["addresses"].map((x) => Address.fromJson(x))),
+        total: json["total"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
-    "total": total,
-  };
+        "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
+        "total": total,
+      };
 }
 
 class Address {
@@ -211,22 +214,22 @@ class Address {
   String toRawJson() => json.encode(toJson());
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
-    account: json["account"],
-    address: json["address"],
-    index: json["index"],
-    info: AddressInfo.fromJson(json["info"]),
-    keychain: json["keychain"],
-    path: json["path"],
-  );
+        account: json["account"],
+        address: json["address"],
+        index: json["index"],
+        info: AddressInfo.fromJson(json["info"]),
+        keychain: json["keychain"],
+        path: json["path"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "account": account,
-    "address": address,
-    "index": index,
-    "info": info.toJson(),
-    "keychain": keychain,
-    "path": path,
-  };
+        "account": account,
+        "address": address,
+        "index": index,
+        "info": info.toJson(),
+        "keychain": keychain,
+        "path": path,
+      };
 }
 
 class AddressInfo {
@@ -244,24 +247,25 @@ class AddressInfo {
   final String receivedAmount;
   final List<dynamic> receivedPayments;
 
-  factory AddressInfo.fromRawJson(String str) => AddressInfo.fromJson(json.decode(str));
+  factory AddressInfo.fromRawJson(String str) =>
+      AddressInfo.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory AddressInfo.fromJson(Map<String, dynamic> json) => AddressInfo(
-    firstPaymentDate: json["first_payment_date"],
-    label: json["label"],
-    lastPaymentDate: json["last_payment_date"],
-    receivedAmount: json["received_amount"],
-    receivedPayments: List<dynamic>.from(json["received_payments"].map((x) => x)),
-  );
+        firstPaymentDate: json["first_payment_date"],
+        label: json["label"],
+        lastPaymentDate: json["last_payment_date"],
+        receivedAmount: json["received_amount"],
+        receivedPayments:
+            List<dynamic>.from(json["received_payments"].map((x) => x)),
+      );
 
   Map<String, dynamic> toJson() => {
-    "first_payment_date": firstPaymentDate,
-    "label": label,
-    "last_payment_date": lastPaymentDate,
-    "received_amount": receivedAmount,
-    "received_payments": List<dynamic>.from(receivedPayments.map((x) => x)),
-  };
+        "first_payment_date": firstPaymentDate,
+        "label": label,
+        "last_payment_date": lastPaymentDate,
+        "received_amount": receivedAmount,
+        "received_payments": List<dynamic>.from(receivedPayments.map((x) => x)),
+      };
 }
-

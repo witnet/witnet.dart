@@ -1,19 +1,16 @@
 part of 'schema.dart';
 
 class Bn256PublicKey extends GeneratedMessage {
-  static final BuilderInfo _i = BuilderInfo(
-    'Bn256PublicKey',
-    package: const PackageName('witnet'),
-    createEmptyInstance: create)
-      ..a<List<int>>(1, 'publicKey', PbFieldType.OY)
-      ..hasRequiredFields = false;
+  static final BuilderInfo _i = BuilderInfo('Bn256PublicKey',
+      package: const PackageName('witnet'), createEmptyInstance: create)
+    ..a<List<int>>(1, 'publicKey', PbFieldType.OY)
+    ..hasRequiredFields = false;
 
   static Bn256PublicKey create() => Bn256PublicKey._();
   static PbList<Bn256PublicKey> createRepeated() => PbList<Bn256PublicKey>();
-  static Bn256PublicKey getDefault() => _defaultInstance ??= GeneratedMessage.$_defaultFor<Bn256PublicKey>(create);
+  static Bn256PublicKey getDefault() => _defaultInstance ??=
+      GeneratedMessage.$_defaultFor<Bn256PublicKey>(create);
   static Bn256PublicKey? _defaultInstance;
-
-
 
   Bn256PublicKey._() : super();
 
@@ -32,10 +29,13 @@ class Bn256PublicKey extends GeneratedMessage {
   }
 
   @override
-  factory Bn256PublicKey.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Bn256PublicKey.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
   @override
-  factory Bn256PublicKey.fromRawJson(String str) => Bn256PublicKey.fromJson(json.decode(str));
+  factory Bn256PublicKey.fromRawJson(String str) =>
+      Bn256PublicKey.fromJson(json.decode(str));
 
   @override
   factory Bn256PublicKey.fromJson(Map<String, dynamic> json) => Bn256PublicKey(
@@ -43,7 +43,6 @@ class Bn256PublicKey extends GeneratedMessage {
             ? hexToBytes(json["public_key"])
             : List<int>.from(json["public_key"].map((x) => x)),
       );
-
 
   String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
   Map<String, dynamic> jsonMap({bool asHex = false}) {
@@ -63,7 +62,10 @@ class Bn256PublicKey extends GeneratedMessage {
   @TagNumber(1)
   List<int> get publicKey => $_getN(0);
   @TagNumber(1)
-  set publicKey(List<int> v) { $_setBytes(0, v); }
+  set publicKey(List<int> v) {
+    $_setBytes(0, v);
+  }
+
   @TagNumber(1)
   bool hasPublicKey() => $_has(0);
   @TagNumber(1)

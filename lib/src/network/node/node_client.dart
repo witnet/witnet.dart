@@ -17,13 +17,11 @@ class NodeClient {
   int? _id;
   bool keepAlive;
 
-
   late Socket _socket;
   Uint8List _buffer = Uint8List.fromList([]);
 
-  NodeClient({required this.address,
-    required this.port,
-    this.keepAlive = false});
+  NodeClient(
+      {required this.address, required this.port, this.keepAlive = false});
 
   /// Get node status
 
@@ -64,7 +62,7 @@ class NodeClient {
   Future<dynamic> inventory(Map<String, dynamic> inventoryItem) async {
     try {
       var response = await sendMessage(
-          formatRequest(method: 'inventory', params: inventoryItem))
+              formatRequest(method: 'inventory', params: inventoryItem))
           .then((Map<String, dynamic> data) {
         if (data.containsKey('error')) {
           throw NodeException.fromJson(data['error']);
@@ -82,8 +80,8 @@ class NodeClient {
       {required int epoch, required int limit}) async {
     try {
       var response = await sendMessage(formatRequest(
-          method: 'getBlockChain',
-          params: {'epoch': epoch, 'limit': limit}))
+              method: 'getBlockChain',
+              params: {'epoch': epoch, 'limit': limit}))
           .then((Map<String, dynamic> data) {
         if (data.containsKey('error')) {
           throw NodeException.fromJson(data['error']);
@@ -103,7 +101,7 @@ class NodeClient {
   Future<Block> getBlock({required String blockHash}) async {
     try {
       var response = await sendMessage(
-          formatRequest(method: 'getBlock', params: [blockHash]))
+              formatRequest(method: 'getBlock', params: [blockHash]))
           .then((Map<String, dynamic> data) {
         if (data.containsKey('result')) {
           return data['result'];
@@ -161,7 +159,7 @@ class NodeClient {
   Future<Map<String, dynamic>> getBalance({required String address}) async {
     try {
       var response = await sendMessage(
-          formatRequest(method: 'getBalance', params: [address]))
+              formatRequest(method: 'getBalance', params: [address]))
           .then((Map<String, dynamic> data) {
         if (data.containsKey('result')) {
           return data['result'];
@@ -180,7 +178,7 @@ class NodeClient {
   Future<Map<String, dynamic>> getReputation({required String address}) async {
     try {
       var response = await sendMessage(
-          formatRequest(method: 'getReputation', params: [address]))
+              formatRequest(method: 'getReputation', params: [address]))
           .then((Map<String, dynamic> data) {
         if (data.containsKey('result')) {
           return data['result'];
@@ -198,8 +196,8 @@ class NodeClient {
   Future<Map<String, dynamic>> getReputationAll() async {
     try {
       var response =
-      await sendMessage(formatRequest(method: 'getReputationAll'))
-          .then((Map<String, dynamic> data) {
+          await sendMessage(formatRequest(method: 'getReputationAll'))
+              .then((Map<String, dynamic> data) {
         if (data.containsKey('result')) {
           return data['result'];
         } else if (data.containsKey('error')) {
@@ -270,8 +268,8 @@ class NodeClient {
   Future<Map<String, dynamic>> getConsensusConstants() async {
     try {
       var response =
-      await sendMessage(formatRequest(method: 'getConsensusConstants'))
-          .then((Map<String, dynamic> data) {
+          await sendMessage(formatRequest(method: 'getConsensusConstants'))
+              .then((Map<String, dynamic> data) {
         if (data.containsKey('result')) {
           return data['result'];
         } else if (data.containsKey('error')) {
@@ -309,7 +307,7 @@ class NodeClient {
   Future<UtxoInfo> getUtxoInfo({required String address}) async {
     try {
       var response = await sendMessage(
-          formatRequest(method: 'getUtxoInfo', params: [address]))
+              formatRequest(method: 'getUtxoInfo', params: [address]))
           .then((Map<String, dynamic> data) {
         if (data.containsKey('result')) {
           return data['result'];
@@ -349,13 +347,11 @@ class NodeClient {
 
   /// Send a request to the Node and wait for a response
   Future<Map<String, dynamic>> sendMessage(Map<String, dynamic> message) async {
-
     print(message);
 
-    try{
+    try {
       print(json.encode(message));
-
-    } catch (e){
+    } catch (e) {
       print(e);
     }
 
@@ -367,7 +363,7 @@ class NodeClient {
   /// Handle the Socket connection for the Node
   Future<Map<String, dynamic>> _handle(String _request) async {
     Completer<Map<String, dynamic>> _completer =
-    new Completer<Map<String, dynamic>>();
+        new Completer<Map<String, dynamic>>();
 
     String _secureResponse = '';
 
@@ -376,14 +372,14 @@ class NodeClient {
         // =============================================================
         _socket = await Socket.connect(address, port);
         _socket.listen(
-              (Uint8List data) {
+          (Uint8List data) {
             // add the current chunk to the end of the buffer
             _buffer = concatBytes([_buffer, data]);
             // try to decode the buffer
             try {
               // this will throw an error if the _buffer is not complete
               Map<String, dynamic> response =
-              json.decode(new String.fromCharCodes(_buffer).trim());
+                  json.decode(new String.fromCharCodes(_buffer).trim());
 
               // clear the buffer
               _buffer = Uint8List.fromList([]);

@@ -1,29 +1,31 @@
 import 'dart:typed_data' show Uint8List;
-import 'package:witnet/data_structures.dart' show
-  createDRTransaction,
-  createVTTransaction,
-  FeeType,
-  Utxo,
-  UtxoPool,
-  UtxoSelectionStrategy;
-
+import 'package:witnet/data_structures.dart'
+    show
+        createDRTransaction,
+        createVTTransaction,
+        FeeType,
+        Utxo,
+        UtxoPool,
+        UtxoSelectionStrategy;
 
 import 'secp256k1/private_key.dart' show WitPrivateKey;
 import 'secp256k1/public_key.dart' show WitPublicKey;
 
 import 'package:witnet/explorer.dart' show ExplorerClient;
 import 'package:witnet/node.dart' show UtxoInfo, NodeClient;
-import 'package:witnet/utils.dart' show bech32, Bech32, convertBits, nanoWitToWit;
-import 'package:witnet/schema.dart' show
-  DRTransaction,
-  DRTransactionBody,
-  KeyedSignature,
-  PublicKey,
-  PublicKeyHash,
-  Secp256k1Signature,
-  Signature,
-  VTTransaction,
-  ValueTransferOutput;
+import 'package:witnet/utils.dart'
+    show bech32, Bech32, convertBits, nanoWitToWit;
+import 'package:witnet/schema.dart'
+    show
+        DRTransaction,
+        DRTransactionBody,
+        KeyedSignature,
+        PublicKey,
+        PublicKeyHash,
+        Secp256k1Signature,
+        Signature,
+        VTTransaction,
+        ValueTransferOutput;
 
 class Address {
   String address;
@@ -43,7 +45,10 @@ class Address {
 
   factory Address.fromPublicKeyHash({required Uint8List hash}) {
     return Address(
-      address: bech32.encode(Bech32(hrp: 'wit', data: Uint8List.fromList(convertBits(data: hash.toList(), from: 8, to: 5, pad: false)))),
+      address: bech32.encode(Bech32(
+          hrp: 'wit',
+          data: Uint8List.fromList(
+              convertBits(data: hash.toList(), from: 8, to: 5, pad: false)))),
       publicKeyHash: PublicKeyHash(hash: hash),
     );
   }
@@ -86,11 +91,12 @@ class Address {
     int fee = 0,
     required dynamic networkSource,
   }) async {
-
     return await createVTTransaction(
         outputs: outputs,
         privateKey: privateKey,
-        changeAddress: (changeAddress != null) ? changeAddress : Address.fromAddress(privateKey.publicKey.address),
+        changeAddress: (changeAddress != null)
+            ? changeAddress
+            : Address.fromAddress(privateKey.publicKey.address),
         feeType: feeType,
         fee: fee,
         utxoStrategy: utxoStrategy,
@@ -104,12 +110,14 @@ class Address {
     FeeType? feeType,
     int fee = 0,
     dynamic networkSource,
-  }) async{
+  }) async {
     return await createDRTransaction(
-      body.drOutput,
-      privateKey,
-      Address.fromAddress(privateKey.publicKey.address),
-      networkSource, feeType!, utxoStrategy);
+        body.drOutput,
+        privateKey,
+        Address.fromAddress(privateKey.publicKey.address),
+        networkSource,
+        feeType!,
+        utxoStrategy);
   }
 
   KeyedSignature signHash(String hash, WitPrivateKey privateKey) {
@@ -134,14 +142,12 @@ class Address {
   /// TODO: add ExplorerClient as a source
   Future<bool> getUtxoInfo({dynamic source}) async {
     if (source.runtimeType == NodeClient) {
-
-
       UtxoInfo utxoInfo = await source.getUtxoInfo(address: address);
       _setUtxoInfo(utxoInfo);
       return true;
     } else if (source.runtimeType == ExplorerClient) {
-      List<Utxo> _utxos =  await source.getUtxoInfo(address: address);
-      UtxoInfo utxoInfo = UtxoInfo(collateralMin: 0,utxos: _utxos);
+      List<Utxo> _utxos = await source.getUtxoInfo(address: address);
+      UtxoInfo utxoInfo = UtxoInfo(collateralMin: 0, utxos: _utxos);
       _setUtxoInfo(utxoInfo);
     }
     return false;

@@ -1,6 +1,6 @@
 part of 'radon.dart';
 
-class RadError implements Exception{
+class RadError implements Exception {
   String error;
   String type;
   String op;
@@ -9,5 +9,4 @@ class RadError implements Exception{
 
   @override
   String toString() => 'RadError[$error]';
-
 }

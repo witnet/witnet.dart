@@ -5,7 +5,7 @@ class ANY {
   static final IDENTITY = 0x00;
 }
 
-class ARRAY{
+class ARRAY {
   static final COUNT = 0x10;
   static final FILTER = 0x11;
   static final GET_ARRAY = 0x13;
@@ -20,17 +20,17 @@ class ARRAY{
   static final SORT = 0x1D;
 }
 
-class BOOLEAN{
+class BOOLEAN {
   static final AS_STRING = 0x20;
   static final NEGATE = 0x22;
 }
 
-class BYTES{
+class BYTES {
   static final AS_STRING = 0x30;
   static final HASH = 0x31;
 }
 
-class FLOAT{
+class FLOAT {
   static final ABSOLUTE = 0x50;
   static final AS_STRING = 0x51;
   static final CEILING = 0x52;
@@ -45,7 +45,7 @@ class FLOAT{
   static final TRUNCATE = 0x5d;
 }
 
-class INTEGER{
+class INTEGER {
   static final ABSOLUTE = 0x40;
   static final AS_FLOAT = 0x41;
   static final AS_STRING = 0x42;
@@ -57,7 +57,7 @@ class INTEGER{
   static final POWER = 0x49;
 }
 
-class MAP{
+class MAP {
   static final GET_ARRAY = 0x61;
   static final GET_BOOLEAN = 0x62;
   static final GET_BYTES = 0x63;
@@ -69,7 +69,7 @@ class MAP{
   static final VALUES_AS_ARRAY = 0x69;
 }
 
-class STRING{
+class STRING {
   static final AS_BOOLEAN = 0x70;
   static final AS_FLOAT = 0x72;
   static final AS_INTEGER = 0x73;
@@ -141,16 +141,17 @@ class OP {
   static final STRING_TO_LOWER_CASE = STRING.TO_LOWER_CASE;
   static final STRING_TO_UPPER_CASE = STRING.TO_UPPER_CASE;
 }
+
 final Map<int, String> OP_STR = {
   OP.ANY_FAIL: 'Any.Fail',
   OP.ANY_IDENTITY: 'Any.Identity',
-  OP.ARRAY_COUNT:'Array.count',
-  OP.ARRAY_GET_ARRAY:'Array.getArray',
-  OP.ARRAY_GET_BOOLEAN:'Array.getBoolean',
-  OP.ARRAY_GET_BYTES:'Array.getBytes',
-  OP.ARRAY_GET_INTEGER:'Array.getInteger',
-  OP.ARRAY_GET_MAP:'Array.getMap',
-  OP.ARRAY_GET_STRING:'Array.getString',
+  OP.ARRAY_COUNT: 'Array.count',
+  OP.ARRAY_GET_ARRAY: 'Array.getArray',
+  OP.ARRAY_GET_BOOLEAN: 'Array.getBoolean',
+  OP.ARRAY_GET_BYTES: 'Array.getBytes',
+  OP.ARRAY_GET_INTEGER: 'Array.getInteger',
+  OP.ARRAY_GET_MAP: 'Array.getMap',
+  OP.ARRAY_GET_STRING: 'Array.getString',
   OP.BOOLEAN_AS_STRING: 'Boolean.asString',
   OP.BOOLEAN_NEGATE: 'Boolean.negate',
   OP.BYTES_AS_STRING: 'Bytes.asString',

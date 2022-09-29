@@ -16,43 +16,50 @@ enum Message_Command_Kind {
 }
 
 const Map<int, Message_Command_Kind> _Message_Command_KindByTag = {
-  1 : Message_Command_Kind.version,
-  2 : Message_Command_Kind.verack,
-  3 : Message_Command_Kind.getPeers,
-  4 : Message_Command_Kind.peers,
-  5 : Message_Command_Kind.block,
-  6 : Message_Command_Kind.inventoryAnnouncement,
-  7 : Message_Command_Kind.inventoryRequest,
-  8 : Message_Command_Kind.lastBeacon,
-  9 : Message_Command_Kind.transaction,
-  10 : Message_Command_Kind.superBlockVote,
-  11 : Message_Command_Kind.superBlock,
-  0 : Message_Command_Kind.notSet
+  1: Message_Command_Kind.version,
+  2: Message_Command_Kind.verack,
+  3: Message_Command_Kind.getPeers,
+  4: Message_Command_Kind.peers,
+  5: Message_Command_Kind.block,
+  6: Message_Command_Kind.inventoryAnnouncement,
+  7: Message_Command_Kind.inventoryRequest,
+  8: Message_Command_Kind.lastBeacon,
+  9: Message_Command_Kind.transaction,
+  10: Message_Command_Kind.superBlockVote,
+  11: Message_Command_Kind.superBlock,
+  0: Message_Command_Kind.notSet
 };
 
 class Message_Command extends GeneratedMessage {
-
-  static final BuilderInfo _i = BuilderInfo(
-    'Message.Command',
-    package: const PackageName('witnet'),
-    createEmptyInstance: create)
-      ..oo(0, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
-      ..aOM<Version>(1, 'Version', protoName: 'Version', subBuilder: Version.create)
-      ..aOM<Verack>(2, 'Verack', protoName: 'Verack', subBuilder: Verack.create)
-      ..aOM<GetPeers>(3, 'GetPeers', protoName: 'GetPeers', subBuilder: GetPeers.create)
-      ..aOM<Peers>(4, 'Peers', protoName: 'Peers', subBuilder: Peers.create)
-      ..aOM<Block>(5, 'Block', protoName: 'Block', subBuilder: Block.create)
-      ..aOM<InventoryAnnouncement>(6, 'InventoryAnnouncement', protoName: 'InventoryAnnouncement', subBuilder: InventoryAnnouncement.create)
-      ..aOM<InventoryRequest>(7, 'InventoryRequest', protoName: 'InventoryRequest', subBuilder: InventoryRequest.create)
-      ..aOM<LastBeacon>(8, 'LastBeacon', protoName: 'LastBeacon', subBuilder: LastBeacon.create)
-      ..aOM<Transaction>(9, 'Transaction', protoName: 'Transaction', subBuilder: Transaction.create)
-      ..aOM<SuperBlockVote>(10, 'SuperBlockVote', protoName: 'SuperBlockVote', subBuilder: SuperBlockVote.create)
-      ..aOM<SuperBlock>(11, 'SuperBlock', protoName: 'SuperBlock', subBuilder: SuperBlock.create)
-      ..hasRequiredFields = false;
+  static final BuilderInfo _i = BuilderInfo('Message.Command',
+      package: const PackageName('witnet'), createEmptyInstance: create)
+    ..oo(0, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+    ..aOM<Version>(1, 'Version',
+        protoName: 'Version', subBuilder: Version.create)
+    ..aOM<Verack>(2, 'Verack', protoName: 'Verack', subBuilder: Verack.create)
+    ..aOM<GetPeers>(3, 'GetPeers',
+        protoName: 'GetPeers', subBuilder: GetPeers.create)
+    ..aOM<Peers>(4, 'Peers', protoName: 'Peers', subBuilder: Peers.create)
+    ..aOM<Block>(5, 'Block', protoName: 'Block', subBuilder: Block.create)
+    ..aOM<InventoryAnnouncement>(6, 'InventoryAnnouncement',
+        protoName: 'InventoryAnnouncement',
+        subBuilder: InventoryAnnouncement.create)
+    ..aOM<InventoryRequest>(7, 'InventoryRequest',
+        protoName: 'InventoryRequest', subBuilder: InventoryRequest.create)
+    ..aOM<LastBeacon>(8, 'LastBeacon',
+        protoName: 'LastBeacon', subBuilder: LastBeacon.create)
+    ..aOM<Transaction>(9, 'Transaction',
+        protoName: 'Transaction', subBuilder: Transaction.create)
+    ..aOM<SuperBlockVote>(10, 'SuperBlockVote',
+        protoName: 'SuperBlockVote', subBuilder: SuperBlockVote.create)
+    ..aOM<SuperBlock>(11, 'SuperBlock',
+        protoName: 'SuperBlock', subBuilder: SuperBlock.create)
+    ..hasRequiredFields = false;
 
   static Message_Command create() => Message_Command._();
   static PbList<Message_Command> createRepeated() => PbList<Message_Command>();
-  static Message_Command getDefault() => _defaultInstance ??= GeneratedMessage.$_defaultFor<Message_Command>(create);
+  static Message_Command getDefault() => _defaultInstance ??=
+      GeneratedMessage.$_defaultFor<Message_Command>(create);
   static Message_Command? _defaultInstance;
 
   Message_Command._() : super();
@@ -64,7 +71,9 @@ class Message_Command extends GeneratedMessage {
   Message_Command createEmptyInstance() => create();
 
   @override
-  Message_Command copyWith(void Function(Message_Command) updates) => super.copyWith((message) => updates(message as Message_Command)) as Message_Command; // ignore: deprecated_member_use
+  Message_Command copyWith(void Function(Message_Command) updates) =>
+      super.copyWith((message) => updates(message as Message_Command))
+          as Message_Command; // ignore: deprecated_member_use
 
   factory Message_Command({
     Version? version,
@@ -121,21 +130,29 @@ class Message_Command extends GeneratedMessage {
   }
 
   @override
-  factory Message_Command.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Message_Command.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
   @override
-  factory Message_Command.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory Message_Command.fromJson(String i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
   @override
   BuilderInfo get info_ => _i;
 
-  Message_Command_Kind whichKind() => _Message_Command_KindByTag[$_whichOneof(0)]!;
+  Message_Command_Kind whichKind() =>
+      _Message_Command_KindByTag[$_whichOneof(0)]!;
   void clearKind() => clearField($_whichOneof(0));
 
   @TagNumber(1)
   Version get version => $_getN(0);
   @TagNumber(1)
-  set version(Version v) { setField(1, v); }
+  set version(Version v) {
+    setField(1, v);
+  }
+
   @TagNumber(1)
   bool hasVersion() => $_has(0);
   @TagNumber(1)
@@ -146,7 +163,10 @@ class Message_Command extends GeneratedMessage {
   @TagNumber(2)
   Verack get verack => $_getN(1);
   @TagNumber(2)
-  set verack(Verack v) { setField(2, v); }
+  set verack(Verack v) {
+    setField(2, v);
+  }
+
   @TagNumber(2)
   bool hasVerack() => $_has(1);
   @TagNumber(2)
@@ -157,7 +177,10 @@ class Message_Command extends GeneratedMessage {
   @TagNumber(3)
   GetPeers get getPeers => $_getN(2);
   @TagNumber(3)
-  set getPeers(GetPeers v) { setField(3, v); }
+  set getPeers(GetPeers v) {
+    setField(3, v);
+  }
+
   @TagNumber(3)
   bool hasGetPeers() => $_has(2);
   @TagNumber(3)
@@ -168,7 +191,10 @@ class Message_Command extends GeneratedMessage {
   @TagNumber(4)
   Peers get peers => $_getN(3);
   @TagNumber(4)
-  set peers(Peers v) { setField(4, v); }
+  set peers(Peers v) {
+    setField(4, v);
+  }
+
   @TagNumber(4)
   bool hasPeers() => $_has(3);
   @TagNumber(4)
@@ -179,7 +205,10 @@ class Message_Command extends GeneratedMessage {
   @TagNumber(5)
   Block get block => $_getN(4);
   @TagNumber(5)
-  set block(Block v) { setField(5, v); }
+  set block(Block v) {
+    setField(5, v);
+  }
+
   @TagNumber(5)
   bool hasBlock() => $_has(4);
   @TagNumber(5)
@@ -190,7 +219,10 @@ class Message_Command extends GeneratedMessage {
   @TagNumber(6)
   InventoryAnnouncement get inventoryAnnouncement => $_getN(5);
   @TagNumber(6)
-  set inventoryAnnouncement(InventoryAnnouncement v) { setField(6, v); }
+  set inventoryAnnouncement(InventoryAnnouncement v) {
+    setField(6, v);
+  }
+
   @TagNumber(6)
   bool hasInventoryAnnouncement() => $_has(5);
   @TagNumber(6)
@@ -201,7 +233,10 @@ class Message_Command extends GeneratedMessage {
   @TagNumber(7)
   InventoryRequest get inventoryRequest => $_getN(6);
   @TagNumber(7)
-  set inventoryRequest(InventoryRequest v) { setField(7, v); }
+  set inventoryRequest(InventoryRequest v) {
+    setField(7, v);
+  }
+
   @TagNumber(7)
   bool hasInventoryRequest() => $_has(6);
   @TagNumber(7)
@@ -212,7 +247,10 @@ class Message_Command extends GeneratedMessage {
   @TagNumber(8)
   LastBeacon get lastBeacon => $_getN(7);
   @TagNumber(8)
-  set lastBeacon(LastBeacon v) { setField(8, v); }
+  set lastBeacon(LastBeacon v) {
+    setField(8, v);
+  }
+
   @TagNumber(8)
   bool hasLastBeacon() => $_has(7);
   @TagNumber(8)
@@ -223,7 +261,10 @@ class Message_Command extends GeneratedMessage {
   @TagNumber(9)
   Transaction get transaction => $_getN(8);
   @TagNumber(9)
-  set transaction(Transaction v) { setField(9, v); }
+  set transaction(Transaction v) {
+    setField(9, v);
+  }
+
   @TagNumber(9)
   bool hasTransaction() => $_has(8);
   @TagNumber(9)
@@ -234,7 +275,10 @@ class Message_Command extends GeneratedMessage {
   @TagNumber(10)
   SuperBlockVote get superBlockVote => $_getN(9);
   @TagNumber(10)
-  set superBlockVote(SuperBlockVote v) { setField(10, v); }
+  set superBlockVote(SuperBlockVote v) {
+    setField(10, v);
+  }
+
   @TagNumber(10)
   bool hasSuperBlockVote() => $_has(9);
   @TagNumber(10)
@@ -245,7 +289,10 @@ class Message_Command extends GeneratedMessage {
   @TagNumber(11)
   SuperBlock get superBlock => $_getN(10);
   @TagNumber(11)
-  set superBlock(SuperBlock v) { setField(11, v); }
+  set superBlock(SuperBlock v) {
+    setField(11, v);
+  }
+
   @TagNumber(11)
   bool hasSuperBlock() => $_has(10);
   @TagNumber(11)

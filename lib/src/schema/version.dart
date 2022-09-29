@@ -1,23 +1,22 @@
 part of 'schema.dart';
 
 class Version extends GeneratedMessage {
-  static final BuilderInfo _i = BuilderInfo(
-    'Version',
-    package: const PackageName('witnet'),
-    createEmptyInstance: create)
-      ..a<int>(1, 'version', PbFieldType.OU3)
-      ..aInt64(2, 'timestamp')
-      ..a<Int64>(3, 'capabilities', PbFieldType.OF6, defaultOrMaker: Int64.ZERO)
-      ..aOM<PeerAddress>(4, 'senderAddress', subBuilder: PeerAddress.create)
-      ..aOM<PeerAddress>(5, 'receiverAddress', subBuilder: PeerAddress.create)
-      ..aOS(6, 'userAgent')
-      ..a<Int64>(7, 'nonce', PbFieldType.OF6, defaultOrMaker: Int64.ZERO)
-      ..aOM<LastBeacon>(8, 'beacon', subBuilder: LastBeacon.create)
-      ..hasRequiredFields = false;
+  static final BuilderInfo _i = BuilderInfo('Version',
+      package: const PackageName('witnet'), createEmptyInstance: create)
+    ..a<int>(1, 'version', PbFieldType.OU3)
+    ..aInt64(2, 'timestamp')
+    ..a<Int64>(3, 'capabilities', PbFieldType.OF6, defaultOrMaker: Int64.ZERO)
+    ..aOM<PeerAddress>(4, 'senderAddress', subBuilder: PeerAddress.create)
+    ..aOM<PeerAddress>(5, 'receiverAddress', subBuilder: PeerAddress.create)
+    ..aOS(6, 'userAgent')
+    ..a<Int64>(7, 'nonce', PbFieldType.OF6, defaultOrMaker: Int64.ZERO)
+    ..aOM<LastBeacon>(8, 'beacon', subBuilder: LastBeacon.create)
+    ..hasRequiredFields = false;
 
   static Version create() => Version._();
   static PbList<Version> createRepeated() => PbList<Version>();
-  static Version getDefault() => _defaultInstance ??= GeneratedMessage.$_defaultFor<Version>(create);
+  static Version getDefault() =>
+      _defaultInstance ??= GeneratedMessage.$_defaultFor<Version>(create);
   static Version? _defaultInstance;
 
   Version._() : super();
@@ -26,7 +25,8 @@ class Version extends GeneratedMessage {
   Version clone() => Version()..mergeFromMessage(this);
 
   @override
-  Version copyWith(void Function(Version) updates) => super.copyWith((message) => updates(message as Version)) as Version;
+  Version copyWith(void Function(Version) updates) =>
+      super.copyWith((message) => updates(message as Version)) as Version;
 
   @override
   Version createEmptyInstance() => create();
@@ -73,17 +73,24 @@ class Version extends GeneratedMessage {
   BuilderInfo get info_ => _i;
 
   @override
-  factory Version.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Version.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
   @override
-  factory Version.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory Version.fromJson(String i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
   Uint8List get pbBytes => writeToBuffer();
 
   @TagNumber(1)
   int get version => $_getIZ(0);
   @TagNumber(1)
-  set version(int v) { $_setUnsignedInt32(0, v); }
+  set version(int v) {
+    $_setUnsignedInt32(0, v);
+  }
+
   @TagNumber(1)
   bool hasVersion() => $_has(0);
   @TagNumber(1)
@@ -92,7 +99,10 @@ class Version extends GeneratedMessage {
   @TagNumber(2)
   Int64 get timestamp => $_getI64(1);
   @TagNumber(2)
-  set timestamp(Int64 v) { $_setInt64(1, v); }
+  set timestamp(Int64 v) {
+    $_setInt64(1, v);
+  }
+
   @TagNumber(2)
   bool hasTimestamp() => $_has(1);
   @TagNumber(2)
@@ -101,7 +111,10 @@ class Version extends GeneratedMessage {
   @TagNumber(3)
   Int64 get capabilities => $_getI64(2);
   @TagNumber(3)
-  set capabilities(Int64 v) { $_setInt64(2, v); }
+  set capabilities(Int64 v) {
+    $_setInt64(2, v);
+  }
+
   @TagNumber(3)
   bool hasCapabilities() => $_has(2);
   @TagNumber(3)
@@ -110,7 +123,10 @@ class Version extends GeneratedMessage {
   @TagNumber(4)
   PeerAddress get senderAddress => $_getN(3);
   @TagNumber(4)
-  set senderAddress(PeerAddress v) { setField(4, v); }
+  set senderAddress(PeerAddress v) {
+    setField(4, v);
+  }
+
   @TagNumber(4)
   bool hasSenderAddress() => $_has(3);
   @TagNumber(4)
@@ -121,7 +137,10 @@ class Version extends GeneratedMessage {
   @TagNumber(5)
   PeerAddress get receiverAddress => $_getN(4);
   @TagNumber(5)
-  set receiverAddress(PeerAddress v) { setField(5, v); }
+  set receiverAddress(PeerAddress v) {
+    setField(5, v);
+  }
+
   @TagNumber(5)
   bool hasReceiverAddress() => $_has(4);
   @TagNumber(5)
@@ -132,7 +151,10 @@ class Version extends GeneratedMessage {
   @TagNumber(6)
   String get userAgent => $_getSZ(5);
   @TagNumber(6)
-  set userAgent(String v) { $_setString(5, v); }
+  set userAgent(String v) {
+    $_setString(5, v);
+  }
+
   @TagNumber(6)
   bool hasUserAgent() => $_has(5);
   @TagNumber(6)
@@ -141,7 +163,10 @@ class Version extends GeneratedMessage {
   @TagNumber(7)
   Int64 get nonce => $_getI64(6);
   @TagNumber(7)
-  set nonce(Int64 v) { $_setInt64(6, v); }
+  set nonce(Int64 v) {
+    $_setInt64(6, v);
+  }
+
   @TagNumber(7)
   bool hasNonce() => $_has(6);
   @TagNumber(7)
@@ -150,7 +175,10 @@ class Version extends GeneratedMessage {
   @TagNumber(8)
   LastBeacon get beacon => $_getN(7);
   @TagNumber(8)
-  set beacon(LastBeacon v) { setField(8, v); }
+  set beacon(LastBeacon v) {
+    setField(8, v);
+  }
+
   @TagNumber(8)
   bool hasBeacon() => $_has(7);
   @TagNumber(8)

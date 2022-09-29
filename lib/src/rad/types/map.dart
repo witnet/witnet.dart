@@ -1,31 +1,30 @@
 part of 'types.dart';
 
-
 class RadMap extends MapBase {
   Map _value;
   RadMap(this._value);
   final String type = TYPES.MAP;
   Map get value => _value;
   @override
-  String toString(){
+  String toString() {
     return '$_value';
   }
 
-  factory RadMap.fromJson(Map<String, dynamic> jsonMap){
+  factory RadMap.fromJson(Map<String, dynamic> jsonMap) {
     RadMap radonMap = RadMap({});
     jsonMap.forEach((key, value) {
-      if(typesMap.containsKey(value.runtimeType.toString())){
+      if (typesMap.containsKey(value.runtimeType.toString())) {
         // if the value is a dart type
         Type type = typesMap[value.runtimeType.toString()]!;
-        if(value.runtimeType.toString() == '_InternalLinkedHashMap<String, dynamic>'){
-          radonMap[key]= RadTypes.instance(RadMap, value, {});
+        if (value.runtimeType.toString() ==
+            '_InternalLinkedHashMap<String, dynamic>') {
+          radonMap[key] = RadTypes.instance(RadMap, value, {});
         } else {
           radonMap[key] = RadTypes.instance(type, value, {});
         }
-      } else if (typesList.contains(value.runtimeType)){
+      } else if (typesList.contains(value.runtimeType)) {
         // if the value is a RadonType
-        radonMap[key] =
-            RadTypes.instance(value.runtimeType, value, {});
+        radonMap[key] = RadTypes.instance(value.runtimeType, value, {});
       }
     });
     return radonMap;
@@ -35,16 +34,17 @@ class RadMap extends MapBase {
   operator [](Object? key) {
     return _value[key];
   }
+
   @override
   void operator []=(key, value) {
-    _value[key]= value;
-    if(typesMap.containsKey(value.runtimeType.toString())){
+    _value[key] = value;
+    if (typesMap.containsKey(value.runtimeType.toString())) {
       // if the value is a dart type
       Type type = typesMap[value.runtimeType.toString()]!;
-      _value[key]= RadTypes.instance(type, value, {});
-    } else if (typesList.contains(value.runtimeType)){
+      _value[key] = RadTypes.instance(type, value, {});
+    } else if (typesList.contains(value.runtimeType)) {
       // if the value is a RadonType
-      _value[key]= value;
+      _value[key] = value;
     }
   }
 
@@ -61,9 +61,9 @@ class RadMap extends MapBase {
     _value.remove(key);
   }
 
-  RadArray getArray(String key){
+  RadArray getArray(String key) {
     try {
-      if(_value.containsKey(key)) {
+      if (_value.containsKey(key)) {
         var value = _value[key];
         if (value.runtimeType.toString() == 'RadArray<dynamic>') {
           return value as RadArray;
@@ -76,10 +76,10 @@ class RadMap extends MapBase {
     }
   }
 
-  RadBoolean getBoolean(String key){
-    if(_value.containsKey(key)){
+  RadBoolean getBoolean(String key) {
+    if (_value.containsKey(key)) {
       var value = _value[key];
-      if (value.runtimeType == RadBoolean){
+      if (value.runtimeType == RadBoolean) {
         return value as RadBoolean;
       } else {
         throw RadError('RadMap', 'getBoolean', 'value is not an Boolean.');
@@ -88,10 +88,11 @@ class RadMap extends MapBase {
       throw RadError('RadMap', 'getBoolean', 'key $key is not in the Map.');
     }
   }
-  RadBytes getBytes(String key){
-    if(_value.containsKey(key)){
+
+  RadBytes getBytes(String key) {
+    if (_value.containsKey(key)) {
       var value = _value[key];
-      if (value.runtimeType == RadBytes){
+      if (value.runtimeType == RadBytes) {
         return value as RadBytes;
       } else {
         throw RadError('RadMap', 'getBytes', 'value is not Bytes.');
@@ -100,13 +101,14 @@ class RadMap extends MapBase {
       throw RadError('RadMap', 'getBytes', 'key $key is not in the Map.');
     }
   }
-  RadFloat getFloat(String key){
-    if(_value.containsKey(key)){
+
+  RadFloat getFloat(String key) {
+    if (_value.containsKey(key)) {
       var value = _value[key];
-      if (value.runtimeType == RadFloat){
+      if (value.runtimeType == RadFloat) {
         return value as RadFloat;
-      } else{
-        if(value.runtimeType == RadString) {
+      } else {
+        if (value.runtimeType == RadString) {
           return value.asFloat();
         }
         throw RadError('RadMap', 'getFloat', 'value is not RadFloat.');
@@ -115,10 +117,11 @@ class RadMap extends MapBase {
       throw RadError('RadMap', 'getFloat', 'key $key is not in the Map.');
     }
   }
-  RadInteger getInteger(String key){
-    if(_value.containsKey(key)){
+
+  RadInteger getInteger(String key) {
+    if (_value.containsKey(key)) {
       var value = _value[key];
-      if (value.runtimeType == RadInteger){
+      if (value.runtimeType == RadInteger) {
         return value as RadInteger;
       } else {
         throw RadError('RadMap', 'getInteger', 'value is not an integer.');
@@ -127,10 +130,11 @@ class RadMap extends MapBase {
       throw RadError('RadMap', 'getInteger', 'key $key is not in the Map.');
     }
   }
-  RadMap getMap(String key){
-    if(_value.containsKey(key)){
+
+  RadMap getMap(String key) {
+    if (_value.containsKey(key)) {
       var value = _value[key];
-      if (value.runtimeType == RadMap){
+      if (value.runtimeType == RadMap) {
         return value as RadMap;
       } else {
         throw RadError('RadMap', 'getInteger', 'value is not a map.');
@@ -139,10 +143,11 @@ class RadMap extends MapBase {
       throw RadError('RadMap', 'getInteger', 'key $key is not in the Map.');
     }
   }
-  RadString getString(String key){
-    if(_value.containsKey(key)){
+
+  RadString getString(String key) {
+    if (_value.containsKey(key)) {
       var value = _value[key];
-      if (value.runtimeType == RadString){
+      if (value.runtimeType == RadString) {
         return value as RadString;
       } else {
         throw RadError('RadMap', 'getString', 'value is not String.');
@@ -152,8 +157,7 @@ class RadMap extends MapBase {
     }
   }
 
-
-  dynamic processScript(String data,List<int> script){
+  dynamic processScript(String data, List<int> script) {
     var radScript = cborToRad(script);
     var root = RadString(data).op(radScript[0]);
     print(radScript);
@@ -162,12 +166,12 @@ class RadMap extends MapBase {
 
     List<dynamic> opStack = [];
     opStack.add(root);
-    for (int i = 1; i < radScript.length; i ++ ){
+    for (int i = 1; i < radScript.length; i++) {
       print(opStack[i]);
       var lastOp = opStack.last[1];
       var _op = radScript[i];
       var currentOp;
-      if(_op.runtimeType == int){
+      if (_op.runtimeType == int) {
         currentOp = lastOp.op(_op);
       } else {
         currentOp = lastOp.op(_op[0], _op[1]);
@@ -178,9 +182,9 @@ class RadMap extends MapBase {
     return {'trace': opStack, 'script': radScript};
   }
 
-  dynamic op(int op, [dynamic key]){
+  dynamic op(int op, [dynamic key]) {
     Map<int, dynamic> ops = {};
-    if(key != null) {
+    if (key != null) {
       ops.addAll({
         OP.MAP_GET_ARRAY: getArray,
         OP.MAP_GET_BOOLEAN: getBoolean,
@@ -191,7 +195,7 @@ class RadMap extends MapBase {
         OP.MAP_GET_STRING: getString,
       });
       return ops[op](key);
-    } else return ops[op];
+    } else
+      return ops[op];
   }
-
 }

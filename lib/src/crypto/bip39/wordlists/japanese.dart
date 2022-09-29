@@ -1,4 +1,4 @@
-const WORDLIST = [  
+const WORDLIST = [
   "あいこくしん",
   "あいさつ",
   "あいだ",

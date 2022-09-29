@@ -1,17 +1,16 @@
 part of 'schema.dart';
 
 class Peers extends GeneratedMessage {
-
-  static final BuilderInfo _i = BuilderInfo(
-    'Peers',
-    package: const PackageName('witnet'),
-    createEmptyInstance: create)
-      ..pc<PeerAddress>(1, 'peers', PbFieldType.PM, subBuilder: PeerAddress.create)
-      ..hasRequiredFields = false;
+  static final BuilderInfo _i = BuilderInfo('Peers',
+      package: const PackageName('witnet'), createEmptyInstance: create)
+    ..pc<PeerAddress>(1, 'peers', PbFieldType.PM,
+        subBuilder: PeerAddress.create)
+    ..hasRequiredFields = false;
 
   static Peers create() => Peers._();
   static PbList<Peers> createRepeated() => PbList<Peers>();
-  static Peers getDefault() => _defaultInstance ??= GeneratedMessage.$_defaultFor<Peers>(create);
+  static Peers getDefault() =>
+      _defaultInstance ??= GeneratedMessage.$_defaultFor<Peers>(create);
   static Peers? _defaultInstance;
 
   Peers._() : super();
@@ -20,7 +19,9 @@ class Peers extends GeneratedMessage {
   Peers clone() => Peers()..mergeFromMessage(this);
 
   @override
-  Peers copyWith(void Function(Peers) updates) => super.copyWith((message) => updates(message as Peers)) as Peers; // ignore: deprecated_member_use
+  Peers copyWith(void Function(Peers) updates) =>
+      super.copyWith((message) => updates(message as Peers))
+          as Peers; // ignore: deprecated_member_use
 
   @override
   Peers createEmptyInstance() => create();
@@ -36,10 +37,14 @@ class Peers extends GeneratedMessage {
   }
 
   @override
-  factory Peers.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Peers.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
   @override
-  factory Peers.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory Peers.fromJson(String i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
   @override
   BuilderInfo get info_ => _i;

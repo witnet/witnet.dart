@@ -1,16 +1,15 @@
 part of 'schema.dart';
 
 class Bn256Signature extends GeneratedMessage {
-  static final BuilderInfo _i = BuilderInfo(
-    'Bn256Signature',
-    package: const PackageName('witnet'),
-    createEmptyInstance: create)
-      ..a<List<int>>(1, 'signature', PbFieldType.OY)
-      ..hasRequiredFields = false;
+  static final BuilderInfo _i = BuilderInfo('Bn256Signature',
+      package: const PackageName('witnet'), createEmptyInstance: create)
+    ..a<List<int>>(1, 'signature', PbFieldType.OY)
+    ..hasRequiredFields = false;
 
   static Bn256Signature create() => Bn256Signature._();
   static PbList<Bn256Signature> createRepeated() => PbList<Bn256Signature>();
-  static Bn256Signature getDefault() => _defaultInstance ??= GeneratedMessage.$_defaultFor<Bn256Signature>(create);
+  static Bn256Signature getDefault() => _defaultInstance ??=
+      GeneratedMessage.$_defaultFor<Bn256Signature>(create);
   static Bn256Signature? _defaultInstance;
 
   Bn256Signature._() : super();
@@ -22,7 +21,9 @@ class Bn256Signature extends GeneratedMessage {
   Bn256Signature createEmptyInstance() => create();
 
   @override
-  Bn256Signature copyWith(void Function(Bn256Signature) updates) => super.copyWith((message) => updates(message as Bn256Signature)) as Bn256Signature; // ignore: deprecated_member_use
+  Bn256Signature copyWith(void Function(Bn256Signature) updates) =>
+      super.copyWith((message) => updates(message as Bn256Signature))
+          as Bn256Signature; // ignore: deprecated_member_use
 
   factory Bn256Signature({
     List<int>? signature,
@@ -35,10 +36,14 @@ class Bn256Signature extends GeneratedMessage {
   }
 
   @override
-  factory Bn256Signature.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Bn256Signature.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
   @override
-  factory Bn256Signature.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory Bn256Signature.fromJson(String i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
   @override
   BuilderInfo get info_ => _i;
@@ -48,7 +53,10 @@ class Bn256Signature extends GeneratedMessage {
   @TagNumber(1)
   List<int> get signature => $_getN(0);
   @TagNumber(1)
-  set signature(List<int> v) { $_setBytes(0, v); }
+  set signature(List<int> v) {
+    $_setBytes(0, v);
+  }
+
   @TagNumber(1)
   bool hasSignature() => $_has(0);
   @TagNumber(1)

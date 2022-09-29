@@ -1,6 +1,6 @@
 part of 'types.dart';
 
-class RadBoolean{
+class RadBoolean {
   bool _value;
   RadBoolean(this._value);
   final String type = TYPES.BOOLEAN;
@@ -10,11 +10,11 @@ class RadBoolean{
     return _value.toString();
   }
 
-  static RadBoolean get False{
+  static RadBoolean get False {
     return RadBoolean(false);
   }
 
-  static RadBoolean get True{
+  static RadBoolean get True {
     return RadBoolean(true);
   }
 
@@ -22,14 +22,15 @@ class RadBoolean{
 
   RadBoolean negate() => (_value == true) ? RadBoolean.True : RadBoolean.False;
 
-  dynamic op(int op, [dynamic key]){
+  dynamic op(int op, [dynamic key]) {
     Map<int, dynamic> ops = {};
-    if(key != null) {
+    if (key != null) {
       ops.addAll({
         OP.BOOLEAN_AS_STRING: asString,
         OP.BOOLEAN_NEGATE: negate,
       });
       return ops[op](key);
-    } else return ops[op];
+    } else
+      return ops[op];
   }
 }

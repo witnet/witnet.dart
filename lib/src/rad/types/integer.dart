@@ -1,6 +1,6 @@
 part of 'types.dart';
 
-class RadInteger{
+class RadInteger {
   int _value;
   final String type = TYPES.INTEGER;
   RadInteger(this._value);
@@ -8,15 +8,18 @@ class RadInteger{
   RadInteger absolute() => RadInteger(_value.abs());
   RadFloat asFloat() => RadFloat(_value.toDouble());
   RadString asString() => RadString(_value.toString());
-  RadBoolean greaterThan(RadInteger i) => (_value > i._value) ? RadBoolean(true) : RadBoolean(false);
-  RadBoolean lessThan(RadInteger i) => (_value < i._value) ? RadBoolean(true) : RadBoolean(false);
+  RadBoolean greaterThan(RadInteger i) =>
+      (_value > i._value) ? RadBoolean(true) : RadBoolean(false);
+  RadBoolean lessThan(RadInteger i) =>
+      (_value < i._value) ? RadBoolean(true) : RadBoolean(false);
   RadInteger modulo(int i) => RadInteger(_value % i);
   RadInteger multiply(int i) => RadInteger(_value * i);
-  RadInteger negate(dynamic i) => RadInteger((_value < 0) ? -_value : _value.abs());
+  RadInteger negate(dynamic i) =>
+      RadInteger((_value < 0) ? -_value : _value.abs());
   RadInteger power(dynamic i) => RadInteger(pow(_value, i._value) as int);
-  dynamic op(int op, [dynamic key]){
+  dynamic op(int op, [dynamic key]) {
     Map<int, dynamic> ops = {};
-    if(key != null) {
+    if (key != null) {
       ops.addAll({
         OP.INTEGER_ASBOLUTE: absolute,
         OP.INTEGER_AS_FLOAT: asFloat,
@@ -29,7 +32,7 @@ class RadInteger{
         OP.INTEGER_POWER: power,
       });
       return ops[op](key);
-    } else return ops[op];
+    } else
+      return ops[op];
   }
-
 }

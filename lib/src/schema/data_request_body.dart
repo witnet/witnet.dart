@@ -1,18 +1,20 @@
 part of 'schema.dart';
 
 class DRTransactionBody extends GeneratedMessage {
-  static final BuilderInfo _i = BuilderInfo(
-    'DRTransactionBody',
-    package: const PackageName('witnet'),
-    createEmptyInstance: create)
-      ..pc<Input>(1, 'inputs', PbFieldType.PM, subBuilder: Input.create)
-      ..pc<ValueTransferOutput>(2, 'outputs', PbFieldType.PM, subBuilder: ValueTransferOutput.create)
-      ..aOM<DataRequestOutput>(3, 'drOutput', subBuilder: DataRequestOutput.create)
-      ..hasRequiredFields = false;
+  static final BuilderInfo _i = BuilderInfo('DRTransactionBody',
+      package: const PackageName('witnet'), createEmptyInstance: create)
+    ..pc<Input>(1, 'inputs', PbFieldType.PM, subBuilder: Input.create)
+    ..pc<ValueTransferOutput>(2, 'outputs', PbFieldType.PM,
+        subBuilder: ValueTransferOutput.create)
+    ..aOM<DataRequestOutput>(3, 'drOutput',
+        subBuilder: DataRequestOutput.create)
+    ..hasRequiredFields = false;
 
   static DRTransactionBody create() => DRTransactionBody._();
-  static PbList<DRTransactionBody> createRepeated() => PbList<DRTransactionBody>();
-  static DRTransactionBody getDefault() => _defaultInstance ??= GeneratedMessage.$_defaultFor<DRTransactionBody>(create);
+  static PbList<DRTransactionBody> createRepeated() =>
+      PbList<DRTransactionBody>();
+  static DRTransactionBody getDefault() => _defaultInstance ??=
+      GeneratedMessage.$_defaultFor<DRTransactionBody>(create);
   static DRTransactionBody? _defaultInstance;
 
   DRTransactionBody._() : super();
@@ -41,12 +43,13 @@ class DRTransactionBody extends GeneratedMessage {
     return _result;
   }
 
-
-
-  factory DRTransactionBody.fromRawJson(String str) => DRTransactionBody.fromJson(json.decode(str));
+  factory DRTransactionBody.fromRawJson(String str) =>
+      DRTransactionBody.fromJson(json.decode(str));
 
   @override
-  factory DRTransactionBody.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory DRTransactionBody.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
   @override
   factory DRTransactionBody.fromJson(Map<String, dynamic> json) =>
@@ -61,7 +64,8 @@ class DRTransactionBody extends GeneratedMessage {
 
   Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "dr_output": drOutput.jsonMap(asHex: asHex),
-        "inputs": List<dynamic>.from(inputs.map((x) => x.jsonMap(asHex: asHex))),
+        "inputs":
+            List<dynamic>.from(inputs.map((x) => x.jsonMap(asHex: asHex))),
         "outputs": List<dynamic>.from(outputs.map((x) => x.jsonMap())),
       };
 
@@ -98,7 +102,10 @@ class DRTransactionBody extends GeneratedMessage {
   @TagNumber(3)
   DataRequestOutput get drOutput => $_getN(2);
   @TagNumber(3)
-  set drOutput(DataRequestOutput v) { setField(3, v); }
+  set drOutput(DataRequestOutput v) {
+    setField(3, v);
+  }
+
   @TagNumber(3)
   bool hasDrOutput() => $_has(2);
   @TagNumber(3)

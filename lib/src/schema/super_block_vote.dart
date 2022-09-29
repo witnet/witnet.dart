@@ -1,19 +1,20 @@
 part of 'schema.dart';
 
 class SuperBlockVote extends GeneratedMessage {
-  static final BuilderInfo _i = BuilderInfo(
-    'SuperBlockVote',
-    package: const PackageName('witnet'),
-    createEmptyInstance: create)
-      ..aOM<Bn256Signature>(1, 'bn256Signature', subBuilder: Bn256Signature.create)
-      ..aOM<KeyedSignature>(2, 'secp256k1Signature', subBuilder: KeyedSignature.create)
-      ..aOM<Hash>(3, 'superblockHash', subBuilder: Hash.create)
-      ..a<int>(4, 'superblockIndex', PbFieldType.OF3)
-      ..hasRequiredFields = false;
+  static final BuilderInfo _i = BuilderInfo('SuperBlockVote',
+      package: const PackageName('witnet'), createEmptyInstance: create)
+    ..aOM<Bn256Signature>(1, 'bn256Signature',
+        subBuilder: Bn256Signature.create)
+    ..aOM<KeyedSignature>(2, 'secp256k1Signature',
+        subBuilder: KeyedSignature.create)
+    ..aOM<Hash>(3, 'superblockHash', subBuilder: Hash.create)
+    ..a<int>(4, 'superblockIndex', PbFieldType.OF3)
+    ..hasRequiredFields = false;
 
   static SuperBlockVote create() => SuperBlockVote._();
   static PbList<SuperBlockVote> createRepeated() => PbList<SuperBlockVote>();
-  static SuperBlockVote getDefault() => _defaultInstance ??= GeneratedMessage.$_defaultFor<SuperBlockVote>(create);
+  static SuperBlockVote getDefault() => _defaultInstance ??=
+      GeneratedMessage.$_defaultFor<SuperBlockVote>(create);
   static SuperBlockVote? _defaultInstance;
 
   SuperBlockVote._() : super();
@@ -22,7 +23,9 @@ class SuperBlockVote extends GeneratedMessage {
   SuperBlockVote clone() => SuperBlockVote()..mergeFromMessage(this);
 
   @override
-  SuperBlockVote copyWith(void Function(SuperBlockVote) updates) => super.copyWith((message) => updates(message as SuperBlockVote)) as SuperBlockVote; // ignore: deprecated_member_use
+  SuperBlockVote copyWith(void Function(SuperBlockVote) updates) =>
+      super.copyWith((message) => updates(message as SuperBlockVote))
+          as SuperBlockVote; // ignore: deprecated_member_use
 
   @override
   SuperBlockVote createEmptyInstance() => create();
@@ -50,10 +53,14 @@ class SuperBlockVote extends GeneratedMessage {
   }
 
   @override
-  factory SuperBlockVote.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory SuperBlockVote.fromBuffer(List<int> i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
 
   @override
-  factory SuperBlockVote.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory SuperBlockVote.fromJson(String i,
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
   @override
   BuilderInfo get info_ => _i;
@@ -63,7 +70,10 @@ class SuperBlockVote extends GeneratedMessage {
   @TagNumber(1)
   Bn256Signature get bn256Signature => $_getN(0);
   @TagNumber(1)
-  set bn256Signature(Bn256Signature v) { setField(1, v); }
+  set bn256Signature(Bn256Signature v) {
+    setField(1, v);
+  }
+
   @TagNumber(1)
   bool hasBn256Signature() => $_has(0);
   @TagNumber(1)
@@ -74,7 +84,10 @@ class SuperBlockVote extends GeneratedMessage {
   @TagNumber(2)
   KeyedSignature get secp256k1Signature => $_getN(1);
   @TagNumber(2)
-  set secp256k1Signature(KeyedSignature v) { setField(2, v); }
+  set secp256k1Signature(KeyedSignature v) {
+    setField(2, v);
+  }
+
   @TagNumber(2)
   bool hasSecp256k1Signature() => $_has(1);
   @TagNumber(2)
@@ -85,7 +98,10 @@ class SuperBlockVote extends GeneratedMessage {
   @TagNumber(3)
   Hash get superblockHash => $_getN(2);
   @TagNumber(3)
-  set superblockHash(Hash v) { setField(3, v); }
+  set superblockHash(Hash v) {
+    setField(3, v);
+  }
+
   @TagNumber(3)
   bool hasSuperblockHash() => $_has(2);
   @TagNumber(3)
@@ -96,7 +112,10 @@ class SuperBlockVote extends GeneratedMessage {
   @TagNumber(4)
   int get superblockIndex => $_getIZ(3);
   @TagNumber(4)
-  set superblockIndex(int v) { $_setUnsignedInt32(3, v); }
+  set superblockIndex(int v) {
+    $_setUnsignedInt32(3, v);
+  }
+
   @TagNumber(4)
   bool hasSuperblockIndex() => $_has(3);
   @TagNumber(4)

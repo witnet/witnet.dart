@@ -22,7 +22,7 @@ class UtxoPool {
     map.remove(utxo.outputPointer);
   }
 
-  void clear(){
+  void clear() {
     map.clear();
   }
 
@@ -74,14 +74,13 @@ class UtxoPool {
   List<Utxo> cover({
     required int amountNanoWit,
     required UtxoSelectionStrategy utxoStrategy,
-  }){
+  }) {
     List<Utxo> utxos = sortUtxos(utxoStrategy);
     if (utxos.isEmpty) {
       print('Error -> no Utxos to select.');
       return [];
     }
     int utxoValue = 0;
-
 
     utxos.forEach((utxo) {
       utxoValue += utxo.value;
@@ -103,10 +102,10 @@ class UtxoPool {
     return selectedUtxos;
   }
 
-  List<Utxo> selectUtxos(
-      {required List<ValueTransferOutput> outputs,
-      required UtxoSelectionStrategy utxoStrategy,
-}) {
+  List<Utxo> selectUtxos({
+    required List<ValueTransferOutput> outputs,
+    required UtxoSelectionStrategy utxoStrategy,
+  }) {
     List<Utxo> utxos = sortUtxos(utxoStrategy);
     if (utxos.isEmpty) {
       print('Error -> no Utxos to select.');
@@ -141,5 +140,4 @@ class UtxoPool {
 
     return selectedUtxos;
   }
-
 }
