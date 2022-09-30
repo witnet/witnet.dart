@@ -1,7 +1,5 @@
-import 'dart:convert' show json;
+part of 'schema.dart';
 
-import 'public_key.dart' show PublicKey;
-import 'signature.dart' show Signature;
 
 class KeyedSignature {
   KeyedSignature({required this.publicKey, required this.signature});
@@ -12,7 +10,7 @@ class KeyedSignature {
   factory KeyedSignature.fromRawJson(String str) =>
       KeyedSignature.fromJson(json.decode(str));
 
-  String get rawJson => json.encode(jsonMap);
+  String get rawJson => json.encode(jsonMap());
 
   factory KeyedSignature.fromJson(Map<String, dynamic> json) => KeyedSignature(
         publicKey: PublicKey.fromJson(json["public_key"]),
@@ -24,5 +22,12 @@ class KeyedSignature {
       "public_key": publicKey.jsonMap(asHex: asHex),
       "signature": signature.jsonMap(asHex: asHex),
     };
+  }
+
+  Uint8List get pbBytes {
+
+    return concatBytes([
+      pbField(1, LENGTH_DELIMITED, publicKey.pbBytes)
+    ]);
   }
 }

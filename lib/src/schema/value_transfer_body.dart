@@ -1,13 +1,5 @@
-import 'dart:convert' show json;
-import 'dart:typed_data' show Uint8List;
+part of 'schema.dart';
 
-import 'input.dart' show Input;
-import 'value_transfer_output.dart' show ValueTransferOutput;
-
-import 'package:witnet/constants.dart' show INPUT_SIZE, OUTPUT_SIZE, GAMMA;
-import 'package:witnet/crypto.dart' show sha256;
-import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED;
-import 'package:witnet/utils.dart' show concatBytes;
 
 class VTTransactionBody {
   VTTransactionBody({
@@ -28,11 +20,11 @@ class VTTransactionBody {
             json["outputs"].map((x) => ValueTransferOutput.fromJson(x))),
       );
 
-  String toRawJson() => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap() => {
-        "inputs": List<dynamic>.from(inputs.map((x) => x.jsonMap())),
-        "outputs": List<dynamic>.from(outputs.map((x) => x.jsonMap())),
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
+        "inputs": List<dynamic>.from(inputs.map((x) => x.jsonMap(asHex: asHex))),
+        "outputs": List<dynamic>.from(outputs.map((x) => x.jsonMap(asHex: asHex))),
       };
 
   Uint8List get pbBytes {

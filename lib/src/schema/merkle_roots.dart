@@ -1,4 +1,4 @@
-import 'dart:convert' show json;
+part of 'schema.dart';
 
 class MerkleRoots {
   MerkleRoots({
@@ -20,7 +20,7 @@ class MerkleRoots {
   factory MerkleRoots.fromRawJson(String str) =>
       MerkleRoots.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
+  String toRawJson() => json.encode(jsonMap());
 
   factory MerkleRoots.fromJson(Map<String, dynamic> json) => MerkleRoots(
         commitHashMerkleRoot: json["commit_hash_merkle_root"],
@@ -31,12 +31,23 @@ class MerkleRoots {
         vtHashMerkleRoot: json["vt_hash_merkle_root"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "commit_hash_merkle_root": commitHashMerkleRoot,
+  Map<String, dynamic> jsonMap({bool asHex=false}) => {
+        "commit_hash_merkle_root": (asHex) ? commitHashMerkleRoot : stringToBytes(commitHashMerkleRoot),
         "dr_hash_merkle_root": drHashMerkleRoot,
         "mint_hash": mintHash,
         "reveal_hash_merkle_root": revealHashMerkleRoot,
         "tally_hash_merkle_root": tallyHashMerkleRoot,
         "vt_hash_merkle_root": vtHashMerkleRoot,
       };
+
+  Uint8List get pbBytes {
+    return concatBytes([
+      pbField(1, LENGTH_DELIMITED, stringToBytes(mintHash)),
+      pbField(2, LENGTH_DELIMITED, stringToBytes(vtHashMerkleRoot)),
+      pbField(3, LENGTH_DELIMITED, stringToBytes(drHashMerkleRoot)),
+      pbField(4, LENGTH_DELIMITED, stringToBytes(commitHashMerkleRoot)),
+      pbField(5, LENGTH_DELIMITED, stringToBytes(revealHashMerkleRoot)),
+      pbField(6, LENGTH_DELIMITED, stringToBytes(tallyHashMerkleRoot)),
+    ]);
+  }
 }

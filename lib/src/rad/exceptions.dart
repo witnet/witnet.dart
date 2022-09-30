@@ -1,3 +1,4 @@
+part of 'radon.dart';
 
 class RadError implements Exception{
   String error;

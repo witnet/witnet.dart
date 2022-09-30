@@ -55,6 +55,7 @@ class ChainBeacon {
     "hashPrevBlock": hashPrevBlock,
   };
 }
+
 class TransactionResponse {
   TransactionResponse({
     required this.blockHash,
@@ -88,6 +89,7 @@ class TransactionResponse {
     "weight": weight,
   };
 }
+
 class UtxoInfo {
   UtxoInfo({
     required this.collateralMin,
@@ -156,9 +158,6 @@ class NodeStats {
     "slashed_count": slashedCount,
   };
 }
-
-
-
 
 class SyncStatus {
   SyncStatus({

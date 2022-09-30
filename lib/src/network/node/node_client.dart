@@ -13,9 +13,11 @@ class NodeClient {
   late int _id;
   List<String> messages = [];
   bool keepAlive;
-
+  String _secureResponse = '';
+  Socket? _socket;
   NodeClient(
       {required this.address, required this.port, this.keepAlive = false});
+
 
   Future<SyncStatus> syncStatus() async {
     try{
@@ -88,6 +90,7 @@ class NodeClient {
       var response = await sendMessage(
               formatRequest(method: 'getBlock', params: [blockHash]))
           .then((Map<String, dynamic> data) {
+
         if (data.containsKey('result')) {
           return data['result'];
         } else if (data.containsKey('error')) {
@@ -243,7 +246,6 @@ class NodeClient {
         if (data.containsKey('result')) {
           return data['result'];
         } else if (data.containsKey('error')) {
-          print(json.encode(data));
           throw NodeException.fromJson(data['error']);
         }
       });
@@ -260,7 +262,6 @@ class NodeClient {
         if (data.containsKey('result')) {
           return data['result'];
         } else if (data.containsKey('error')) {
-          print(json.encode(data));
           throw NodeException.fromJson(data['error']);
         }
       });
@@ -318,11 +319,10 @@ class NodeClient {
 
   Future<Map<String, dynamic>> _handle(String _request) async {
 
-    String _secureResponse = '';
-    Socket? _socket;
+
     try {
       // =============================================================
-      await Socket.connect(address, port).then((Socket sock) {
+      _socket = await Socket.connect(address, port).then((Socket sock) {
         _socket = sock;
       }).then((_) {
         // SENT TO NODE
@@ -332,6 +332,7 @@ class NodeClient {
         // GET FROM NODE
         _secureResponse = new String.fromCharCodes(data).trim();
         _socket!.close();
+        return _socket;
       });
     } on SocketException catch(e){
       throw NodeException(code: e.osError!.errorCode, message: e.message);

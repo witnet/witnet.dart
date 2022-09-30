@@ -1,14 +1,4 @@
-import 'dart:collection' show ListBase;
-
-import 'boolean.dart' show RadBoolean;
-import 'bytes.dart' show RadBytes;
-import 'integer.dart' show RadInteger;
-import 'map.dart' show RadMap;
-import 'string.dart' show RadString;
-import 'types.dart' show RadTypes, TYPES, typesList, typesMap;
-
-import '../op_codes.dart';
-import '../exceptions.dart';
+part of 'types.dart';
 
 class RadArray<E> extends ListBase<E>{
   final List<E> _value;

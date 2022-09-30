@@ -1,8 +1,5 @@
-import 'dart:convert' show json;
+part of 'schema.dart';
 
-import 'dart:typed_data' show Uint8List;
-
-import 'package:witnet/src/utils/transformations/transformations.dart';
 
 class Secp256k1Signature {
   Secp256k1Signature({
@@ -14,7 +11,7 @@ class Secp256k1Signature {
   factory Secp256k1Signature.fromRawJson(String str) =>
       Secp256k1Signature.fromJson(json.decode(str));
 
-  String get rawJson => json.encode(jsonMap);
+  String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory Secp256k1Signature.fromJson(Map<String, dynamic> json) =>
       Secp256k1Signature(
@@ -22,13 +19,16 @@ class Secp256k1Signature {
       );
 
   Map<String, dynamic> jsonMap({bool asHex=false}) {
-    List<int> _der = List<int>.from(der.map((x) => x));
     return {
-      "der": (asHex) ? bytesToHex(Uint8List.fromList(_der)) : _der,
+      "der": (asHex)
+          ? bytesToHex(Uint8List.fromList(List<int>.from(der.map((x) => x))))
+          : List<int>.from(der.map((x) => x)),
     };
   }
 
   Uint8List get pbBytes {
-    throw Exception('Not Implemented');
+    return concatBytes([
+      pbField(1, LENGTH_DELIMITED, der)
+    ]);
   }
 }

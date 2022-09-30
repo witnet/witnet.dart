@@ -1,10 +1,5 @@
-import 'dart:convert';
-import 'dart:typed_data';
+part of 'schema.dart';
 
-import 'public_key_hash.dart';
-
-import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED, VARINT;
-import 'package:witnet/utils.dart' show concatBytes;
 
 class ValueTransferOutput {
   ValueTransferOutput({
@@ -27,9 +22,9 @@ class ValueTransferOutput {
         value: json["value"],
       );
 
-  String get rawJson => json.encode(jsonMap());
+  String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap() => {
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "pkh": pkh.address,
         "time_lock": timeLock,
         "value": value,

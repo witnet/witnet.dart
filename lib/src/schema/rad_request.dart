@@ -1,12 +1,5 @@
-import 'dart:convert' show json;
-import 'dart:typed_data' show Uint8List;
+part of 'schema.dart';
 
-import 'rad_aggregate.dart' show RADAggregate;
-import 'rad_retrieve.dart' show RADRetrieve;
-import 'rad_tally.dart' show RADTally;
-
-import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED, VARINT;
-import 'package:witnet/utils.dart' show concatBytes;
 
 class RADRequest {
   RADRequest({

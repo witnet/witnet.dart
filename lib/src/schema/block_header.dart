@@ -1,9 +1,4 @@
-import 'dart:convert' show json;
-
-import 'beacon.dart' show Beacon;
-import 'bn256_public_key.dart' show Bn256PublicKey;
-import 'merkle_roots.dart' show MerkleRoots;
-import 'public_key.dart' show PublicKey;
+part of 'schema.dart';
 
 class BlockHeader {
   BlockHeader({
@@ -23,7 +18,7 @@ class BlockHeader {
   factory BlockHeader.fromRawJson(String str) =>
       BlockHeader.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory BlockHeader.fromJson(Map<String, dynamic> json) => BlockHeader(
         beacon: Beacon.fromJson(json["beacon"]),
@@ -33,13 +28,22 @@ class BlockHeader {
         signals: json["signals"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "beacon": beacon.toJson(),
-        "bn256_public_key": bn256PublicKey.toJson(),
-        "merkle_roots": merkleRoots.toJson(),
-        "proof": proof.toJson(),
-        "signals": signals,
-      };
+  Map<String, dynamic> jsonMap({bool asHex=false}) => {
+    "beacon": beacon.jsonMap(asHex: asHex),
+    "bn256_public_key": bn256PublicKey.jsonMap(asHex: asHex),
+    "merkle_roots": merkleRoots.jsonMap(asHex: asHex),
+    "proof": proof.jsonMap(asHex: asHex),
+    "signals": signals,
+  };
+
+  Uint8List get pbBytes {
+    return concatBytes([
+      pbField(1, VARINT, signals),
+      pbField(2, LENGTH_DELIMITED, beacon.pbBytes),
+      pbField(3, LENGTH_DELIMITED, merkleRoots.pbBytes),
+      pbField(4, LENGTH_DELIMITED, proof.pbBytes),
+    ]);
+  }
 }
 
 class BlockHeaderProof {
@@ -47,44 +51,26 @@ class BlockHeaderProof {
     required this.proof,
   });
 
-  final ProofProof proof;
+  final VrfProof proof;
 
   factory BlockHeaderProof.fromRawJson(String str) =>
       BlockHeaderProof.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory BlockHeaderProof.fromJson(Map<String, dynamic> json) =>
       BlockHeaderProof(
-        proof: ProofProof.fromJson(json["proof"]),
+        proof: VrfProof.fromJson(json["proof"]),
       );
 
-  Map<String, dynamic> toJson() => {
-        "proof": proof.toJson(),
-      };
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
+    "proof": proof.jsonMap(asHex: asHex),
+  };
+  
+  Uint8List get pbBytes {
+    return concatBytes([
+      pbField(1, LENGTH_DELIMITED, proof.pbBytes)
+    ]);
+  }
 }
 
-class ProofProof {
-  ProofProof({
-    required this.proof,
-    required this.publicKey,
-  });
-
-  final List<int> proof;
-  final PublicKey publicKey;
-
-  factory ProofProof.fromRawJson(String str) =>
-      ProofProof.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory ProofProof.fromJson(Map<String, dynamic> json) => ProofProof(
-        proof: List<int>.from(json["proof"].map((x) => x)),
-        publicKey: PublicKey.fromJson(json["public_key"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "proof": List<dynamic>.from(proof.map((x) => x)),
-        "public_key": publicKey.jsonMap,
-      };
-}

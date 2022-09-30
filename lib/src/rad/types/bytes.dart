@@ -1,11 +1,4 @@
-import 'dart:typed_data' show Uint8List;
-
-import 'string.dart' show RadString;
-import 'types.dart' show TYPES;
-import '../op_codes.dart' show OP;
-
-import 'package:witnet/crypto.dart' show sha256;
-import 'package:witnet/utils.dart' show bytesToHex;
+part of 'types.dart';
 
 class RadBytes{
   Uint8List _value;

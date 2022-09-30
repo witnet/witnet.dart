@@ -1,4 +1,5 @@
-import 'dart:convert' show json;
+part of 'schema.dart';
+
 
 class TransactionsHashes {
   TransactionsHashes({
@@ -20,7 +21,7 @@ class TransactionsHashes {
   factory TransactionsHashes.fromRawJson(String str) =>
       TransactionsHashes.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory TransactionsHashes.fromJson(Map<String, dynamic> json) =>
       TransactionsHashes(
@@ -32,7 +33,7 @@ class TransactionsHashes {
         valueTransfer: List<dynamic>.from(json["value_transfer"].map((x) => x)),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "commit": List<dynamic>.from(commit.map((x) => x)),
         "data_request": List<dynamic>.from(dataRequest.map((x) => x)),
         "mint": mint,

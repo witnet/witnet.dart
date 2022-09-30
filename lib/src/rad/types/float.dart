@@ -1,11 +1,5 @@
+part of 'types.dart';
 
-import 'dart:math' show pow;
-
-import 'boolean.dart' show RadBoolean;
-import 'integer.dart' show RadInteger;
-import 'string.dart' show RadString;
-import 'types.dart' show TYPES;
-import '../op_codes.dart' show OP;
 
 class RadFloat{
   double _value;

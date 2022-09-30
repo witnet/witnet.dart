@@ -4,16 +4,19 @@ description: A library to interface with the Witnet Protocol.
   - build, sign, and send value transfers and data requests
   - communicate with a rust node or wallet server
   - communicate with the explorer
-version: 0.1.4
+
+version: 0.1.5
 
 # homepage: https://github.com/parodyBit/witnet.dart
 # author: parodyBit
 repository: https://github.com/parodyBit/witnet.dart
+
 environment:
   sdk: '>=2.13.0 <3.0.0'
 
 dev_dependencies:
   test: ^1.0.0
+
 dependencies:
   cbor: ^4.0.2
   hex: ^0.2.0
@@ -24,3 +27,4 @@ dependencies:
   typed_data: ^1.3.0
   crypto: ^3.0.1
   http: ^0.13.3
+  xml: ^5.3.1

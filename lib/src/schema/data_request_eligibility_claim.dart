@@ -1,5 +1,5 @@
-import 'dart:convert' show json;
-import 'vrf_proof.dart' show VrfProof;
+part of 'schema.dart';
+
 
 class DataRequestEligibilityClaim {
   DataRequestEligibilityClaim({
@@ -11,14 +11,14 @@ class DataRequestEligibilityClaim {
   factory DataRequestEligibilityClaim.fromRawJson(String str) =>
       DataRequestEligibilityClaim.fromJson(json.decode(str));
 
-  String get rawJson => json.encode(jsonMap);
+  String get rawJson => json.encode(jsonMap());
 
   factory DataRequestEligibilityClaim.fromJson(Map<String, dynamic> json) =>
       DataRequestEligibilityClaim(
         proof: VrfProof.fromJson(json["proof"]),
       );
 
-  Map<String, dynamic> get jsonMap => {
-        "proof": proof.jsonMap,
+  Map<String, dynamic> jsonMap({bool asHex=false}) => {
+        "proof": proof.jsonMap(),
       };
 }

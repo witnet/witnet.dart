@@ -1,9 +1,6 @@
-import 'dart:convert' show json;
-import 'bn256_public_key.dart' show Bn256PublicKey;
-import 'value_transfer_output.dart' show ValueTransferOutput;
-import 'data_request_eligibility_claim.dart' show DataRequestEligibilityClaim;
-import 'hash.dart' show Hash;
-import 'input.dart' show Input;
+
+
+part of 'schema.dart';
 
 class CommitBody {
   CommitBody({
@@ -25,7 +22,7 @@ class CommitBody {
   factory CommitBody.fromRawJson(String str) =>
       CommitBody.fromJson(json.decode(str));
 
-  String get rawJson => json.encode(jsonMap);
+  String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory CommitBody.fromJson(Map<String, dynamic> json) => CommitBody(
         bn256PublicKey: json["bn256_public_key"] == null
@@ -40,13 +37,13 @@ class CommitBody {
         proof: DataRequestEligibilityClaim.fromJson(json["proof"]),
       );
 
-  Map<String, dynamic> get jsonMap => {
+  Map<String, dynamic> jsonMap({bool asHex=false}) => {
         "bn256_public_key":
-            bn256PublicKey == null ? null : bn256PublicKey!.toJson(),
-        "collateral": List<dynamic>.from(collateral.map((x) => x.jsonMap)),
+            bn256PublicKey == null ? null : bn256PublicKey!.jsonMap(asHex: asHex),
+        "collateral": List<dynamic>.from(collateral.map((x) => x.jsonMap(asHex: asHex))),
         "commitment": commitment.toString(),
         "dr_pointer": drPointer.toString(),
-        "outputs": List<dynamic>.from(outputs.map((x) => x.jsonMap)),
-        "proof": proof.jsonMap,
+        "outputs": List<dynamic>.from(outputs.map((x) => x.jsonMap())),
+        "proof": proof.jsonMap(),
       };
 }

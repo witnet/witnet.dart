@@ -1,4 +1,4 @@
-import 'package:http/http.dart' as http;
+part of 'virtual_machine.dart';
 
 class RadonWebClient{
   RadonWebClient();

@@ -1,15 +1,4 @@
-import 'dart:convert' show json;
-
-
-import 'types.dart' show TYPES;
-import 'array.dart' show RadArray;
-import 'boolean.dart' show RadBoolean;
-import 'float.dart' show RadFloat;
-import 'integer.dart' show RadInteger;
-import 'map.dart' show RadMap;
-
-import '../exceptions.dart' show RadError;
-import '../op_codes.dart' show OP;
+part of 'types.dart';
 
 class RadString {
   String _value;

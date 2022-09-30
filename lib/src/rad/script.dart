@@ -1,10 +1,8 @@
-
-import 'op_codes.dart' show OP;
+part of 'radon.dart';
 
 class Source {
 
 }
-
 
 List<dynamic> concat(List<dynamic> script, dynamic op){
   List<dynamic> _script = [];
@@ -98,6 +96,7 @@ class RadonString extends RadType{
   RadonBoolean match(String key) {return RadonBoolean(concat(script, [OP.STRING_MATCH, key]));}
   RadonArray parseJSONArray() {return RadonArray(concat(script, OP.STRING_PARSE_JSON_ARRAY));}
   RadonMap parseJSONMap() {return RadonMap(concat([], OP.STRING_PARSE_JSON_MAP));}
+
   RadonString toLowerCase() {return RadonString(concat(script, OP.STRING_TO_LOWER_CASE));}
   RadonString toUpperCase() {return RadonString(concat(script, OP.STRING_TO_UPPER_CASE));}
 }

@@ -1,4 +1,4 @@
-import 'dart:math' as math;
+part of 'virtual_machine.dart';
 
 class Stats<T extends num>{
 
