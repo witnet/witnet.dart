@@ -1,10 +1,23 @@
-import 'array.dart';
-import 'boolean.dart';
-import 'bytes.dart';
-import 'float.dart';
-import 'integer.dart';
-import 'map.dart';
-import 'string.dart';
+import 'dart:collection' show ListBase;
+import 'dart:convert' show json;
+import 'dart:collection' show MapBase;
+import 'dart:math' show pow;
+import 'dart:typed_data' show Uint8List;
+
+
+import 'package:witnet/crypto.dart' show sha256;
+import 'package:witnet/utils.dart' show bytesToHex;
+
+import 'package:witnet/radon.dart' show RadError, OP, cborToRad;
+
+part 'array.dart';
+part 'boolean.dart';
+part 'bytes.dart';
+part 'float.dart';
+part 'integer.dart';
+part 'map.dart';
+part 'string.dart';
+
 
 class RadTypes {
   static instance(Type type,

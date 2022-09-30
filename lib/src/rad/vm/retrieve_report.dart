@@ -1,3 +1,5 @@
+part of 'virtual_machine.dart';
+
 class RetrieveReport {
   double time;
   List<dynamic> trace;

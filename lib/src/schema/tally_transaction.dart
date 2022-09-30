@@ -1,13 +1,4 @@
-
-
-import 'dart:convert' show json;
-import 'dart:typed_data' show Uint8List;
-
-import 'package:witnet/radon.dart';
-
-import 'value_transfer_output.dart' show ValueTransferOutput;
-import 'public_key_hash.dart' show PublicKeyHash;
-import 'hash.dart' show Hash;
+part of 'schema.dart';
 
 
 class TallyTransaction{

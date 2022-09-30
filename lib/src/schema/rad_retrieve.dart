@@ -1,8 +1,4 @@
-import 'dart:convert' show json;
-import 'dart:typed_data' show Uint8List;
-
-import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED;
-import 'package:witnet/utils.dart' show bytesToHex, concatBytes;
+part of 'schema.dart';
 
 class RADRetrieve {
   RADRetrieve({

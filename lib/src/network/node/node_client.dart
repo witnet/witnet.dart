@@ -17,7 +17,6 @@ class NodeClient {
   int? _id;
   bool keepAlive;
 
-
   late Socket _socket;
   Uint8List _buffer = Uint8List.fromList([]);
 
@@ -26,6 +25,8 @@ class NodeClient {
     this.keepAlive = false});
 
   /// Get node status
+
+
 
   Future<SyncStatus> syncStatus() async {
     try {
@@ -105,6 +106,7 @@ class NodeClient {
       var response = await sendMessage(
           formatRequest(method: 'getBlock', params: [blockHash]))
           .then((Map<String, dynamic> data) {
+
         if (data.containsKey('result')) {
           return data['result'];
         } else if (data.containsKey('error')) {
@@ -275,7 +277,6 @@ class NodeClient {
         if (data.containsKey('result')) {
           return data['result'];
         } else if (data.containsKey('error')) {
-          print(json.encode(data));
           throw NodeException.fromJson(data['error']);
         }
       });
@@ -294,7 +295,6 @@ class NodeClient {
         if (data.containsKey('result')) {
           return data['result'];
         } else if (data.containsKey('error')) {
-          print(json.encode(data));
           throw NodeException.fromJson(data['error']);
         }
       });
@@ -359,6 +359,7 @@ class NodeClient {
     Completer<Map<String, dynamic>> _completer =
     new Completer<Map<String, dynamic>>();
 
+
     String _secureResponse = '';
 
     try {
@@ -391,6 +392,7 @@ class NodeClient {
         _socket.add(utf8.encode(_request));
       }
     } on SocketException catch (e) {
+
       throw NodeException(code: e.osError!.errorCode, message: e.message);
     } catch (e) {
       throw NodeException(code: -1, message: e.toString());

@@ -81,7 +81,7 @@ Future<dynamic> createVTTransaction({
 
     selectedUtxos.forEach((Utxo utxo) {
       inputs.add(utxo.toInput());
-      print('${utxo.toInput().outputPointer.jsonMap} ${utxo.value}');
+      print('${utxo.toInput().outputPointer.jsonMap(asHex: true)} ${utxo.value}');
       selectedUtxoValue += utxo.value;
     });
     print(selectedUtxoValue);

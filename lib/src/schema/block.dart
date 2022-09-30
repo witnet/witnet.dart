@@ -1,10 +1,4 @@
-import 'dart:convert' show json;
-
-import 'block_header.dart' show BlockHeader;
-import 'public_key.dart' show PublicKey;
-import 'signature.dart' show Signature;
-import 'transactions.dart' show Transactions;
-import 'transaction_hashes.dart' show TransactionsHashes;
+part of 'schema.dart';
 
 class Block {
   Block({
@@ -16,53 +10,38 @@ class Block {
   });
 
   final BlockHeader blockHeader;
-  final BlockSig blockSig;
+  final KeyedSignature blockSig;
   final bool confirmed;
   final Transactions txns;
   final TransactionsHashes txnsHashes;
 
   factory Block.fromRawJson(String str) => Block.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory Block.fromJson(Map<String, dynamic> json) => Block(
-        blockHeader: BlockHeader.fromJson(json["block_header"]),
-        blockSig: BlockSig.fromJson(json["block_sig"]),
-        confirmed: json["confirmed"],
-        txns: Transactions.fromJson(json["txns"]),
-        txnsHashes: TransactionsHashes.fromJson(json["txns_hashes"]),
-      );
+    blockHeader: BlockHeader.fromJson(json["block_header"]),
+    blockSig: KeyedSignature.fromJson(json["block_sig"]),
+    confirmed: json["confirmed"],
+    txns: Transactions.fromJson(json["txns"]),
+    txnsHashes: TransactionsHashes.fromJson(json["txns_hashes"]),
+  );
 
-  Map<String, dynamic> toJson() => {
-        "block_header": blockHeader.toJson(),
-        "block_sig": blockSig.toJson(),
-        "confirmed": confirmed,
-        "txns": txns.toJson(),
-        "txns_hashes": txnsHashes.toJson(),
-      };
+  Map<String, dynamic> jsonMap({bool asHex=false}) => {
+    "block_header": blockHeader.jsonMap(asHex: asHex),
+    "block_sig": blockSig.jsonMap(asHex: asHex),
+    "confirmed": confirmed,
+    "txns": txns.jsonMap(asHex: asHex),
+    "txns_hashes": txnsHashes.jsonMap(asHex: asHex),
+  };
+
+  Uint8List get pbBytes {
+    return concatBytes([
+      pbField(1, LENGTH_DELIMITED, blockHeader.pbBytes),
+      pbField(2, LENGTH_DELIMITED, blockSig.pbBytes),
+      pbField(3, LENGTH_DELIMITED, txns.pbBytes),
+    ]);
+  }
+
 }
 
-class BlockSig {
-  BlockSig({
-    required this.publicKey,
-    required this.signature,
-  });
-
-  final PublicKey publicKey;
-  final Signature signature;
-
-  factory BlockSig.fromRawJson(String str) =>
-      BlockSig.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory BlockSig.fromJson(Map<String, dynamic> json) => BlockSig(
-        publicKey: PublicKey.fromJson(json["public_key"]),
-        signature: Signature.fromJson(json["signature"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "public_key": publicKey.jsonMap,
-        "signature": signature.jsonMap,
-      };
-}

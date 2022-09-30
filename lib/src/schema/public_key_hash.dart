@@ -1,8 +1,4 @@
-import 'dart:typed_data' show Uint8List;
-
-
-import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED;
-import 'package:witnet/utils.dart' show bytesToHex, bech32;
+part of 'schema.dart';
 
 class PublicKeyHash {
   PublicKeyHash({required this.hash});

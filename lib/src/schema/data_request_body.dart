@@ -1,13 +1,4 @@
-import 'dart:convert' show json;
-import 'dart:typed_data' show Uint8List;
-
-import 'data_request_output.dart' show DataRequestOutput;
-import 'input.dart' show Input;
-import 'value_transfer_output.dart' show ValueTransferOutput;
-import 'package:witnet/constants.dart' show INPUT_SIZE, OUTPUT_SIZE, ALPHA;
-import 'package:witnet/crypto.dart' show sha256;
-import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED;
-import 'package:witnet/utils.dart' show  concatBytes;
+part of 'schema.dart';
 
 class DRTransactionBody {
   DRTransactionBody({
@@ -23,7 +14,7 @@ class DRTransactionBody {
   factory DRTransactionBody.fromRawJson(String str) =>
       DRTransactionBody.fromJson(json.decode(str));
 
-  String get rawJson => json.encode(jsonMap);
+  String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory DRTransactionBody.fromJson(Map<String, dynamic> json) =>
       DRTransactionBody(
@@ -35,7 +26,7 @@ class DRTransactionBody {
 
   Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "dr_output": dataRequestOutput.jsonMap(asHex: asHex),
-        "inputs": List<dynamic>.from(inputs.map((x) => x.jsonMap())),
+        "inputs": List<dynamic>.from(inputs.map((x) => x.jsonMap(asHex: asHex))),
         "outputs": List<dynamic>.from(outputs.map((x) => x.jsonMap())),
       };
 

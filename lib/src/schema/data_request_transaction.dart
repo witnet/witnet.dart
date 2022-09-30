@@ -1,8 +1,4 @@
-import 'dart:convert' show json;
-
-import 'package:witnet/utils.dart' show bytesToHex;
-import 'keyed_signature.dart' show KeyedSignature;
-import 'data_request_body.dart' show DRTransactionBody;
+part of 'schema.dart';
 
 class DRTransaction {
   DRTransaction({
@@ -16,7 +12,7 @@ class DRTransaction {
   factory DRTransaction.fromRawJson(String str) =>
       DRTransaction.fromJson(json.decode(str));
 
-  String get rawJson => json.encode(jsonMap);
+  String get rawJson => json.encode(jsonMap());
 
   factory DRTransaction.fromJson(Map<String, dynamic> json) =>
       DRTransaction(

@@ -1,10 +1,4 @@
-import 'dart:convert' show json;
-import 'dart:typed_data' show Uint8List;
-
-import 'rad_filter.dart' show RADFilter;
-
-import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED, VARINT;
-import 'package:witnet/utils.dart' show concatBytes;
+part of 'schema.dart';
 
 class RADAggregate {
   RADAggregate({
@@ -18,7 +12,7 @@ class RADAggregate {
   factory RADAggregate.fromRawJson(String str) =>
       RADAggregate.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   factory RADAggregate.fromJson(Map<String, dynamic> json) => RADAggregate(
         filters: List<RADFilter>.from(json["filters"].map((x) => RADFilter.fromJson(x))),

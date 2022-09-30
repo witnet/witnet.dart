@@ -1,9 +1,4 @@
-import 'dart:convert' show json;
-import 'dart:typed_data' show Uint8List;
-
-import 'output_pointer.dart' show OutputPointer;
-
-import 'package:witnet/protobuf.dart' show pbField, LENGTH_DELIMITED;
+part of 'schema.dart';
 
 class Input {
   Input({
@@ -20,7 +15,7 @@ class Input {
 
   String get rawJson => json.encode(jsonMap());
 
-  Map<String, dynamic> jsonMap() => outputPointer.jsonMap();
+  Map<String, dynamic> jsonMap({bool asHex=false}) => outputPointer.jsonMap();
 
   String toString() {
     return 'Input(outputPointer: $outputPointer)';

@@ -1,10 +1,4 @@
-import 'dart:math' show pow;
-
-import 'string.dart' show RadString;
-import 'boolean.dart' show RadBoolean;
-import 'float.dart' show RadFloat;
-import 'types.dart' show TYPES;
-import '../op_codes.dart' show OP;
+part of 'types.dart';
 
 class RadInteger{
   int _value;

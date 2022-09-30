@@ -1,14 +1,6 @@
-import 'dart:convert' show json;
+part of 'schema.dart';
 
-import 'dart:typed_data' show Uint8List;
 
-import 'package:witnet/constants.dart' show BETA, COMMIT_WEIGHT, REVEAL_WEIGHT, TALLY_WEIGHT, OUTPUT_SIZE;
-
-import 'rad_request.dart' show RADRequest;
-
-import 'package:witnet/crypto.dart' show sha256;
-import 'package:witnet/protobuf.dart'show pbField, LENGTH_DELIMITED, VARINT;
-import 'package:witnet/utils.dart' show concatBytes;
 
 class DataRequestOutput {
   DataRequestOutput({
