@@ -134,8 +134,6 @@ class RadonString extends RadType {
       RadonString(concat(script, OP.STRING_TO_UPPER_CASE));
 }
 
-class Request {}
-
 class Source extends RadType {
   final String url;
   List<dynamic> stack = [];
@@ -198,7 +196,6 @@ class DataRequest {
     var _data = _dro.jsonMap();
     _data['data_request']['retrieve'].add(source.jsonMap());
     _dro = DataRequestOutput.fromJson(_data);
-    //_dro.dataRequest.retrieve.add(source);
     return this;
   }
 

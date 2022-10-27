@@ -276,7 +276,6 @@ class NodeClient {
         if (data.containsKey('result')) {
           return data['result'];
         } else if (data.containsKey('error')) {
-          print(json.encode(data));
           throw NodeException.fromJson(data['error']);
         }
       });
@@ -295,7 +294,7 @@ class NodeClient {
         if (data.containsKey('result')) {
           return data['result'];
         } else if (data.containsKey('error')) {
-          print(json.encode(data));
+
           throw NodeException.fromJson(data['error']);
         }
       });
@@ -350,25 +349,19 @@ class NodeClient {
 
   /// Send a request to the Node and wait for a response
   Future<Map<String, dynamic>> sendMessage(Map<String, dynamic> message) async {
-    print(message);
-
     try {
-      print(json.encode(message));
+      final msg = json.encode(message) + '\n';
+      final response = await _handle(msg);
+      return response;
     } catch (e) {
-      print(e);
+      rethrow;
     }
-
-    var msg = json.encode(message) + '\n';
-    final tmp = await _handle(msg);
-    return tmp;
   }
 
   /// Handle the Socket connection for the Node
   Future<Map<String, dynamic>> _handle(String _request) async {
     Completer<Map<String, dynamic>> _completer =
         new Completer<Map<String, dynamic>>();
-
-    String _secureResponse = '';
 
     try {
       if (_request != null) {

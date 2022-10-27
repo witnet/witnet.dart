@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+import 'dart:math' show pow;
 import 'package:witnet/node.dart';
 
 import 'package:witnet/radon.dart';
@@ -149,6 +151,10 @@ void graphQlExample() {
       .setCollateral(witToNanoWit(5)); // Require 5 wits as collateral
 
   DataRequestOutput dro = request.output;
-
+  print(dro.toRawJson());
+  print(bytesToHex(dro.pbBytes));
+  print(bytesToHex(dro.dataRequest.retrieve[0].pbBytes));
+  print(bytesToHex(Uint8List.fromList(dro.dataRequest.retrieve[0].body)));
+  print(bytesToHex(dro.dataRequest.retrieve[0].headers[0].pbBytes));
   assert(test_dro == dro);
 }

@@ -85,7 +85,7 @@ class RADRequest extends GeneratedMessage {
         "retrieve":
             List<dynamic>.from(retrieve.map((x) => x.jsonMap(asHex: asHex))),
         "tally": tally.jsonMap(asHex: asHex),
-        "time_lock": timeLock,
+        "time_lock": timeLock.toInt(),
       };
 
   Uint8List get pbBytes => writeToBuffer();
