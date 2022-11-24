@@ -51,11 +51,12 @@ class PublicKey extends GeneratedMessage {
       bytes: Uint8List.fromList(List<int>.from(json["bytes"].map((x) => x))));
 
   Map<String, dynamic> jsonMap({bool asHex = false}) {
+
     if (publicKey.isNotEmpty)
       return {
         "bytes": (asHex)
-            ? bytesToHex(Uint8List.fromList(publicKey.sublist(1)))
-            : publicKey.sublist(1),
+            ? bytesToHex(Uint8List.fromList(publicKey.sublist(2)))
+            : publicKey.sublist(2),
         "compressed": publicKey[0],
       };
     return {};

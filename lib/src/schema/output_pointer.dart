@@ -81,7 +81,7 @@ class OutputPointer extends GeneratedMessage {
   int get outputIndex => $_getIZ(1);
   @TagNumber(2)
   set outputIndex(int v) {
-    $_setUnsignedInt32(1, v);
+    (v > 0) ? $_setUnsignedInt32(1, v) : null;
   }
 
   @TagNumber(2)

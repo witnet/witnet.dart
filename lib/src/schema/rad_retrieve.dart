@@ -31,6 +31,8 @@ class RADRetrieve extends GeneratedMessage {
     Iterable<StringPair>? headers,
   }) {
     final _result = create();
+    _result.kind = ((kind != null) ? kind : null)!;
+
     if (kind != null) {
       _result.kind = kind;
     }
@@ -65,9 +67,9 @@ class RADRetrieve extends GeneratedMessage {
 
   @override
   factory RADRetrieve.fromJson(Map<String, dynamic> json) => RADRetrieve(
-        kind: RADType.valueOf(json["kind"]),
+        kind: RADType.fromString(json["kind"]),
         script: List<int>.from(json["script"].map((x) => x)),
-        url: json["url"],
+        url: (json["url"] != "") ? json["url"] : null,
         body: (json["body"] != null)
             ? List<int>.from(json["body"].map((x) => x))
             : null,
@@ -83,7 +85,7 @@ class RADRetrieve extends GeneratedMessage {
   @override
   Map<String, dynamic> jsonMap({bool asHex = false}) {
     Map<String, dynamic> _map = {
-      "kind": kind.value,
+      "kind": kind.name,
       "script": (asHex)
           ? bytesToHex(Uint8List.fromList(script))
           : List<int>.from(script.map((x) => x)),
