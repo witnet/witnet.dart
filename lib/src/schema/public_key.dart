@@ -38,7 +38,7 @@ class PublicKey extends GeneratedMessage {
 
   @override
   factory PublicKey.fromBuffer(List<int> i,
-          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
 
   @override
@@ -49,11 +49,12 @@ class PublicKey extends GeneratedMessage {
   }
 
   Map<String, dynamic> jsonMap({bool asHex = false}) {
+
     if (publicKey.isNotEmpty)
       return {
         "bytes": (asHex)
-            ? bytesToHex(Uint8List.fromList(publicKey.sublist(1)))
-            : publicKey.sublist(1),
+            ? bytesToHex(Uint8List.fromList(publicKey.sublist(2)))
+            : publicKey.sublist(2),
         "compressed": publicKey[0],
       };
     return {};
