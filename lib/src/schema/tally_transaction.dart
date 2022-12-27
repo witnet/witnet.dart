@@ -83,7 +83,6 @@ class TallyTransaction extends GeneratedMessage {
       );
 
   Map<String, dynamic> jsonMap({bool asHex = false}) {
-    print('tally');
     return {
       "dr_pointer": (asHex) ? drPointer.hex : drPointer.bytes,
       "error_committers":
@@ -92,7 +91,7 @@ class TallyTransaction extends GeneratedMessage {
           List<dynamic>.from(outOfConsensus.map((x) => x.address)),
       "outputs":
           List<dynamic>.from(outputs.map((x) => x.jsonMap(asHex: asHex))),
-      "tally": tally.toList(),
+      "tally": (asHex) ? bytesToHex(Uint8List.fromList(tally)) : tally.toList(),
     };
   }
 
