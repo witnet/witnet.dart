@@ -44,7 +44,6 @@ class ConsensusConstants extends GeneratedMessage {
   @override
   ConsensusConstants clone() => ConsensusConstants()..mergeFromMessage(this);
 
-
   @override
   ConsensusConstants createEmptyInstance() => create();
 
@@ -158,13 +157,66 @@ class ConsensusConstants extends GeneratedMessage {
 
   @override
   factory ConsensusConstants.fromBuffer(List<int> i,
-          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
 
   @override
-  factory ConsensusConstants.fromJson(String i,
-          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+  factory ConsensusConstants.fromJson(Map<String, dynamic> data) =>
+      ConsensusConstants(
+        activityPeriod: data['activity_period'],
+        bootstrapHash:  Hash(SHA256: hexToBytes(data['bootstrap_hash'])),
+        bootstrappingCommittee:  List<String>.from(data['bootstrapping_committee']),
+        checkpointZeroTimestamp:  Int64(data['checkpoint_zero_timestamp']),
+        checkpointsPeriod:  data['checkpoints_period'],
+        collateralAge:  data['collateral_age'],
+        collateralMinimum:  Int64(data['collateral_minimum']),
+        epochsWithMinimumDifficulty:  data['epochs_with_minimum_difficulty'],
+        extraRounds:  data['extra_rounds'],
+        genesisHash:  Hash(SHA256: hexToBytes(data['genesis_hash'])),
+        halvingPeriod:  data['halving_period'],
+        initialBlockReward:  Int64(data['initial_block_reward']),
+        maxDrWeight:  data['max_dr_weight'],
+        maxVtWeight:  data['max_vt_weight'],
+        minimumDifficulty:  data['minimum_difficulty'],
+        miningBackupFactor:  data['mining_backup_factor'],
+        miningReplicationFactor:  data['mining_replication_factor'],
+        reputationExpireAlphaDiff:  data['reputation_expire_alpha_diff'],
+        reputationIssuance:  data['reputation_issuance'],
+        reputationIssuanceStop:  data['reputation_issuance_stop'],
+        reputationPenalizationFactor:  data['reputation_penalization_factor'],
+        superblockCommitteeDecreasingPeriod:  data['superblock_committee_decreasing_period'],
+        superblockCommitteeDecreasingStep:  data['superblock_committee_decreasing_step'],
+        superblockPeriod:  data['superblock_period'],
+        superblockSigningCommitteeSize:  data['superblock_signing_committee_size'],
+      );
+
+  Map<String, dynamic> jsonMap() => {
+    'activity_period': activityPeriod,
+    'bootstrap_hash': bootstrapHash.hex,
+    'bootstrapping_committee': bootstrappingCommittee,
+    'checkpoint_zero_timestamp': checkpointZeroTimestamp.toInt(),
+    'checkpoints_period': checkpointsPeriod,
+    'collateral_age': collateralAge,
+    'collateral_minimum': collateralMinimum.toInt(),
+    'epochs_with_minimum_difficulty': epochsWithMinimumDifficulty,
+    'extra_rounds': extraRounds,
+    'genesis_hash': genesisHash.hex,
+    'halving_period': halvingPeriod,
+    'initial_block_reward': initialBlockReward.toInt(),
+    'max_dr_weight': maxDrWeight,
+    'max_vt_weight': maxVtWeight,
+    'minimum_difficulty': minimumDifficulty,
+    'mining_backup_factor': miningBackupFactor,
+    'mining_replication_factor': miningReplicationFactor,
+    'reputation_expire_alpha_diff': reputationExpireAlphaDiff,
+    'reputation_issuance': reputationIssuance,
+    'reputation_issuance_stop': reputationIssuanceStop,
+    'reputation_penalization_factor': reputationPenalizationFactor,
+    'superblock_committee_decreasing_period': superblockCommitteeDecreasingPeriod,
+    'superblock_committee_decreasing_step': superblockCommitteeDecreasingStep,
+    'superblock_period': superblockPeriod,
+    'superblock_signing_committee_size': superblockSigningCommitteeSize
+  };
 
   @override
   BuilderInfo get info_ => _i;

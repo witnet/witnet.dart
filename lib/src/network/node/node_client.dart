@@ -5,15 +5,17 @@ import 'dart:typed_data';
 
 import 'package:witnet/utils.dart';
 
-import 'node_api.dart' show NodeStats, NodeException, UtxoInfo, SyncStatus;
+import 'node_api.dart' show NodeException, NodeStats, Peer, SyncStatus, UtxoInfo;
 
-import 'package:witnet/schema.dart' show Block, Transaction;
+import 'package:witnet/schema.dart' show Block, ConsensusConstants, DRTransaction, Transaction, VTTransaction;
 
 class NodeClient {
   String address;
   int port;
   List<String> messages = [];
   int? _id;
+
+  int? get id => _id;
   bool keepAlive;
 
   late Socket _socket;
@@ -44,7 +46,7 @@ class NodeClient {
   }
 
   /// Get the node stats
-  Future<dynamic> nodeStats() async {
+  Future<NodeStats> nodeStats() async {
     try {
       var response = await sendMessage(formatRequest(method: 'nodeStats'))
           .then((Map<String, dynamic> data) {
@@ -53,7 +55,7 @@ class NodeClient {
           return _response;
         }
       });
-      return response;
+      return response!;
     } on NodeException catch (e) {
       throw NodeException(
           code: e.code, message: '{"nodeStats": "${e.message}"}');
@@ -64,7 +66,7 @@ class NodeClient {
   Future<dynamic> inventory(Map<String, dynamic> inventoryItem) async {
     try {
       var response = await sendMessage(
-              formatRequest(method: 'inventory', params: inventoryItem))
+          formatRequest(method: 'inventory', params: inventoryItem))
           .then((Map<String, dynamic> data) {
         if (data.containsKey('error')) {
           throw NodeException.fromJson(data['error']);
@@ -77,13 +79,29 @@ class NodeClient {
     }
   }
 
+  Future<dynamic> sendVTTransaction(VTTransaction vtTransaction) async {
+    return await inventory({
+      'transaction': {
+        'ValueTransfer': vtTransaction.jsonMap(asHex: false)
+      }
+    });
+  }
+
+  Future<dynamic> sendDRTransaction(DRTransaction drTransaction) async {
+    return await inventory({
+      'transaction': {
+        'DataRequest': drTransaction.jsonMap(asHex: false)
+      }
+    });
+  }
+
   /// Get the list of all the known block hashes.
   Future<dynamic> getBlockChain(
       {required int epoch, required int limit}) async {
     try {
       var response = await sendMessage(formatRequest(
-              method: 'getBlockChain',
-              params: {'epoch': epoch, 'limit': limit}))
+          method: 'getBlockChain',
+          params: {'epoch': epoch, 'limit': limit}))
           .then((Map<String, dynamic> data) {
         if (data.containsKey('error')) {
           throw NodeException.fromJson(data['error']);
@@ -103,7 +121,7 @@ class NodeClient {
   Future<Block> getBlock({required String blockHash}) async {
     try {
       var response = await sendMessage(
-              formatRequest(method: 'getBlock', params: [blockHash]))
+          formatRequest(method: 'getBlock', params: [blockHash]))
           .then((Map<String, dynamic> data) {
         if (data.containsKey('result')) {
           return data['result'];
@@ -161,7 +179,7 @@ class NodeClient {
   Future<Map<String, dynamic>> getBalance({required String address}) async {
     try {
       var response = await sendMessage(
-              formatRequest(method: 'getBalance', params: [address]))
+          formatRequest(method: 'getBalance', params: [address]))
           .then((Map<String, dynamic> data) {
         if (data.containsKey('result')) {
           return data['result'];
@@ -180,7 +198,7 @@ class NodeClient {
   Future<Map<String, dynamic>> getReputation({required String address}) async {
     try {
       var response = await sendMessage(
-              formatRequest(method: 'getReputation', params: [address]))
+          formatRequest(method: 'getReputation', params: [address]))
           .then((Map<String, dynamic> data) {
         if (data.containsKey('result')) {
           return data['result'];
@@ -198,8 +216,8 @@ class NodeClient {
   Future<Map<String, dynamic>> getReputationAll() async {
     try {
       var response =
-          await sendMessage(formatRequest(method: 'getReputationAll'))
-              .then((Map<String, dynamic> data) {
+      await sendMessage(formatRequest(method: 'getReputationAll'))
+          .then((Map<String, dynamic> data) {
         if (data.containsKey('result')) {
           return data['result'];
         } else if (data.containsKey('error')) {
@@ -214,34 +232,40 @@ class NodeClient {
   }
 
   /// Get list of consolidated peers
-  Future<Map<String, dynamic>> peers() async {
+  Future<List<Peer>> peers() async {
     try {
       var response = await sendMessage(formatRequest(method: 'peers'))
           .then((Map<String, dynamic> data) {
         if (data.containsKey('result')) {
-          return data['result'];
+          return List<Peer>.from(data['result']);
         } else if (data.containsKey('error')) {
           throw NodeException.fromJson(data['error']);
         }
       });
-      return response;
+      return response!;
     } on NodeException catch (e) {
       throw NodeException(code: e.code, message: '{"peers": "${e.message}"}');
     }
   }
 
   /// Get list of known peers
-  Future<Map<String, dynamic>> knownPeers() async {
+  Future<List<Peer>> knownPeers() async {
     try {
       var response = await sendMessage(formatRequest(method: 'knownPeers'))
           .then((Map<String, dynamic> data) {
         if (data.containsKey('result')) {
-          return data['result'];
+          List<Peer> peers = [];
+          List<dynamic> rawPeers = data["result"];
+          rawPeers.forEach((element) {
+            peers.add(Peer.fromJson(element));
+          });
+
+          return peers;
         } else if (data.containsKey('error')) {
           throw NodeException.fromJson(data['error']);
         }
       });
-      return response;
+      return response!;
     } on NodeException catch (e) {
       throw NodeException(
           code: e.code, message: '{"knownPeers": "${e.message}"}');
@@ -267,18 +291,18 @@ class NodeClient {
   }
 
   /// Get consensus constants used by the node
-  Future<Map<String, dynamic>> getConsensusConstants() async {
+  Future<ConsensusConstants> getConsensusConstants() async {
     try {
       var response =
-          await sendMessage(formatRequest(method: 'getConsensusConstants'))
-              .then((Map<String, dynamic> data) {
+      await sendMessage(formatRequest(method: 'getConsensusConstants'))
+          .then((Map<String, dynamic> data) {
         if (data.containsKey('result')) {
           return data['result'];
         } else if (data.containsKey('error')) {
           throw NodeException.fromJson(data['error']);
         }
       });
-      return response;
+      return ConsensusConstants.fromJson(response);
     } on NodeException catch (e) {
       throw NodeException(
           code: e.code, message: '{"getConsensusConstants": "${e.message}"}');
@@ -307,7 +331,7 @@ class NodeClient {
   Future<UtxoInfo> getUtxoInfo({required String address}) async {
     try {
       var response = await sendMessage(
-              formatRequest(method: 'getUtxoInfo', params: [address]))
+          formatRequest(method: 'getUtxoInfo', params: [address]))
           .then((Map<String, dynamic> data) {
         if (data.containsKey('result')) {
           return data['result'];
@@ -379,7 +403,8 @@ class NodeClient {
             _completer.complete(response);
             _socket.destroy();
           } on FormatException catch (e) {
-            NodeException(code: -1, message: e.message);
+            throw(e);
+            // incomplete buffer
           }
         },
         onError: (e) {},
