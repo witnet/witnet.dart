@@ -187,3 +187,14 @@ class SyncStatus {
         "node_state": nodeState,
       };
 }
+
+class Peer {
+  String address;
+  String ipv4;
+  int port;
+  String type;
+  Peer({required this.address, required this.type}) : this.ipv4 = address.split(":")[0], this.port = int.parse(address.split(":")[1]);
+  factory Peer.fromJson(Map<String, dynamic> data) {
+    return Peer(address: data["address"], type: data["type"]);
+  }
+}
