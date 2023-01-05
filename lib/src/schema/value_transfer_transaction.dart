@@ -53,11 +53,17 @@ class VTTransaction extends GeneratedMessage {
 
   String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap({bool asHex = false}) => {
-        "body": body.jsonMap(asHex: asHex),
-        "signatures":
-            List<dynamic>.from(signatures.map((x) => x.jsonMap(asHex: asHex))),
-      };
+  Map<String, dynamic> jsonMap({bool asHex = false}) {
+    return {
+      "transaction": {
+        "ValueTransfer": {
+          "body": body.jsonMap(),
+          "signatures": List<dynamic>.from(
+              signatures.map((x) => x.jsonMap(asHex: asHex))),
+        }
+      }
+    };
+  }
 
   String get transactionID => bytesToHex(body.hash);
 

@@ -137,10 +137,8 @@ class Xprv extends ExtendedKey {
   factory Xprv.fromEncryptedXprv(String xprv, String password) {
     try {
       Bech32 bech = bech32.decode(xprv);
-
       Uint8List data = Uint8List.fromList(
           convertBits(data: bech.data, from: 5, to: 8, pad: false));
-
       Uint8List iv = data.sublist(0, 16);
       Uint8List salt = data.sublist(16, 48);
       Uint8List _data = data.sublist(48);
