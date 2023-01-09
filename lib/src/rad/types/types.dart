@@ -5,13 +5,11 @@ import 'dart:math' show pow;
 import 'dart:typed_data' show Uint8List;
 
 import 'package:witnet/crypto.dart' show sha256;
-import 'package:witnet/src/rad/radon.dart';
 import 'package:witnet/utils.dart' show bytesToHex;
 
 import 'package:witnet/radon.dart'
-    show OP, RadError, RadonString, cborToRad, radToCbor;
+    show OP, RadError, cborToRad;
 
-import '../../../schema.dart';
 
 part 'array.dart';
 part 'boolean.dart';
@@ -109,6 +107,20 @@ class REDUCERS {
   static final deviationMedian = 0x09;
   static final deviationMaximum = 0x0A;
   static final hashConcatenate = 0x0B;
+  static Map<int, String> map = {
+    0x00: "min",
+    0x01: "max",
+    0x02: "mode",
+    0x03: "averageMean",
+    0x04: "averageMeanWeighted",
+    0x05: "averageMedian",
+    0x06: "averageMedianWeighted",
+    0x07: "deviationStandard",
+    0x08: "deviationAverage",
+    0x09: "deviationMedian",
+    0x0A: "deviationMaximum",
+    0x0B: "hashConcatenate",
+  };
 }
 
 class FILTERS {
@@ -128,6 +140,24 @@ class FILTERS {
   static final notDeviationStandard = 0x85;
   static final notTop = 0x86;
   static final notBottom = 0x87;
+  static Map<int, String> map = {
+    0x00: 'greaterThan',
+    0x01: 'lessThan',
+    0x02: 'equals',
+    0x03: 'deviationAbsolute',
+    0x04: 'deviationRelative',
+    0x05: 'deviationStandard',
+    0x06: 'top',
+    0x07: 'bottom',
+    0x80: 'lessOrEqualThan',
+    0x81: 'greaterOrEqualThan',
+    0x82: 'notEquals',
+    0x83: 'notDeviationAbsolute',
+    0x84: 'notDeviationRelative',
+    0x85: 'notDeviationStandard',
+    0x86: 'notTop',
+    0x87: 'notBottom',
+  };
 }
 
 Map<String, Map<String, List<dynamic>>> typeSystem = {

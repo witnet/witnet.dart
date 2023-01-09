@@ -44,10 +44,6 @@ class ConsensusConstants extends GeneratedMessage {
   @override
   ConsensusConstants clone() => ConsensusConstants()..mergeFromMessage(this);
 
-  @override
-  ConsensusConstants copyWith(void Function(ConsensusConstants) updates) =>
-      super.copyWith((message) => updates(message as ConsensusConstants))
-          as ConsensusConstants; // ignore: deprecated_member_use
 
   @override
   ConsensusConstants createEmptyInstance() => create();

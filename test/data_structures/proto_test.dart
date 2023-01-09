@@ -4,7 +4,6 @@ import 'package:test/expect.dart';
 import 'package:witnet/schema.dart';
 import 'package:test/scaffolding.dart';
 import 'package:witnet/src/utils/transformations/transformations.dart';
-import 'package:witnet/witnet.dart';
 
 main() async {
   test('PublicKey Protobuf Serialize & Deserialize', () {
@@ -36,13 +35,6 @@ bool testPublicKeyProto() {
 }
 
 bool testVttProto() {
-  int compressed = 0x03;
-  List<int> bytes = List<int>.generate(32, (index) => 0x4a);
-  PublicKey testPublicKey = PublicKey(
-      bytes: concatBytes([
-    Uint8List.fromList([compressed]),
-    Uint8List.fromList(bytes)
-  ]));
   VTTransaction vtTransaction = VTTransaction(
       body: VTTransactionBody(
           inputs: [Input()], outputs: [ValueTransferOutput()]));

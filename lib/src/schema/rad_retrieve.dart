@@ -82,7 +82,6 @@ class RADRetrieve extends GeneratedMessage {
 
   String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  @override
   Map<String, dynamic> jsonMap({bool asHex = false}) {
     Map<String, dynamic> _map = {
       "kind": kind.name,

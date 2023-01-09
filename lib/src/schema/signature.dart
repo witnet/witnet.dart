@@ -2,11 +2,6 @@ part of 'schema.dart';
 
 enum SignatureKind { secp256k1, notSet }
 
-const Map<int, SignatureKind> _Signature_KindByTag = {
-  1: SignatureKind.secp256k1,
-  0: SignatureKind.notSet
-};
-
 class Signature extends GeneratedMessage {
   static final BuilderInfo _i = BuilderInfo('Signature',
       package: const PackageName('witnet'), createEmptyInstance: create)
@@ -25,11 +20,6 @@ class Signature extends GeneratedMessage {
 
   @override
   Signature clone() => Signature()..mergeFromMessage(this);
-
-  @override
-  Signature copyWith(void Function(Signature) updates) =>
-      super.copyWith((message) => updates(message as Signature))
-          as Signature; // ignore: deprecated_member_use
 
   @override
   Signature createEmptyInstance() => create();

@@ -29,10 +29,6 @@ class InventoryEntry extends GeneratedMessage {
   @override
   InventoryEntry clone() => InventoryEntry()..mergeFromMessage(this);
 
-  @override
-  InventoryEntry copyWith(void Function(InventoryEntry) updates) =>
-      super.copyWith((message) => updates(message as InventoryEntry))
-          as InventoryEntry; // ignore: deprecated_member_use
 
   @override
   InventoryEntry createEmptyInstance() => create();

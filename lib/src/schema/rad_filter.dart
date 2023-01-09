@@ -21,11 +21,6 @@ class RADFilter extends GeneratedMessage {
   RADFilter clone() => RADFilter()..mergeFromMessage(this);
 
   @override
-  RADFilter copyWith(void Function(RADFilter) updates) =>
-      super.copyWith((message) => updates(message as RADFilter))
-          as RADFilter; // ignore: deprecated_member_use
-
-  @override
   RADFilter createEmptyInstance() => create();
 
   factory RADFilter({int? op, List<int>? args}) {

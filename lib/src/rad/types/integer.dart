@@ -5,6 +5,10 @@ class RadInteger {
   final String type = TYPES.INTEGER;
   RadInteger(this._value);
   int get value => _value;
+
+  @override
+  String toString() => "RadonInteger(${this.value})";
+
   RadInteger absolute() => RadInteger(_value.abs());
   RadFloat asFloat() => RadFloat(_value.toDouble());
   RadString asString() => RadString(_value.toString());

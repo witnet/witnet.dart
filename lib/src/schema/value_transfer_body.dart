@@ -21,11 +21,6 @@ class VTTransactionBody extends GeneratedMessage {
   VTTransactionBody clone() => VTTransactionBody()..mergeFromMessage(this);
 
   @override
-  VTTransactionBody copyWith(void Function(VTTransactionBody) updates) =>
-      super.copyWith((message) => updates(message as VTTransactionBody))
-          as VTTransactionBody; // ignore: deprecated_member_use
-
-  @override
   VTTransactionBody createEmptyInstance() => create();
 
   factory VTTransactionBody({

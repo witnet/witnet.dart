@@ -47,11 +47,6 @@ class RADRequest extends GeneratedMessage {
   RADRequest clone() => RADRequest()..mergeFromMessage(this);
 
   @override
-  RADRequest copyWith(void Function(RADRequest) updates) =>
-      super.copyWith((message) => updates(message as RADRequest))
-          as RADRequest; // ignore: deprecated_member_use
-
-  @override
   RADRequest createEmptyInstance() => create();
 
   @override

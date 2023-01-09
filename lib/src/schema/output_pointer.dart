@@ -19,11 +19,6 @@ class OutputPointer extends GeneratedMessage {
   OutputPointer clone() => OutputPointer()..mergeFromMessage(this);
 
   @override
-  OutputPointer copyWith(void Function(OutputPointer) updates) =>
-      super.copyWith((message) => updates(message as OutputPointer))
-          as OutputPointer; // ignore: deprecated_member_use
-
-  @override
   OutputPointer createEmptyInstance() => create();
 
   factory OutputPointer({

@@ -21,11 +21,6 @@ class RevealTransaction extends GeneratedMessage {
   RevealTransaction clone() => RevealTransaction()..mergeFromMessage(this);
 
   @override
-  RevealTransaction copyWith(void Function(RevealTransaction) updates) =>
-      super.copyWith((message) => updates(message as RevealTransaction))
-          as RevealTransaction; // ignore: deprecated_member_use
-
-  @override
   RevealTransaction createEmptyInstance() => create();
 
   factory RevealTransaction(

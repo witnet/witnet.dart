@@ -25,10 +25,6 @@ class Version extends GeneratedMessage {
   Version clone() => Version()..mergeFromMessage(this);
 
   @override
-  Version copyWith(void Function(Version) updates) =>
-      super.copyWith((message) => updates(message as Version)) as Version;
-
-  @override
   Version createEmptyInstance() => create();
 
   factory Version({

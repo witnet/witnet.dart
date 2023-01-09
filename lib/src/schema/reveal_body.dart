@@ -20,11 +20,6 @@ class RevealBody extends GeneratedMessage {
   RevealBody clone() => RevealBody()..mergeFromMessage(this);
 
   @override
-  RevealBody copyWith(void Function(RevealBody) updates) =>
-      super.copyWith((message) => updates(message as RevealBody))
-          as RevealBody; // ignore: deprecated_member_use
-
-  @override
   RevealBody createEmptyInstance() => create();
 
   factory RevealBody({

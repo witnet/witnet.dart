@@ -18,11 +18,6 @@ class PeerAddress extends GeneratedMessage {
   PeerAddress clone() => PeerAddress()..mergeFromMessage(this);
 
   @override
-  PeerAddress copyWith(void Function(PeerAddress) updates) =>
-      super.copyWith((message) => updates(message as PeerAddress))
-          as PeerAddress; // ignore: deprecated_member_use
-
-  @override
   PeerAddress createEmptyInstance() => create();
 
   factory PeerAddress({

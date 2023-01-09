@@ -21,11 +21,6 @@ class ValueTransferOutput extends GeneratedMessage {
   ValueTransferOutput clone() => ValueTransferOutput()..mergeFromMessage(this);
 
   @override
-  ValueTransferOutput copyWith(void Function(ValueTransferOutput) updates) =>
-      super.copyWith((message) => updates(message as ValueTransferOutput))
-          as ValueTransferOutput; // ignore: deprecated_member_use
-
-  @override
   ValueTransferOutput createEmptyInstance() => create();
 
   factory ValueTransferOutput({PublicKeyHash? pkh, int? value, int? timeLock}) {

@@ -21,11 +21,6 @@ class RADTally extends GeneratedMessage {
   RADTally clone() => RADTally()..mergeFromMessage(this);
 
   @override
-  RADTally copyWith(void Function(RADTally) updates) =>
-      super.copyWith((message) => updates(message as RADTally))
-          as RADTally; // ignore: deprecated_member_use
-
-  @override
   RADTally createEmptyInstance() => create();
 
   factory RADTally({

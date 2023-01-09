@@ -50,11 +50,6 @@ class Transaction extends GeneratedMessage {
   Transaction clone() => Transaction()..mergeFromMessage(this);
 
   @override
-  Transaction copyWith(void Function(Transaction) updates) =>
-      super.copyWith((message) => updates(message as Transaction))
-          as Transaction; // ignore: deprecated_member_use
-
-  @override
   Transaction createEmptyInstance() => create();
 
   factory Transaction({

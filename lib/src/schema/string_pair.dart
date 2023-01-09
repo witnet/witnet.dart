@@ -21,11 +21,6 @@ class StringPair extends GeneratedMessage {
   @override
   StringPair clone() => StringPair()..mergeFromMessage(this);
 
-  @override
-  StringPair copyWith(void Function(StringPair) updates) =>
-      super.copyWith((message) => updates(message as StringPair))
-          as StringPair; // ignore: deprecated_member_use
-
   factory StringPair({
     String? left,
     String? right,

@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'dart:convert' show Utf8Decoder, json, utf8;
+import 'dart:convert' show json;
 import 'dart:io' show Socket, SocketException;
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:witnet/utils.dart';
@@ -294,7 +293,6 @@ class NodeClient {
         if (data.containsKey('result')) {
           return data['result'];
         } else if (data.containsKey('error')) {
-
           throw NodeException.fromJson(data['error']);
         }
       });
@@ -364,34 +362,32 @@ class NodeClient {
         new Completer<Map<String, dynamic>>();
 
     try {
-      if (_request != null) {
-        // =============================================================
-        _socket = await Socket.connect(address, port);
-        _socket.listen(
-          (Uint8List data) {
-            // add the current chunk to the end of the buffer
-            _buffer = concatBytes([_buffer, data]);
-            // try to decode the buffer
-            try {
-              // this will throw an error if the _buffer is not complete
-              Map<String, dynamic> response =
-                  json.decode(new String.fromCharCodes(_buffer).trim());
+      // =============================================================
+      _socket = await Socket.connect(address, port);
+      _socket.listen(
+        (Uint8List data) {
+          // add the current chunk to the end of the buffer
+          _buffer = concatBytes([_buffer, data]);
+          // try to decode the buffer
+          try {
+            // this will throw an error if the _buffer is not complete
+            Map<String, dynamic> response =
+                json.decode(new String.fromCharCodes(_buffer).trim());
 
-              // clear the buffer
-              _buffer = Uint8List.fromList([]);
-              _completer.complete(response);
-              _socket.destroy();
-            } on FormatException catch (e) {
-              // incomplete buffer
-            }
-          },
-          onError: (e) {},
-          onDone: () {
-            _socket.close();
-          },
-        );
-        _socket.add(utf8.encode(_request));
-      }
+            // clear the buffer
+            _buffer = Uint8List.fromList([]);
+            _completer.complete(response);
+            _socket.destroy();
+          } on FormatException catch (e) {
+            NodeException(code: -1, message: e.message);
+          }
+        },
+        onError: (e) {},
+        onDone: () {
+          _socket.close();
+        },
+      );
+      _socket.add(utf8.encode(_request));
     } on SocketException catch (e) {
       throw NodeException(code: e.osError!.errorCode, message: e.message);
     } catch (e) {

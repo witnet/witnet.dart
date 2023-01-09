@@ -21,11 +21,6 @@ class RADAggregate extends GeneratedMessage {
   RADAggregate clone() => RADAggregate()..mergeFromMessage(this);
 
   @override
-  RADAggregate copyWith(void Function(RADAggregate) updates) =>
-      super.copyWith((message) => updates(message as RADAggregate))
-          as RADAggregate; // ignore: deprecated_member_use
-
-  @override
   RADAggregate createEmptyInstance() => create();
 
   factory RADAggregate({

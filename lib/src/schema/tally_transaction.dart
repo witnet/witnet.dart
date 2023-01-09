@@ -26,11 +26,6 @@ class TallyTransaction extends GeneratedMessage {
   TallyTransaction clone() => TallyTransaction()..mergeFromMessage(this);
 
   @override
-  TallyTransaction copyWith(void Function(TallyTransaction) updates) =>
-      super.copyWith((message) => updates(message as TallyTransaction))
-          as TallyTransaction; // ignore: deprecated_member_use
-
-  @override
   TallyTransaction createEmptyInstance() => create();
 
   factory TallyTransaction({

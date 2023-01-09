@@ -21,10 +21,6 @@ class CheckpointVRF extends GeneratedMessage {
   @override
   CheckpointVRF clone() => CheckpointVRF()..mergeFromMessage(this);
 
-  @override
-  CheckpointVRF copyWith(void Function(CheckpointVRF) updates) =>
-      super.copyWith((message) => updates(message as CheckpointVRF))
-          as CheckpointVRF; // ignore: deprecated_member_use
 
   factory CheckpointVRF({
     int? checkpoint,

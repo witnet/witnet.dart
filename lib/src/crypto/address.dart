@@ -122,8 +122,6 @@ class Address {
 
   KeyedSignature signHash(String hash, WitPrivateKey privateKey) {
     final sig = privateKey.signature(hash);
-    int compressed = privateKey.publicKey.encode().elementAt(0);
-    Uint8List key_bytes = privateKey.publicKey.encode().sublist(1);
     return KeyedSignature(
       publicKey: PublicKey(bytes: privateKey.publicKey.encode()),
       signature: Signature(secp256k1: Secp256k1Signature(der: sig.encode())),
@@ -139,7 +137,6 @@ class Address {
   }
 
   /// To get the UtxoInfo for an address. the `source` can be NodeClient
-  /// TODO: add ExplorerClient as a source
   Future<bool> getUtxoInfo({dynamic source}) async {
     if (source.runtimeType == NodeClient) {
       UtxoInfo utxoInfo = await source.getUtxoInfo(address: address);

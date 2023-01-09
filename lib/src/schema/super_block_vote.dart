@@ -23,11 +23,6 @@ class SuperBlockVote extends GeneratedMessage {
   SuperBlockVote clone() => SuperBlockVote()..mergeFromMessage(this);
 
   @override
-  SuperBlockVote copyWith(void Function(SuperBlockVote) updates) =>
-      super.copyWith((message) => updates(message as SuperBlockVote))
-          as SuperBlockVote; // ignore: deprecated_member_use
-
-  @override
   SuperBlockVote createEmptyInstance() => create();
 
   factory SuperBlockVote({

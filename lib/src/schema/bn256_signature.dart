@@ -20,10 +20,6 @@ class Bn256Signature extends GeneratedMessage {
   @override
   Bn256Signature createEmptyInstance() => create();
 
-  @override
-  Bn256Signature copyWith(void Function(Bn256Signature) updates) =>
-      super.copyWith((message) => updates(message as Bn256Signature))
-          as Bn256Signature; // ignore: deprecated_member_use
 
   factory Bn256Signature({
     List<int>? signature,

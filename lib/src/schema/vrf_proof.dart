@@ -19,10 +19,6 @@ class VrfProof extends GeneratedMessage {
   VrfProof clone() => VrfProof()..mergeFromMessage(this);
 
   @override
-  VrfProof copyWith(void Function(VrfProof) updates) =>
-      super.copyWith((message) => updates(message as VrfProof)) as VrfProof;
-
-  @override
   VrfProof createEmptyInstance() => create();
 
   factory VrfProof({

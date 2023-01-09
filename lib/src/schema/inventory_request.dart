@@ -19,10 +19,6 @@ class InventoryRequest extends GeneratedMessage {
   @override
   InventoryRequest clone() => InventoryRequest()..mergeFromMessage(this);
 
-  @override
-  InventoryRequest copyWith(void Function(InventoryRequest) updates) =>
-      super.copyWith((message) => updates(message as InventoryRequest))
-          as InventoryRequest; // ignore: deprecated_member_use
 
   @override
   InventoryRequest createEmptyInstance() => create();

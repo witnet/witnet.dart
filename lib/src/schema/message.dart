@@ -16,9 +16,7 @@ class Message extends GeneratedMessage {
   Message._() : super();
   Message createEmptyInstance() => create();
   Message clone() => Message()..mergeFromMessage(this);
-  Message copyWith(void Function(Message) updates) =>
-      super.copyWith((message) => updates(message as Message))
-          as Message; // ignore: deprecated_member_use
+
 
   factory Message({
     int? magic,

@@ -19,11 +19,6 @@ class Peers extends GeneratedMessage {
   Peers clone() => Peers()..mergeFromMessage(this);
 
   @override
-  Peers copyWith(void Function(Peers) updates) =>
-      super.copyWith((message) => updates(message as Peers))
-          as Peers; // ignore: deprecated_member_use
-
-  @override
   Peers createEmptyInstance() => create();
 
   factory Peers({

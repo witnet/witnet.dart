@@ -16,10 +16,6 @@ class GetPeers extends GeneratedMessage {
   @override
   GetPeers clone() => GetPeers()..mergeFromMessage(this);
 
-  @override
-  GetPeers copyWith(void Function(GetPeers) updates) =>
-      super.copyWith((message) => updates(message as GetPeers))
-          as GetPeers; // ignore: deprecated_member_use
 
   @override
   GetPeers createEmptyInstance() => create();

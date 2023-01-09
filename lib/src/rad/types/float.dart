@@ -7,9 +7,7 @@ class RadFloat {
   double get value => _value;
 
   @override
-  String toString() {
-    return 'RadFloat($_value)';
-  }
+  String toString() => 'RadonFloat($_value)';
 
   RadFloat absolute() => RadFloat(_value.abs());
   RadString asString() => RadString(_value.toString());

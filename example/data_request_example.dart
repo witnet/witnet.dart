@@ -1,19 +1,16 @@
 import 'dart:typed_data';
 import 'dart:math' show pow;
-import 'package:witnet/node.dart';
 
 import 'package:witnet/radon.dart';
 import 'package:witnet/schema.dart';
+import 'package:witnet/src/rad/radon.dart';
 
 import 'package:witnet/src/utils/transformations/transformations.dart';
 
 void main() async {
-  String nodeIp = '127.0.0.1';
-  int nodePort = 21338;
-  NodeClient nodeClient = NodeClient(address: nodeIp, port: nodePort);
-
   graphQlExample();
   BtcUsdExample();
+  RandomExample();
 }
 
 void BtcUsdExample() {
@@ -157,4 +154,28 @@ void graphQlExample() {
   print(bytesToHex(Uint8List.fromList(dro.dataRequest.retrieve[0].body)));
   print(bytesToHex(dro.dataRequest.retrieve[0].headers[0].pbBytes));
   assert(test_dro == dro);
+}
+
+DataRequest RandomExample() {
+  final rng = Witnet.RandomSource();
+
+  // Filters out any value that is more than 1.5 times the standard
+  // deviationaway from the average, then computes the average mean of the
+  // values that pass the filter.
+  final aggregator = Witnet.Aggregator().setReducer(REDUCERS.mode);
+
+  // Filters out any value that is more than 1.5 times the standard
+  // deviationaway from the average, then computes the average mean of the
+  // values that pass the filter.
+  final tally = Witnet.Tally().setReducer(REDUCERS.hashConcatenate);
+
+  final request = Witnet.Request()
+      .addSource(rng)
+      .setAggregator(aggregator) // Set the aggregator function
+      .setTally(tally) // Set the tally function
+      .setQuorum(2, 51) // Set witness count and minimum consensus percentage
+      .setFees(500000, 250000) // Set economic incentives
+      .setCollateral(witToNanoWit(1)); // Require 5 wits as collateral
+
+  return request;
 }

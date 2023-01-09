@@ -21,10 +21,6 @@ class Bn256KeyedSignature extends GeneratedMessage {
   @override
   Bn256KeyedSignature clone() => Bn256KeyedSignature()..mergeFromMessage(this);
 
-  @override
-  Bn256KeyedSignature copyWith(void Function(Bn256KeyedSignature) updates) =>
-      super.copyWith((message) => updates(message as Bn256KeyedSignature))
-          as Bn256KeyedSignature; // ignore: deprecated_member_use
 
   factory Bn256KeyedSignature({
     Bn256Signature? signature,

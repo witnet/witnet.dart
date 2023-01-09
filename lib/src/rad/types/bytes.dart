@@ -8,6 +8,9 @@ class RadBytes {
 
   RadString get asString => RadString(_value.toString());
 
+  @override
+  String toString() => 'RadonBytes("${bytesToHex(this.value)}")';
+
   RadString get hash => RadString(bytesToHex(sha256(data: _value)));
 
   dynamic op(int op, [dynamic key]) {

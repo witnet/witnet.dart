@@ -170,6 +170,14 @@ class Witnet {
             .map((e) => StringPair(left: e.key, right: e.value))));
   }
 
+  static RADRetrieve RandomSource(){
+    return RADRetrieve(
+      kind: RADType.Rng,
+      script: [128],
+      url: "",
+    );
+  }
+
   static RADAggregate Aggregator() {
     return RADAggregate();
   }

@@ -1022,8 +1022,8 @@ class ValueTransferInfo extends HashInfo {
   final List<InputUtxo> inputs;
   final List<ValueTransferOutput> outputs;
   final int priority;
-  final String status;
-  final int txnEpoch;
+  String status;
+  final int? txnEpoch;
   final String txnHash;
   final int txnTime;
   final String type;
@@ -1151,6 +1151,22 @@ class ValueTransferInfo extends HashInfo {
       print(element.rawJson);
     });
   }
+
+  bool containsAddress(String address) {
+    bool isInTrx = false;
+    inputs.forEach((input) {
+      if (input.address == address){
+        isInTrx = true;
+      }
+    });
+    outputs.forEach((output) {
+      if(output.pkh.address == address){
+        isInTrx = true;
+      }
+    });
+    return isInTrx;
+  }
+
 }
 
 class BlockInfo {

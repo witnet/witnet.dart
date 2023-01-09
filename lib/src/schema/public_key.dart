@@ -18,11 +18,6 @@ class PublicKey extends GeneratedMessage {
   PublicKey clone() => PublicKey()..mergeFromMessage(this);
 
   @override
-  PublicKey copyWith(void Function(PublicKey) updates) =>
-      super.copyWith((message) => updates(message as PublicKey))
-          as PublicKey; // ignore: deprecated_member_use
-
-  @override
   PublicKey createEmptyInstance() => create();
 
   factory PublicKey({

@@ -20,10 +20,6 @@ class LastBeacon extends GeneratedMessage {
   @override
   LastBeacon clone() => LastBeacon()..mergeFromMessage(this);
 
-  @override
-  LastBeacon copyWith(void Function(LastBeacon) updates) =>
-      super.copyWith((message) => updates(message as LastBeacon))
-          as LastBeacon; // ignore: deprecated_member_use
 
   @override
   LastBeacon createEmptyInstance() => create();

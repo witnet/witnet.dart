@@ -17,11 +17,6 @@ class Verack extends GeneratedMessage {
   Verack clone() => Verack()..mergeFromMessage(this);
 
   @override
-  Verack copyWith(void Function(Verack) updates) =>
-      super.copyWith((message) => updates(message as Verack))
-          as Verack; // ignore: deprecated_member_use
-
-  @override
   Verack createEmptyInstance() => create();
 
   factory Verack() => create();

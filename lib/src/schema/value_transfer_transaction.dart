@@ -20,11 +20,6 @@ class VTTransaction extends GeneratedMessage {
   VTTransaction clone() => VTTransaction()..mergeFromMessage(this);
 
   @override
-  VTTransaction copyWith(void Function(VTTransaction) updates) =>
-      super.copyWith((message) => updates(message as VTTransaction))
-          as VTTransaction; // ignore: deprecated_member_use
-
-  @override
   VTTransaction createEmptyInstance() => create();
 
   factory VTTransaction({

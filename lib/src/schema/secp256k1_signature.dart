@@ -19,11 +19,6 @@ class Secp256k1Signature extends GeneratedMessage {
   Secp256k1Signature clone() => Secp256k1Signature()..mergeFromMessage(this);
 
   @override
-  Secp256k1Signature copyWith(void Function(Secp256k1Signature) updates) =>
-      super.copyWith((message) => updates(message as Secp256k1Signature))
-      as Secp256k1Signature; // ignore: deprecated_member_use
-
-  @override
   Secp256k1Signature createEmptyInstance() => create();
 
   factory Secp256k1Signature({

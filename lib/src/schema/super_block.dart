@@ -24,11 +24,6 @@ class SuperBlock extends GeneratedMessage {
   SuperBlock clone() => SuperBlock()..mergeFromMessage(this);
 
   @override
-  SuperBlock copyWith(void Function(SuperBlock) updates) =>
-      super.copyWith((message) => updates(message as SuperBlock))
-          as SuperBlock; // ignore: deprecated_member_use
-
-  @override
   SuperBlock createEmptyInstance() => create();
 
   factory SuperBlock({

@@ -70,11 +70,6 @@ class Message_Command extends GeneratedMessage {
   @override
   Message_Command createEmptyInstance() => create();
 
-  @override
-  Message_Command copyWith(void Function(Message_Command) updates) =>
-      super.copyWith((message) => updates(message as Message_Command))
-          as Message_Command; // ignore: deprecated_member_use
-
   factory Message_Command({
     Version? version,
     Verack? verack,
