@@ -198,12 +198,14 @@ class ExplorerClient {
     }
   }
 
-  Future<dynamic> pending() async {
+  Future<dynamic> mempool({String key = 'live'}) async {
     try {
-      return await _processGet(api('pending'));
+      if (['live', 'history'].contains(key)){
+        return await _processGet(api('mempool', {'key': '$key'}));
+      }
     } on ExplorerException catch (e) {
       throw ExplorerException(
-          code: e.code, message: '{"pending": "${e.message}"}');
+          code: e.code, message: '{"mempool": "${e.message}"}');
     }
   }
 
