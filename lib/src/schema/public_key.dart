@@ -53,8 +53,8 @@ class PublicKey extends GeneratedMessage {
     if (publicKey.isNotEmpty)
       return {
         "bytes": (asHex)
-            ? bytesToHex(Uint8List.fromList(publicKey.sublist(2)))
-            : publicKey.sublist(2),
+            ? bytesToHex(Uint8List.fromList(publicKey.sublist(1)))
+            : publicKey.sublist(1),
         "compressed": publicKey[0],
       };
     return {};
