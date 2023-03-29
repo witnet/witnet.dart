@@ -1,3 +1,26 @@
+## 0.2.0
+- Migrate protobuf schema from a custom solution to a native supported version of protobuf
+- Fix _handle() method to buffer the socket response
+- Fix RAD Retrieve JSON output 
+- Update to `test@^1.21.6` 
+- Update to `xml@^6.1.0`
+- Export AES codec as part of this package
+- Fix return type for timelock from int64 to int
+- Remove print statements
+- Remove unused imports
+- Remove dead code
+- Fix protobuf schema for data requests
+- Sort unused schema objects to the bottom of the schema file
+- Fix PublicKey JSON parsing
+- Fix TallyTransaction JSON parsing
+- Add RNG source for generating rad requests
+- Add `mempool` method
+- Correct protobuf schema for data requests 
+- Add `sendVTTransaction` and `sendDRTransaction` methods, previously it was required to use the `inventory` method
+- Add `ConsensusConstants` JSON to the protobuf schema and as a return type in the node client
+- Refactor: return types for peer methods to return a list of peers instead of a raw JSON map
+- Fix publicKey number of bytes 
+
 ## 0.1.4
 - ability to clear UtxoPool
 - removed print statements used for testing
