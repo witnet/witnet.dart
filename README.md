@@ -83,10 +83,11 @@ main() async {
     print('${address.address}');
     print('${address.balanceWit} WIT');
     VTTransaction transaction = address.createVTT(
-        to: outputs,
+        outputs: outputs,
         privateKey: nodeXprv.privateKey,
         utxoStrategy: UtxoSelectionStrategy.SmallFirst,
-        fee: 1);
+        fee: 1,
+        networkSource: nodeClient);
     print(transaction.jsonMap);
     print(transaction.body.toRawJson());
     print(transaction.transactionID);
@@ -104,8 +105,8 @@ KeyedSignature signHash(String hash, WitPrivateKey privateKey){
   int compressed = privateKey.publicKey.encode().elementAt(0);
   Uint8List key_bytes = privateKey.publicKey.encode().sublist(1);
   return KeyedSignature(
-    publicKey: PublicKey(bytes: key_bytes, compressed: compressed),
-    signature: Signature(secp256K1: Secp256k1Signature(der: sig.encode())),
+    publicKey: PublicKey(bytes: key_bytes),
+    signature: Signature(secp256k1: Secp256k1Signature(der: sig.encode())),
   );
 }
 ```
