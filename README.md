@@ -172,3 +172,6 @@ Created by the Witnet Community and released under the [GNU General Public Licen
 [tracker]: https://github.com/parodyBit/witnet/issues
 [license]: https://github.com/parodyBit/witnet/blob/main/LICENSE
 [pointy_castle]: https://pub.dev/packages/pointycastle
+
+## Acknowledgment
+We would like to express our sincere gratitude to [@parody_bit](https://github.com/parodyBit) for generously creating and sharing this library for the improvement of the Witnet ecosystem. Thank you for your hard work and dedication.
