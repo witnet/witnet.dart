@@ -7,9 +7,8 @@ description: A library to interface with the Witnet Protocol.
 
 version: 0.1.5
 
-# homepage: https://github.com/parodyBit/witnet.dart
-# author: parodyBit
-repository: https://github.com/parodyBit/witnet.dart
+homepage: https://github.com/witnet/witnet.dart
+repository: https://github.com/witnet/witnet.dart
 
 environment:
   sdk: '>=2.13.0 <3.0.0'
