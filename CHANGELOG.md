@@ -1,4 +1,7 @@
 ## 0.2.0
+- Add `fixnum` dependency to use `^1.1.0`
+
+## 0.2.0
 - Migrate protobuf schema from a custom solution to a native supported version of protobuf
 - Fix _handle() method to buffer the socket response
 - Fix RAD Retrieve JSON output 
