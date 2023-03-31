@@ -122,8 +122,18 @@ class Transaction extends GeneratedMessage {
 
   String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap({bool asHex = false}) =>
-      {"transaction": transaction.jsonMap()};
+  Map<String, dynamic> jsonMap({bool asHex = false}) {
+    final txType = hasDataRequest() ? 'DataRequest' : 'ValueTransfer';
+    return {
+      "transaction": {
+        txType: {
+          "body": transaction.body.jsonMap(asHex: asHex),
+          "signatures": List<dynamic>.from(
+              transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
+        }
+      }
+    };
+  }
 
   @override
   BuilderInfo get info_ => _i;
