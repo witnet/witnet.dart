@@ -21,7 +21,6 @@ class Bn256KeyedSignature extends GeneratedMessage {
   @override
   Bn256KeyedSignature clone() => Bn256KeyedSignature()..mergeFromMessage(this);
 
-
   factory Bn256KeyedSignature({
     Bn256Signature? signature,
     Bn256PublicKey? publicKey,

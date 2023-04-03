@@ -20,7 +20,6 @@ class Bn256Signature extends GeneratedMessage {
   @override
   Bn256Signature createEmptyInstance() => create();
 
-
   factory Bn256Signature({
     List<int>? signature,
   }) {

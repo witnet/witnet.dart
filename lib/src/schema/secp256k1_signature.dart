@@ -50,8 +50,8 @@ class Secp256k1Signature extends GeneratedMessage {
   String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   Map<String, dynamic> jsonMap({bool asHex = false}) => {
-    "der": (asHex) ? bytesToHex(Uint8List.fromList(der)) : der.toList(),
-  };
+        "der": (asHex) ? bytesToHex(Uint8List.fromList(der)) : der.toList(),
+      };
 
   @override
   BuilderInfo get info_ => _i;

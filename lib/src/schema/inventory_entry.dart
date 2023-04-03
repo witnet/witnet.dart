@@ -29,7 +29,6 @@ class InventoryEntry extends GeneratedMessage {
   @override
   InventoryEntry clone() => InventoryEntry()..mergeFromMessage(this);
 
-
   @override
   InventoryEntry createEmptyInstance() => create();
 

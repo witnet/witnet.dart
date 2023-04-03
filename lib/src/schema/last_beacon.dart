@@ -20,7 +20,6 @@ class LastBeacon extends GeneratedMessage {
   @override
   LastBeacon clone() => LastBeacon()..mergeFromMessage(this);
 
-
   @override
   LastBeacon createEmptyInstance() => create();
 

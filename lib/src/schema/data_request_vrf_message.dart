@@ -20,7 +20,6 @@ class DataRequestVrfMessage extends GeneratedMessage {
   DataRequestVrfMessage clone() =>
       DataRequestVrfMessage()..mergeFromMessage(this);
 
-
   @override
   DataRequestVrfMessage createEmptyInstance() => create();
 

@@ -26,7 +26,6 @@ class PublicKey extends GeneratedMessage {
     final _result = create();
     _result.publicKey = concatBytes([
       (bytes != null) ? Uint8List.fromList(bytes) : Uint8List.fromList([]),
-
     ]);
     return _result;
   }
@@ -38,18 +37,18 @@ class PublicKey extends GeneratedMessage {
 
   @override
   factory PublicKey.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
 
   @override
   factory PublicKey.fromJson(Map<String, dynamic> json) {
     Uint8List compressed = Uint8List.fromList([json['compressed']]);
-    Uint8List bytes = Uint8List.fromList(List<int>.from(json["bytes"].map((x) => x)));
+    Uint8List bytes =
+        Uint8List.fromList(List<int>.from(json["bytes"].map((x) => x)));
     return PublicKey(bytes: concatBytes([compressed, bytes]));
   }
 
   Map<String, dynamic> jsonMap({bool asHex = false}) {
-
     if (publicKey.isNotEmpty)
       return {
         "bytes": (asHex)

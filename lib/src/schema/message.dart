@@ -17,7 +17,6 @@ class Message extends GeneratedMessage {
   Message createEmptyInstance() => create();
   Message clone() => Message()..mergeFromMessage(this);
 
-
   factory Message({
     int? magic,
     Message_Command? kind,

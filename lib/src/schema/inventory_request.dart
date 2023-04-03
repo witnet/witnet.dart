@@ -19,7 +19,6 @@ class InventoryRequest extends GeneratedMessage {
   @override
   InventoryRequest clone() => InventoryRequest()..mergeFromMessage(this);
 
-
   @override
   InventoryRequest createEmptyInstance() => create();
 

@@ -41,15 +41,15 @@ class DRTransaction extends GeneratedMessage {
 
   @override
   factory DRTransaction.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
+          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
 
   @override
   factory DRTransaction.fromJson(Map<String, dynamic> json) => DRTransaction(
-    body: DRTransactionBody.fromJson(json["body"]),
-    signatures: List<KeyedSignature>.from(
-        json["signatures"].map((x) => KeyedSignature.fromJson(x))),
-  );
+        body: DRTransactionBody.fromJson(json["body"]),
+        signatures: List<KeyedSignature>.from(
+            json["signatures"].map((x) => KeyedSignature.fromJson(x))),
+      );
 
   String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
@@ -58,7 +58,7 @@ class DRTransaction extends GeneratedMessage {
       "DataRequest": {
         "body": body.jsonMap(asHex: asHex),
         "signatures":
-        List<dynamic>.from(signatures.map((x) => x.jsonMap(asHex: asHex))),
+            List<dynamic>.from(signatures.map((x) => x.jsonMap(asHex: asHex))),
       }
     };
   }

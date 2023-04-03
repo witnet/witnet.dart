@@ -16,7 +16,6 @@ class GetPeers extends GeneratedMessage {
   @override
   GetPeers clone() => GetPeers()..mergeFromMessage(this);
 
-
   @override
   GetPeers createEmptyInstance() => create();
 

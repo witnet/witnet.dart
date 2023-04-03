@@ -21,7 +21,6 @@ class CheckpointVRF extends GeneratedMessage {
   @override
   CheckpointVRF clone() => CheckpointVRF()..mergeFromMessage(this);
 
-
   factory CheckpointVRF({
     int? checkpoint,
     Hash? hashPrevVrf,

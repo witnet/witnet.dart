@@ -1155,18 +1155,17 @@ class ValueTransferInfo extends HashInfo {
   bool containsAddress(String address) {
     bool isInTrx = false;
     inputs.forEach((input) {
-      if (input.address == address){
+      if (input.address == address) {
         isInTrx = true;
       }
     });
     outputs.forEach((output) {
-      if(output.pkh.address == address){
+      if (output.pkh.address == address) {
         isInTrx = true;
       }
     });
     return isInTrx;
   }
-
 }
 
 class BlockInfo {

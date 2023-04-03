@@ -131,7 +131,9 @@ class ExplorerClient {
 
   Future<dynamic> sendVTTransaction(VTTransaction transaction,
       {bool testing = true}) async {
-    return await send(transaction: Transaction(valueTransfer: transaction).jsonMap(asHex: true));
+    return await send(
+        transaction:
+            Transaction(valueTransfer: transaction).jsonMap(asHex: true));
   }
 
   Future<dynamic> hash(String value, [bool simple = true]) async {
@@ -193,7 +195,7 @@ class ExplorerClient {
 
   Future<dynamic> mempool({String key = 'live'}) async {
     try {
-      if (['live', 'history'].contains(key)){
+      if (['live', 'history'].contains(key)) {
         return await _processGet(api('mempool', {'key': '$key'}));
       }
     } on ExplorerException catch (e) {

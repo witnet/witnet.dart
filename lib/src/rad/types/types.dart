@@ -7,9 +7,7 @@ import 'dart:typed_data' show Uint8List;
 import 'package:witnet/crypto.dart' show sha256;
 import 'package:witnet/utils.dart' show bytesToHex;
 
-import 'package:witnet/radon.dart'
-    show OP, RadError, cborToRad;
-
+import 'package:witnet/radon.dart' show OP, RadError, cborToRad;
 
 part 'array.dart';
 part 'boolean.dart';
