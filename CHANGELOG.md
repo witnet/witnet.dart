@@ -1,4 +1,8 @@
-## 0.2.0
+## 0.2.2
+- Fix send transaction method
+- Format style
+
+## 0.2.1
 - Add `fixnum` dependency to use `^1.1.0`
 
 ## 0.2.0
