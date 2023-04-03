@@ -6,7 +6,7 @@ import 'dart:io' show HttpException;
 
 import 'package:witnet/data_structures.dart' show Utxo;
 import 'package:witnet/explorer.dart';
-import 'package:witnet/schema.dart' show VTTransaction;
+import 'package:witnet/schema.dart';
 import 'explorer_api.dart'
     show
         AddressBlocks,
@@ -131,14 +131,7 @@ class ExplorerClient {
 
   Future<dynamic> sendVTTransaction(VTTransaction transaction,
       {bool testing = true}) async {
-    Uri uri = Uri.dataFromString('content');
-    http.Response response = await http.post(
-      uri,
-      headers: {'Content-Type': 'application/json'},
-      body: transaction.jsonMap(asHex: true),
-      encoding: convert.utf8,
-    );
-    return response;
+    return await send(transaction: Transaction(valueTransfer: transaction).jsonMap(asHex: true));
   }
 
   Future<dynamic> hash(String value, [bool simple = true]) async {
