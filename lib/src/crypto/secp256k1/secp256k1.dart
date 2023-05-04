@@ -37,7 +37,7 @@ class Point {
   final BigInt x;
   final BigInt y;
 
-  Uint8List encode({bool compressed: true}) {
+  Uint8List encode({bool compressed = true}) {
     return hexToBytes(pointToHexInCompress(this));
   }
 

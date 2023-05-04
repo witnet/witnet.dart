@@ -31,7 +31,7 @@ class WitPublicKey {
     return privateKey.publicKey;
   }
 
-  Uint8List encode({bool compressed: true}) {
+  Uint8List encode({bool compressed = true}) {
     return hexToBytes(pointToHexInCompress(point));
   }
 
