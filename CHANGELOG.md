@@ -1,3 +1,6 @@
+## 0.2.3
+- Add `valueTransferPriority` method
+
 ## 0.2.2
 - Fix send transaction method
 - Format style
