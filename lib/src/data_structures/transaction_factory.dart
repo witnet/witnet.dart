@@ -134,7 +134,6 @@ Future<dynamic> createVTTransaction({
           outputs.add(_changeAddress.receive(change - newWeight));
         } else {
           // need additional utxos to cover the weighted fee
-
         }
         break;
     }

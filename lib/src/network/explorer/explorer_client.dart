@@ -287,7 +287,8 @@ class ExplorerClient {
 
   Future<PrioritiesEstimate> valueTransferPriority() async {
     try {
-      return PrioritiesEstimate.fromJson(await _processGet(api('priority', { "type": "vtt" })));
+      return PrioritiesEstimate.fromJson(
+          await _processGet(api('priority', {"type": "vtt"})));
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"priority": "${e.message}"}');

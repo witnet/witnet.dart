@@ -51,7 +51,6 @@ main() async {
       // uncomment to send the transaction
       // var resp = await nodeClient.inventory({'transaction': transaction.jsonMap});
       // print(resp);
-
     } else {
       print('Node is not synced. Current State: [${syncStatus.nodeState}]');
       print('Current Epoch:   [${syncStatus.currentEpoch}]');
