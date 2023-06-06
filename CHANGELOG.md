@@ -1,3 +1,6 @@
+## 0.2.4
+- Throw error when getMultiUtxoInfo fails
+
 ## 0.2.3
 - Add `valueTransferPriority` method
 
