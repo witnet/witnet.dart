@@ -126,7 +126,7 @@ class ExplorerClient {
 
       return addressMap;
     } catch (e) {
-      return {};
+      throw e;
     }
   }
 
