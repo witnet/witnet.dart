@@ -5,7 +5,7 @@ description: A library to interface with the Witnet Protocol.
   - communicate with a rust node or wallet server
   - communicate with the explorer
 
-version: 0.2.3
+version: 0.2.4
 
 homepage: https://github.com/witnet/witnet.dart
 repository: https://github.com/witnet/witnet.dart
