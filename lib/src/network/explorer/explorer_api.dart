@@ -907,6 +907,58 @@ class AddressValueTransfers {
       };
 }
 
+class AddressInfo {
+  final String address;
+  final String label;
+  final int active;
+  final int block;
+  final int mint;
+  final int value_transfer;
+  final int data_request;
+  final int commit;
+  final int reveal;
+  final int tally;
+
+  AddressInfo({
+    required this.address,
+    required this.label,
+    required this.active,
+    required this.block,
+    required this.mint,
+    required this.value_transfer,
+    required this.data_request,
+    required this.commit,
+    required this.reveal,
+    required this.tally,
+  });
+
+  factory AddressInfo.fromJson(Map<String, dynamic> json) => AddressInfo(
+        address: json["address"],
+        label: json["label"],
+        active: json["active"],
+        block: json["block"],
+        mint: json["mint"],
+        value_transfer: json["value_transfer"],
+        data_request: json["data_request"],
+        commit: json["commit"],
+        reveal: json["reveal"],
+        tally: json["tally"],
+      );
+
+  Map<String, dynamic> jsonMap() => {
+        "address": address,
+        "label": label,
+        "active": active,
+        "block": block,
+        "mint": mint,
+        "value_transfer": value_transfer,
+        "data_request": data_request,
+        "commit": commit,
+        "reveal": reveal,
+        "tally": tally,
+      };
+}
+
 class MintInfo {
   MintInfo({
     required this.blockHash,

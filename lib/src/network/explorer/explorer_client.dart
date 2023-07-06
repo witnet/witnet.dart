@@ -12,6 +12,7 @@ import 'explorer_api.dart'
         AddressBlocks,
         AddressDataRequestsSolved,
         AddressDetails,
+        AddressInfo,
         AddressValueTransfers,
         Blockchain,
         ExplorerException,
@@ -250,6 +251,17 @@ class ExplorerClient {
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"address": "${e.message}"}');
+    }
+  }
+
+  Future<AddressInfo> addressInfo({required String address}) async {
+    try {
+      var data = await _processGet(api('address_info', {'address': address}));
+
+      return AddressInfo.fromJson( data[address] );
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"address_info": "${e.message}"}');
     }
   }
 
