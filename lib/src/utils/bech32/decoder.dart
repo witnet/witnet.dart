@@ -4,13 +4,14 @@ import 'bech32.dart' show Bech32, separator, charset;
 import 'validations.dart' show Bech32Validations;
 import 'exceptions.dart'
     show
-        MixedCase,
+        InvalidChecksum,
         InvalidSeparator,
-        TooShortChecksum,
-        TooShortHrp,
-        TooLong,
+        MixedCase,
         OutOfBoundChars,
-        OutOfRangeHrpCharacters;
+        OutOfRangeHrpCharacters,
+        TooLong,
+        TooShortChecksum,
+        TooShortHrp;
 
 // This class converts a String to a Bech32 class instance.
 class Bech32Decoder extends Converter<String, Bech32> with Bech32Validations {
@@ -62,6 +63,9 @@ class Bech32Decoder extends Converter<String, Bech32> with Bech32Validations {
     }).toList();
     if (hasOutOfBoundsChars(checksumBytes)) {
       throw OutOfBoundChars(checksum[checksumBytes.indexOf(-1)]);
+    }
+    if (isInvalidChecksum(hrp, [...dataBytes, ...checksumBytes])) {
+      throw InvalidChecksum();
     }
     return Bech32(hrp: hrp, data: dataBytes);
   }

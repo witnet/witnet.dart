@@ -2,14 +2,15 @@ import 'dart:typed_data';
 
 import 'package:witnet/src/crypto/hd_wallet/extended_key.dart';
 import 'package:witnet/src/crypto/secp256k1/secp256k1.dart';
-import '../address.dart';
-import '../encrypt/aes/exceptions.dart';
-import '../encrypt/aes/codec.dart';
+import 'package:witnet/src/utils/bech32/exceptions.dart';
+import 'package:witnet/src/crypto/address.dart';
+import 'package:witnet/src/crypto/encrypt/aes/exceptions.dart';
+import 'package:witnet/src/crypto/encrypt/aes/codec.dart';
+import 'package:witnet/src/utils/bech32/bech32.dart';
+import 'package:witnet/src/crypto/bip39/bip39.dart' as bip39;
 
-import '../bip39/bip39.dart' as bip39;
-
-import '../crypto.dart';
-import '../secp256k1/private_key.dart';
+import 'package:witnet/src/crypto/crypto.dart';
+import 'package:witnet/src/crypto/secp256k1/private_key.dart';
 
 import 'package:witnet/utils.dart';
 
@@ -103,12 +104,22 @@ class Xprv extends ExtendedKey {
 
   factory Xprv.fromXprv(String xprv) {
     Bech32 bech = bech32.decoder.convert(xprv);
+    try {
+      List<int> checksum = createChecksum(bech.hrp, bech.data);
+      bool invalidXprvChecksum =
+          !verifyChecksum(bech.hrp, [...bech.data, ...checksum]);
+      if (invalidXprvChecksum) {
+        throw InvalidChecksum();
+      }
+    } catch (e) {
+      rethrow;
+    }
+
     var bn256 = convertBits(data: bech.data, from: 5, to: 8, pad: true);
     Uint8List data = Uint8List.fromList(bn256);
     String hrp = bech.hrp;
     assert(hrp == 'xprv', 'Not a valid XPRV for importing.');
     Uint8List depth = data.sublist(0, 1);
-
     Uint8List chainCode = data.sublist(1, 33);
     Uint8List keyData = data.sublist(34, 66);
     bool masterKey = false;
@@ -137,6 +148,12 @@ class Xprv extends ExtendedKey {
   factory Xprv.fromEncryptedXprv(String xprv, String password) {
     try {
       Bech32 bech = bech32.decode(xprv);
+      List<int> checksum = createChecksum(bech.hrp, bech.data);
+      bool invalidXprvChecksum =
+          verifyChecksum(bech.hrp, [...bech.data, ...checksum]);
+      if (invalidXprvChecksum) {
+        throw InvalidChecksum();
+      }
 
       Uint8List data = Uint8List.fromList(
           convertBits(data: bech.data, from: 5, to: 8, pad: false));
@@ -152,6 +169,9 @@ class Xprv extends ExtendedKey {
       plainText = utf8.decode(decoded).trim();
       return Xprv.fromXprv(plainText);
     } catch (e) {
+      if (e.runtimeType == InvalidChecksum) {
+        rethrow;
+      }
       throw AesCryptDataException('${e.toString()}');
     }
   }
