@@ -1,6 +1,6 @@
 import 'package:witnet/src/utils/bech32/codec.dart';
 
-import 'bech32.dart' show Bech32, createChecksum, separator, verifyChecksum;
+import 'bech32.dart' show Bech32, separator, verifyChecksum;
 
 /// Generic validations for Bech32 standard.
 class Bech32Validations {
@@ -11,7 +11,6 @@ class Bech32Validations {
     Bech32 bech32 = Bech32Codec().decode(address);
     String hrp = bech32.hrp;
     List<int> data = bech32.data;
-    List<int> checksum = createChecksum(hrp, data);
     int separatorPosition = 4;
     if (isChecksumTooShort(separatorPosition, address)) {
       print('ChecksumTooShort');
@@ -22,7 +21,7 @@ class Bech32Validations {
     } else if (isHrpTooShort(separatorPosition)) {
       print('HrpTooShort');
       return false;
-    } else if (isInvalidChecksum(hrp, data, checksum)) {
+    } else if (isInvalidChecksum(hrp, data)) {
       print('InvalidChecksum');
       return false;
     } else
@@ -42,8 +41,8 @@ class Bech32Validations {
     return separatorPosition == 0;
   }
 
-  bool isInvalidChecksum(String hrp, List<int> data, List<int> checksum) {
-    return verifyChecksum(hrp, data + checksum);
+  bool isInvalidChecksum(String hrp, List<int> data) {
+    return !verifyChecksum(hrp, data);
   }
 
   bool isMixedCase(String input) {
