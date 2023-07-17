@@ -1,5 +1,4 @@
 import 'dart:convert' show json;
-import 'dart:typed_data';
 
 import 'package:witnet/schema.dart';
 import 'package:witnet/src/crypto/address.dart';
@@ -1232,9 +1231,10 @@ class BlockInfo {
     required this.commitCount,
     required this.revealCount,
     required this.tallyCount,
+    required this.reverted,
   });
 
-  final Uint8List blockID;
+  final String blockID;
   final int timestamp;
   final int epoch;
   final int reward;
@@ -1244,19 +1244,22 @@ class BlockInfo {
   final int commitCount;
   final int revealCount;
   final int tallyCount;
+  final bool reverted;
 
   factory BlockInfo.fromList(List<dynamic> data) {
     return BlockInfo(
-        blockID: data[0],
-        timestamp: data[1],
-        epoch: data[2],
-        reward: data[3],
-        fees: data[4],
-        valueTransferCount: data[5],
-        dataRequestCount: data[6],
-        commitCount: data[7],
-        revealCount: data[8],
-        tallyCount: data[9]);
+      blockID: data[0],
+      timestamp: data[1],
+      epoch: data[2],
+      reward: data[3],
+      fees: data[4],
+      valueTransferCount: data[5],
+      dataRequestCount: data[6],
+      commitCount: data[7],
+      revealCount: data[8],
+      tallyCount: data[9],
+      reverted: data[10],
+    );
   }
 
   List<dynamic> toList() {
@@ -1271,6 +1274,67 @@ class BlockInfo {
       revealCount,
       tallyCount
     ];
+  }
+}
+
+class BlockDetails {
+  BlockDetails({
+    required this.blockHash,
+    required this.epoch,
+    required this.timestamp,
+    required this.drWeight,
+    required this.vtWeight,
+    required this.blockWeight,
+    required this.confirmed,
+    required this.status,
+    required this.mintInfo,
+  });
+
+  final String blockHash;
+  final int epoch;
+  final int timestamp;
+  final int drWeight;
+  final int vtWeight;
+  final int blockWeight;
+  final bool confirmed;
+  final String status;
+  final MintInfo mintInfo;
+
+  factory BlockDetails.fromJson(Map<String, dynamic> json) {
+
+    Map<String, dynamic> mint_txn = json["mint_txn"];
+    String mintHash = mint_txn["txn_hash"];
+
+    List<ValueTransferOutput> outputs = [];
+    for (int i = 0; i < mint_txn['output_addresses'].length; i++) {
+      String _address = mint_txn['output_addresses'][i];
+      int _value = mint_txn['output_values'][i];
+
+      ValueTransferOutput _output = ValueTransferOutput(
+          pkh: PublicKeyHash.fromAddress(_address), value: _value, timeLock: 0);
+      outputs.add(_output);
+    }
+
+    MintInfo mintInfo = MintInfo(
+        blockHash: json["details"]["block_hash"],
+        outputs: outputs,
+        status: json["details"]["status"],
+        txnEpoch: json["details"]["epoch"],
+        txnHash: mintHash,
+        txnTime: json["details"]["time"],
+        type: "mint");
+
+    return BlockDetails(
+      blockHash: json["details"]["block_hash"],
+      epoch: json["details"]["epoch"],
+      timestamp: json["details"]["time"],
+      drWeight: json["details"]["dr_weight"],
+      vtWeight: json["details"]["vt_weight"],
+      blockWeight: json["details"]["block_weight"],
+      confirmed: json["details"]["confirmed"],
+      status: json["details"]["status"],
+      mintInfo: mintInfo,
+    );
   }
 }
 
@@ -1295,7 +1359,6 @@ class DataRequestSolvedInfo {
   final bool liar;
 
   factory DataRequestSolvedInfo.fromList(List<dynamic> data) {
-    print(data);
     var result = (data[5].runtimeType == String)
         ? DataRequestResult(accepted: false, value: '')
         : DataRequestResult.fromList(data[5]);

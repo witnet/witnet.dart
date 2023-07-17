@@ -12,11 +12,10 @@ import 'explorer_api.dart'
         AddressBlocks,
         AddressDataRequestsSolved,
         AddressDetails,
-        AddressInfo,
         AddressValueTransfers,
+        BlockDetails,
         Blockchain,
         ExplorerException,
-        HashInfo,
         Home,
         MintInfo,
         Network,
@@ -143,28 +142,23 @@ class ExplorerClient {
     try {
       Uri uri = api('hash', {'value': value, 'simple': simple.toString()});
       var data = await _processGet(uri);
-
-      HashInfo hashInfo = HashInfo.fromJson(data);
-      if (hashInfo.isMined() || hashInfo.isConfirmed()) {
-        if (data.containsKey('type')) {
-          switch (data['type'] as String) {
-            case 'value_transfer_txn':
-              return ValueTransferInfo.fromJson(data);
-            case 'data_request_txn':
-            case 'commit_txn':
-            case 'reveal_txn':
-            case 'tally_txn':
-            case 'mint_txn':
-              MintInfo mintInfo = MintInfo.fromJson(data);
-              return mintInfo;
-            case 'block':
-          }
+      if (data.containsKey('type')) {
+        switch (data['type'] as String) {
+          case 'value_transfer_txn':
+            return ValueTransferInfo.fromJson(data);
+          case 'data_request_txn':
+          case 'commit_txn':
+          case 'reveal_txn':
+          case 'tally_txn':
+          case 'mint_txn':
+            MintInfo mintInfo = MintInfo.fromJson(data);
+            return mintInfo;
+          case 'block':
+            return BlockDetails.fromJson(data);
         }
       }
-      return hashInfo;
-    } on ExplorerException catch (e) {
-      throw ExplorerException(
-          code: e.code, message: '{"hash": "${e.message}"}');
+    } catch (e) {
+      throw ExplorerException(code: 0, message: '{"hash": "$e"}');
     }
   }
 
@@ -251,17 +245,6 @@ class ExplorerClient {
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"address": "${e.message}"}');
-    }
-  }
-
-  Future<AddressInfo> addressInfo({required String address}) async {
-    try {
-      var data = await _processGet(api('address_info', {'address': address}));
-
-      return AddressInfo.fromJson( data[address] );
-    } on ExplorerException catch (e) {
-      throw ExplorerException(
-          code: e.code, message: '{"address_info": "${e.message}"}');
     }
   }
 
