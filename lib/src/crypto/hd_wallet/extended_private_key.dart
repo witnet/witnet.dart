@@ -150,7 +150,7 @@ class Xprv extends ExtendedKey {
       Bech32 bech = bech32.decode(xprv);
       List<int> checksum = createChecksum(bech.hrp, bech.data);
       bool invalidXprvChecksum =
-          verifyChecksum(bech.hrp, [...bech.data, ...checksum]);
+          !verifyChecksum(bech.hrp, [...bech.data, ...checksum]);
       if (invalidXprvChecksum) {
         throw InvalidChecksum();
       }
