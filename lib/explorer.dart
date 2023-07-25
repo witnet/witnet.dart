@@ -20,6 +20,7 @@ export 'src/network/explorer/explorer_api.dart'
         BlockInfo,
         BlockDetails,
         MintInfo,
+        HashInfo,
         TallyTxn,
         ValueTransferInfo,
         PrioritiesEstimate,
