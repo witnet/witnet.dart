@@ -1,3 +1,9 @@
+## 0.2.5
+- Add validation for XPRV checksum
+- Add `address_info` endpoint for the Explorer
+- Add BlockDetails type for the Explorer
+- Export additional classes for the Explorer
+
 ## 0.2.4
 - Throw error when getMultiUtxoInfo fails
 
