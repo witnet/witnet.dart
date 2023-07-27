@@ -1083,11 +1083,13 @@ class ValueTransferInfo extends HashInfo {
   factory ValueTransferInfo.fromJson(Map<String, dynamic> data) {
     List<InputUtxo> inputs = [];
     List<ValueTransferOutput> outputs = [];
-    List<dynamic> inputAddresses = data['input_addresses'] as List<dynamic>;
-    List<dynamic> outputAddresses = data['output_addresses'] as List<dynamic>;
-    Map<String, dynamic> inputUxtos = data['input_utxos'];
+    List<dynamic> inputAddresses = data['input_addresses'] ?? [];
+    List<dynamic> outputAddresses = data['output_addresses'] ?? [];
+    Map<String, dynamic>? inputUxtos = data['input_utxos'];
     inputAddresses.forEach((element) {
-      if (inputUxtos.containsKey(element[0])) {
+      if (inputUxtos != null &&
+          inputUxtos.containsKey(element[0]) &&
+          inputUxtos.containsKey(element[1])) {
         var _sub = inputUxtos[element[0]]!.first;
 
         String outputPointer = '${_sub[1]}:${_sub[2]}';
@@ -1113,14 +1115,14 @@ class ValueTransferInfo extends HashInfo {
     });
     return ValueTransferInfo(
       blockHash: data["block_hash"],
-      fee: data["fee"],
-      priority: data["priority"],
+      fee: data["fee"] ?? 0,
+      priority: data["priority"] ?? 0,
       status: data["status"],
       txnEpoch: data["txn_epoch"],
-      txnHash: data["txn_hash"],
-      txnTime: data["txn_time"],
+      txnHash: data["txn_hash"] ?? '',
+      txnTime: data["txn_time"] ?? 0,
       type: data["type"],
-      weight: data["weight"],
+      weight: data["weight"] ?? 0,
       inputs: inputs,
       outputs: outputs,
     );
@@ -1301,7 +1303,6 @@ class BlockDetails {
   final MintInfo mintInfo;
 
   factory BlockDetails.fromJson(Map<String, dynamic> json) {
-
     Map<String, dynamic> mint_txn = json["mint_txn"];
     String mintHash = mint_txn["txn_hash"];
 

@@ -138,7 +138,6 @@ class ExplorerClient {
   }
 
   Future<dynamic> hash(String value, [bool simple = true]) async {
-    /// TODO:
     try {
       Uri uri = api('hash', {'value': value, 'simple': simple.toString()});
       var data = await _processGet(uri);
