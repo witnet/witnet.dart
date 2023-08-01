@@ -1087,9 +1087,7 @@ class ValueTransferInfo extends HashInfo {
     List<dynamic> outputAddresses = data['output_addresses'] ?? [];
     Map<String, dynamic>? inputUxtos = data['input_utxos'];
     inputAddresses.forEach((element) {
-      if (inputUxtos != null &&
-          inputUxtos.containsKey(element[0]) &&
-          inputUxtos.containsKey(element[1])) {
+      if (inputUxtos != null && inputUxtos.containsKey(element[0])) {
         var _sub = inputUxtos[element[0]]!.first;
 
         String outputPointer = '${_sub[1]}:${_sub[2]}';
