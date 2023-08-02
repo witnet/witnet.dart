@@ -1,3 +1,6 @@
+## 0.2.7
+- Fix error getting inputs from hash
+
 ## 0.2.6
 - Fix type error when getting pending transaction from hash
 
