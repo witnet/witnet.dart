@@ -270,7 +270,7 @@ class Xprv extends ExtendedKey {
       Uint8List salt = data.sublist(16, 48);
       Uint8List _data = data.sublist(48);
 
-      CodecAES codec = getCodecAES("password", salt: salt, iv: iv);
+      CodecAES codec = getCodecAES(password, salt: salt, iv: iv);
       Uint8List decoded = codec.decode(bytesToHex(_data)) as Uint8List;
       decoded = decoded.sublist(0, 130);
       String plainText;
