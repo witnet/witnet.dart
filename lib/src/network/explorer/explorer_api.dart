@@ -781,14 +781,31 @@ class AddressBlocks {
         address: data['address'],
         blocks: List<BlockInfo>.from(
             data['blocks'].map((blockInfo) => BlockInfo.fromList(blockInfo))),
-        numBlocksMinted: data['num_blocks_minted'],
-        type: data['type']);
+        numBlocksMinted: data['num_blocks_minted'] ?? 0,
+        type: data['type'] ?? '');
   }
 
   Map<String, dynamic> jsonMap() {
+    List<BlockInfo> blocksMined = blocks;
     return {
       'address': address,
-      'blocks': List<dynamic>.from(blocks.map((e) => e.toList()))
+      'blocks': blocksMined
+          .map((e) => [
+                e.blockID,
+                e.timestamp,
+                e.epoch,
+                e.reward,
+                e.fees,
+                e.valueTransferCount,
+                e.dataRequestCount,
+                e.commitCount,
+                e.revealCount,
+                e.tallyCount,
+                e.reverted
+              ].toList())
+          .toList(),
+      'numBlocksMinted': numBlocksMinted,
+      'type': type,
     };
   }
 }
