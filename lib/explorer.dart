@@ -14,6 +14,7 @@ export 'src/network/explorer/explorer_api.dart'
         TapiInfo,
         Blockchain,
         AddressDetails,
+        AddressDataRequestsSolved,
         InputUtxo,
         AddressValueTransfers,
         AddressBlocks,

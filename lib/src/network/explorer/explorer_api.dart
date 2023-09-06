@@ -869,20 +869,31 @@ class AddressDataRequestsSolved {
 
   String toRawJson() => json.encode(toJson());
 
-  factory AddressDataRequestsSolved.fromJson(Map<String, dynamic> json) =>
-      AddressDataRequestsSolved(
-        address: json["address"],
-        dataRequestsSolved: List<DataRequestSolvedInfo>.from(
-            json["data_requests_solved"]
-                .map((x) => DataRequestSolvedInfo.fromList(x))),
-        numDataRequestsSolved: json["num_data_requests_solved"],
-        type: json["type"],
-      );
+  factory AddressDataRequestsSolved.fromJson(Map<String, dynamic> json) {
+    return AddressDataRequestsSolved(
+      address: json["address"],
+      dataRequestsSolved: List<DataRequestSolvedInfo>.from(
+          json["data_requests_solved"]
+              .map((dr) => DataRequestSolvedInfo.fromList(dr))),
+      numDataRequestsSolved: json["num_data_requests_solved"] ?? 0,
+      type: json["type"] ?? '',
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "address": address,
-        "data_requests_solved":
-            List<dynamic>.from(dataRequestsSolved.map((x) => x.tolist())),
+        "data_requests_solved": dataRequestsSolved
+            .map((e) => [
+                  e.success,
+                  e.transactionID,
+                  e.timestamp,
+                  e.collateral,
+                  e.epoch,
+                  e.result,
+                  e.error,
+                  e.liar,
+                ].toList())
+            .toList(),
         "num_data_requests_solved": numDataRequestsSolved,
         "type": type,
       };
@@ -1365,42 +1376,40 @@ class DataRequestSolvedInfo {
       required this.error,
       required this.liar});
 
-  final bool success;
+  final String success;
   final String transactionID;
   final int timestamp;
   final int collateral;
   final int epoch;
-  final DataRequestResult result;
-  final bool error;
-  final bool liar;
+  final int result;
+  final String error;
+  final String liar;
 
   factory DataRequestSolvedInfo.fromList(List<dynamic> data) {
-    var result = (data[5].runtimeType == String)
-        ? DataRequestResult(accepted: false, value: '')
-        : DataRequestResult.fromList(data[5]);
-
     return DataRequestSolvedInfo(
-        success: data[0],
-        transactionID: data[1],
+        success: data[0].toString(),
+        transactionID: data[1].toString(),
         timestamp: data[2],
         collateral: data[3],
         epoch: data[4],
-        result: result,
-        error: data[6],
-        liar: data[7]);
+        result: data[5],
+        error: data[6].toString(),
+        liar: data[7].toString());
   }
 
   List<dynamic> tolist() {
-    return [success, transactionID, timestamp, collateral, result, error, liar];
+    return [success, transactionID, timestamp, collateral, epoch, result, error, liar];
   }
 
   Map<String, dynamic> jsonMap() => {
+        'success': success,
         'transactionID': transactionID,
         'timestamp': timestamp,
         'collateral': collateral,
+        'epoch': epoch,
+        'result': result,
         'error': error,
         'liar': liar,
-        'success': success,
       };
 
   void printDebug() {
