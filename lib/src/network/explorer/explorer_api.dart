@@ -1398,7 +1398,16 @@ class DataRequestSolvedInfo {
   }
 
   List<dynamic> tolist() {
-    return [success, transactionID, timestamp, collateral, epoch, result, error, liar];
+    return [
+      success,
+      transactionID,
+      timestamp,
+      collateral,
+      epoch,
+      result,
+      error,
+      liar
+    ];
   }
 
   Map<String, dynamic> jsonMap() => {
