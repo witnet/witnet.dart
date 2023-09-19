@@ -1,3 +1,7 @@
+## 0.2.8
+- Update AddressDataRequestsSolved `fromJson` and `toJson`
+- Update AddressBlocks `jsonMap` result
+
 ## 0.2.7
 - Fix error getting inputs from hash
 
