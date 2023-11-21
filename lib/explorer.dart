@@ -5,7 +5,6 @@ export 'src/network/explorer/explorer_api.dart'
     show
         ExplorerException,
         Home,
-        Network,
         NetworkStats,
         NodePool,
         Status,
@@ -25,4 +24,5 @@ export 'src/network/explorer/explorer_api.dart'
         TallyTxn,
         ValueTransferInfo,
         PrioritiesEstimate,
-        PriorityEstimate;
+        PriorityEstimate,
+        Mempool;

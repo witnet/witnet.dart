@@ -11,14 +11,15 @@ import 'explorer_api.dart'
     show
         AddressBlocks,
         AddressDataRequestsSolved,
-        AddressDetails,
         AddressValueTransfers,
         BlockDetails,
+        Mempool,
         Blockchain,
         ExplorerException,
+        NetworkBalances,
         Home,
         MintInfo,
-        Network,
+        NetworkReputation,
         PrioritiesEstimate,
         Status,
         Tapi;
@@ -46,7 +47,8 @@ class ExplorerClient {
     }
   }
 
-  Future<Map<String, dynamic>> _processGet(Uri uri) async {
+  // This function can return Map<String, dynamic> or List<Map<String, dynamic>>
+  Future<dynamic> _processGet(Uri uri) async {
     var response = await http.get(uri);
     if (response.statusCode == 200) {
       // response is okay
@@ -73,14 +75,14 @@ class ExplorerClient {
   }
 
   Future<List<Utxo>> getUtxoInfo({required String address}) async {
-    Uri urlEndpoint = api('utxos', {'address': address});
+    Uri urlEndpoint = api('address/utxos', {'addresses': address});
 
     // Await the http get response, then decode the json-formatted response.
     try {
       var response = await http.get(urlEndpoint);
       if (response.statusCode == 200) {
         var jsonResponse = convert.jsonDecode(response.body);
-        List<dynamic> _utxos = jsonResponse[address]['utxos'] as List<dynamic>;
+        List<dynamic> _utxos = jsonResponse[0]['utxos'] as List<dynamic>;
         List<Utxo> utxos = [];
         _utxos.forEach((element) {
           utxos.add(Utxo.fromJson(element));
@@ -107,8 +109,8 @@ class ExplorerClient {
       int end = (i + addressLimit < addresses.length)
           ? i + addressLimit
           : addresses.length;
-      urlCalls
-          .add(api('utxos', {'address': addresses.sublist(i, end).join(',')}));
+      urlCalls.add(api(
+          'address/utxos', {'addresses': addresses.sublist(i, end).join(',')}));
     }
     // Await the http get response, then decode the json-formatted response.
     try {
@@ -130,6 +132,7 @@ class ExplorerClient {
     }
   }
 
+  // TBD
   Future<dynamic> sendVTTransaction(VTTransaction transaction,
       {bool testing = true}) async {
     return await send(
@@ -139,21 +142,27 @@ class ExplorerClient {
 
   Future<dynamic> hash(String value, [bool simple = true]) async {
     try {
-      Uri uri = api('hash', {'value': value, 'simple': simple.toString()});
+      Uri uri =
+          api('search/hash', {'value': value, 'simple': simple.toString()});
       var data = await _processGet(uri);
-      if (data.containsKey('type')) {
-        switch (data['type'] as String) {
-          case 'value_transfer_txn':
+      if (data.containsKey('response_type')) {
+        switch (data['response_type'] as String) {
+          case 'value_transfer':
             return ValueTransferInfo.fromJson(data);
-          case 'data_request_txn':
-          case 'commit_txn':
-          case 'reveal_txn':
-          case 'tally_txn':
-          case 'mint_txn':
-            MintInfo mintInfo = MintInfo.fromJson(data);
-            return mintInfo;
           case 'block':
             return BlockDetails.fromJson(data);
+          // fixme: add support for pending
+          // case 'pending':
+
+          // fixme: add support for data requests
+          case 'data_request':
+          case 'commit':
+          case 'reveal':
+          case 'tally':
+          case 'data_request_report':
+          case 'data_request_history':
+          case 'mint':
+            return MintInfo.fromJson(data);
         }
       }
     } catch (e) {
@@ -170,9 +179,20 @@ class ExplorerClient {
     }
   }
 
-  Future<Network> network() async {
+  Future<NetworkBalances> networkBalances({int? page, int? pageSize}) async {
     try {
-      return Network.fromJson(await _processGet(api('network')));
+      return NetworkBalances.fromJson(await _processGet(
+          api('network/balances', {"page": page, "page_size": pageSize})));
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"network": "${e.message}"}');
+    }
+  }
+
+  Future<NetworkReputation> reputation({int? page, int? pageSize}) async {
+    try {
+      return NetworkReputation.fromJson(await _processGet(
+          api('network/reputation', {"page": page, "page_size": pageSize})));
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"network": "${e.message}"}');
@@ -188,69 +208,62 @@ class ExplorerClient {
     }
   }
 
-  Future<dynamic> mempool({String key = 'live'}) async {
+  Future<dynamic> mempool(
+      {required String transactionType,
+      int? startEpoch,
+      int? stopEpoch}) async {
+    // TODO: This was not working on mywitwallet. Should we add a class?
     try {
-      if (['live', 'history'].contains(key)) {
-        return await _processGet(api('mempool', {'key': '$key'}));
-      }
+      return Mempool.fromJson(await _processGet(api('network/mempool', {
+        "transaction_type": transactionType,
+        "start_epoch": startEpoch,
+        "stop_epoch": stopEpoch
+      })));
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"mempool": "${e.message}"}');
     }
   }
 
-  Future<dynamic> reputation() async {
-    try {
-      return await _processGet(api('reputation'));
-    } on ExplorerException catch (e) {
-      throw ExplorerException(
-          code: e.code, message: '{"reputation": "${e.message}"}');
-    }
-  }
-
-  Future<dynamic> richList({int start = 0, int stop = 1000}) async {
-    try {
-      return await _processGet(
-          api('richlist', {'start': '$start', 'stop': '$stop'}));
-    } on ExplorerException catch (e) {
-      throw ExplorerException(
-          code: e.code, message: '{"richList": "${e.message}"}');
-    }
-  }
-
   Future<dynamic> address(
       {required String value,
       required String tab,
-      int? limit,
-      int? epoch}) async {
+      int? page,
+      int? pageSize}) async {
     try {
-      var data =
-          await _processGet(api('address', {'value': value, 'tab': tab}));
       switch (tab) {
         case 'blocks':
+          List<Map<String, dynamic>> data = await _processGet(api(
+              'address/blocks',
+              {'address': value, 'page': page, 'page_size': pageSize}));
           return AddressBlocks.fromJson(data);
-        case 'details':
-          return AddressDetails.fromJson(data);
+        // case 'details':
+        //   var data = await _processGet(api('address', {'value': value}));
+        //   return AddressDetails.fromJson(data);
         case 'data_requests_solved':
-          return AddressDataRequestsSolved.fromJson(data);
-        case 'data_requests_launched':
+          var data = await _processGet(api('address/data-requests-solved',
+              {'value': value, 'page': page, 'page_size': pageSize}));
+          return AddressDataRequestsSolved.fromJson(
+              {'address': value, 'data_requests_solved': data});
+        case 'data_requests_created':
           // TODO: implement method
           //  waiting on the explorer to return valid response
           break;
         case 'value_transfers':
+          var data = await _processGet(api('address/value-transfers',
+              {'value': value, 'page': page, 'page_size': pageSize}));
           return AddressValueTransfers.fromJson(data);
       }
-      return data;
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"address": "${e.message}"}');
     }
   }
 
-  Future<Blockchain> blockchain({int block = -100}) async {
+  Future<Blockchain> blockchain({int? page, int? pageSize}) async {
     try {
-      return Blockchain.fromJson(
-          await _processGet(api('blockchain', {'block': '$block'})));
+      return Blockchain.fromJson(await _processGet(
+          api('network/blockchain', {'page': page, 'page_size': pageSize})));
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"blockchain": "${e.message}"}');
@@ -259,13 +272,14 @@ class ExplorerClient {
 
   Future<Tapi> tapi() async {
     try {
-      return Tapi.fromJson(await _processGet(api('tapi')));
+      return Tapi.fromJson(await _processGet(api('network/tapi')));
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"tapi": "${e.message}"}');
     }
   }
 
+  // TBD
   Future<dynamic> send(
       {required Map<String, dynamic> transaction, bool test = false}) async {
     try {
@@ -282,7 +296,7 @@ class ExplorerClient {
   Future<PrioritiesEstimate> valueTransferPriority() async {
     try {
       return PrioritiesEstimate.fromJson(
-          await _processGet(api('priority', {"type": "vtt"})));
+          await _processGet(api('transaction/priority', {"key": "vtt"})));
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"priority": "${e.message}"}');
