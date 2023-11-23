@@ -24,6 +24,24 @@ import 'explorer_api.dart'
         Status,
         Tapi;
 
+class PaginatedRequest<T> {
+  int page;
+  int total;
+  int totalPages;
+  int firstPage;
+  int lastPage;
+  T data;
+
+  PaginatedRequest({
+    required this.page,
+    required this.total,
+    required this.totalPages,
+    required this.firstPage,
+    required this.lastPage,
+    required this.data,
+  });
+}
+
 enum ExplorerMode {
   production,
   development,
@@ -52,7 +70,21 @@ class ExplorerClient {
     var response = await http.get(uri);
     if (response.statusCode == 200) {
       // response is okay
-      return convert.jsonDecode(response.body) as Map<String, dynamic>;
+      dynamic result =
+          convert.jsonDecode(response.body) as Map<String, dynamic>;
+
+      if (response.headers["x-pagination"] != null) {
+        dynamic paginationHeaders = response.headers["x-pagination"];
+
+        return PaginatedRequest(
+          data: result,
+          firstPage: paginationHeaders["first_page"],
+          lastPage: paginationHeaders["last_page"],
+          page: paginationHeaders["page"],
+          total: paginationHeaders["total"],
+          totalPages: paginationHeaders["total_pages"],
+        );
+      }
     } else if (response.statusCode == 500) {}
     throw ExplorerException(
         code: response.statusCode, message: response.reasonPhrase!);
@@ -179,20 +211,40 @@ class ExplorerClient {
     }
   }
 
-  Future<NetworkBalances> networkBalances({int? page, int? pageSize}) async {
+  Future<PaginatedRequest<NetworkBalances>> networkBalances(
+      {int? page, int? pageSize}) async {
     try {
-      return NetworkBalances.fromJson(await _processGet(
-          api('network/balances', {"page": page, "page_size": pageSize})));
+      PaginatedRequest<dynamic> result = await _processGet(
+          api('network/balances', {"page": page, "page_size": pageSize}));
+
+      return PaginatedRequest(
+        data: NetworkBalances.fromJson(result.data),
+        firstPage: result.firstPage,
+        lastPage: result.lastPage,
+        page: result.page,
+        total: result.total,
+        totalPages: result.totalPages,
+      );
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"network": "${e.message}"}');
     }
   }
 
-  Future<NetworkReputation> reputation({int? page, int? pageSize}) async {
+  Future<PaginatedRequest<NetworkReputation>> reputation(
+      {int? page, int? pageSize}) async {
     try {
-      return NetworkReputation.fromJson(await _processGet(
-          api('network/reputation', {"page": page, "page_size": pageSize})));
+      PaginatedRequest<dynamic> result = await _processGet(
+          api('network/reputation', {"page": page, "page_size": pageSize}));
+
+      return PaginatedRequest(
+        data: NetworkReputation.fromJson(result.data),
+        firstPage: result.firstPage,
+        lastPage: result.lastPage,
+        page: result.page,
+        total: result.total,
+        totalPages: result.totalPages,
+      );
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"network": "${e.message}"}');
@@ -233,26 +285,50 @@ class ExplorerClient {
     try {
       switch (tab) {
         case 'blocks':
-          List<Map<String, dynamic>> data = await _processGet(api(
-              'address/blocks',
-              {'address': value, 'page': page, 'page_size': pageSize}));
-          return AddressBlocks.fromJson(data);
+          PaginatedRequest<List<Map<String, dynamic>>> result =
+              await _processGet(api('address/blocks',
+                  {'address': value, 'page': page, 'page_size': pageSize}));
+          return PaginatedRequest(
+            data: AddressBlocks.fromJson(result.data),
+            firstPage: result.firstPage,
+            lastPage: result.lastPage,
+            page: result.page,
+            total: result.total,
+            totalPages: result.totalPages,
+          );
         // case 'details':
         //   var data = await _processGet(api('address', {'value': value}));
         //   return AddressDetails.fromJson(data);
         case 'data_requests_solved':
-          var data = await _processGet(api('address/data-requests-solved',
+          PaginatedRequest<dynamic> result = await _processGet(api(
+              'address/data-requests-solved',
               {'value': value, 'page': page, 'page_size': pageSize}));
-          return AddressDataRequestsSolved.fromJson(
-              {'address': value, 'data_requests_solved': data});
+          return PaginatedRequest(
+            data: AddressDataRequestsSolved.fromJson(
+                {'address': value, 'data_requests_solved': result.data}),
+            firstPage: result.firstPage,
+            lastPage: result.lastPage,
+            page: result.page,
+            total: result.total,
+            totalPages: result.totalPages,
+          );
         case 'data_requests_created':
           // TODO: implement method
           //  waiting on the explorer to return valid response
           break;
         case 'value_transfers':
-          var data = await _processGet(api('address/value-transfers',
+          PaginatedRequest<dynamic> result = await _processGet(api(
+              'address/value-transfers',
               {'value': value, 'page': page, 'page_size': pageSize}));
-          return AddressValueTransfers.fromJson(data);
+
+          return PaginatedRequest(
+            data: AddressValueTransfers.fromJson(result.data),
+            firstPage: result.firstPage,
+            lastPage: result.lastPage,
+            page: result.page,
+            total: result.total,
+            totalPages: result.totalPages,
+          );
       }
     } on ExplorerException catch (e) {
       throw ExplorerException(
@@ -260,10 +336,20 @@ class ExplorerClient {
     }
   }
 
-  Future<Blockchain> blockchain({int? page, int? pageSize}) async {
+  Future<PaginatedRequest<Blockchain>> blockchain(
+      {int? page, int? pageSize}) async {
     try {
-      return Blockchain.fromJson(await _processGet(
-          api('network/blockchain', {'page': page, 'page_size': pageSize})));
+      PaginatedRequest<dynamic> result = await _processGet(
+          api('network/blockchain', {'page': page, 'page_size': pageSize}));
+
+      return PaginatedRequest(
+        data: Blockchain.fromJson(result.data),
+        firstPage: result.firstPage,
+        lastPage: result.lastPage,
+        page: result.page,
+        total: result.total,
+        totalPages: result.totalPages,
+      );
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"blockchain": "${e.message}"}');
