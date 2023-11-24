@@ -179,13 +179,11 @@ class ExplorerClient {
       var data = await _processGet(uri);
       if (data.containsKey('response_type')) {
         switch (data['response_type'] as String) {
+          case 'pending':
           case 'value_transfer':
             return ValueTransferInfo.fromJson(data);
           case 'block':
             return BlockDetails.fromJson(data);
-          // fixme: add support for pending
-          // case 'pending':
-
           // fixme: add support for data requests
           case 'data_request':
           case 'commit':

@@ -1108,7 +1108,7 @@ class MintInfo {
       ValueTransferOutput vto = ValueTransferOutput(
         value: outputValues[i],
         pkh: Address.fromAddress(outputAddresses[i]).publicKeyHash!,
-        // fixme: the explorer should return some value
+        // TODO: the explorer should return some value
         timeLock: 0,
       );
       outputs.add(vto);
@@ -1151,24 +1151,28 @@ class MintInfo {
 class InputUtxo {
   InputUtxo({
     required this.address,
-    required this.input,
+    required this.inputUtxo,
     required this.value,
   });
 
   final String address;
-  final Input input;
+  final String inputUtxo;
   final int value;
 
   String rawJson() => json.encode(jsonMap());
 
   Map<String, dynamic> jsonMap() {
     return {
-      "pkh": address,
-      "output_pointer":
-          '${input.outputPointer.transactionId.hex}:${input.outputPointer.outputIndex}',
+      "address": address,
       "value": value,
+      "input_utxo": inputUtxo,
     };
   }
+
+  factory InputUtxo.fromJson(Map<String, dynamic> json) => InputUtxo(
+      address: json["address"],
+      inputUtxo: json["input_utxo"],
+      value: json["value"]);
 
   @override
   String toString() {
@@ -1177,61 +1181,186 @@ class InputUtxo {
   }
 }
 
-class ValueTransferInfo extends HashInfo {
-  ValueTransferInfo({
-    required this.epoch,
-    required this.timestamp,
-    required this.hash,
-    required this.inputAddresses,
-    required this.outputAddresses,
+class InputMerged {
+  final String address;
+  final int value;
+
+  InputMerged({
+    required this.address,
     required this.value,
-    required this.fee,
-    required this.weight,
-    required this.priority,
-  }) : super(
+  });
+
+  factory InputMerged.fromJson(Map<String, dynamic> json) {
+    return InputMerged(address: json["address"], value: json["value"]);
+  }
+
+  String rawJson() => json.encode(jsonMap());
+
+  Map<String, dynamic> jsonMap() {
+    return {"address": address, 'value': value};
+  }
+}
+
+class TransactionUtxo {
+  final String address;
+  final int value;
+  final int timelock;
+  final bool locked;
+
+  TransactionUtxo({
+    required this.address,
+    required this.value,
+    required this.timelock,
+    required this.locked,
+  });
+
+  factory TransactionUtxo.fromJson(Map<String, dynamic> json) {
+    return TransactionUtxo(
+        address: json["address"],
+        value: json["value"],
+        timelock: json["timelock"],
+        locked: json["locked"]);
+  }
+
+  String rawJson() => json.encode(jsonMap());
+
+  Map<String, dynamic> jsonMap() {
+    return {
+      "address": address,
+      'value': value,
+      'timelock': timelock,
+      'locked': locked
+    };
+  }
+}
+
+// TransactionStatus getTransactionStatus(Map<String, dynamic> options) {
+//   TransactionStatus status;
+//   if (options["reverted"] == true) {
+//     status = TransactionStatus.reverted;
+//   } else if (options["confirmed"] == true) {
+//     status = TransactionStatus.confirmed;
+//   } else {
+//     status = TransactionStatus.pending;
+//   }
+
+//   return status;
+// }
+
+// TODO: move to a different place
+// TODO: use this enum in all the package
+enum TransactionStatus { pending, confirmed, reverted }
+
+enum TransactionType { value_transfer, data_request }
+
+class ValueTransferInfo extends HashInfo {
+  ValueTransferInfo(
+      {required this.epoch,
+      required this.timestamp,
+      required this.hash,
+      required this.inputAddresses,
+      required this.outputAddresses,
+      required this.value,
+      required this.fee,
+      required this.weight,
+      required this.priority,
+      required this.block,
+      required this.confirmed,
+      required this.reverted,
+      required this.inputUtxos,
+      required this.inputsMerged,
+      required this.outputValues,
+      required this.timelocks,
+      required this.utxos,
+      required this.utxosMerged,
+      required this.trueOutputAddresses,
+      required this.changeOutputAddresses,
+      required this.trueValue,
+      required this.changeValue,
+      required this.status,
+      required this.outputs})
+      : super(
             txnHash: hash,
-            // TODO: fix
-            status: "status",
-            // TODO: fix
-            type: "type",
+            status: status,
+            type: TransactionType.value_transfer,
             txnTime: epoch,
             blockHash: null);
 
   final int epoch;
   final int timestamp;
   final String hash;
+  final String block;
+  final bool confirmed;
+  final bool reverted;
   final List<String> inputAddresses;
+  final List<InputUtxo> inputUtxos;
+  final List<InputMerged> inputsMerged;
   final List<String> outputAddresses;
-  final int value;
+  final List<int> outputValues;
+  final List<int> timelocks;
+  final List<TransactionUtxo> utxos;
+  final List<TransactionUtxo> utxosMerged;
   final int fee;
+  final int value;
   final int weight;
   final int priority;
+  final List<String> trueOutputAddresses;
+  final List<String> changeOutputAddresses;
+  final int trueValue;
+  final int changeValue;
+  final TransactionStatus status;
+  final List<ValueTransferOutput> outputs;
 
   factory ValueTransferInfo.fromJson(Map<String, dynamic> data) {
+    TransactionStatus status;
+    if (data["reverted"] == true) {
+      status = TransactionStatus.reverted;
+    } else if (data["confirmed"] == true) {
+      status = TransactionStatus.confirmed;
+    } else {
+      status = TransactionStatus.pending;
+    }
+
+    List<int> outputValues = data["output_values"];
+    List<String> outputAddresses = data["output_addresses"];
+    List<int> timelocks = data["timelocks"];
+
+    List<ValueTransferOutput> outputs = [];
+    for (int i = 0; i < data.length; i++) {
+      ValueTransferOutput vto = ValueTransferOutput(
+        value: outputValues[i],
+        pkh: Address.fromAddress(outputAddresses[i]).publicKeyHash!,
+        timeLock: timelocks[i],
+      );
+      outputs.add(vto);
+    }
+
     return ValueTransferInfo(
         epoch: data["epoch"],
         timestamp: data["timestamp"],
         hash: data["hash"],
+        block: data["block"],
+        confirmed: data["confirmed"],
+        reverted: data["reverted"],
         inputAddresses: data["input_addresses"],
-        outputAddresses: data["output_addresses"],
-        value: data["value"],
+        inputUtxos: data["input_utxos"].map((x) => InputUtxo.fromJson(x)),
+        inputsMerged: data["inputs_merged"].map((x) => InputMerged.fromJson(x)),
+        outputAddresses: outputAddresses,
+        outputValues: outputValues,
+        timelocks: timelocks,
+        utxos: data["utxos"].map((e) => TransactionUtxo.fromJson(e)),
+        utxosMerged:
+            data["utxos_merged"].map((e) => TransactionUtxo.fromJson(e)),
         fee: data["fee"],
+        value: data["value"],
+        priority: data["priority"],
         weight: data["weight"],
-        priority: data["priority"]);
-  }
-
-  factory ValueTransferInfo.fromDbJson(Map<String, dynamic> data) {
-    return ValueTransferInfo(
-      epoch: data["epoch"],
-      timestamp: data["timestamp"],
-      hash: data["hash"],
-      inputAddresses: data["input_addresses"],
-      outputAddresses: data["output_addresses"],
-      value: data["value"],
-      fee: data["fee"],
-      weight: data["weight"],
-      priority: data["priority"],
-    );
+        trueOutputAddresses: data["true_output_addresses"],
+        changeOutputAddresses: data["change_output_addresses"],
+        trueValue: data["true_value"],
+        changeValue: data["change_value"],
+        status: status,
+        outputs: outputs);
   }
 
   String rawJson() => json.encode(jsonMap());
@@ -1239,14 +1368,29 @@ class ValueTransferInfo extends HashInfo {
   Map<String, dynamic> jsonMap() {
     return {
       "epoch": epoch,
-      'timestamp': timestamp,
-      'hash': hash,
-      'input_addresses': inputAddresses,
-      'output_addresses': outputAddresses,
-      'value': value,
-      'fee': fee,
-      'weight': weight,
-      'priority': priority,
+      "timestamp": timestamp,
+      "hash": hash,
+      "block": block,
+      "confirmed": confirmed,
+      "reverted": reverted,
+      "input_addresses": inputAddresses,
+      "input_utxos": inputUtxos.map((e) => e.jsonMap()),
+      "inputs_merged": inputsMerged.map((e) => e.jsonMap()),
+      "output_addresses": outputAddresses,
+      "output_values": outputValues,
+      "timelocks": timelocks,
+      "utxos": utxos.map((e) => e.jsonMap()),
+      "utxos_merged": utxosMerged.map((e) => e.jsonMap()),
+      "fee": fee,
+      "value": value,
+      "priority": priority,
+      "weight": weight,
+      "true_output_addresses": trueOutputAddresses,
+      "change_output_addresses": changeOutputAddresses,
+      "trueValue": trueValue,
+      "changeValue": changeValue,
+      "status": status,
+      "outputs": outputs,
     };
   }
 
@@ -1690,8 +1834,8 @@ class HashInfo {
   });
 
   final String txnHash;
-  final String status;
-  final String type;
+  final TransactionStatus status;
+  final TransactionType type;
   final int txnTime;
   final dynamic blockHash;
 
