@@ -77,8 +77,7 @@ class UtxoPool {
   }) {
     List<Utxo> utxos = sortUtxos(utxoStrategy);
     if (utxos.isEmpty) {
-      print('Error -> no Utxos to select.');
-      return [];
+      throw 'No UTXOS to select';
     }
     int utxoValue = 0;
 
@@ -89,8 +88,7 @@ class UtxoPool {
     List<Utxo> selectedUtxos = [];
 
     if (amountNanoWit > utxoValue) {
-      print('Insufficient funds.');
-      return [];
+      throw 'Insufficient funds';
     }
     while (amountNanoWit > 0) {
       // since the list is sorted - take the first item
