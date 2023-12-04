@@ -58,10 +58,13 @@ class ExplorerClient {
   late bool SSL;
 
   Uri api(String method, [Map<String, dynamic> params = const {}]) {
+    Map<String, String> queryParams =
+        params.map((key, value) => MapEntry(key, value.toString()));
+
     if (SSL) {
-      return Uri.https(url, 'api/$method', params);
+      return Uri.https(url, 'api/$method', queryParams);
     } else {
-      return Uri.http(url, 'api/$method', params);
+      return Uri.http(url, 'api/$method', queryParams);
     }
   }
 
