@@ -947,7 +947,7 @@ class AddressValueTransfers {
   factory AddressValueTransfers.fromJson(Map<String, dynamic> json) =>
       AddressValueTransfers(
         address: json["address"],
-        addressValueTransfers: List<String>.from(json["value_transfers"]
+        addressValueTransfers: List<AddressValueTransferInfo>.from(json["value_transfers"]
             .map((x) => AddressValueTransferInfo.fromJson(x))),
       );
 
@@ -996,9 +996,9 @@ class AddressValueTransferInfo {
         epoch: json["epoch"],
         timestamp: json["timestamp"],
         hash: json["hash"],
-        direction: json["direction"], // in, out, sel,
-        inputAddresses: json["inputAddresses"],
-        outputAddresses: json["outputAddresses"],
+        direction: json["direction"],
+        inputAddresses: List<String>.from(json["input_addresses"]),
+        outputAddresses: List<String>.from(json["output_addresses"]),
         value: json["value"],
         fee: json["fee"],
         weight: json["weight"],

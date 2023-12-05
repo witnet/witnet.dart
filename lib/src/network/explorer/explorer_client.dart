@@ -74,10 +74,10 @@ class ExplorerClient {
     if (response.statusCode == 200) {
       // response is okay
       dynamic result =
-          convert.jsonDecode(response.body) as Map<String, dynamic>;
+          convert.jsonDecode(response.body);
 
       if (response.headers["x-pagination"] != null) {
-        dynamic paginationHeaders = response.headers["x-pagination"];
+        dynamic paginationHeaders = convert.jsonDecode(response.headers["x-pagination"] as String);
 
         return PaginatedRequest(
           data: result,
@@ -298,12 +298,12 @@ class ExplorerClient {
             totalPages: result.totalPages,
           );
         // case 'details':
-        //   var data = await _processGet(api('address', {'value': value}));
+        //   var data = await _processGet(api('address', {'address': value}));
         //   return AddressDetails.fromJson(data);
         case 'data_requests_solved':
           PaginatedRequest<dynamic> result = await _processGet(api(
               'address/data-requests-solved',
-              {'value': value, 'page': page, 'page_size': pageSize}));
+              {'address': value, 'page': page, 'page_size': pageSize}));
           return PaginatedRequest(
             data: AddressDataRequestsSolved.fromJson(
                 {'address': value, 'data_requests_solved': result.data}),
@@ -320,10 +320,10 @@ class ExplorerClient {
         case 'value_transfers':
           PaginatedRequest<dynamic> result = await _processGet(api(
               'address/value-transfers',
-              {'value': value, 'page': page, 'page_size': pageSize}));
+              {'address': value, 'page': page, 'page_size': pageSize}));
 
           return PaginatedRequest(
-            data: AddressValueTransfers.fromJson(result.data),
+            data: AddressValueTransfers.fromJson({ "value_transfers": result.data, "address": value }),
             firstPage: result.firstPage,
             lastPage: result.lastPage,
             page: result.page,
