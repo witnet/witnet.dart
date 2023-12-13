@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:http/retry.dart';
 import 'dart:convert' as convert;
 import 'dart:io' show HttpException;
 
@@ -28,15 +29,70 @@ enum ExplorerMode {
   development,
 }
 
+class RetryHttpClient {
+  RetryHttpClient() : retryClient = RetryClient(http.Client());
+
+  RetryClient retryClient;
+
+  Future<Map<String, dynamic>> _makeHttpRequest(
+    Future<http.Response> Function(Uri uri, {dynamic body}) requestMethod,
+    Uri uri,
+    dynamic data,
+  ) async {
+    var response;
+    try {
+      response = await requestMethod(uri, body: data);
+    } on http.ClientException catch (e) {
+      if (e.message.contains('Client is already closed')) {
+        retryClient = RetryClient(http.Client());
+        response = await requestMethod(uri, body: data);
+      }
+    }
+
+    if (response.statusCode == 200) {
+      return convert.jsonDecode(response.body) as Map<String, dynamic>;
+    } else if (response.statusCode == 500) {
+      throw HttpException(response.reasonPhrase!);
+    } else if (response.containsKey('error')) {
+      throw ExplorerException(code: -3, message: response['error']);
+    }
+    throw ExplorerException(
+        code: response.statusCode, message: response.reasonPhrase!);
+  }
+
+  Future<Map<String, dynamic>> get(Uri uri) async {
+    return _makeHttpRequest(
+      (Uri uri, {dynamic body}) async {
+        return await retryClient.get(uri);
+      },
+      uri,
+      null,
+    );
+  }
+
+  Future<Map<String, dynamic>> post(
+      Uri uri, Map<String, dynamic> postData) async {
+    return _makeHttpRequest(
+      (Uri uri, {dynamic body}) async {
+        return await retryClient.post(uri, body: json.encode(body));
+      },
+      uri,
+      postData,
+    );
+  }
+}
+
 class ExplorerClient {
   ExplorerClient({
     required this.url,
     required this.mode,
-  }) : SSL = (mode == ExplorerMode.production) ? true : false;
+  })  : SSL = (mode == ExplorerMode.production) ? true : false,
+        client = RetryHttpClient();
 
   final String url;
   final ExplorerMode mode;
-  late bool SSL;
+  final bool SSL;
+  final RetryHttpClient client;
 
   Uri api(String method, [Map<String, dynamic> params = const {}]) {
     if (SSL) {
@@ -46,87 +102,54 @@ class ExplorerClient {
     }
   }
 
-  Future<Map<String, dynamic>> _processGet(Uri uri) async {
-    var response = await http.get(uri);
-    if (response.statusCode == 200) {
-      // response is okay
-      return convert.jsonDecode(response.body) as Map<String, dynamic>;
-    } else if (response.statusCode == 500) {}
-    throw ExplorerException(
-        code: response.statusCode, message: response.reasonPhrase!);
-  }
-
-  Future<Map<String, dynamic>> _processPost(
-      Uri uri, Map<String, dynamic> postData) async {
-    var response = await http.post(
-      uri,
-      body: json.encode(postData),
-    );
-    if (response.statusCode == 200) {
-      // response is okay
-      return convert.jsonDecode(response.body) as Map<String, dynamic>;
-    } else if (response.statusCode == 500) {
-      throw HttpException(response.reasonPhrase!);
-    }
-    throw ExplorerException(
-        code: response.statusCode, message: response.reasonPhrase!);
-  }
-
   Future<List<Utxo>> getUtxoInfo({required String address}) async {
-    Uri urlEndpoint = api('utxos', {'address': address});
-
-    // Await the http get response, then decode the json-formatted response.
     try {
-      var response = await http.get(urlEndpoint);
-      if (response.statusCode == 200) {
-        var jsonResponse = convert.jsonDecode(response.body);
-        List<dynamic> _utxos = jsonResponse[address]['utxos'] as List<dynamic>;
-        List<Utxo> utxos = [];
-        _utxos.forEach((element) {
-          utxos.add(Utxo.fromJson(element));
-        });
+      Uri urlEndpoint = api('utxos', {'address': address});
 
-        return utxos;
-      } else {
-        throw HttpException(
-            'Request failed with status: ${response.statusCode}.');
-      }
-    } catch (e) {
-      return [];
+      // Await the http get response, then decode the json-formatted response.
+      var response = await client.get(urlEndpoint);
+      List<dynamic> _utxos = response[address]['utxos'] as List<dynamic>;
+      List<Utxo> utxos = [];
+      _utxos.forEach((element) {
+        utxos.add(Utxo.fromJson(element));
+      });
+
+      return utxos;
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"getUtxoInfo": "${e.message}"}');
     }
   }
 
   Future<Map<String, List<Utxo>>> getMultiUtxoInfo(
       {required List<String> addresses}) async {
-    int addressLimit = 10;
-    Map<String, List<Utxo>> addressMap = {};
-
-    List<Uri> urlCalls = [];
-
-    for (int i = 0; i < addresses.length; i += addressLimit) {
-      int end = (i + addressLimit < addresses.length)
-          ? i + addressLimit
-          : addresses.length;
-      urlCalls
-          .add(api('utxos', {'address': addresses.sublist(i, end).join(',')}));
-    }
-    // Await the http get response, then decode the json-formatted response.
     try {
+      int addressLimit = 10;
+      Map<String, List<Utxo>> addressMap = {};
+
+      List<Uri> urlCalls = [];
+
+      for (int i = 0; i < addresses.length; i += addressLimit) {
+        int end = (i + addressLimit < addresses.length)
+            ? i + addressLimit
+            : addresses.length;
+        urlCalls.add(
+            api('utxos', {'address': addresses.sublist(i, end).join(',')}));
+      }
+      // Await the http get response, then decode the json-formatted response.
       for (int i = 0; i < urlCalls.length; i++) {
-        var response = await http.get(urlCalls[i]);
-        if (response.statusCode == 200) {
-          var jsonResponse = Map.from(convert.jsonDecode(response.body));
-          jsonResponse.forEach((key, value) {
-            List<Utxo> _utxos =
-                List<Utxo>.from(value['utxos'].map((ut) => Utxo.fromJson(ut)));
-            addressMap[key] = _utxos;
-          });
-        }
+        var response = await client.get(urlCalls[i]);
+        response.forEach((key, value) {
+          List<Utxo> _utxos =
+              List<Utxo>.from(value['utxos'].map((ut) => Utxo.fromJson(ut)));
+          addressMap[key] = _utxos;
+        });
       }
 
       return addressMap;
-    } catch (e) {
-      throw e;
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"getMultiUtxoInfo": "${e.message}"}');
     }
   }
 
@@ -140,7 +163,7 @@ class ExplorerClient {
   Future<dynamic> hash(String value, [bool simple = true]) async {
     try {
       Uri uri = api('hash', {'value': value, 'simple': simple.toString()});
-      var data = await _processGet(uri);
+      var data = await client.get(uri);
       if (data.containsKey('type')) {
         switch (data['type'] as String) {
           case 'value_transfer_txn':
@@ -163,7 +186,7 @@ class ExplorerClient {
 
   Future<Home> home() async {
     try {
-      return Home.fromJson(await _processGet(api('home')));
+      return Home.fromJson(await client.get(api('home')));
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"home": "${e.message}"}');
@@ -172,7 +195,7 @@ class ExplorerClient {
 
   Future<Network> network() async {
     try {
-      return Network.fromJson(await _processGet(api('network')));
+      return Network.fromJson(await client.get(api('network')));
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"network": "${e.message}"}');
@@ -181,7 +204,7 @@ class ExplorerClient {
 
   Future<Status> status() async {
     try {
-      return Status.fromJson(await _processGet(api('status')));
+      return Status.fromJson(await client.get(api('status')));
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"status": "${e.message}"}');
@@ -191,7 +214,7 @@ class ExplorerClient {
   Future<dynamic> mempool({String key = 'live'}) async {
     try {
       if (['live', 'history'].contains(key)) {
-        return await _processGet(api('mempool', {'key': '$key'}));
+        return await client.get(api('mempool', {'key': '$key'}));
       }
     } on ExplorerException catch (e) {
       throw ExplorerException(
@@ -201,7 +224,7 @@ class ExplorerClient {
 
   Future<dynamic> reputation() async {
     try {
-      return await _processGet(api('reputation'));
+      return await client.get(api('reputation'));
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"reputation": "${e.message}"}');
@@ -210,8 +233,8 @@ class ExplorerClient {
 
   Future<dynamic> richList({int start = 0, int stop = 1000}) async {
     try {
-      return await _processGet(
-          api('richlist', {'start': '$start', 'stop': '$stop'}));
+      return await client
+          .get(api('richlist', {'start': '$start', 'stop': '$stop'}));
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"richList": "${e.message}"}');
@@ -224,8 +247,7 @@ class ExplorerClient {
       int? limit,
       int? epoch}) async {
     try {
-      var data =
-          await _processGet(api('address', {'value': value, 'tab': tab}));
+      var data = await client.get(api('address', {'value': value, 'tab': tab}));
       switch (tab) {
         case 'blocks':
           return AddressBlocks.fromJson(data);
@@ -250,7 +272,7 @@ class ExplorerClient {
   Future<Blockchain> blockchain({int block = -100}) async {
     try {
       return Blockchain.fromJson(
-          await _processGet(api('blockchain', {'block': '$block'})));
+          await client.get(api('blockchain', {'block': '$block'})));
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"blockchain": "${e.message}"}');
@@ -259,7 +281,7 @@ class ExplorerClient {
 
   Future<Tapi> tapi() async {
     try {
-      return Tapi.fromJson(await _processGet(api('tapi')));
+      return Tapi.fromJson(await client.get(api('tapi')));
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"tapi": "${e.message}"}');
@@ -269,20 +291,17 @@ class ExplorerClient {
   Future<dynamic> send(
       {required Map<String, dynamic> transaction, bool test = false}) async {
     try {
-      var response = await _processPost(api('send'), transaction);
-      if (response.containsKey('error')) {
-        throw ExplorerException(code: -3, message: response['error']);
-      }
-      return response;
-    } catch (e) {
-      rethrow;
+      return await client.post(api('send'), transaction);
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"send": "${e.message}"}');
     }
   }
 
   Future<PrioritiesEstimate> valueTransferPriority() async {
     try {
       return PrioritiesEstimate.fromJson(
-          await _processGet(api('priority', {"type": "vtt"})));
+          await client.get(api('priority', {"type": "vtt"})));
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"priority": "${e.message}"}');
