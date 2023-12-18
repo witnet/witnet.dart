@@ -1,3 +1,7 @@
+## 0.2.9
+- Throw 'Insufficient funds' error when covering UTXOS
+- Retry failing requests to the explorer
+
 ## 0.2.8
 - Update AddressDataRequestsSolved `fromJson` and `toJson`
 - Update AddressBlocks `jsonMap` result
