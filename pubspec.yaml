@@ -11,7 +11,7 @@ homepage: https://github.com/witnet/witnet.dart
 repository: https://github.com/witnet/witnet.dart
 
 environment:
-  sdk: '>=2.13.0 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dev_dependencies:
   test: ^1.24.9
