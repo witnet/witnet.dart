@@ -16,8 +16,8 @@ class RadArray<E> extends ListBase<E> {
   @override
   void operator []=(int index, value) {
     Type type;
-    if (typesMap.containsKey(value.runtimeType)) {
-      type = typesMap[value.runtimeType]!;
+    if (typesMap.containsKey(value.runtimeType.toString())) {
+      type = typesMap[value.runtimeType.toString()]!;
       _value[index] = RadTypes.instance(type, value, {});
     } else if (typesList.contains(value.runtimeType)) {
       type = value.runtimeType;
