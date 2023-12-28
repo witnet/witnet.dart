@@ -8,21 +8,6 @@ import 'dart:io' show HttpException;
 import 'package:witnet/data_structures.dart' show Utxo;
 import 'package:witnet/explorer.dart';
 import 'package:witnet/schema.dart';
-import 'explorer_api.dart'
-    show
-        AddressBlocks,
-        AddressDataRequestsSolved,
-        AddressDetails,
-        AddressValueTransfers,
-        BlockDetails,
-        Blockchain,
-        ExplorerException,
-        Home,
-        MintInfo,
-        Network,
-        PrioritiesEstimate,
-        Status,
-        Tapi;
 
 enum ExplorerMode {
   production,
