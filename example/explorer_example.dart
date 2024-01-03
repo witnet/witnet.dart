@@ -1,15 +1,16 @@
 import 'package:witnet/explorer.dart';
 
-String explorerUrl = 'witnet.network';
+String explorerUrl = 'witscan.xyz';
 ExplorerClient explorer =
     ExplorerClient(url: explorerUrl, mode: ExplorerMode.production);
-
 void main() async {
   try {
-    Status status = await explorer.status();
-    PrioritiesEstimate priority = await explorer.valueTransferPriority();
-    print("Status: ${status.databaseMessage}");
-    print("Priority ${priority.vttHigh.priority}");
+    dynamic status = await explorer.address(
+        tab: "value_transfers",
+        value: "wit1zl7ty0lwr7atp5fu34azkgewhtfx2fl4wv69cw",
+        page: 1,
+        pageSize: 1);
+    print("Status: ${status}");
   } on ExplorerException catch (e) {
     print(e.message);
   }

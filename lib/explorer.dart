@@ -1,11 +1,10 @@
 export 'src/network/explorer/explorer_client.dart'
-    show ExplorerClient, ExplorerMode;
+    show ExplorerClient, ExplorerMode, PaginatedRequest;
 
 export 'src/network/explorer/explorer_api.dart'
     show
         ExplorerException,
         Home,
-        Network,
         NetworkStats,
         NodePool,
         Status,
@@ -24,5 +23,10 @@ export 'src/network/explorer/explorer_api.dart'
         HashInfo,
         TallyTxn,
         ValueTransferInfo,
+        AddressValueTransferInfo,
+        TxStatusLabel,
+        TransactionType,
+        TransactionStatus,
         PrioritiesEstimate,
-        PriorityEstimate;
+        PriorityEstimate,
+        Mempool;

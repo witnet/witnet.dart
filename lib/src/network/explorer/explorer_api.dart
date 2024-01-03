@@ -455,38 +455,33 @@ class Status {
     required this.databaseLastConfirmed,
     required this.databaseLastUnconfirmed,
     required this.databaseMessage,
-    required this.nodePool,
     required this.nodePoolMessage,
+    required this.expectedEpoch,
   });
 
-  final List<dynamic> databaseLastConfirmed;
-  final List<dynamic> databaseLastUnconfirmed;
+  final Map<String, dynamic> databaseLastConfirmed;
+  final Map<String, dynamic> databaseLastUnconfirmed;
   final String databaseMessage;
-  final NodePool nodePool;
-  final String nodePoolMessage;
+  final Map<String, dynamic> nodePoolMessage;
+  final int expectedEpoch;
 
   factory Status.fromRawJson(String str) => Status.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(jsonMap());
 
   factory Status.fromJson(Map<String, dynamic> json) => Status(
-        databaseLastConfirmed:
-            List<dynamic>.from(json["database_last_confirmed"].map((x) => x)),
-        databaseLastUnconfirmed:
-            List<dynamic>.from(json["database_last_unconfirmed"].map((x) => x)),
-        databaseMessage: json["database_message"],
-        nodePool: NodePool.fromJson(json["node_pool"]),
-        nodePoolMessage: json["node_pool_message"],
-      );
+      databaseLastConfirmed: json["database_confirmed"],
+      databaseLastUnconfirmed: json["database_unconfirmed"],
+      databaseMessage: json["database_message"],
+      nodePoolMessage: json["node_pool_message"],
+      expectedEpoch: json["expected_epoch"]);
 
   Map<String, dynamic> jsonMap() => {
-        "database_last_confirmed":
-            List<dynamic>.from(databaseLastConfirmed.map((x) => x)),
-        "database_last_unconfirmed":
-            List<dynamic>.from(databaseLastUnconfirmed.map((x) => x)),
+        "database_last_confirmed": databaseLastConfirmed,
+        "database_last_unconfirmed": databaseLastUnconfirmed,
         "database_message": databaseMessage,
-        "node_pool": nodePool.jsonMap(),
         "node_pool_message": nodePoolMessage,
+        "expected_epoch": expectedEpoch,
       };
 
   void printDebug() {
@@ -494,55 +489,9 @@ class Status {
     print('databaseLastConfirmed: $databaseLastConfirmed');
     print('databaseLastUnconfirmed: $databaseLastUnconfirmed');
     print('databaseMessage: $databaseMessage');
-    print('nodePool: ${nodePool.toRawJson()}');
     print('nodePoolMessage: $nodePoolMessage');
+    print('expectedEpoch: $expectedEpoch');
   }
-}
-
-class Network {
-  Network({
-    required this.lastUpdated,
-    required this.rollbacks,
-    required this.top100DrSolvers,
-    required this.top100Miners,
-    required this.uniqueDrSolvers,
-    required this.uniqueMiners,
-  });
-
-  final int lastUpdated;
-  final List<RollBack> rollbacks;
-  final List<DrSolver> top100DrSolvers;
-  final List<Miner> top100Miners;
-  final int uniqueDrSolvers;
-  final int uniqueMiners;
-
-  factory Network.fromRawJson(String str) => Network.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(jsonMap());
-
-  factory Network.fromJson(Map<String, dynamic> json) => Network(
-        lastUpdated: json["last_updated"],
-        rollbacks: List<RollBack>.from(
-            json["rollbacks"].map((rollback) => RollBack.fromList(rollback))),
-        top100DrSolvers: List<DrSolver>.from(json["top_100_dr_solvers"]
-            .map((drSolver) => DrSolver.fromList(drSolver))),
-        top100Miners: List<Miner>.from(
-            json["top_100_miners"].map((miner) => Miner.fromList(miner))),
-        uniqueDrSolvers: json["unique_dr_solvers"],
-        uniqueMiners: json["unique_miners"],
-      );
-
-  Map<String, dynamic> jsonMap() => {
-        "last_updated": lastUpdated,
-        "rollbacks":
-            List<dynamic>.from(rollbacks.map((rollback) => rollback.toList())),
-        "top_100_dr_solvers": List<dynamic>.from(
-            top100DrSolvers.map((drSolver) => drSolver.toList())),
-        "top_100_miners":
-            List<dynamic>.from(top100Miners.map((miner) => miner.toList())),
-        "unique_dr_solvers": uniqueDrSolvers,
-        "unique_miners": uniqueMiners,
-      };
 }
 
 class DrSolver {
@@ -645,6 +594,127 @@ class NetworkStats {
         "num_pending_requests": numPendingRequests,
         "num_reputed_nodes": numReputedNodes,
         "num_value_transfers": numValueTransfers,
+      };
+}
+
+class NetworkBalances {
+  NetworkBalances({
+    required this.balances,
+    required this.totalItems,
+    required this.totalBalancesSum,
+    required this.lastUpdated,
+  });
+
+  final List<Balance> balances;
+  final int totalItems;
+  final int totalBalancesSum;
+  final int lastUpdated;
+
+  factory NetworkBalances.fromRawJson(String str) =>
+      NetworkBalances.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(jsonMap());
+
+  factory NetworkBalances.fromJson(Map<String, dynamic> json) =>
+      NetworkBalances(
+        balances: json["balances"].map((e) => Balance.fromJson(e)),
+        totalItems: json["totalItems"],
+        totalBalancesSum: json["totalBalancesSum"],
+        lastUpdated: json["lastUpdated"],
+      );
+
+  Map<String, dynamic> jsonMap() => {
+        "balances": balances.map((e) => e.jsonMap()),
+        "total_items": totalItems,
+        "total_balances_sum": totalBalancesSum,
+        "lastUpdated": lastUpdated,
+      };
+}
+
+class Balance {
+  Balance({
+    required this.address,
+    required this.balance,
+    required this.level,
+  });
+
+  final String address;
+  final int balance;
+  final String level;
+
+  factory Balance.fromRawJson(String str) => Balance.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(jsonMap());
+
+  factory Balance.fromJson(Map<String, dynamic> json) => Balance(
+        address: json["address"],
+        balance: json["balance"],
+        level: json["level"],
+      );
+
+  Map<String, dynamic> jsonMap() => {
+        "address": address,
+        "balance": balance,
+        "level": level,
+      };
+}
+
+class NetworkReputation {
+  NetworkReputation({
+    required this.reputations,
+    required this.totalReputation,
+    required this.lastUpdated,
+  });
+
+  final List<Reputation> reputations;
+  final int totalReputation;
+  final int lastUpdated;
+
+  factory NetworkReputation.fromRawJson(String str) =>
+      NetworkReputation.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(jsonMap());
+
+  factory NetworkReputation.fromJson(Map<String, dynamic> json) =>
+      NetworkReputation(
+        reputations: json["reputation"].map((e) => Reputation.fromJson(e)),
+        totalReputation: json["total_reputation"],
+        lastUpdated: json["last_updated"],
+      );
+
+  Map<String, dynamic> jsonMap() => {
+        "reputations": reputations.map((e) => e.jsonMap()),
+        "total_reputation": totalReputation,
+        "last_updated": lastUpdated,
+      };
+}
+
+class Reputation {
+  Reputation({
+    required this.address,
+    required this.reputation,
+    required this.eligibility,
+  });
+
+  final String address;
+  final int reputation;
+  final int eligibility;
+
+  factory Reputation.fromRawJson(String str) =>
+      Reputation.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(jsonMap());
+
+  factory Reputation.fromJson(Map<String, dynamic> json) => Reputation(
+        address: json["address"],
+        reputation: json["reputation"],
+        eligibility: json["eligility"],
+      );
+
+  Map<String, dynamic> jsonMap() => {
+        "address": address,
+        "reputation": reputation,
+        "eligibility": eligibility,
       };
 }
 
@@ -767,45 +837,43 @@ class AddressBlocks {
   AddressBlocks({
     required this.address,
     required this.blocks,
-    required this.numBlocksMinted,
-    required this.type,
   });
 
   String address;
   List<BlockInfo> blocks;
-  int numBlocksMinted;
-  String type;
 
-  factory AddressBlocks.fromJson(Map<String, dynamic> data) {
+  factory AddressBlocks.fromExplorerJson(List<dynamic> data) {
     return AddressBlocks(
-        address: data['address'],
-        blocks: List<BlockInfo>.from(
-            data['blocks'].map((blockInfo) => BlockInfo.fromList(blockInfo))),
-        numBlocksMinted: data['num_blocks_minted'] ?? 0,
-        type: data['type'] ?? '');
+      address: data[0]['miner'],
+      blocks: List<BlockInfo>.from(
+          data.map((blockInfo) => BlockInfo.fromJson(blockInfo))),
+    );
+  }
+
+  // TODO: move this to myWitWallet
+  factory AddressBlocks.fromDBJson(List<dynamic> data) {
+    return AddressBlocks(
+      address: data[0]['address'],
+      blocks: List<BlockInfo>.from(
+          data.map((blockInfo) => BlockInfo.fromJson(blockInfo))),
+    );
+  }
+
+  factory AddressBlocks.fromJson(List<dynamic> data) {
+    bool dbJson = data[0]['miner'] == null;
+    if (dbJson) {
+      // TODO: move this to myWitWallet
+      return AddressBlocks.fromDBJson(data);
+    } else {
+      return AddressBlocks.fromExplorerJson(data);
+    }
   }
 
   Map<String, dynamic> jsonMap() {
     List<BlockInfo> blocksMined = blocks;
     return {
       'address': address,
-      'blocks': blocksMined
-          .map((e) => [
-                e.blockID,
-                e.timestamp,
-                e.epoch,
-                e.reward,
-                e.fees,
-                e.valueTransferCount,
-                e.dataRequestCount,
-                e.commitCount,
-                e.revealCount,
-                e.tallyCount,
-                e.reverted
-              ].toList())
-          .toList(),
-      'numBlocksMinted': numBlocksMinted,
-      'type': type,
+      'blocks': blocksMined.map((e) => e.jsonMap()).toList(),
     };
   }
 }
@@ -855,14 +923,10 @@ class AddressDataRequestsSolved {
   AddressDataRequestsSolved({
     required this.address,
     required this.dataRequestsSolved,
-    required this.numDataRequestsSolved,
-    required this.type,
   });
 
   final String address;
   final List<DataRequestSolvedInfo> dataRequestsSolved;
-  final int numDataRequestsSolved;
-  final String type;
 
   factory AddressDataRequestsSolved.fromRawJson(String str) =>
       AddressDataRequestsSolved.fromJson(json.decode(str));
@@ -874,43 +938,25 @@ class AddressDataRequestsSolved {
       address: json["address"],
       dataRequestsSolved: List<DataRequestSolvedInfo>.from(
           json["data_requests_solved"]
-              .map((dr) => DataRequestSolvedInfo.fromList(dr))),
-      numDataRequestsSolved: json["num_data_requests_solved"] ?? 0,
-      type: json["type"] ?? '',
+              .map((dr) => DataRequestSolvedInfo.fromJson(dr))),
     );
   }
 
   Map<String, dynamic> toJson() => {
         "address": address,
-        "data_requests_solved": dataRequestsSolved
-            .map((e) => [
-                  e.success,
-                  e.transactionID,
-                  e.timestamp,
-                  e.collateral,
-                  e.epoch,
-                  e.result,
-                  e.error,
-                  e.liar,
-                ].toList())
-            .toList(),
-        "num_data_requests_solved": numDataRequestsSolved,
-        "type": type,
+        "data_requests_solved":
+            dataRequestsSolved.map((e) => e.jsonMap()).toList().toList(),
       };
 }
 
 class AddressValueTransfers {
   AddressValueTransfers({
     required this.address,
-    required this.numValueTransfers,
-    required this.type,
-    required this.transactionHashes,
+    required this.addressValueTransfers,
   });
 
   final String address;
-  final int numValueTransfers;
-  final String type;
-  final List<String> transactionHashes;
+  final List<dynamic> addressValueTransfers;
 
   factory AddressValueTransfers.fromRawJson(String str) =>
       AddressValueTransfers.fromJson(json.decode(str));
@@ -920,17 +966,80 @@ class AddressValueTransfers {
   factory AddressValueTransfers.fromJson(Map<String, dynamic> json) =>
       AddressValueTransfers(
         address: json["address"],
-        numValueTransfers: json["num_value_transfers"],
-        type: json["type"],
-        transactionHashes:
-            List<String>.from(json["value_transfers"].map((x) => x[1])),
+        addressValueTransfers: List<AddressValueTransferInfo>.from(
+            json["value_transfers"]
+                .map((x) => AddressValueTransferInfo.fromJson(x))),
       );
 
   Map<String, dynamic> jsonMap() => {
         "address": address,
-        "num_value_transfers": numValueTransfers,
-        "type": type,
-        "transaction_hashes": transactionHashes,
+        "address_value_transfers": addressValueTransfers,
+      };
+}
+
+class AddressValueTransferInfo {
+  AddressValueTransferInfo({
+    required this.epoch,
+    required this.timestamp,
+    required this.hash,
+    required this.direction,
+    required this.inputAddresses,
+    required this.outputAddresses,
+    required this.value,
+    required this.fee,
+    required this.weight,
+    required this.priority,
+    required this.locked,
+    required this.confirmed,
+  });
+
+  final int epoch;
+  final int timestamp;
+  final String hash;
+  final String direction;
+  final List<String> inputAddresses;
+  final List<String> outputAddresses;
+  final int value;
+  final int fee;
+  final int weight;
+  final int priority;
+  final bool locked;
+  final bool confirmed;
+
+  factory AddressValueTransferInfo.fromRawJson(String str) =>
+      AddressValueTransferInfo.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(jsonMap());
+
+  factory AddressValueTransferInfo.fromJson(Map<String, dynamic> json) =>
+      AddressValueTransferInfo(
+        epoch: json["epoch"],
+        timestamp: json["timestamp"],
+        hash: json["hash"],
+        direction: json["direction"],
+        inputAddresses: List<String>.from(json["input_addresses"]),
+        outputAddresses: List<String>.from(json["output_addresses"]),
+        value: json["value"],
+        fee: json["fee"],
+        weight: json["weight"],
+        priority: json["priority"],
+        locked: json["locked"],
+        confirmed: json["confirmed"],
+      );
+
+  Map<String, dynamic> jsonMap() => {
+        "epoch": epoch,
+        "timestamp": timestamp,
+        "hash": hash,
+        "direction": direction, // in, out, sel,
+        "input_addresses": inputAddresses,
+        "output_addresses": outputAddresses,
+        "value": value,
+        "fee": fee,
+        "weight": weight,
+        "priority": priority,
+        "locked": locked,
+        "confirmed": confirmed,
       };
 }
 
@@ -988,18 +1097,18 @@ class AddressInfo {
 
 class MintInfo {
   MintInfo({
+    required this.miner,
     required this.blockHash,
     required this.outputs,
-    required this.status,
     required this.txnEpoch,
     required this.txnHash,
     required this.txnTime,
     required this.type,
   });
 
+  final String miner;
   final String blockHash;
   final List<ValueTransferOutput> outputs;
-  final String status;
   final int txnEpoch;
   final String txnHash;
   final int txnTime;
@@ -1010,25 +1119,37 @@ class MintInfo {
 
   String rawJson() => json.encode(jsonMap());
 
-  factory MintInfo.fromJson(Map<String, dynamic> json) => MintInfo(
-        blockHash: json["block_hash"],
-        outputs: List<ValueTransferOutput>.from(json["mint_outputs"].map((x) =>
-            ValueTransferOutput(
-                pkh: Address.fromAddress(x[0]).publicKeyHash!,
-                timeLock: 0,
-                value: x[1]))),
-        status: json["status"],
-        txnEpoch: json["txn_epoch"],
-        txnHash: json["txn_hash"],
-        txnTime: json["txn_time"],
-        type: json["type"],
+  factory MintInfo.fromJson(Map<String, dynamic> json) {
+    var outputAddresses = json["output_addresses"];
+    var outputValues = json["output_values"];
+
+    List<ValueTransferOutput> outputs = [];
+    for (int i = 0; i < outputAddresses.length; i++) {
+      ValueTransferOutput vto = ValueTransferOutput(
+        value: outputValues[i],
+        pkh: Address.fromAddress(outputAddresses[i]).publicKeyHash!,
+        // TODO: the explorer should return some value
+        timeLock: 0,
       );
+      outputs.add(vto);
+    }
+
+    return MintInfo(
+      miner: json["miner"],
+      blockHash: json["block_hash"],
+      outputs: outputs,
+      txnEpoch: json["txn_epoch"],
+      txnHash: json["txn_hash"],
+      txnTime: json["txn_time"],
+      type: json["type"],
+    );
+  }
 
   Map<String, dynamic> jsonMap() => {
+        "miner": miner,
         "block_hash": blockHash,
         "mint_outputs":
             List<Map<String, dynamic>>.from(outputs.map((x) => x.jsonMap())),
-        "status": status,
         "txn_epoch": txnEpoch,
         "txn_hash": txnHash,
         "txn_time": txnTime,
@@ -1037,9 +1158,9 @@ class MintInfo {
 
   void printDebug() {
     print('Mint Info');
+    print('miner: $miner');
     print('block_hash: $blockHash');
     print('mint_outputs: $outputs');
-    print('status: $status');
     print('txn_epoch: $txnEpoch');
     print('txn_hash: $txnHash');
     print('txn_time: $txnTime');
@@ -1050,23 +1171,43 @@ class MintInfo {
 class InputUtxo {
   InputUtxo({
     required this.address,
-    required this.input,
+    required this.inputUtxo,
     required this.value,
   });
 
   final String address;
-  final Input input;
+  final String inputUtxo;
   final int value;
 
   String rawJson() => json.encode(jsonMap());
 
   Map<String, dynamic> jsonMap() {
     return {
-      "pkh": address,
-      "output_pointer":
-          '${input.outputPointer.transactionId.hex}:${input.outputPointer.outputIndex}',
+      "address": address,
       "value": value,
+      "input_utxo": inputUtxo,
     };
+  }
+
+  factory InputUtxo.fromExplorerJson(Map<String, dynamic> json) => InputUtxo(
+      address: json["address"],
+      inputUtxo: json["input_utxo"],
+      value: json["value"]);
+
+  // TODO: move this to myWitWallet
+  factory InputUtxo.fromDBJson(Map<String, dynamic> json) => InputUtxo(
+      address: json["pkh"],
+      inputUtxo: json["output_pointer"],
+      value: json["value"]);
+
+  factory InputUtxo.fromJson(Map<String, dynamic> json) {
+    bool dbJson = json["pkh"] != null;
+    if (dbJson) {
+      // TODO: move this to myWitWallet
+      return InputUtxo.fromDBJson(json);
+    } else {
+      return InputUtxo.fromExplorerJson(json);
+    }
   }
 
   @override
@@ -1076,170 +1217,389 @@ class InputUtxo {
   }
 }
 
-class ValueTransferInfo extends HashInfo {
-  ValueTransferInfo({
-    required this.blockHash,
-    required this.fee,
-    required this.inputs,
-    required this.outputs,
-    required this.priority,
-    required this.status,
-    required this.txnEpoch,
-    required this.txnHash,
-    required this.txnTime,
-    required this.type,
-    required this.weight,
-  }) : super(
-            txnHash: txnHash,
-            status: status,
-            type: type,
-            txnTime: txnTime,
-            blockHash: blockHash);
+class InputMerged {
+  final String address;
+  final int value;
 
-  final String? blockHash;
-  final int fee;
-  final List<InputUtxo> inputs;
-  final List<ValueTransferOutput> outputs;
-  final int priority;
-  String status;
-  final int? txnEpoch;
-  final String txnHash;
-  final int txnTime;
-  final String type;
-  final int weight;
+  InputMerged({
+    required this.address,
+    required this.value,
+  });
 
-  factory ValueTransferInfo.fromJson(Map<String, dynamic> data) {
-    List<InputUtxo> inputs = [];
-    List<ValueTransferOutput> outputs = [];
-    List<dynamic> inputAddresses = data['input_addresses'] ?? [];
-    List<dynamic> outputAddresses = data['output_addresses'] ?? [];
-    Map<String, dynamic>? inputUxtos = data['input_utxos'];
-    inputAddresses.forEach((element) {
-      if (inputUxtos != null && inputUxtos.containsKey(element[0])) {
-        var _sub = inputUxtos[element[0]]!.first;
-
-        String outputPointer = '${_sub[1]}:${_sub[2]}';
-
-        inputs.add(
-          InputUtxo(
-            address: element[0] as String,
-            input:
-                Input(outputPointer: OutputPointer.fromString(outputPointer)),
-            value: element[1] as int,
-          ),
-        );
-      }
-    });
-
-    outputAddresses.forEach((element) {
-      Address address = Address.fromAddress(element[0]);
-
-      outputs.add(ValueTransferOutput(
-          pkh: address.publicKeyHash!,
-          timeLock: element[2],
-          value: element[1]));
-    });
-    return ValueTransferInfo(
-      blockHash: data["block_hash"],
-      fee: data["fee"] ?? 0,
-      priority: data["priority"] ?? 0,
-      status: data["status"],
-      txnEpoch: data["txn_epoch"],
-      txnHash: data["txn_hash"] ?? '',
-      txnTime: data["txn_time"] ?? 0,
-      type: data["type"],
-      weight: data["weight"] ?? 0,
-      inputs: inputs,
-      outputs: outputs,
-    );
+  factory InputMerged.fromJson(Map<String, dynamic> json) {
+    return InputMerged(address: json["address"], value: json["value"]);
   }
 
-  factory ValueTransferInfo.fromDbJson(Map<String, dynamic> data) {
-    List<InputUtxo> inputs = [];
-    List<ValueTransferOutput> outputs = [];
-    List<dynamic> out = data['outputs'];
-    List<dynamic> inp = data['inputs'];
-    inp.forEach((element) {
-      inputs.add(
-        InputUtxo(
-          address: element['pkh'],
-          input: Input(
-              outputPointer:
-                  OutputPointer.fromString(element['output_pointer'])),
-          value: element['value'],
-        ),
-      );
-    });
-    out.forEach((element) {
-      outputs.add(ValueTransferOutput(
-        pkh: PublicKeyHash.fromAddress(element['pkh']),
-        timeLock: element['time_lock'],
-        value: element['value'],
-      ));
-    });
+  String rawJson() => json.encode(jsonMap());
 
-    return ValueTransferInfo(
-      blockHash: data["block_hash"],
-      fee: data["fee"],
-      priority: data["priority"],
-      status: data["status"],
-      txnEpoch: data["txn_epoch"],
-      txnHash: data["txn_hash"],
-      txnTime: data["txn_time"],
-      type: 'value_transfer',
-      weight: data["weight"],
-      inputs: inputs,
-      outputs: outputs,
-    );
+  Map<String, dynamic> jsonMap() {
+    return {"address": address, 'value': value};
+  }
+}
+
+class TransactionUtxo {
+  final String address;
+  final int value;
+  final int timelock;
+  final bool locked;
+
+  TransactionUtxo({
+    required this.address,
+    required this.value,
+    required this.timelock,
+    required this.locked,
+  });
+
+  factory TransactionUtxo.fromJson(Map<String, dynamic> json) {
+    return TransactionUtxo(
+        address: json["address"],
+        value: json["value"],
+        timelock: json["timelock"],
+        locked: json["locked"]);
   }
 
   String rawJson() => json.encode(jsonMap());
 
   Map<String, dynamic> jsonMap() {
     return {
-      "block_hash": blockHash,
+      "address": address,
+      'value': value,
+      'timelock': timelock,
+      'locked': locked
+    };
+  }
+}
+
+// TODO: move to a different place
+// TODO: use this enum in all the package
+enum TxStatusLabel { pending, confirmed, reverted, unknown }
+
+enum TransactionType { value_transfer, data_request, mint }
+
+class TransactionStatus {
+  TxStatusLabel status = TxStatusLabel.pending;
+  TransactionStatus({required this.status});
+
+  factory TransactionStatus.fromJson(Map<String, dynamic> json) {
+    TxStatusLabel status;
+    if (json['status'] != null) {
+      if (json['status'] == 'confirmed' ||
+          json['status'] == 'TxStatusLabel.confirmed') {
+        status = TxStatusLabel.confirmed;
+      } else if (json['status'] == 'TxStatusLabel.unknown') {
+        status = TxStatusLabel.unknown;
+      } else {
+        status = TxStatusLabel.pending;
+      }
+    } else if (json["reverted"] != null && json["reverted"] == true) {
+      status = TxStatusLabel.reverted;
+    } else if (json["confirmed"] != null && json["confirmed"] == true) {
+      status = TxStatusLabel.confirmed;
+    } else {
+      status = TxStatusLabel.pending;
+    }
+    return TransactionStatus(status: status);
+  }
+}
+
+class NullableFields {
+  final int value;
+  final bool confirmed;
+  final bool reverted;
+  final List<String> inputAddresses;
+  final List<InputMerged> inputsMerged;
+  final List<String> outputAddresses;
+  final List<int> outputValues;
+  final List<int> timelocks;
+  final List<TransactionUtxo> utxos;
+  final List<TransactionUtxo> utxosMerged;
+  final List<String> trueOutputAddresses;
+  final List<String> changeOutputAddresses;
+  final int? trueValue;
+  final int? changeValue;
+  NullableFields(
+      {required this.changeOutputAddresses,
+      required this.changeValue,
+      required this.confirmed,
+      required this.inputAddresses,
+      required this.inputsMerged,
+      required this.outputAddresses,
+      required this.outputValues,
+      required this.reverted,
+      required this.timelocks,
+      required this.trueOutputAddresses,
+      required this.trueValue,
+      required this.utxos,
+      required this.utxosMerged,
+      required this.value});
+}
+
+NullableFields getOrDefault(Map<String, dynamic> data) {
+  return NullableFields(
+    value: data["value"] ?? 0,
+    confirmed: data["confirmed"] ?? false,
+    reverted: data["reverted"] ?? false,
+    inputAddresses: data["input_addresses"] != null
+        ? List<String>.from(data["input_addresses"])
+        : [],
+    inputsMerged: data["inputs_merged"] != null
+        ? List<InputMerged>.from(
+            data["inputs_merged"].map((x) => InputMerged.fromJson(x)))
+        : [],
+    outputAddresses: data["output_addresses"] != null
+        ? List<String>.from(data["output_addresses"])
+        : [],
+    outputValues: data["output_values"] != null
+        ? List<int>.from(data["output_values"])
+        : [],
+    timelocks:
+        data["timelocks"] != null ? List<int>.from(data["timelocks"]) : [],
+    utxos: data["utxos"] != null
+        ? List<TransactionUtxo>.from(data["utxos"]
+            .map((e) => TransactionUtxo.fromJson(Map<String, dynamic>.from(e))))
+        : [],
+    utxosMerged: data["utxos_merged"] != null
+        ? List<TransactionUtxo>.from(data["utxos_merged"]
+            .map((e) => TransactionUtxo.fromJson(Map<String, dynamic>.from(e))))
+        : [],
+    trueOutputAddresses: data["true_output_addresses"] != null
+        ? List<String>.from(data["true_output_addresses"])
+        : [],
+    changeOutputAddresses: data["change_output_addresses"] != null
+        ? List<String>.from(data["change_output_addresses"])
+        : [],
+    trueValue: data["true_value"],
+    changeValue: data["change_value"],
+  );
+}
+
+class ValueTransferInfo extends HashInfo {
+  ValueTransferInfo(
+      {required this.epoch,
+      required this.timestamp,
+      required this.hash,
+      required this.inputAddresses,
+      required this.outputAddresses,
+      required this.value,
+      required this.fee,
+      required this.weight,
+      required this.priority,
+      required this.block,
+      required this.confirmed,
+      required this.reverted,
+      required this.inputUtxos,
+      required this.inputsMerged,
+      required this.outputValues,
+      required this.timelocks,
+      required this.utxos,
+      required this.utxosMerged,
+      required this.trueOutputAddresses,
+      required this.changeOutputAddresses,
+      this.trueValue,
+      this.changeValue,
+      required this.status,
+      required this.outputs})
+      : super(
+            txnHash: hash,
+            status: status,
+            type: TransactionType.value_transfer,
+            txnTime: epoch,
+            blockHash: null);
+
+  final int epoch;
+  final int timestamp;
+  final String hash;
+  final String block;
+  final List<InputUtxo> inputUtxos;
+  final int fee;
+  final int weight;
+  final int priority;
+  final TxStatusLabel status;
+  final List<ValueTransferOutput> outputs;
+  final int value;
+  final bool confirmed;
+  final bool reverted;
+  final List<String> inputAddresses;
+  final List<InputMerged> inputsMerged;
+  final List<String> outputAddresses;
+  final List<int> outputValues;
+  final List<int> timelocks;
+  final List<TransactionUtxo> utxos;
+  final List<TransactionUtxo> utxosMerged;
+  final List<String> trueOutputAddresses;
+  final List<String> changeOutputAddresses;
+  final int? trueValue;
+  final int? changeValue;
+
+  factory ValueTransferInfo.fromExplorerJson(Map<String, dynamic> data) {
+    List<String> outputAddresses = getOrDefault(data).outputAddresses;
+    List<int> outputValues = getOrDefault(data).outputValues;
+    List<ValueTransferOutput> outputs = [];
+    for (int i = 0; i < outputValues.length; i++) {
+      ValueTransferOutput vto = ValueTransferOutput(
+        value: outputValues[i],
+        pkh: Address.fromAddress(outputAddresses[i]).publicKeyHash!,
+        timeLock: 0,
+      );
+      outputs.add(vto);
+    }
+
+    final result = ValueTransferInfo(
+      epoch: data["epoch"],
+      timestamp: data["timestamp"],
+      hash: data["hash"],
+      block: data["block"],
+      inputUtxos: List<InputUtxo>.from(
+          data["input_utxos"].map((x) => InputUtxo.fromJson(x))),
+      fee: data["fee"],
+      priority: data["priority"],
+      weight: data["weight"],
+      status: TransactionStatus.fromJson(data).status,
+      outputs: outputs,
+      value: getOrDefault(data).value,
+      confirmed: getOrDefault(data).confirmed,
+      reverted: getOrDefault(data).reverted,
+      inputAddresses: getOrDefault(data).inputAddresses,
+      inputsMerged: getOrDefault(data).inputsMerged,
+      outputAddresses: outputAddresses,
+      outputValues: outputValues,
+      timelocks: getOrDefault(data).timelocks,
+      utxos: getOrDefault(data).utxos,
+      utxosMerged: getOrDefault(data).utxosMerged,
+      trueOutputAddresses: getOrDefault(data).trueOutputAddresses,
+      changeOutputAddresses: getOrDefault(data).outputAddresses,
+      trueValue: getOrDefault(data).trueValue,
+      changeValue: getOrDefault(data).changeValue,
+    );
+    return result;
+  }
+
+  // TODO: move this to myWitWallet
+  factory ValueTransferInfo.fromDBJson(Map<String, dynamic> data) {
+    List<String> outputAddresses = getOrDefault(data).outputAddresses;
+    List<int> outputValues = getOrDefault(data).outputValues;
+    List<ValueTransferOutput> outputs = [];
+    if (data['outputs'] != null) {
+      data['outputs'].forEach((element) {
+        Address address = Address.fromAddress(element['pkh']);
+
+        outputs.add(ValueTransferOutput(
+            pkh: address.publicKeyHash!,
+            timeLock: element['time_lock'],
+            value: element['value']));
+      });
+    } else {
+      for (int i = 0; i < outputValues.length; i++) {
+        ValueTransferOutput vto = ValueTransferOutput(
+          value: outputValues[i],
+          pkh: Address.fromAddress(outputAddresses[i]).publicKeyHash!,
+          timeLock: 0,
+        );
+        outputs.add(vto);
+      }
+    }
+
+    return ValueTransferInfo(
+        epoch: data["txn_epoch"],
+        timestamp: data["txn_time"],
+        hash: data["txn_hash"],
+        block: data["block_hash"],
+        inputUtxos: List<InputUtxo>.from(
+            data["inputs"].map((x) => InputUtxo.fromJson(x))),
+        fee: data["fee"],
+        priority: data["priority"],
+        weight: data["weight"],
+        status: TransactionStatus.fromJson(data).status,
+        outputs: outputs,
+        value: getOrDefault(data).value,
+        confirmed: getOrDefault(data).confirmed,
+        reverted: getOrDefault(data).reverted,
+        inputAddresses: getOrDefault(data).inputAddresses,
+        inputsMerged: getOrDefault(data).inputsMerged,
+        outputAddresses: outputAddresses,
+        outputValues: outputValues,
+        timelocks: getOrDefault(data).timelocks,
+        utxos: getOrDefault(data).utxos,
+        utxosMerged: getOrDefault(data).utxosMerged,
+        trueOutputAddresses: getOrDefault(data).trueOutputAddresses,
+        changeOutputAddresses: getOrDefault(data).outputAddresses,
+        trueValue: getOrDefault(data).trueValue,
+        changeValue: getOrDefault(data).changeValue);
+  }
+
+  factory ValueTransferInfo.fromJson(Map<String, dynamic> data) {
+    bool dbJson = data["epoch"] == null;
+    if (dbJson) {
+      // TODO: move this to myWitWallet
+      return ValueTransferInfo.fromDBJson(data);
+    } else {
+      return ValueTransferInfo.fromExplorerJson(data);
+    }
+  }
+
+  String rawJson() => json.encode(jsonMap());
+
+  Map<String, dynamic> jsonMap() {
+    return {
+      "txn_epoch": epoch,
+      "txn_time": timestamp,
+      "txn_hash": hash,
+      "block_hash": block,
+      "confirmed": confirmed,
+      "reverted": reverted,
+      "input_addresses": inputAddresses,
+      "output_addresses": outputAddresses,
+      "output_values": outputValues,
+      "timelocks": timelocks,
       "fee": fee,
+      "value": value,
       "priority": priority,
-      "status": status,
-      "txn_epoch": txnEpoch,
-      "txn_hash": txnHash,
-      "txn_time": txnTime,
       "weight": weight,
-      "inputs": List<Map<String, dynamic>>.from(inputs.map((e) => e.jsonMap())),
+      "true_output_addresses": trueOutputAddresses,
+      "change_output_addresses": changeOutputAddresses,
+      "trueValue": trueValue,
+      "changeValue": changeValue,
+      "status": status.toString(),
       "outputs":
           List<Map<String, dynamic>>.from(outputs.map((e) => e.jsonMap())),
+      "inputs":
+          List<Map<String, dynamic>>.from(inputUtxos.map((e) => e.jsonMap())),
+      "inputs_merged":
+          List<Map<String, dynamic>>.from(inputsMerged.map((e) => e.jsonMap())),
+      "utxos": List<Map<String, dynamic>>.from(utxos.map((e) => e.jsonMap())),
+      "utxos_merged":
+          List<Map<String, dynamic>>.from(utxosMerged.map((e) => e.jsonMap())),
     };
   }
 
   void printDebug() {
     print('ValueTransferInfo:');
-
-    print('blockHash: $blockHash');
-    print('txnHash: $txnHash');
-    print('txnEpoch: $txnEpoch');
-    print('txnTime: ${DateTime.fromMillisecondsSinceEpoch(txnTime * 1000)}');
-    print('status: $status');
-    print('fee: $fee');
-    print('priority: $priority');
-    print('Inputs:');
-    inputs.forEach((element) {
+    print("epoch: $epoch");
+    print('timestamp: $timestamp');
+    print('hash: $hash');
+    print('inputAddresses:');
+    inputAddresses.forEach((element) {
       print(element);
     });
-    print('Outputs:');
-    outputs.forEach((element) {
-      print(element.rawJson);
+    print('outputAddresses:');
+    outputAddresses.forEach((element) {
+      print(element);
     });
+    print('value: $value');
+    print('fee: $fee');
+    print('weight: $weight');
+    print('priority: $priority');
   }
 
   bool containsAddress(String address) {
     bool isInTrx = false;
-    inputs.forEach((input) {
-      if (input.address == address) {
+    inputAddresses.forEach((input) {
+      if (input == address) {
         isInTrx = true;
       }
     });
-    outputs.forEach((output) {
-      if (output.pkh.address == address) {
+    outputAddresses.forEach((output) {
+      if (output == address) {
         isInTrx = true;
       }
     });
@@ -1249,7 +1609,7 @@ class ValueTransferInfo extends HashInfo {
 
 class BlockInfo {
   BlockInfo({
-    required this.blockID,
+    required this.hash,
     required this.timestamp,
     required this.epoch,
     required this.reward,
@@ -1259,10 +1619,11 @@ class BlockInfo {
     required this.commitCount,
     required this.revealCount,
     required this.tallyCount,
-    required this.reverted,
+    required this.confirmed,
+    required this.miner,
   });
 
-  final String blockID;
+  final String hash;
   final int timestamp;
   final int epoch;
   final int reward;
@@ -1272,37 +1633,40 @@ class BlockInfo {
   final int commitCount;
   final int revealCount;
   final int tallyCount;
-  final bool reverted;
+  final bool confirmed;
+  final String miner;
 
-  factory BlockInfo.fromList(List<dynamic> data) {
+  factory BlockInfo.fromJson(Map<String, dynamic> data) {
     return BlockInfo(
-      blockID: data[0],
-      timestamp: data[1],
-      epoch: data[2],
-      reward: data[3],
-      fees: data[4],
-      valueTransferCount: data[5],
-      dataRequestCount: data[6],
-      commitCount: data[7],
-      revealCount: data[8],
-      tallyCount: data[9],
-      reverted: data[10],
+      hash: data["hash"],
+      timestamp: data["timestamp"],
+      epoch: data["epoch"],
+      reward: data["block_reward"],
+      fees: data["block_fees"],
+      valueTransferCount: data["value_transfers"],
+      dataRequestCount: data["data_requests"],
+      commitCount: data["commits"],
+      revealCount: data["reveals"],
+      tallyCount: data["tallies"],
+      confirmed: data["confirmed"],
+      miner: data["miner"],
     );
   }
 
-  List<dynamic> toList() {
-    return [
-      blockID,
-      timestamp,
-      epoch,
-      reward,
-      fees,
-      valueTransferCount,
-      commitCount,
-      revealCount,
-      tallyCount
-    ];
-  }
+  Map<String, dynamic> jsonMap() => {
+        'hash': hash,
+        'timestamp': timestamp,
+        'epoch': epoch,
+        'block_reward': reward,
+        'block_fees': fees,
+        'value_transfers': valueTransferCount,
+        'data_requests': dataRequestCount,
+        'commits': commitCount,
+        'reveals': revealCount,
+        'tallies': tallyCount,
+        'confirmed': confirmed,
+        'miner': miner,
+      };
 }
 
 class BlockDetails {
@@ -1314,24 +1678,23 @@ class BlockDetails {
     required this.vtWeight,
     required this.blockWeight,
     required this.confirmed,
-    required this.status,
+    required this.reverted,
     required this.mintInfo,
   });
 
-  final String blockHash;
   final int epoch;
   final int timestamp;
+  final String blockHash;
   final int drWeight;
   final int vtWeight;
   final int blockWeight;
   final bool confirmed;
-  final String status;
+  final bool reverted;
   final MintInfo mintInfo;
 
   factory BlockDetails.fromJson(Map<String, dynamic> json) {
-    Map<String, dynamic> mint_txn = json["mint_txn"];
-    String mintHash = mint_txn["txn_hash"];
-
+    Map<String, dynamic> mint_txn = json['block']["transactions"]["mint"];
+    String mintHash = mint_txn["hash"];
     List<ValueTransferOutput> outputs = [];
     for (int i = 0; i < mint_txn['output_addresses'].length; i++) {
       String _address = mint_txn['output_addresses'][i];
@@ -1341,25 +1704,24 @@ class BlockDetails {
           pkh: PublicKeyHash.fromAddress(_address), value: _value, timeLock: 0);
       outputs.add(_output);
     }
-
     MintInfo mintInfo = MintInfo(
-        blockHash: json["details"]["block_hash"],
+        miner: mint_txn["miner"],
+        blockHash: json['block']["details"]["hash"],
         outputs: outputs,
-        status: json["details"]["status"],
-        txnEpoch: json["details"]["epoch"],
+        txnEpoch: json['block']["details"]["epoch"],
         txnHash: mintHash,
-        txnTime: json["details"]["time"],
+        txnTime: json['block']["details"]["timestamp"],
         type: "mint");
 
     return BlockDetails(
-      blockHash: json["details"]["block_hash"],
-      epoch: json["details"]["epoch"],
-      timestamp: json["details"]["time"],
-      drWeight: json["details"]["dr_weight"],
-      vtWeight: json["details"]["vt_weight"],
-      blockWeight: json["details"]["block_weight"],
-      confirmed: json["details"]["confirmed"],
-      status: json["details"]["status"],
+      blockHash: json['block']["details"]["hash"],
+      epoch: json['block']["details"]["epoch"],
+      timestamp: json['block']["details"]["timestamp"],
+      drWeight: json['block']["details"]["data_request_weight"] ?? 0,
+      vtWeight: json['block']["details"]["value_transfer_weight"] ?? 0,
+      blockWeight: json['block']["details"]["weight"],
+      confirmed: json['block']["details"]["confirmed"],
+      reverted: json['block']["details"]["reverted"],
       mintInfo: mintInfo,
     );
   }
@@ -1368,64 +1730,57 @@ class BlockDetails {
 class DataRequestSolvedInfo {
   DataRequestSolvedInfo(
       {required this.success,
-      required this.transactionID,
+      required this.hash,
+      required this.epoch,
       required this.timestamp,
       required this.collateral,
-      required this.epoch,
-      required this.result,
+      required this.witnessReward,
+      required this.reveal,
       required this.error,
       required this.liar});
 
-  final String success;
-  final String transactionID;
+  final bool success;
+  final String hash;
+  final int epoch;
   final int timestamp;
   final int collateral;
-  final int epoch;
-  final int result;
-  final String error;
-  final String liar;
+  final int witnessReward;
+  final String reveal;
+  final bool error;
+  final bool liar;
 
-  factory DataRequestSolvedInfo.fromList(List<dynamic> data) {
+  factory DataRequestSolvedInfo.fromJson(Map<String, dynamic> data) {
     return DataRequestSolvedInfo(
-        success: data[0].toString(),
-        transactionID: data[1].toString(),
-        timestamp: data[2],
-        collateral: data[3],
-        epoch: data[4],
-        result: data[5],
-        error: data[6].toString(),
-        liar: data[7].toString());
-  }
-
-  List<dynamic> tolist() {
-    return [
-      success,
-      transactionID,
-      timestamp,
-      collateral,
-      epoch,
-      result,
-      error,
-      liar
-    ];
+        success: data['success'],
+        hash: data["hash"],
+        epoch: data['epoch'],
+        timestamp: data['timestamp'],
+        collateral: data['collateral'],
+        witnessReward: data['witness_reward'],
+        reveal: data['reveal'],
+        error: data['error'],
+        liar: data['liar']);
   }
 
   Map<String, dynamic> jsonMap() => {
         'success': success,
-        'transactionID': transactionID,
+        'hash': hash,
         'timestamp': timestamp,
         'collateral': collateral,
         'epoch': epoch,
-        'result': result,
+        'witnessReward': witnessReward,
+        'reveal': reveal,
         'error': error,
         'liar': liar,
       };
 
   void printDebug() {
-    print('transactionID: $transactionID');
+    print('transactionID: $hash');
     print('timestamp: $timestamp');
     print('collateral: $collateral');
     print('error: $error');
+    print('witnessReward: $witnessReward');
+    print('reveal: $reveal');
     print('liar $liar');
     print('success: $success');
   }
@@ -1473,13 +1828,14 @@ class Tapi {
 
 class TapiInfo {
   TapiInfo({
-    required this.accept,
+    required this.activated,
     required this.active,
     required this.bit,
     required this.currentEpoch,
     required this.description,
+    required this.finished,
     required this.globalAcceptanceRate,
-    required this.previousEpoch,
+    required this.lastUpdated,
     required this.rates,
     required this.relativeAcceptanceRate,
     required this.startEpoch,
@@ -1491,13 +1847,14 @@ class TapiInfo {
     required this.urls,
   });
 
-  final List<dynamic> accept;
+  final List<dynamic> activated;
   final bool active;
   final int bit;
   final int currentEpoch;
   final String description;
+  final bool finished;
   final double globalAcceptanceRate;
-  final int previousEpoch;
+  final int lastUpdated;
   final List<Rate> rates;
   final double relativeAcceptanceRate;
   final int startEpoch;
@@ -1514,13 +1871,14 @@ class TapiInfo {
   String toRawJson() => json.encode(jsonMap());
 
   factory TapiInfo.fromJson(Map<String, dynamic> json) => TapiInfo(
-        accept: List<dynamic>.from(json["accept"].map((x) => x)),
+        activated: json["activated"],
         active: json["active"],
         bit: json["bit"],
         currentEpoch: json["current_epoch"],
         description: json["description"],
+        finished: json["finished"],
         globalAcceptanceRate: json["global_acceptance_rate"].toDouble(),
-        previousEpoch: json["previous_epoch"],
+        lastUpdated: json["last_updated"],
         rates: List<Rate>.from(json["rates"].map((x) => Rate.fromJson(x))),
         relativeAcceptanceRate: json["relative_acceptance_rate"].toDouble(),
         startEpoch: json["start_epoch"],
@@ -1533,13 +1891,14 @@ class TapiInfo {
       );
 
   Map<String, dynamic> jsonMap() => {
-        "accept": List<dynamic>.from(accept.map((x) => x)),
+        "activated": activated,
         "active": active,
         "bit": bit,
         "current_epoch": currentEpoch,
         "description": description,
+        "finished": finished,
         "global_acceptance_rate": globalAcceptanceRate,
-        "previous_epoch": previousEpoch,
+        "last_updated": lastUpdated,
         "rates": List<dynamic>.from(rates.map((x) => x.jsonMap())),
         "relative_acceptance_rate": relativeAcceptanceRate,
         "start_epoch": startEpoch,
@@ -1581,20 +1940,27 @@ class Rate {
 }
 
 class Blockchain {
-  Blockchain({required this.blockchain});
+  Blockchain(
+      {required this.blockchain,
+      required this.reverted,
+      required this.totalEpochs});
 
+  final List<int> reverted;
+  final int totalEpochs;
   final List<BlockchainInfo> blockchain;
 
   factory Blockchain.fromJson(Map<String, dynamic> data) {
     return Blockchain(
         blockchain: List<BlockchainInfo>.from(
-            data['blockchain'].map((e) => BlockchainInfo.fromList(e))));
+            data['blockchain'].map((e) => BlockchainInfo.fromJson(e))),
+        reverted: data["reverted"],
+        totalEpochs: data["total_epochs"]);
   }
 }
 
 class BlockchainInfo {
   BlockchainInfo(
-      {required this.blockID,
+      {required this.hash,
       required this.epoch,
       required this.timestamp,
       required this.minerAddress,
@@ -1606,7 +1972,7 @@ class BlockchainInfo {
       required this.tallyCount,
       required this.confirmed});
 
-  final String blockID;
+  final String hash;
   final int epoch;
   final int timestamp;
   final String minerAddress;
@@ -1618,19 +1984,19 @@ class BlockchainInfo {
   final int tallyCount;
   final bool confirmed;
 
-  factory BlockchainInfo.fromList(List<dynamic> data) {
+  factory BlockchainInfo.fromJson(Map<String, dynamic> data) {
     return BlockchainInfo(
-        blockID: data[0],
-        epoch: data[1],
-        timestamp: data[2],
-        minerAddress: data[3],
-        fee: data[4],
-        valueTransferCount: data[5],
-        dataRequestCount: data[6],
-        commitCount: data[7],
-        revealCount: data[8],
-        tallyCount: data[9],
-        confirmed: data[10]);
+        hash: data["hash"],
+        minerAddress: data["miner"],
+        valueTransferCount: data["value_transfers"],
+        dataRequestCount: data["data_requests"],
+        commitCount: data["commits"],
+        revealCount: data["reveals"],
+        tallyCount: data["tallies"],
+        fee: data["fees"],
+        epoch: data["epoch"],
+        timestamp: data["timestamp"],
+        confirmed: data["confirmed"]);
   }
 }
 
@@ -1644,8 +2010,8 @@ class HashInfo {
   });
 
   final String txnHash;
-  final String status;
-  final String type;
+  final TxStatusLabel status;
+  final TransactionType type;
   final int txnTime;
   final dynamic blockHash;
 
@@ -1653,11 +2019,6 @@ class HashInfo {
       HashInfo.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(jsonMap());
-
-  bool isPending() => (status == 'pending') ? true : false;
-  bool isMined() => (status == 'mined') ? true : false;
-  bool isUnkown() => (status == 'unknown hash') ? true : false;
-  bool isConfirmed() => (status == 'confirmed') ? true : false;
 
   void printDebug() {
     print('HashInfo');
@@ -1761,5 +2122,29 @@ class PriorityEstimate {
   Map<String, dynamic> jsonMap() => {
         "priority": priority,
         "time_to_block": timeToBlock,
+      };
+}
+
+class Mempool {
+  Mempool({
+    required this.timestamp,
+    required this.fee,
+    required this.amount,
+  });
+
+  final int timestamp;
+  final List<int> fee;
+  final List<int> amount;
+
+  factory Mempool.fromJson(Map<String, dynamic> json) => Mempool(
+        timestamp: json["timestamp"],
+        fee: json["fee"],
+        amount: json["amount"],
+      );
+
+  Map<String, dynamic> jsonMap() => {
+        "timestamp": timestamp,
+        "fee": fee,
+        "amount": amount,
       };
 }
