@@ -1,3 +1,17 @@
+## 0.4.0
+- Upgrade the block explorer api to use the new version: https://witscan.xyz/api
+- Replace `nework` method with `networkBalances`
+- Update `reputation` method to return the new `NetworkReputation` class
+- Update `mempool` method to return the new `Mempool` class
+- Update `address` method signature to accept a `String value`, `String tab`, `int? page` and `int? pageSize` arguments. It returns the new `Mempool` class.
+    - `tab` can be `blocks`, `data_requests_solved` or `value_transfers`
+- Update `Blockchain` class
+- Update `blockchain` method signature to accept `int? page` and `int? pageSize`
+- Update `MintInfo` class
+- Update `hash` method to be able to return the new `MintInfo` class
+- Update `Status` class
+- Update `status` method to return the new `Status` class
+
 ## 0.3.0
 - Update dependencies
 - Set minimum sdk to 3.0.0
