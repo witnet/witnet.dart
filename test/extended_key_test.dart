@@ -1,9 +1,13 @@
+import 'package:test/test.dart';
 import 'package:witnet/constants.dart';
 import 'package:witnet/witnet.dart';
-import 'package:test/test.dart';
 
 String mnemonic =
     'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about';
+
+String masterNodeXprv =
+    "xprv1qpujxsyd4hfu0dtwa524vac84e09mjsgnh5h9crl8wrqg58z5wmsuqqcxlqmar3fjhkprndzkpnp2xlze76g4hu7g7c4r4r2m2e6y8xlvu566tn6";
+
 List<List<String>> expectedAddresses = [
   ["m/3h/4919h/0h/0/0", "wit174la8pevl74hczcpfepgmt036zkmjen4hu8zzs"],
   ["m/3h/4919h/0h/0/1", "wit1cetlhcpqc3jxqxap6egql5py4jrgwnfzfsm6l7"],
@@ -24,6 +28,14 @@ main() async {
 
   test('XPUB', () {
     expect(xpubTest(), true);
+  });
+
+  test('Index Aware XPRV', () {
+    expect(indexAwareXprvTest(), true);
+  });
+
+  test('Encrypted Index Aware XPRV', () {
+    expect(encryptedIndexAwareXprvTest(), true);
   });
 }
 
@@ -49,5 +61,65 @@ bool xpubTest() {
     Xpub public = externalXpub / i;
     if (expectedAddresses[i][1] != public.address) return false;
   }
+  return true;
+}
+
+bool indexAwareXprvTest() {
+  Xprv xprv = Xprv.fromMnemonic(mnemonic: mnemonic);
+
+  /// Test Zero indexes
+  String xprvString =
+      "xprv1qpujxsyd4hfu0dtwa524vac84e09mjsgnh5h9crl8wrqg58z5wmsuqqcxlqmar3fjhkprndzkpnp2xlze76g4hu7g7c4r4r2m2e6y8xlvuqqqqqqqqqqqqqs0qn8x";
+  assert(xprvString ==
+      xprv.toIndexAwareSlip32(externalIndex: 0, internalIndex: 0));
+
+  List<dynamic> indexedXprvData = Xprv.fromIndexAwareXprv(xprvString);
+
+  Xprv indexedXprv = indexedXprvData[0];
+  int externalIndex = indexedXprvData[1];
+  int internalIndex = indexedXprvData[2];
+
+  assert(masterNodeXprv == indexedXprv.toSlip32());
+  assert(externalIndex == 0);
+  assert(internalIndex == 0);
+
+  /// Test other indexes
+  xprvString =
+      "xprv1qpujxsyd4hfu0dtwa524vac84e09mjsgnh5h9crl8wrqg58z5wmsuqqcxlqmar3fjhkprndzkpnp2xlze76g4hu7g7c4r4r2m2e6y8xlvuqqqqfvqqqqraq829yg8";
+  int expectedExternalIndex = 300;
+  int expectedInternalIndex = 500;
+  assert(xprvString ==
+      xprv.toIndexAwareSlip32(
+          externalIndex: expectedExternalIndex,
+          internalIndex: expectedInternalIndex));
+
+  indexedXprvData = Xprv.fromIndexAwareXprv(xprvString);
+
+  indexedXprv = indexedXprvData[0];
+  externalIndex = indexedXprvData[1];
+  internalIndex = indexedXprvData[2];
+
+  assert(masterNodeXprv == indexedXprv.toSlip32());
+  assert(externalIndex == expectedExternalIndex);
+  assert(internalIndex == expectedInternalIndex);
+
+  return true;
+
+  /// Test Encrypted Index Aware XPRV
+}
+
+bool encryptedIndexAwareXprvTest() {
+  String xprvString =
+      "xprv19aer5vfuyaqt4ljlzarpymqasskdv7kwh3kmfp5m78wxjfdpgx7gvht95px38ylh7tl2xqgwezf3fujcupfkj64hzdqvwd0y3txhk7yk6xxd77dal0klxlfh854n6laxh6yvl24cqa7k9d8ljkn6x0ly223hu8l4ywpvmtdpg6mhs6mrhg05auqq2hl58c2v5y9grdzatmtarxeprka8udtlwzpnpfg8enrlt20ne8n4h5j7a4kf8wa4zvcad4wwdc7v53w6wqc286jnevm8kydtc9jfr4gt3mxsm3mqvv8zk5nzs92q38fmtv";
+  List<dynamic> indexedXprvData =
+      Xprv.fromIndexAwareEncryptedXprv(xprvString, "password");
+  Xprv indexedXprv = indexedXprvData[0];
+  int externalIndex = indexedXprvData[1];
+  int internalIndex = indexedXprvData[2];
+
+  assert(masterNodeXprv == indexedXprv.toSlip32());
+  assert(externalIndex == 0);
+  assert(internalIndex == 0);
+
   return true;
 }

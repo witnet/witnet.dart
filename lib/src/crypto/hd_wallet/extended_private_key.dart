@@ -1,17 +1,15 @@
 import 'dart:typed_data';
 
-import 'package:witnet/src/crypto/hd_wallet/extended_key.dart';
-import 'package:witnet/src/crypto/secp256k1/secp256k1.dart';
-import 'package:witnet/src/utils/bech32/exceptions.dart';
 import 'package:witnet/src/crypto/address.dart';
-import 'package:witnet/src/crypto/encrypt/aes/exceptions.dart';
-import 'package:witnet/src/crypto/encrypt/aes/codec.dart';
-import 'package:witnet/src/utils/bech32/bech32.dart';
 import 'package:witnet/src/crypto/bip39/bip39.dart' as bip39;
-
 import 'package:witnet/src/crypto/crypto.dart';
+import 'package:witnet/src/crypto/encrypt/aes/codec.dart';
+import 'package:witnet/src/crypto/encrypt/aes/exceptions.dart';
+import 'package:witnet/src/crypto/hd_wallet/extended_key.dart';
 import 'package:witnet/src/crypto/secp256k1/private_key.dart';
-
+import 'package:witnet/src/crypto/secp256k1/secp256k1.dart';
+import 'package:witnet/src/utils/bech32/bech32.dart';
+import 'package:witnet/src/utils/bech32/exceptions.dart';
 import 'package:witnet/utils.dart';
 
 import 'extended_public_key.dart';
@@ -145,6 +143,20 @@ class Xprv extends ExtendedKey {
     return bech32.encoder.convert(Bech32(hrp: 'xprv', data: _data));
   }
 
+  String toIndexAwareSlip32(
+      {required int externalIndex, required int internalIndex}) {
+    Uint8List depthBytes = bigIntToBytes(BigInt.from(depth));
+    Uint8List padding = leftJustify(Uint8List.fromList([0]), 1, 0);
+    Uint8List ext =
+        hexToBytes(bigIntToHex(BigInt.from(externalIndex)).padLeft(8, '0'));
+    Uint8List int =
+        hexToBytes(bigIntToHex(BigInt.from(internalIndex)).padLeft(8, '0'));
+    Uint8List data = concatBytes(
+        [depthBytes, padding, code, padding, privateKey.bytes.bytes, ext, int]);
+    var _data = convertBits(data: data, from: 8, to: 5, pad: true);
+    return bech32.encoder.convert(Bech32(hrp: 'xprv', data: _data));
+  }
+
   factory Xprv.fromEncryptedXprv(String xprv, String password) {
     try {
       Bech32 bech = bech32.decode(xprv);
@@ -168,6 +180,107 @@ class Xprv extends ExtendedKey {
       String plainText;
       plainText = utf8.decode(decoded).trim();
       return Xprv.fromXprv(plainText);
+    } catch (e) {
+      if (e.runtimeType == InvalidChecksum) {
+        rethrow;
+      }
+      throw AesCryptDataException('${e.toString()}');
+    }
+  }
+
+  String toIndexAwareEncryptedXprv(
+      String password, int externalIndex, int internalIndex) {
+    String xprvStr = toIndexAwareSlip32(
+        externalIndex: externalIndex, internalIndex: internalIndex);
+    List<int> tmp = xprvStr.codeUnits;
+    Uint8List dat = Uint8List(144);
+    int padLength = dat.length - tmp.length;
+    Uint8List padding = Uint8List(padLength);
+    for (int i = 0; i < padLength; i++) {
+      padding[i] = 11;
+    }
+    dat.setRange(0, tmp.length, tmp);
+    dat.setRange(tmp.length, dat.length, padding);
+
+    Uint8List _iv = generateIV();
+    Uint8List _salt = generateSalt();
+    CodecAES codec = getCodecAES(password, salt: _salt, iv: _iv);
+    final encoded = codec.encode(dat);
+    Uint8List encData = concatBytes([_iv, _salt, hexToBytes(encoded)]);
+
+    Uint8List data1 = Uint8List.fromList(
+        convertBits(data: encData, from: 8, to: 5, pad: true));
+
+    Bech32 b1 = Bech32(hrp: 'xprv', data: data1);
+
+    String bech1 = bech32.encode(b1, 319);
+
+    // 32bit to 256bit
+    return bech1;
+  }
+
+  static List<dynamic> fromIndexAwareXprv(String xprv) {
+    /// An index aware XPRV includes the last internal and external
+    /// wallet address index. they are stored as 4 bytes each.
+    Bech32 bech = bech32.decoder.convert(xprv, 130);
+    try {
+      List<int> checksum = createChecksum(bech.hrp, bech.data);
+      bool invalidXprvChecksum =
+          !verifyChecksum(bech.hrp, [...bech.data, ...checksum]);
+      if (invalidXprvChecksum) {
+        throw InvalidChecksum();
+      }
+    } catch (e) {
+      rethrow;
+    }
+
+    var bn256 = convertBits(data: bech.data, from: 5, to: 8, pad: true);
+    Uint8List data = Uint8List.fromList(bn256);
+    String hrp = bech.hrp;
+    assert(hrp == 'xprv', 'Not a valid XPRV for importing.');
+    Uint8List depth = data.sublist(0, 1);
+    Uint8List chainCode = data.sublist(1, 33);
+    Uint8List keyData = data.sublist(34, 66);
+    int externalIndex = bytesToBigInt(data.sublist(66, 70)).toInt();
+    int internalIndex = bytesToBigInt(data.sublist(70, 74)).toInt();
+    bool masterKey = false;
+    if (4 * depth[0] == 0) {
+      masterKey = true;
+    }
+    Xprv _xprv = Xprv(
+        key: keyData,
+        code: chainCode,
+        depth: depth[0],
+        masterKey: masterKey,
+        path: null,
+        index: null,
+        parent: null);
+    return [_xprv, externalIndex, internalIndex];
+  }
+
+  static List<dynamic> fromIndexAwareEncryptedXprv(
+      String xprv, String password) {
+    try {
+      Bech32 bech = bech32.decode(xprv, 319);
+
+      Uint8List data = Uint8List.fromList(
+          convertBits(data: bech.data, from: 5, to: 8, pad: false));
+
+      Uint8List iv = data.sublist(0, 16);
+      Uint8List salt = data.sublist(16, 48);
+      Uint8List _data = data.sublist(48);
+
+      CodecAES codec = getCodecAES(password, salt: salt, iv: iv);
+      Uint8List decoded = codec.decode(bytesToHex(_data)) as Uint8List;
+      decoded = decoded.sublist(0, 130);
+      String plainText;
+      plainText = utf8.decode(decoded).trim();
+      List<dynamic> indexAwareXprv = Xprv.fromIndexAwareXprv(plainText);
+      Xprv _xprv = indexAwareXprv[0];
+      int lastExternalIndex = indexAwareXprv[1];
+      int lastInternalIndex = indexAwareXprv[2];
+
+      return [_xprv, lastExternalIndex, lastInternalIndex];
     } catch (e) {
       if (e.runtimeType == InvalidChecksum) {
         rethrow;
