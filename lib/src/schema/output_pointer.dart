@@ -55,8 +55,7 @@ class OutputPointer extends GeneratedMessage {
 
   Uint8List get pbBytes => writeToBuffer();
 
-  String toString() =>
-      'OuputPointer(transactionID: $transactionId, index: $outputIndex)';
+  String toString() => '${this.transactionId.hex}:${this.outputIndex}';
 
   @TagNumber(1)
   Hash get transactionId => $_getN(0);

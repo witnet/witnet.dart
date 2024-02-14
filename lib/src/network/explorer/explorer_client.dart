@@ -68,7 +68,7 @@ class RetryHttpClient {
       }
     }
     if (response != null) {
-      if (response.statusCode == 200) {
+      if (response.statusCode ~/ 100 == 2) {
         dynamic result = convert.jsonDecode(response.body);
         if (response.headers["x-pagination"] != null) {
           dynamic paginationHeaders =
@@ -106,7 +106,10 @@ class RetryHttpClient {
   Future<dynamic> post(Uri uri, Map<String, dynamic> postData) async {
     return _makeHttpRequest(
       (Uri uri, {dynamic body}) async {
-        return await retryClient.post(uri, body: json.encode(body));
+        return await retryClient.post(uri, body: json.encode(body), headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+        });
       },
       uri,
       postData,
@@ -204,11 +207,16 @@ class ExplorerClient {
   Future<dynamic> hash(
       {required String value, bool simple = true, bool findAll = true}) async {
     try {
+      Map<String, dynamic>? data;
       Uri uri =
           api('search/hash', {'value': value, 'simple': simple.toString()});
-      Map<String, dynamic> data =
-          (await client.get(uri) as PaginatedRequest).data;
-      if (data['response_type'] != null) {
+      final hashData = await client.get(uri);
+      if (hashData != null) {
+        data = (await client.get(uri) as PaginatedRequest).data;
+      }
+      if (data != null &&
+          data['response_type'] != null &&
+          data['response_type'] != 'pending') {
         switch (data['response_type'] as String) {
           case 'pending':
           case 'value_transfer':
@@ -226,6 +234,7 @@ class ExplorerClient {
             return MintInfo.fromJson(data);
         }
       }
+      return null;
     } catch (e) {
       throw ExplorerException(code: 0, message: '{"hash": "$e"}');
     }

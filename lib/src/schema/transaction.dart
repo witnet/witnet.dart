@@ -125,7 +125,7 @@ class Transaction extends GeneratedMessage {
   Map<String, dynamic> jsonMap({bool asHex = false, bool test = false}) {
     final txType = hasDataRequest() ? 'DataRequest' : 'ValueTransfer';
     return {
-      "test": true,
+      "test": test,
       "transaction": {
         txType: {
           "body": transaction.body.jsonMap(asHex: asHex),

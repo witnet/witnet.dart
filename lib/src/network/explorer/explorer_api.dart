@@ -1272,7 +1272,7 @@ class TransactionUtxo {
 
 // TODO: move to a different place
 // TODO: use this enum in all the package
-enum TxStatusLabel { pending, confirmed, reverted, unknown }
+enum TxStatusLabel { pending, mined, confirmed, reverted, unknown }
 
 enum TransactionType { value_transfer, data_request, mint }
 
@@ -1286,6 +1286,9 @@ class TransactionStatus {
       if (json['status'] == 'confirmed' ||
           json['status'] == 'TxStatusLabel.confirmed') {
         status = TxStatusLabel.confirmed;
+      } else if (json['status'] == 'mined' ||
+          json['status'] == 'TxStatusLabel.mined') {
+        status = TxStatusLabel.mined;
       } else if (json['status'] == 'TxStatusLabel.unknown') {
         status = TxStatusLabel.unknown;
       } else {
@@ -1295,6 +1298,8 @@ class TransactionStatus {
       status = TxStatusLabel.reverted;
     } else if (json["confirmed"] != null && json["confirmed"] == true) {
       status = TxStatusLabel.confirmed;
+    } else if (json["confirmed"] != null && json["confirmed"] == false) {
+      status = TxStatusLabel.mined;
     } else {
       status = TxStatusLabel.pending;
     }
