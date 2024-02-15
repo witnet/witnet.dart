@@ -3,7 +3,7 @@ import 'package:witnet/src/utils/bech32/codec.dart';
 import 'bech32.dart' show Bech32, separator, verifyChecksum;
 
 /// Generic validations for Bech32 standard.
-class Bech32Validations {
+mixin Bech32Validations {
   static const int maxInputLength = 293;
   static const checksumLength = 6;
 
