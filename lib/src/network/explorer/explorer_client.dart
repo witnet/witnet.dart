@@ -346,7 +346,7 @@ class ExplorerClient {
                 {'address': value, 'page': page, 'page_size': pageSize});
           }
           return PaginatedRequest(
-            data: AddressBlocks.fromJson(data),
+            data: data.isNotEmpty ? AddressBlocks.fromJson(data) : null,
             firstPage: result.firstPage,
             lastPage: result.lastPage,
             page: result.page,
