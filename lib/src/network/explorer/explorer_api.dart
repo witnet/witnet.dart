@@ -617,14 +617,15 @@ class NetworkBalances {
 
   factory NetworkBalances.fromJson(Map<String, dynamic> json) =>
       NetworkBalances(
-        balances: json["balances"].map((e) => Balance.fromJson(e)),
-        totalItems: json["totalItems"],
-        totalBalancesSum: json["totalBalancesSum"],
-        lastUpdated: json["lastUpdated"],
+        balances: List<Balance>.from(
+            json["balances"].map((e) => Balance.fromJson(e))),
+        totalItems: json["total_items"],
+        totalBalancesSum: json["total_balance_sum"],
+        lastUpdated: json["last_updated"],
       );
 
   Map<String, dynamic> jsonMap() => {
-        "balances": balances.map((e) => e.jsonMap()),
+        "balances": balances.map((e) => e.jsonMap()).toList(),
         "total_items": totalItems,
         "total_balances_sum": totalBalancesSum,
         "lastUpdated": lastUpdated,
@@ -635,12 +636,12 @@ class Balance {
   Balance({
     required this.address,
     required this.balance,
-    required this.level,
+    required this.label,
   });
 
   final String address;
   final int balance;
-  final String level;
+  final String label;
 
   factory Balance.fromRawJson(String str) => Balance.fromJson(json.decode(str));
 
@@ -649,13 +650,13 @@ class Balance {
   factory Balance.fromJson(Map<String, dynamic> json) => Balance(
         address: json["address"],
         balance: json["balance"],
-        level: json["level"],
+        label: json["label"],
       );
 
   Map<String, dynamic> jsonMap() => {
         "address": address,
         "balance": balance,
-        "level": level,
+        "label": label,
       };
 }
 
@@ -677,13 +678,15 @@ class NetworkReputation {
 
   factory NetworkReputation.fromJson(Map<String, dynamic> json) =>
       NetworkReputation(
-        reputations: json["reputation"].map((e) => Reputation.fromJson(e)),
+        reputations: List.from(json["reputation"])
+            .map((e) => Reputation.fromJson(e))
+            .toList(),
         totalReputation: json["total_reputation"],
         lastUpdated: json["last_updated"],
       );
 
   Map<String, dynamic> jsonMap() => {
-        "reputations": reputations.map((e) => e.jsonMap()),
+        "reputations": reputations.map((e) => e.jsonMap()).toList(),
         "total_reputation": totalReputation,
         "last_updated": lastUpdated,
       };
@@ -698,7 +701,7 @@ class Reputation {
 
   final String address;
   final int reputation;
-  final int eligibility;
+  final double eligibility;
 
   factory Reputation.fromRawJson(String str) =>
       Reputation.fromJson(json.decode(str));
@@ -708,7 +711,7 @@ class Reputation {
   factory Reputation.fromJson(Map<String, dynamic> json) => Reputation(
         address: json["address"],
         reputation: json["reputation"],
-        eligibility: json["eligility"],
+        eligibility: json["eligibility"],
       );
 
   Map<String, dynamic> jsonMap() => {
@@ -973,7 +976,9 @@ class AddressValueTransfers {
 
   Map<String, dynamic> jsonMap() => {
         "address": address,
-        "address_value_transfers": addressValueTransfers,
+        "address_value_transfers": addressValueTransfers
+            .map((e) => (e as AddressValueTransferInfo).jsonMap())
+            .toList(),
       };
 }
 
@@ -1820,15 +1825,20 @@ class Tapi {
 
   String toRawJson() => json.encode(jsonMap());
 
-  factory Tapi.fromJson(Map<String, dynamic> json) {
+  factory Tapi.fromJson(List<dynamic> tapis) {
     Map<String, TapiInfo> _tapis = {};
-    json.forEach((key, value) {
-      _tapis[key] = TapiInfo.fromJson(value);
-    });
+    tapis.forEach((value) =>
+        _tapis[value['tapi_id'].toString()] = TapiInfo.fromJson(value));
     return Tapi(tapis: _tapis);
   }
 
-  Map<String, dynamic> jsonMap() => tapis;
+  Map<String, dynamic> jsonMap() {
+    Map<String, dynamic> json = {};
+    tapis.forEach((key, value) {
+      json[key] = value.jsonMap();
+    });
+    return json;
+  }
 }
 
 class TapiInfo {
@@ -1852,7 +1862,7 @@ class TapiInfo {
     required this.urls,
   });
 
-  final List<dynamic> activated;
+  final bool activated;
   final bool active;
   final int bit;
   final int currentEpoch;
@@ -1950,7 +1960,7 @@ class Blockchain {
       required this.reverted,
       required this.totalEpochs});
 
-  final List<int> reverted;
+  final List<int?> reverted;
   final int totalEpochs;
   final List<BlockchainInfo> blockchain;
 
@@ -1958,7 +1968,7 @@ class Blockchain {
     return Blockchain(
         blockchain: List<BlockchainInfo>.from(
             data['blockchain'].map((e) => BlockchainInfo.fromJson(e))),
-        reverted: data["reverted"],
+        reverted: List<int?>.from(data["reverted"]),
         totalEpochs: data["total_epochs"]);
   }
 }

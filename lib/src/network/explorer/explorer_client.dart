@@ -269,20 +269,10 @@ class ExplorerClient {
     }
   }
 
-  Future<PaginatedRequest<NetworkReputation>> reputation(
-      {int? page, int? pageSize}) async {
+  Future<NetworkReputation> reputation() async {
     try {
-      PaginatedRequest<dynamic> result = await client.get(
-          api('network/reputation', {"page": page, "page_size": pageSize}));
-
-      return PaginatedRequest(
-        data: NetworkReputation.fromJson(result.data),
-        firstPage: result.firstPage,
-        lastPage: result.lastPage,
-        page: result.page,
-        total: result.total,
-        totalPages: result.totalPages,
-      );
+      dynamic result = await client.get(api('network/reputation'));
+      return NetworkReputation.fromJson(result);
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"network": "${e.message}"}');
