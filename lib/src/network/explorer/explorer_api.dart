@@ -1313,7 +1313,7 @@ class TransactionStatus {
 }
 
 class NullableFields {
-  final int value;
+  final int? value;
   final bool confirmed;
   final bool reverted;
   final List<String> inputAddresses;
@@ -1346,24 +1346,33 @@ class NullableFields {
 
 NullableFields getOrDefault(Map<String, dynamic> data) {
   return NullableFields(
-    value: data["value"] ?? 0,
-    confirmed: data["confirmed"] ?? false,
-    reverted: data["reverted"] ?? false,
+    value: data["value"] ?? null,
+    confirmed: data["confirmed"] ??
+        TransactionStatus.fromJson(data).status == TxStatusLabel.confirmed,
+    reverted: data["reverted"] ??
+        TransactionStatus.fromJson(data).status == TxStatusLabel.reverted,
     inputAddresses: data["input_addresses"] != null
         ? List<String>.from(data["input_addresses"])
-        : [],
+        : List<String>.from(data["inputs"].map((input) {
+            print('inout address:: ${input}');
+            return input['pkh'];
+          }).toList()),
     inputsMerged: data["inputs_merged"] != null
         ? List<InputMerged>.from(
             data["inputs_merged"].map((x) => InputMerged.fromJson(x)))
         : [],
     outputAddresses: data["output_addresses"] != null
         ? List<String>.from(data["output_addresses"])
-        : [],
+        : List<String>.from(
+            data["outputs"].map((output) => output['pkh']).toList()),
     outputValues: data["output_values"] != null
         ? List<int>.from(data["output_values"])
-        : [],
-    timelocks:
-        data["timelocks"] != null ? List<int>.from(data["timelocks"]) : [],
+        : List<int>.from(
+            data["outputs"].map((output) => output['value']).toList()),
+    timelocks: data["timelocks"] != null
+        ? List<int>.from(data["timelocks"])
+        : List<int>.from(
+            data["outputs"].map((output) => output['time_lock']).toList()),
     utxos: data["utxos"] != null
         ? List<TransactionUtxo>.from(data["utxos"]
             .map((e) => TransactionUtxo.fromJson(Map<String, dynamic>.from(e))))
@@ -1426,7 +1435,7 @@ class ValueTransferInfo extends HashInfo {
   final int priority;
   final TxStatusLabel status;
   final List<ValueTransferOutput> outputs;
-  final int value;
+  final int? value;
   final bool confirmed;
   final bool reverted;
   final List<String> inputAddresses;
@@ -1508,7 +1517,6 @@ class ValueTransferInfo extends HashInfo {
         outputs.add(vto);
       }
     }
-
     return ValueTransferInfo(
         epoch: data["txn_epoch"],
         timestamp: data["txn_time"],
@@ -1526,8 +1534,8 @@ class ValueTransferInfo extends HashInfo {
         reverted: getOrDefault(data).reverted,
         inputAddresses: getOrDefault(data).inputAddresses,
         inputsMerged: getOrDefault(data).inputsMerged,
-        outputAddresses: outputAddresses,
-        outputValues: outputValues,
+        outputAddresses: getOrDefault(data).outputAddresses,
+        outputValues: getOrDefault(data).outputValues,
         timelocks: getOrDefault(data).timelocks,
         utxos: getOrDefault(data).utxos,
         utxosMerged: getOrDefault(data).utxosMerged,
