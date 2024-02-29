@@ -1450,7 +1450,7 @@ class ValueTransferInfo extends HashInfo {
   final int? trueValue;
   final int? changeValue;
 
-  factory ValueTransferInfo.fromExplorerJson(Map<String, dynamic> data) {
+  factory ValueTransferInfo.fromJson(Map<String, dynamic> data) {
     List<String> outputAddresses = getOrDefault(data).outputAddresses;
     List<int> outputValues = getOrDefault(data).outputValues;
     List<ValueTransferOutput> outputs = [];
@@ -1491,68 +1491,6 @@ class ValueTransferInfo extends HashInfo {
       changeValue: getOrDefault(data).changeValue,
     );
     return result;
-  }
-
-  // TODO: move this to myWitWallet
-  factory ValueTransferInfo.fromDBJson(Map<String, dynamic> data) {
-    List<String> outputAddresses = getOrDefault(data).outputAddresses;
-    List<int> outputValues = getOrDefault(data).outputValues;
-    List<ValueTransferOutput> outputs = [];
-    if (data['outputs'] != null) {
-      data['outputs'].forEach((element) {
-        Address address = Address.fromAddress(element['pkh']);
-
-        outputs.add(ValueTransferOutput(
-            pkh: address.publicKeyHash!,
-            timeLock: element['time_lock'],
-            value: element['value']));
-      });
-    } else {
-      for (int i = 0; i < outputValues.length; i++) {
-        ValueTransferOutput vto = ValueTransferOutput(
-          value: outputValues[i],
-          pkh: Address.fromAddress(outputAddresses[i]).publicKeyHash!,
-          timeLock: 0,
-        );
-        outputs.add(vto);
-      }
-    }
-    return ValueTransferInfo(
-        epoch: data["txn_epoch"],
-        timestamp: data["txn_time"],
-        hash: data["txn_hash"],
-        block: data["block_hash"],
-        inputUtxos: List<InputUtxo>.from(
-            data["inputs"].map((x) => InputUtxo.fromJson(x))),
-        fee: data["fee"],
-        priority: data["priority"],
-        weight: data["weight"],
-        status: TransactionStatus.fromJson(data).status,
-        outputs: outputs,
-        value: getOrDefault(data).value,
-        confirmed: getOrDefault(data).confirmed,
-        reverted: getOrDefault(data).reverted,
-        inputAddresses: getOrDefault(data).inputAddresses,
-        inputsMerged: getOrDefault(data).inputsMerged,
-        outputAddresses: getOrDefault(data).outputAddresses,
-        outputValues: getOrDefault(data).outputValues,
-        timelocks: getOrDefault(data).timelocks,
-        utxos: getOrDefault(data).utxos,
-        utxosMerged: getOrDefault(data).utxosMerged,
-        trueOutputAddresses: getOrDefault(data).trueOutputAddresses,
-        changeOutputAddresses: getOrDefault(data).outputAddresses,
-        trueValue: getOrDefault(data).trueValue,
-        changeValue: getOrDefault(data).changeValue);
-  }
-
-  factory ValueTransferInfo.fromJson(Map<String, dynamic> data) {
-    bool dbJson = data["epoch"] == null;
-    if (dbJson) {
-      // TODO: move this to myWitWallet
-      return ValueTransferInfo.fromDBJson(data);
-    } else {
-      return ValueTransferInfo.fromExplorerJson(data);
-    }
   }
 
   String rawJson() => json.encode(jsonMap());
