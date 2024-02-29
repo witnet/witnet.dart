@@ -845,31 +845,12 @@ class AddressBlocks {
   String address;
   List<BlockInfo> blocks;
 
-  factory AddressBlocks.fromExplorerJson(List<dynamic> data) {
+  factory AddressBlocks.fromJson(List<dynamic> data) {
     return AddressBlocks(
       address: data[0]['miner'],
       blocks: List<BlockInfo>.from(
           data.map((blockInfo) => BlockInfo.fromJson(blockInfo))),
     );
-  }
-
-  // TODO: move this to myWitWallet
-  factory AddressBlocks.fromDBJson(List<dynamic> data) {
-    return AddressBlocks(
-      address: data[0]['address'],
-      blocks: List<BlockInfo>.from(
-          data.map((blockInfo) => BlockInfo.fromJson(blockInfo))),
-    );
-  }
-
-  factory AddressBlocks.fromJson(List<dynamic> data) {
-    bool dbJson = data[0]['miner'] == null;
-    if (dbJson) {
-      // TODO: move this to myWitWallet
-      return AddressBlocks.fromDBJson(data);
-    } else {
-      return AddressBlocks.fromExplorerJson(data);
-    }
   }
 
   Map<String, dynamic> jsonMap() {
