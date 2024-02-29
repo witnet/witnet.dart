@@ -1,6 +1,9 @@
 export 'src/network/explorer/explorer_client.dart'
     show ExplorerClient, ExplorerMode, PaginatedRequest;
 
+export 'src/crypto/address.dart'
+    show Address;
+
 export 'src/network/explorer/explorer_api.dart'
     show
         ExplorerException,
@@ -23,6 +26,8 @@ export 'src/network/explorer/explorer_api.dart'
         HashInfo,
         TallyTxn,
         ValueTransferInfo,
+        TransactionUtxo,
+        InputMerged,
         AddressValueTransferInfo,
         TxStatusLabel,
         TransactionType,
