@@ -1175,26 +1175,10 @@ class InputUtxo {
     };
   }
 
-  factory InputUtxo.fromExplorerJson(Map<String, dynamic> json) => InputUtxo(
+  factory InputUtxo.fromJson(Map<String, dynamic> json) => InputUtxo(
       address: json["address"],
       inputUtxo: json["input_utxo"],
       value: json["value"]);
-
-  // TODO: move this to myWitWallet
-  factory InputUtxo.fromDBJson(Map<String, dynamic> json) => InputUtxo(
-      address: json["pkh"],
-      inputUtxo: json["output_pointer"],
-      value: json["value"]);
-
-  factory InputUtxo.fromJson(Map<String, dynamic> json) {
-    bool dbJson = json["pkh"] != null;
-    if (dbJson) {
-      // TODO: move this to myWitWallet
-      return InputUtxo.fromDBJson(json);
-    } else {
-      return InputUtxo.fromExplorerJson(json);
-    }
-  }
 
   @override
   String toString() {
