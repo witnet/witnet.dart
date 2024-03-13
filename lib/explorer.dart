@@ -1,8 +1,7 @@
 export 'src/network/explorer/explorer_client.dart'
     show ExplorerClient, ExplorerMode, PaginatedRequest;
 
-export 'src/crypto/address.dart'
-    show Address;
+export 'src/crypto/address.dart' show Address;
 
 export 'src/network/explorer/explorer_api.dart'
     show
