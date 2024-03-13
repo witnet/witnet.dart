@@ -1,3 +1,6 @@
+## 0.4.1
+- Delete unnecessary adapters
+
 ## 0.4.0
 - Upgrade the block explorer api to use the new version: https://witscan.xyz/api
 - Replace `nework` method with `networkBalances`
