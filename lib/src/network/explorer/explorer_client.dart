@@ -54,10 +54,10 @@ class RetryHttpClient {
   RetryClient retryClient;
 
   Future<dynamic> _makeHttpRequest(
-    Future<http.Response> Function(Uri uri, {dynamic body}) requestMethod,
-    Uri uri,
-    dynamic data,
-  ) async {
+      Future<http.Response> Function(Uri uri, {dynamic body}) requestMethod,
+      Uri uri,
+      dynamic data,
+      {bool getVersion = false}) async {
     http.Response? response;
     try {
       response = await requestMethod(uri, body: data);
@@ -69,6 +69,9 @@ class RetryHttpClient {
     }
     if (response != null) {
       if (response.statusCode ~/ 100 == 2) {
+        if (getVersion) {
+          return response.headers["x-version"].toString();
+        }
         dynamic result = convert.jsonDecode(response.body);
         if (response.headers["x-pagination"] != null) {
           dynamic paginationHeaders =
@@ -93,14 +96,10 @@ class RetryHttpClient {
     }
   }
 
-  Future<dynamic> get(Uri uri) async {
-    return _makeHttpRequest(
-      (Uri uri, {dynamic body}) async {
-        return await retryClient.get(uri);
-      },
-      uri,
-      null,
-    );
+  Future<dynamic> get(Uri uri, {bool getVersion = false}) async {
+    return _makeHttpRequest((Uri uri, {dynamic body}) async {
+      return await retryClient.get(uri);
+    }, uri, null, getVersion: getVersion);
   }
 
   Future<dynamic> post(Uri uri, Map<String, dynamic> postData) async {
@@ -285,6 +284,15 @@ class ExplorerClient {
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"status": "${e.message}"}');
+    }
+  }
+
+  Future<String> version() async {
+    try {
+      return await client.get(api('status'), getVersion: true);
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"version": "${e.message}"}');
     }
   }
 
