@@ -1,3 +1,6 @@
+## 0.4.2
+- Add method to fetch api version
+
 ## 0.4.1
 - Delete unnecessary adapters
 
