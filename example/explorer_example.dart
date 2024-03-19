@@ -1,16 +1,14 @@
 import 'package:witnet/explorer.dart';
 
-String explorerUrl = 'witscan.xyz';
+String explorerUrl = 'witnet.network';
 ExplorerClient explorer =
     ExplorerClient(url: explorerUrl, mode: ExplorerMode.production);
 void main() async {
   try {
-    dynamic status = await explorer.address(
-        tab: "value_transfers",
-        value: "wit174la8pevl74hczcpfepgmt036zkmjen4hu8zzs",
-        page: 1,
-        pageSize: 1);
-    print("Status: ${status}");
+    String address = 'wit174la8pevl74hczcpfepgmt036zkmjen4hu8zzs';
+    dynamic valueTransfers = await explorer.address(
+        tab: "value_transfers", value: address, page: 1, pageSize: 1);
+    print("List of Vtts from address ${address}: ${valueTransfers}");
   } on ExplorerException catch (e) {
     print(e.message);
   }

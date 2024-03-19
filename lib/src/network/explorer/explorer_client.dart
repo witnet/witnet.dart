@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:recase/recase.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart';
 import 'dart:convert' as convert;
@@ -12,6 +12,7 @@ import 'explorer_api.dart'
     show
         AddressBlocks,
         AddressDataRequestsSolved,
+        AddressDataRequestsCreated,
         AddressValueTransfers,
         BlockDetails,
         Mempool,
@@ -296,17 +297,133 @@ class ExplorerClient {
     }
   }
 
-  Future<dynamic> mempool(
+  Future<List<Mempool>> mempool(
       {required String transactionType,
       int? startEpoch,
       int? stopEpoch}) async {
-    // TODO: This was not working on mywitwallet. Should we add a class?
     try {
-      return Mempool.fromJson(await client.get(api('network/mempool', {
+      List<dynamic> data = await client.get(api('network/mempool', {
         "transaction_type": transactionType,
         "start_epoch": startEpoch,
         "stop_epoch": stopEpoch
-      })));
+      }));
+      return data.map((mempoolTx) => Mempool.fromJson(mempoolTx)).toList();
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"mempool": "${e.message}"}');
+    }
+  }
+
+  Future<String> supply({required SupplyParams transactionType}) async {
+    try {
+      return await client.get(api('network/supply', {
+        "key": transactionType.name,
+      }));
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"supply": "${e.message}"}');
+    }
+  }
+
+  Future<dynamic> getStats(
+      {required int startEpoch,
+      required int stopEpoch,
+      required StatisticsParams statisticsType}) async {
+    try {
+      print('stats ${statisticsType.name.paramCase}');
+      return await client.get(api('network/statistics', {
+        "key": statisticsType.name.paramCase,
+        "start_epoch": startEpoch,
+        "stop_epoch": stopEpoch,
+      }));
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"statistics": "${e.message}"}');
+    }
+  }
+
+  Future<dynamic> statistics(
+      {required int startEpoch,
+      required int stopEpoch,
+      required StatisticsParams statisticsType}) async {
+    try {
+      dynamic data = await getStats(
+          startEpoch: startEpoch,
+          stopEpoch: stopEpoch,
+          statisticsType: statisticsType);
+      switch (statisticsType) {
+        case StatisticsParams.histogram_burn_rate:
+          return List.from(data[StatisticsParams.histogram_burn_rate.name])
+              .map((burnRate) => BurnRate.fromJson(burnRate))
+              .toList();
+        case StatisticsParams.histogram_data_request_composition:
+          return List.from(data[
+                  StatisticsParams.histogram_data_request_composition.name])
+              .map((drComposition) => DrComposition.fromJson(drComposition))
+              .toList();
+        case StatisticsParams.histogram_data_request_lie_rate:
+          return List.from(
+                  data[StatisticsParams.histogram_data_request_lie_rate.name])
+              .map((lieRate) => DrLieRate.fromJson(lieRate))
+              .toList();
+        case StatisticsParams.histogram_data_requests:
+          return List.from(data[StatisticsParams.histogram_data_requests.name])
+              .map((drHistory) => DrHistory.fromJson(drHistory))
+              .toList();
+        case StatisticsParams.histogram_value_transfers:
+          return data[StatisticsParams.histogram_value_transfers.name];
+        case StatisticsParams.list_rollbacks:
+          return List.from(data[StatisticsParams.list_rollbacks.name])
+              .map((rollback) => Rollback.fromJson(rollback))
+              .toList();
+        case StatisticsParams.num_unique_data_request_solvers:
+          int uniqueDrSolvers =
+              data[StatisticsParams.num_unique_data_request_solvers.name];
+          return uniqueDrSolvers;
+        case StatisticsParams.num_unique_miners:
+          int uniqueMiners = data[StatisticsParams.num_unique_miners.name];
+          return uniqueMiners;
+        case StatisticsParams.percentile_staking_balances:
+          List<int> stakingBalances =
+              List.from(data['staking']['ars']).map((e) => e as int).toList();
+          return stakingBalances;
+        case StatisticsParams.top_100_miners:
+          List<Miner> topMiners =
+              List.from(data[StatisticsParams.top_100_miners.name])
+                  .map((miner) => Miner.fromJson(miner))
+                  .toList();
+          return topMiners;
+        case StatisticsParams.top_100_data_request_solvers:
+          List<DrSolver> topDrSolvers = List.from(
+                  data[StatisticsParams.top_100_data_request_solvers.name])
+              .map((miner) => DrSolver.fromJson(miner))
+              .toList();
+          return topDrSolvers;
+      }
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"statistics": "${e.message}"}');
+    }
+  }
+
+  Future<BlockDetails> epoch({required int epoch}) async {
+    try {
+      Map<String, dynamic> data = await client.get(api('search/epoch', {
+        "value": epoch,
+      }));
+      return BlockDetails.fromJson(data);
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"epoch": "${e.message}"}');
+    }
+  }
+
+  Future<List<dynamic>> transactionMempool(
+      {required MempoolTransactionType transactionType}) async {
+    try {
+      return (await client.get(api('transaction/mempool', {
+        "type": transactionType.name,
+      })))[transactionType.name.substring(0, transactionType.name.length - 1)];
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"mempool": "${e.message}"}');
@@ -351,9 +468,38 @@ class ExplorerClient {
             total: result.total,
             totalPages: result.totalPages,
           );
-        // case 'details':
-        //   var data = await client.get(api('address', {'address': value}));
-        //   return AddressDetails.fromJson(data);
+        case 'info':
+          List<dynamic> data =
+              await client.get(api('address/info', {'addresses': value}));
+          return data.length > 0
+              ? data.map((info) => AddressInfo.fromJson(info)).toList()
+              : [];
+        case 'details':
+          Map<String, dynamic> data =
+              await client.get(api('address/details', {'address': value}));
+          return AddressDetails.fromJson({...data, 'address': value});
+        case 'labels':
+          List<dynamic> data = await client.get(api('address/labels'));
+          return data.length > 0
+              ? data.map((label) => AddressLabel.fromJson(label)).toList()
+              : [];
+        case 'mints':
+          PaginatedRequest<dynamic> result = await client.get(api(
+              'address/mints',
+              {'address': value, 'page': page, 'page_size': pageSize}));
+          List<dynamic> data = result.data;
+          if (findAll) {
+            data = await getAllResults(result, 'address/mints',
+                {'address': value, 'page': page, 'page_size': pageSize});
+          }
+          return PaginatedRequest(
+            data: AddressMints.fromJson({'address': value, 'mints': data}),
+            firstPage: result.firstPage,
+            lastPage: result.lastPage,
+            page: result.page,
+            total: result.total,
+            totalPages: result.totalPages,
+          );
         case 'data_requests_solved':
           PaginatedRequest<dynamic> result = await client.get(api(
               'address/data-requests-solved',
@@ -373,9 +519,23 @@ class ExplorerClient {
             totalPages: result.totalPages,
           );
         case 'data_requests_created':
-          // TODO: implement method
-          //  waiting on the explorer to return valid response
-          break;
+          PaginatedRequest<dynamic> result = await client.get(api(
+              'address/data-requests-created',
+              {'address': value, 'page': page, 'page_size': pageSize}));
+          List<dynamic> data = result.data;
+          if (findAll) {
+            data = await getAllResults(result, 'address/data-requests-created',
+                {'address': value, 'page': page, 'page_size': pageSize});
+          }
+          return PaginatedRequest(
+            data: AddressDataRequestsCreated.fromJson(
+                {'address': value, 'data_requests_created': data}),
+            firstPage: result.firstPage,
+            lastPage: result.lastPage,
+            page: result.page,
+            total: result.total,
+            totalPages: result.totalPages,
+          );
         case 'value_transfers':
           PaginatedRequest<dynamic> result = await client.get(api(
               'address/value-transfers',
@@ -430,8 +590,7 @@ class ExplorerClient {
     }
   }
 
-  Future<dynamic> send(
-      {required Map<String, dynamic> transaction, bool test = false}) async {
+  Future<dynamic> send({required Map<String, dynamic> transaction}) async {
     try {
       var response = await client.post(api('transaction/send'), transaction);
       if (response.containsKey('error')) {

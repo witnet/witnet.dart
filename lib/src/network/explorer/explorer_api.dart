@@ -1,5 +1,6 @@
 import 'dart:convert' show json;
 
+import 'package:witnet/explorer.dart';
 import 'package:witnet/schema.dart';
 import 'package:witnet/src/crypto/address.dart';
 
@@ -494,38 +495,6 @@ class Status {
   }
 }
 
-class DrSolver {
-  PublicKeyHash pkh;
-  int count;
-
-  DrSolver({
-    required this.pkh,
-    required this.count,
-  });
-
-  factory DrSolver.fromList(List<dynamic> data) {
-    return DrSolver(pkh: PublicKeyHash.fromAddress(data[0]), count: data[1]);
-  }
-
-  List<dynamic> toList() => [pkh.address, count];
-}
-
-class Miner {
-  PublicKeyHash pkh;
-  int count;
-
-  Miner({
-    required this.pkh,
-    required this.count,
-  });
-
-  factory Miner.fromList(List<dynamic> data) {
-    return Miner(pkh: PublicKeyHash.fromAddress(data[0]), count: data[1]);
-  }
-
-  List<dynamic> toList() => [pkh.address, count];
-}
-
 class RollBack {
   RollBack({
     required this.timestamp,
@@ -862,6 +831,218 @@ class AddressBlocks {
   }
 }
 
+class Rollback {
+  Rollback(
+      {required this.timestamp,
+      required this.epochFrom,
+      required this.epochTo,
+      required this.length});
+
+  final int timestamp;
+  final int epochFrom;
+  final int epochTo;
+  final int length;
+
+  factory Rollback.fromJson(Map<String, dynamic> data) {
+    return Rollback(
+      timestamp: data['timestamp'],
+      epochFrom: data['epoch_from'],
+      epochTo: data['epoch_to'],
+      length: data['length'],
+    );
+  }
+
+  Map<String, dynamic> jsonMap() {
+    return {
+      'timestamp': timestamp,
+      'epoch_from': epochFrom,
+      'epoch_to': epochTo,
+      'length': length,
+    };
+  }
+}
+
+class Miner {
+  Miner({
+    required this.address,
+    required this.amount,
+  });
+
+  final String address;
+  final int amount;
+
+  factory Miner.fromJson(Map<String, dynamic> data) {
+    return Miner(
+      address: data['address'],
+      amount: data['amount'],
+    );
+  }
+
+  Map<String, dynamic> jsonMap() {
+    return {
+      'address': address,
+      'amount': amount,
+    };
+  }
+}
+
+class DrSolver {
+  DrSolver({
+    required this.address,
+    required this.amount,
+  });
+
+  final String address;
+  final int amount;
+
+  factory DrSolver.fromJson(Map<String, dynamic> data) {
+    return DrSolver(
+      address: data['address'],
+      amount: data['amount'],
+    );
+  }
+
+  Map<String, dynamic> jsonMap() {
+    return {
+      'address': address,
+      'amount': amount,
+    };
+  }
+}
+
+class DrHistory {
+  DrHistory({
+    required this.total,
+    required this.failure,
+  });
+
+  final int total;
+  final int failure;
+
+  factory DrHistory.fromJson(Map<String, dynamic> data) {
+    return DrHistory(
+      total: data['total'],
+      failure: data['failure'],
+    );
+  }
+
+  Map<String, dynamic> jsonMap() {
+    return {
+      'total': total,
+      'failure': failure,
+    };
+  }
+}
+
+class DrComposition {
+  DrComposition(
+      {required this.total,
+      required this.httpGet,
+      required this.httpPost,
+      required this.rng});
+
+  final int total;
+  final int httpGet;
+  final int httpPost;
+  final int rng;
+
+  factory DrComposition.fromJson(Map<String, dynamic> data) {
+    return DrComposition(
+        total: data['total'],
+        httpGet: data['http_get'],
+        httpPost: data['http_post'],
+        rng: data['rng']);
+  }
+
+  Map<String, dynamic> jsonMap() {
+    return {
+      'total': total,
+      'http_get': httpGet,
+      'http_post': httpPost,
+      'rng': rng
+    };
+  }
+}
+
+class DrLieRate {
+  DrLieRate(
+      {required this.witnessingActs,
+      required this.errors,
+      required this.noRevealLies,
+      required this.outOfConsensusLies});
+
+  final int witnessingActs;
+  final int errors;
+  final int noRevealLies;
+  final int outOfConsensusLies;
+
+  factory DrLieRate.fromJson(Map<String, dynamic> data) {
+    return DrLieRate(
+        witnessingActs: data['witnessing_acts'],
+        errors: data['errors'],
+        noRevealLies: data['no_reveal_lies'],
+        outOfConsensusLies: data['out_of_consensus_lies']);
+  }
+
+  Map<String, dynamic> jsonMap() {
+    return {
+      'witnessing_acts': witnessingActs,
+      'errors': errors,
+      'no_reveal_lies': noRevealLies,
+      'out_of_consensus_lies': outOfConsensusLies
+    };
+  }
+}
+
+class BurnRate {
+  BurnRate({
+    required this.reverted,
+    required this.lies,
+  });
+
+  final int reverted;
+  final int lies;
+
+  factory BurnRate.fromJson(Map<String, dynamic> data) {
+    return BurnRate(
+      reverted: data['reverted'],
+      lies: data['lies'],
+    );
+  }
+
+  Map<String, dynamic> jsonMap() {
+    return {
+      'reverted': reverted,
+      'lies': lies,
+    };
+  }
+}
+
+class AddressLabel {
+  AddressLabel({
+    required this.address,
+    required this.label,
+  });
+
+  final String address;
+  final String label;
+
+  factory AddressLabel.fromRawJson(String str) =>
+      AddressLabel.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(jsonMap());
+
+  factory AddressLabel.fromJson(Map<String, dynamic> json) => AddressLabel(
+        address: json["address"],
+        label: json["label"],
+      );
+
+  Map<String, dynamic> jsonMap() => {
+        "address": address,
+        "label": label,
+      };
+}
+
 class AddressDetails {
   AddressDetails({
     required this.address,
@@ -869,7 +1050,6 @@ class AddressDetails {
     required this.eligibility,
     required this.reputation,
     required this.totalReputation,
-    required this.type,
   });
 
   final String address;
@@ -877,7 +1057,6 @@ class AddressDetails {
   final int eligibility;
   final int reputation;
   final int totalReputation;
-  final String type;
 
   factory AddressDetails.fromRawJson(String str) =>
       AddressDetails.fromJson(json.decode(str));
@@ -890,7 +1069,6 @@ class AddressDetails {
         eligibility: json["eligibility"],
         reputation: json["reputation"],
         totalReputation: json["total_reputation"],
-        type: json["type"],
       );
 
   Map<String, dynamic> jsonMap() => {
@@ -899,7 +1077,64 @@ class AddressDetails {
         "eligibility": eligibility,
         "reputation": reputation,
         "total_reputation": totalReputation,
-        "type": type,
+      };
+}
+
+class AddressDataRequestsCreated {
+  AddressDataRequestsCreated({
+    required this.address,
+    required this.dataRequestsCreated,
+  });
+
+  final String address;
+  final List<DataRequestCreatedInfo> dataRequestsCreated;
+
+  factory AddressDataRequestsCreated.fromRawJson(String str) =>
+      AddressDataRequestsCreated.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory AddressDataRequestsCreated.fromJson(Map<String, dynamic> json) {
+    return AddressDataRequestsCreated(
+      address: json["address"],
+      dataRequestsCreated: List<DataRequestCreatedInfo>.from(
+          json["data_requests_created"]
+              .map((dr) => DataRequestCreatedInfo.fromJson(dr))),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        "address": address,
+        "data_requests_created":
+            dataRequestsCreated.map((e) => e.jsonMap()).toList().toList(),
+      };
+}
+
+class AddressMints {
+  AddressMints({
+    required this.address,
+    required this.mints,
+  });
+
+  final String address;
+  final List<AddressMintInfo> mints;
+
+  factory AddressMints.fromRawJson(String str) =>
+      AddressMints.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory AddressMints.fromJson(Map<String, dynamic> json) {
+    return AddressMints(
+      address: json["address"],
+      mints: List<AddressMintInfo>.from(
+          json["mints"].map((mint) => AddressMintInfo.fromJson(mint))),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        "address": address,
+        "mints": mints.map((e) => e.jsonMap()).toList().toList(),
       };
 }
 
@@ -1030,29 +1265,29 @@ class AddressValueTransferInfo {
 }
 
 class AddressInfo {
-  final String address;
-  final String label;
-  final int active;
-  final int block;
-  final int mint;
-  final int value_transfer;
-  final int data_request;
-  final int commit;
-  final int reveal;
-  final int tally;
-
   AddressInfo({
-    required this.address,
-    required this.label,
     required this.active,
+    required this.address,
     required this.block,
-    required this.mint,
-    required this.value_transfer,
-    required this.data_request,
     required this.commit,
+    required this.dataRequest,
+    required this.label,
+    required this.mint,
     required this.reveal,
     required this.tally,
+    required this.valueTransfer,
   });
+
+  final int active;
+  final String address;
+  final int block;
+  final int commit;
+  final int dataRequest;
+  final String label;
+  final int mint;
+  final int reveal;
+  final int tally;
+  final int valueTransfer;
 
   factory AddressInfo.fromJson(Map<String, dynamic> json) => AddressInfo(
         address: json["address"],
@@ -1060,8 +1295,8 @@ class AddressInfo {
         active: json["active"],
         block: json["block"],
         mint: json["mint"],
-        value_transfer: json["value_transfer"],
-        data_request: json["data_request"],
+        valueTransfer: json["value_transfer"],
+        dataRequest: json["data_request"],
         commit: json["commit"],
         reveal: json["reveal"],
         tally: json["tally"],
@@ -1073,12 +1308,65 @@ class AddressInfo {
         "active": active,
         "block": block,
         "mint": mint,
-        "value_transfer": value_transfer,
-        "data_request": data_request,
+        "value_transfer": valueTransfer,
+        "data_request": dataRequest,
         "commit": commit,
         "reveal": reveal,
         "tally": tally,
       };
+}
+
+class AddressMintInfo {
+  AddressMintInfo({
+    required this.confirmed,
+    required this.epoch,
+    required this.hash,
+    required this.miner,
+    required this.outputValue,
+    required this.timestamp,
+  });
+
+  final bool confirmed;
+  final int epoch;
+  final String hash;
+  final String miner;
+  final int outputValue;
+  final int timestamp;
+
+  factory AddressMintInfo.fromRawJson(String str) =>
+      AddressMintInfo.fromJson(json.decode(str));
+
+  String rawJson() => json.encode(jsonMap());
+
+  factory AddressMintInfo.fromJson(Map<String, dynamic> json) {
+    print('JSON MINT ADDRESS ADATA ${json}');
+    return AddressMintInfo(
+        confirmed: json['confirmed'],
+        epoch: json['epoch'],
+        hash: json['hash'],
+        miner: json['miner'],
+        outputValue: json['output_value'],
+        timestamp: json['timestamp']);
+  }
+
+  Map<String, dynamic> jsonMap() => {
+        "confirmed": confirmed,
+        "epoch": epoch,
+        "hash": hash,
+        "miner": miner,
+        "outputValue": outputValue,
+        "timestamp": timestamp,
+      };
+
+  void printDebug() {
+    print('AddressMintInfo');
+    print('confirmed: ${confirmed}');
+    print('epoch: ${epoch}');
+    print('hash: ${hash}');
+    print('miner: ${miner}');
+    print('outputValue: ${outputValue}');
+    print('timestamp: ${timestamp}');
+  }
 }
 
 class MintInfo {
@@ -1244,7 +1532,40 @@ class TransactionUtxo {
 // TODO: use this enum in all the package
 enum TxStatusLabel { pending, mined, confirmed, reverted, unknown }
 
+enum MempoolTransactionType { value_transfers, data_requests }
+
 enum TransactionType { value_transfer, data_request, mint }
+
+enum SupplyParams {
+  blocks_minted,
+  blocks_minted_reward,
+  blocks_missing,
+  blocks_missing_reward,
+  current_locked_supply,
+  current_time,
+  current_unlocked_supply,
+  epoch,
+  in_flight_requests,
+  locked_wits_by_requests,
+  maximum_supply,
+  current_supply,
+  total_supply,
+  supply_burned_lies
+}
+
+enum StatisticsParams {
+  list_rollbacks,
+  num_unique_miners,
+  num_unique_data_request_solvers,
+  top_100_miners,
+  top_100_data_request_solvers,
+  percentile_staking_balances,
+  histogram_data_requests,
+  histogram_data_request_composition,
+  histogram_data_request_lie_rate,
+  histogram_burn_rate,
+  histogram_value_transfers,
+}
 
 class TransactionStatus {
   TxStatusLabel status = TxStatusLabel.pending;
@@ -1645,6 +1966,76 @@ class BlockDetails {
       reverted: json['block']["details"]["reverted"],
       mintInfo: mintInfo,
     );
+  }
+}
+
+class DataRequestCreatedInfo {
+  DataRequestCreatedInfo(
+      {required this.collateral,
+      required this.consensusPercentage,
+      required this.epoch,
+      required this.hash,
+      required this.numErrors,
+      required this.numLiars,
+      required this.result,
+      required this.success,
+      required this.timestamp,
+      required this.totalFee,
+      required this.witnesses});
+
+  final int collateral;
+  final int consensusPercentage;
+  final int epoch;
+  final String hash;
+  final int numErrors;
+  final int numLiars;
+  final String result;
+  final bool success;
+  final int timestamp;
+  final int totalFee;
+  final int witnesses;
+
+  factory DataRequestCreatedInfo.fromJson(Map<String, dynamic> data) {
+    return DataRequestCreatedInfo(
+        collateral: data['collateral'],
+        consensusPercentage: data["consensus_percentage"],
+        epoch: data['epoch'],
+        hash: data['hash'],
+        numErrors: data['num_errors'],
+        numLiars: data['num_liars'],
+        result: data['result'],
+        success: data['success'],
+        timestamp: data['timestamp'],
+        totalFee: data['total_fee'],
+        witnesses: data['witnesses']);
+  }
+
+  Map<String, dynamic> jsonMap() => {
+        'collateral': collateral,
+        'consensusPercentage': consensusPercentage,
+        'epoch': epoch,
+        'hash': hash,
+        'numErrors': numErrors,
+        'numLiars': numLiars,
+        'result': result,
+        'success': success,
+        'timestamp': timestamp,
+        'totalFee': totalFee,
+        'witnesses': witnesses,
+      };
+
+  void printDebug() {
+    print('collateral: $collateral');
+    print('consensusPercentage $consensusPercentage');
+    print('epoch $epoch');
+    print('hash $hash');
+    print('numErrors $numErrors');
+    print('numLiars $numLiars');
+    print('result $result');
+    print('success $success');
+    print('timestamp $timestamp');
+    print('totalFee $totalFee');
+    print('witnesses $witnesses');
   }
 }
 
@@ -2059,14 +2450,16 @@ class Mempool {
   });
 
   final int timestamp;
-  final List<int> fee;
-  final List<int> amount;
+  final List<int?> fee;
+  final List<int?> amount;
 
-  factory Mempool.fromJson(Map<String, dynamic> json) => Mempool(
-        timestamp: json["timestamp"],
-        fee: json["fee"],
-        amount: json["amount"],
-      );
+  factory Mempool.fromJson(dynamic json) {
+    return Mempool(
+      timestamp: json["timestamp"],
+      fee: List.from(json["fee"]),
+      amount: List.from(json["amount"]),
+    );
+  }
 
   Map<String, dynamic> jsonMap() => {
         "timestamp": timestamp,
