@@ -122,10 +122,9 @@ class Transaction extends GeneratedMessage {
 
   String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap({bool asHex = false, bool test = false}) {
+  Map<String, dynamic> jsonMap({bool asHex = false}) {
     final txType = hasDataRequest() ? 'DataRequest' : 'ValueTransfer';
     return {
-      "test": test,
       "transaction": {
         txType: {
           "body": transaction.body.jsonMap(asHex: asHex),

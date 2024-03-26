@@ -590,9 +590,11 @@ class ExplorerClient {
     }
   }
 
-  Future<dynamic> send({required Map<String, dynamic> transaction}) async {
+  Future<dynamic> send(
+      {required Map<String, dynamic> transaction, bool test = false}) async {
     try {
-      var response = await client.post(api('transaction/send'), transaction);
+      var response = await client
+          .post(api('transaction/send'), {"test": test, ...transaction});
       if (response.containsKey('error')) {
         throw ExplorerException(code: -3, message: response['error']);
       }
