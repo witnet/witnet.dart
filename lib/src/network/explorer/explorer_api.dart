@@ -1739,12 +1739,13 @@ class ValueTransferInfo extends HashInfo {
   factory ValueTransferInfo.fromJson(Map<String, dynamic> data) {
     List<String> outputAddresses = getOrDefault(data).outputAddresses;
     List<int> outputValues = getOrDefault(data).outputValues;
+    List<int> timelockValues = getOrDefault(data).timelocks;
     List<ValueTransferOutput> outputs = [];
     for (int i = 0; i < outputValues.length; i++) {
       ValueTransferOutput vto = ValueTransferOutput(
         value: outputValues[i],
         pkh: Address.fromAddress(outputAddresses[i]).publicKeyHash!,
-        timeLock: 0,
+        timeLock: timelockValues[i],
       );
       outputs.add(vto);
     }
