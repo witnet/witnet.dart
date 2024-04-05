@@ -1,3 +1,8 @@
+## 0.4.3
+- S ValueTransferInfo timelocks
+- Allows sending test transactions
+- Completes updating endpoints to use new explorer version
+
 ## 0.4.2
 - Add method to fetch api version
 
