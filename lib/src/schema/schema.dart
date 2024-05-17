@@ -57,6 +57,7 @@ part 'reveal_transaction.dart';
 part 'secp256k1_signature.dart';
 part 'signature.dart';
 part 'stake_body.dart';
+part 'stake_key.dart';
 part 'stake_output.dart';
 part 'stake_transaction.dart';
 part 'unstake_body.dart';

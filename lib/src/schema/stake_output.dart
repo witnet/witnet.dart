@@ -4,7 +4,8 @@ class StakeOutput extends GeneratedMessage {
   static final BuilderInfo _i = BuilderInfo('StakeOutput',
       package: const PackageName('witnet'), createEmptyInstance: create)
     ..a<Int64>(1, 'value', PbFieldType.OU6, defaultOrMaker: Int64.ZERO)
-    ..aOM<KeyedSignature>(2, 'authorization', subBuilder: KeyedSignature.create)
+    ..aOM<PublicKeyHash>(2, 'key', subBuilder: PublicKeyHash.create)
+    ..aOM<KeyedSignature>(3, 'authorization', subBuilder: KeyedSignature.create)
     ..hasRequiredFields = false;
 
   static StakeOutput create() => StakeOutput._();
@@ -22,12 +23,18 @@ class StakeOutput extends GeneratedMessage {
 
   factory StakeOutput({
     int? value,
+    PublicKeyHash? key,
     KeyedSignature? authorization,
   }) {
     final _result = create();
     if (value != null) {
       _result.value = Int64(value);
     }
+
+    if (key != null) {
+      _result.key = key;
+    }
+
     if (authorization != null) {
       _result.authorization = authorization;
     }
@@ -40,11 +47,14 @@ class StakeOutput extends GeneratedMessage {
   @override
   factory StakeOutput.fromJson(Map<String, dynamic> json) => StakeOutput(
         value: json["value"],
+
+        key: PublicKeyHash.fromAddress(json["key"]),
         authorization: KeyedSignature.fromJson(json["authorization"]),
       );
 
   Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "value": value.toInt(),
+        "key": key.address,
         "authorization": authorization.jsonMap(asHex: asHex),
       };
 
@@ -66,16 +76,32 @@ class StakeOutput extends GeneratedMessage {
   void clearValue() => clearField(1);
 
   @TagNumber(2)
-  KeyedSignature get authorization => $_getN(2);
+  PublicKeyHash get key => $_getN(2);
   @TagNumber(2)
-  set authorization(KeyedSignature v) {
+  set key(PublicKeyHash v) {
+
     setField(2, v);
   }
 
   @TagNumber(2)
-  bool hasAuthorization() => $_has(1);
+  bool hasKey() => $_has(1);
   @TagNumber(2)
-  void clearAuthorization() => clearField(2);
+  void clearKey() => clearField(2);
   @TagNumber(2)
-  PublicKeyHash ensureAuthorization() => $_ensure(1);
+  PublicKeyHash ensureKey() => $_ensure(1);
+
+  @TagNumber(3)
+  KeyedSignature get authorization => $_getN(3);
+  @TagNumber(3)
+  set authorization(KeyedSignature v) {
+    setField(3, v);
+  }
+
+  @TagNumber(3)
+  bool hasAuthorization() => $_has(2);
+  @TagNumber(3)
+  void clearAuthorization() => clearField(3);
+  @TagNumber(3)
+  PublicKeyHash ensureAuthorization() => $_ensure(2);
+
 }
