@@ -50,6 +50,17 @@ void main() async {
 
   /// send stake transaction
   /// var response = await nodeClient.inventory(stake.jsonMap());
+  ///
+  UnstakeBody unstakeBody = UnstakeBody(
+      operator: PublicKeyHash.fromAddress(""),
+      withdrawal: ValueTransferOutput.fromJson({}));
+
+  KeyedSignature unstakeSignature =
+      signHash(bytesToHex(unstakeBody.hash), masterNode.privateKey);
+  UnstakeTransaction unstake =
+      UnstakeTransaction(body: unstakeBody, signature: unstakeSignature);
+
+  print(unstake.transactionID);
 }
 
 /// Sign Hash

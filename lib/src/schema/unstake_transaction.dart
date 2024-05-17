@@ -1,10 +1,12 @@
 part of 'schema.dart';
 
+
 class UnstakeTransaction extends GeneratedMessage {
   static final BuilderInfo _i = BuilderInfo('UnstakeTransaction',
       package: const PackageName('witnet'), createEmptyInstance: create)
     ..aOM<UnstakeBody>(1, 'body', subBuilder: UnstakeBody.create)
-    ..pc<KeyedSignature>(2, 'signatures', PbFieldType.PM,
+
+    ..pc<KeyedSignature>(2, 'signature', PbFieldType.PM,
         subBuilder: KeyedSignature.create)
     ..hasRequiredFields = false;
 
@@ -25,14 +27,15 @@ class UnstakeTransaction extends GeneratedMessage {
 
   factory UnstakeTransaction({
     UnstakeBody? body,
-    Iterable<KeyedSignature>? signatures,
+
+    KeyedSignature? signature,
   }) {
     final _result = create();
     if (body != null) {
       _result.body = body;
     }
-    if (signatures != null) {
-      _result.signatures.addAll(signatures);
+    if (signature != null) {
+      _result.signature = signature;
     }
     return _result;
   }
@@ -44,8 +47,8 @@ class UnstakeTransaction extends GeneratedMessage {
   factory UnstakeTransaction.fromJson(Map<String, dynamic> json) =>
       UnstakeTransaction(
         body: UnstakeBody.fromJson(json["body"]),
-        signatures: List<KeyedSignature>.from(
-            json["signatures"].map((x) => KeyedSignature.fromJson(x))),
+        signature: KeyedSignature.fromJson( json["signature"]),
+
       );
 
   @override
@@ -57,8 +60,8 @@ class UnstakeTransaction extends GeneratedMessage {
 
   Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "body": body.jsonMap(asHex: asHex),
-        "signatures":
-            List<dynamic>.from(signatures.map((x) => x.jsonMap(asHex: asHex))),
+        "signature": signature.jsonMap(asHex: asHex)
+
       };
 
   String get transactionID => bytesToHex(body.hash);
@@ -85,5 +88,17 @@ class UnstakeTransaction extends GeneratedMessage {
   UnstakeBody ensureBody() => $_ensure(0);
 
   @TagNumber(2)
-  List<KeyedSignature> get signatures => $_getList(1);
+  KeyedSignature get signature => $_getN(1);
+
+  @TagNumber(2)
+  bool hasSignature() => $_has(1);
+  @TagNumber(2)
+  void clearSignature() => clearField(2);
+  @TagNumber(2)
+  UnstakeBody ensureSignature() => $_ensure(1);
+  @TagNumber(2)
+  set signature(KeyedSignature v) {
+    setField(2, v);
+  }
+
 }

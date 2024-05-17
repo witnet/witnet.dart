@@ -6,8 +6,6 @@ class UnstakeBody extends GeneratedMessage {
     ..aOM<PublicKeyHash>(1, 'operator', subBuilder: PublicKeyHash.create)
     ..aOM<ValueTransferOutput>(2, 'withdrawal',
         subBuilder: ValueTransferOutput.create)
-    ..aOM<ValueTransferOutput>(2, 'change',
-        subBuilder: ValueTransferOutput.create)
     ..hasRequiredFields = false;
 
   static UnstakeBody create() => UnstakeBody._();
@@ -27,7 +25,7 @@ class UnstakeBody extends GeneratedMessage {
   factory UnstakeBody({
     PublicKeyHash? operator,
     ValueTransferOutput? withdrawal,
-    ValueTransferOutput? change,
+
   }) {
     final _result = create();
     if (operator != null) {
@@ -36,9 +34,7 @@ class UnstakeBody extends GeneratedMessage {
     if (withdrawal != null) {
       _result.withdrawal = withdrawal;
     }
-    if (change != null) {
-      _result.change = change;
-    }
+
     return _result;
   }
 
@@ -54,7 +50,6 @@ class UnstakeBody extends GeneratedMessage {
   factory UnstakeBody.fromJson(Map<String, dynamic> json) => UnstakeBody(
         operator: PublicKeyHash.fromAddress(json["operator"]),
         withdrawal: ValueTransferOutput.fromJson(json["withdrawal"]),
-        change: ValueTransferOutput.fromJson(json["change"]),
       );
 
   factory UnstakeBody.fromPbBytes(Uint8List buffer) =>
@@ -65,7 +60,6 @@ class UnstakeBody extends GeneratedMessage {
   Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "operator": operator.address,
         "withdrawal": withdrawal.jsonMap(asHex: asHex),
-        "change": change.jsonMap(asHex: asHex),
       };
 
   Uint8List get pbBytes => writeToBuffer();
@@ -106,17 +100,4 @@ class UnstakeBody extends GeneratedMessage {
   @TagNumber(2)
   ValueTransferOutput ensureWithdrawal() => $_ensure(1);
 
-  @TagNumber(3)
-  ValueTransferOutput get change => $_getN(2);
-  @TagNumber(3)
-  set change(ValueTransferOutput v) {
-    setField(3, v);
-  }
-
-  @TagNumber(3)
-  bool hasChange() => $_has(2);
-  @TagNumber(3)
-  void clearChange() => clearField(3);
-  @TagNumber(3)
-  ValueTransferOutput ensureChange() => $_ensure(2);
 }
