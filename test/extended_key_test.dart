@@ -25,6 +25,10 @@ main() async {
   test('XPUB', () {
     expect(xpubTest(), true);
   });
+
+  test('XPRV Double', () {
+    expect(xprvDoubleTest(), true);
+  });
 }
 
 bool xprvTest() {
@@ -49,5 +53,15 @@ bool xpubTest() {
     Xpub public = externalXpub / i;
     if (expectedAddresses[i][1] != public.address) return false;
   }
+  return true;
+}
+
+bool xprvDoubleTest(){
+  String xprvDouble = "xprvdouble1ae5gfvwm339antauxg9zf7ads86ex6nj00syqghdsw5fmgu4lfx0s4zs6tt2txhznq8g47tzdhwh6pq2xmq2r92qed5cyykh2wesgzhldyzusksclcf6uq54jyzcm86f3p3nu5jmqm0vdhdf7hmac9ylkgjjlhs3fc3vd7tqsn53evszlseslxrztp00lg5vxrsj2l8caskv6xrs5gw8xnnlhzw5pq0j4yd0rvgw422fz6xeteru54n0lwfprmnwu6zl2e7nktarr6dh5n22ztk305veu4eegnxvr7a96dcrgm7cdqde2gmf2jgveppp77hpzkulx4af0kz2mawcmyxe97csqsjm5h2fx9aw8anfgsn3jp40h8gjy5ap5fgddfr808k7ldspf3xvxfkw8elx9rshhlwuyk29cmnsd3sazak27dndnumdwj9hp34kh7g86kgtarzcsr5dzl9";
+  String expectedInternal = "xprv1qrmya03vnt8sa4mlgnnwahv22hlx57gqvjxakyj96y9kn7exnrxhsqrzrjjkm5dd90e569azx4hvtkr9amf5ezvmq9ltkazy0um0t5pq8qm7ea7l";
+  String expectedExternal = "xprv1qrzzrpdng7henalmkjl5r782r6d3hec0rfzs0a7tuchfnay84a90gqxsmjc2hfchjek9d9q45xssrqw5uyhzqrxsme89kvxnvtfsvdhdjgkv3zf6";
+  var result = Xprv.fromEncryptedXprvDouble(xprvDouble, "password");
+  assert(result[0].toSlip32() == expectedInternal);
+  assert(result[1].toSlip32() == expectedExternal);
   return true;
 }
