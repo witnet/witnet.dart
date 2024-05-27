@@ -1,6 +1,7 @@
 part of 'schema.dart';
 
 
+
 class StakeKey extends GeneratedMessage {
   static final BuilderInfo _i = BuilderInfo('StakeOutput',
       package: const PackageName('witnet'), createEmptyInstance: create)
@@ -58,7 +59,7 @@ class StakeKey extends GeneratedMessage {
   PublicKeyHash get validator => $_getN(1);
   @TagNumber(1)
   set validator(PublicKeyHash v) {
-    setField(0, v);
+    setField(1, v);
   }
 
   @TagNumber(1)
