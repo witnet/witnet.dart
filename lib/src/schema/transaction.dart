@@ -7,6 +7,8 @@ enum TransactionKind {
   reveal,
   tally,
   mint,
+  stake,
+  unstake,
   notSet
 }
 
@@ -17,6 +19,8 @@ const Map<int, TransactionKind> _Transaction_KindByTag = {
   4: TransactionKind.reveal,
   5: TransactionKind.tally,
   6: TransactionKind.mint,
+  7: TransactionKind.stake,
+  8: TransactionKind.unstake,
   0: TransactionKind.notSet
 };
 
@@ -36,6 +40,10 @@ class Transaction extends GeneratedMessage {
         protoName: 'Tally', subBuilder: TallyTransaction.create)
     ..aOM<MintTransaction>(6, 'Mint',
         protoName: 'Mint', subBuilder: MintTransaction.create)
+    ..aOM<StakeTransaction>(6, 'Mint',
+        protoName: 'Stake', subBuilder: StakeTransaction.create)
+    ..aOM<UnstakeTransaction>(6, 'Mint',
+        protoName: 'Unstake', subBuilder: UnstakeTransaction.create)
     ..hasRequiredFields = false;
 
   static Transaction create() => Transaction._();
@@ -59,6 +67,8 @@ class Transaction extends GeneratedMessage {
     RevealTransaction? reveal,
     TallyTransaction? tally,
     MintTransaction? mint,
+    StakeTransaction? stake,
+    UnstakeTransaction? unstake,
   }) {
     final _result = create();
     if (valueTransfer != null) {
@@ -78,6 +88,12 @@ class Transaction extends GeneratedMessage {
     }
     if (mint != null) {
       _result.mint = mint;
+    }
+    if (stake != null) {
+      _result.stake = stake;
+    }
+    if (unstake != null) {
+      _result.unstake = unstake;
     }
     return _result;
   }
@@ -110,9 +126,12 @@ class Transaction extends GeneratedMessage {
         case 'Reveal':
           return Transaction(
               reveal: RevealTransaction.fromJson(_txn['Reveal']));
-
         case 'Tally':
           return Transaction(tally: TallyTransaction.fromJson(_txn['Tally']));
+        case 'Stake':
+          return Transaction(stake: StakeTransaction.fromJson(_txn['Stake']));
+        case 'Unstake':
+          return Transaction(unstake: UnstakeTransaction.fromJson(_txn['Unstake']));
       }
     } else {
       throw ArgumentError('Invalid json');
@@ -250,4 +269,32 @@ class Transaction extends GeneratedMessage {
   void clearMint() => clearField(6);
   @TagNumber(6)
   MintTransaction ensureMint() => $_ensure(5);
+
+  @TagNumber(7)
+  StakeTransaction get stake => $_getN(6);
+  @TagNumber(7)
+  set stake(StakeTransaction v) {
+    setField(7, v);
+  }
+
+  @TagNumber(7)
+  bool hasStake() => $_has(6);
+  @TagNumber(7)
+  void clearStake() => clearField(7);
+  @TagNumber(7)
+  StakeTransaction ensureStake() => $_ensure(6);
+
+
+  @TagNumber(8)
+  UnstakeTransaction get unstake => $_getN(7);
+  @TagNumber(8)
+  set unstake(UnstakeTransaction v) {
+    setField(8, v);
+  }
+  @TagNumber(8)
+  bool hasUnstake() => $_has(7);
+  @TagNumber(8)
+  void clearUnstake() => clearField(8);
+  @TagNumber(8)
+  UnstakeTransaction ensureUnstake() => $_ensure(7);
 }

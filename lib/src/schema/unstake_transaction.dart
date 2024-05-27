@@ -6,8 +6,7 @@ class UnstakeTransaction extends GeneratedMessage {
       package: const PackageName('witnet'), createEmptyInstance: create)
     ..aOM<UnstakeBody>(1, 'body', subBuilder: UnstakeBody.create)
 
-    ..pc<KeyedSignature>(2, 'signature', PbFieldType.PM,
-        subBuilder: KeyedSignature.create)
+    ..aOM<KeyedSignature>(2, 'signature', subBuilder: KeyedSignature.create)
     ..hasRequiredFields = false;
 
   static UnstakeTransaction create() => UnstakeTransaction._();

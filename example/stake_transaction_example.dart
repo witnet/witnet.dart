@@ -29,6 +29,12 @@ void main() async {
   /// The authorization by the node
   KeyedSignature authorization = signHash(pkh, masterNode.privateKey);
 
+  /// Build the Stake Key
+  StakeKey stakeKey = StakeKey(
+    validator: authorization.publicKey.pkh,
+    withdrawer: PublicKeyHash.fromAddress(withdrawer.address.address),
+  );
+
   /// build stake transaction body
   StakeBody body = StakeBody(
     inputs: [
@@ -36,6 +42,7 @@ void main() async {
     ],
     output: StakeOutput(
       value: MINIMUM_STAKEABLE_AMOUNT_WITS,
+      key: stakeKey,
       authorization: authorization,
     ),
   );
@@ -52,8 +59,12 @@ void main() async {
   /// var response = await nodeClient.inventory(stake.jsonMap());
   ///
   UnstakeBody unstakeBody = UnstakeBody(
-      operator: PublicKeyHash.fromAddress(""),
-      withdrawal: ValueTransferOutput.fromJson({}));
+      operator: PublicKeyHash.fromAddress(withdrawer.address.address),
+      withdrawal: ValueTransferOutput.fromJson({
+        "pkh": withdrawer.address.address,
+        "time_lock": 0,
+        "value": 1,
+      }));
 
   KeyedSignature unstakeSignature =
       signHash(bytesToHex(unstakeBody.hash), masterNode.privateKey);

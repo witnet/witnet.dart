@@ -5,7 +5,7 @@ class StakeBody extends GeneratedMessage {
       package: const PackageName('witnet'), createEmptyInstance: create)
     ..pc<Input>(1, 'inputs', PbFieldType.PM, subBuilder: Input.create)
     ..aOM<StakeOutput>(2, 'output', subBuilder: StakeOutput.create)
-    ..aOM<ValueTransferOutput>(2, 'change',
+    ..aOM<ValueTransferOutput>(3, 'change',
         subBuilder: ValueTransferOutput.create)
     ..hasRequiredFields = false;
 
