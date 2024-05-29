@@ -52,6 +52,10 @@ class Point {
   Point operator +(Point other) {
     return addDiffPoint(this, other, Secp256k1.p);
   }
+
+  Point operator *(BigInt other) {
+    return pointMultiply(this, other, Secp256k1.p, Secp256k1.a);
+  }
 }
 
 Point bigIntToPoint(BigInt n) {
@@ -91,6 +95,26 @@ Point addDiffPoint(Point point1, Point point2, BigInt modNum) {
   var x3 = positiveMod(ru.pow(2) - point1.x - point2.x, modNum);
   var y3 = positiveMod(ru * (point1.x - x3) - point1.y, modNum);
   return Point(x3, y3);
+}
+
+/// double-and-add method for point multiplication.
+Point pointMultiply(Point point, BigInt k, BigInt modNum, BigInt a) {
+  Point result = Point(BigInt.zero, BigInt.zero);
+  Point addend = point;
+
+  while (k > BigInt.zero) {
+    if (k.isOdd) {
+      if (result.x == BigInt.zero && result.y == BigInt.zero) {
+        result = addend;
+      } else {
+        result = addDiffPoint(result, addend, modNum);
+      }
+    }
+    addend = addSamePoint(addend, modNum, a);
+    k = k >> 1;  // k = k / 2
+  }
+
+  return result;
 }
 
 Point getPointByBigInt(BigInt n, BigInt p, BigInt a, Point pointG) {
