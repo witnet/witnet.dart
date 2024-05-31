@@ -1,7 +1,5 @@
 part of 'schema.dart';
 
-
-
 class StakeKey extends GeneratedMessage {
   static final BuilderInfo _i = BuilderInfo('StakeOutput',
       package: const PackageName('witnet'), createEmptyInstance: create)
@@ -41,14 +39,14 @@ class StakeKey extends GeneratedMessage {
 
   @override
   factory StakeKey.fromJson(Map<String, dynamic> json) => StakeKey(
-    validator: PublicKeyHash.fromAddress(json["validator"]),
-    withdrawer: PublicKeyHash.fromAddress(json["withdrawer"]),
-  );
+        validator: PublicKeyHash.fromAddress(json["validator"]),
+        withdrawer: PublicKeyHash.fromAddress(json["withdrawer"]),
+      );
 
   Map<String, dynamic> jsonMap({bool asHex = false}) => {
-    "validator": validator.address,
-    "withdrawer": withdrawer.address,
-  };
+        "validator": validator.address,
+        "withdrawer": withdrawer.address,
+      };
 
   @override
   BuilderInfo get info_ => _i;
