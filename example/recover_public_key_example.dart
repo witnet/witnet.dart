@@ -1,9 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:witnet/crypto.dart';
-import 'package:witnet/src/crypto/hd_wallet/extended_private_key.dart';
-import 'package:witnet/src/crypto/secp256k1/secp256k1.dart';
-import 'package:witnet/src/crypto/secp256k1/signature.dart';
 import 'package:witnet/src/utils/transformations/transformations.dart';
 import 'package:witnet/witnet.dart';
 
