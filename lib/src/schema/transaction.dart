@@ -131,7 +131,8 @@ class Transaction extends GeneratedMessage {
         case 'Stake':
           return Transaction(stake: StakeTransaction.fromJson(_txn['Stake']));
         case 'Unstake':
-          return Transaction(unstake: UnstakeTransaction.fromJson(_txn['Unstake']));
+          return Transaction(
+              unstake: UnstakeTransaction.fromJson(_txn['Unstake']));
       }
     } else {
       throw ArgumentError('Invalid json');
@@ -284,13 +285,13 @@ class Transaction extends GeneratedMessage {
   @TagNumber(7)
   StakeTransaction ensureStake() => $_ensure(6);
 
-
   @TagNumber(8)
   UnstakeTransaction get unstake => $_getN(7);
   @TagNumber(8)
   set unstake(UnstakeTransaction v) {
     setField(8, v);
   }
+
   @TagNumber(8)
   bool hasUnstake() => $_has(7);
   @TagNumber(8)

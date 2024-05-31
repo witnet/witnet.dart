@@ -111,7 +111,7 @@ Point pointMultiply(Point point, BigInt k, BigInt modNum, BigInt a) {
       }
     }
     addend = addSamePoint(addend, modNum, a);
-    k = k >> 1;  // k = k / 2
+    k = k >> 1; // k = k / 2
   }
 
   return result;

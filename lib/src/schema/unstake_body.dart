@@ -25,7 +25,6 @@ class UnstakeBody extends GeneratedMessage {
   factory UnstakeBody({
     PublicKeyHash? operator,
     ValueTransferOutput? withdrawal,
-
   }) {
     final _result = create();
     if (operator != null) {
@@ -99,5 +98,4 @@ class UnstakeBody extends GeneratedMessage {
   void clearWithdrawal() => clearField(2);
   @TagNumber(2)
   ValueTransferOutput ensureWithdrawal() => $_ensure(1);
-
 }
