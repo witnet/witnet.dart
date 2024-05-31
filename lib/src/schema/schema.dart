@@ -1,6 +1,8 @@
 import 'dart:convert' show json;
 import 'dart:typed_data' show Uint8List;
 import 'package:protobuf/protobuf.dart';
+import 'package:witnet/src/crypto/secp256k1/public_key.dart';
+import 'package:witnet/src/crypto/secp256k1/signature.dart';
 import 'package:witnet/src/utils/transformations/transformations.dart';
 import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:witnet/crypto.dart' show sha256;
