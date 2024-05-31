@@ -46,22 +46,23 @@ class KeyedSignature extends GeneratedMessage {
         signature: Signature.fromJson(json["signature"]),
       );
 
-
-  factory KeyedSignature.fromAuthorization(String authorization, String withdrawerAddress) {
-
+  factory KeyedSignature.fromAuthorization(
+      String authorization, String withdrawerAddress) {
     PublicKeyHash pkh = PublicKeyHash.fromAddress(withdrawerAddress);
     pkh.hex.padRight(32, '0');
 
     Uint8List authBytes = stringToBytes(authorization);
-    BigInt r = bytesToBigInt(authBytes.sublist(1,32));
-    BigInt s = bytesToBigInt(authBytes.sublist(32,63));
+    BigInt r = bytesToBigInt(authBytes.sublist(1, 32));
+    BigInt s = bytesToBigInt(authBytes.sublist(32, 63));
 
     WitSignature signature = WitSignature(r, s);
-    WitPublicKey validatorKey = WitPublicKey.recover(signature, hexToBytes(pkh.hex.padRight(32, '0')));
+    WitPublicKey validatorKey =
+        WitPublicKey.recover(signature, hexToBytes(pkh.hex.padRight(32, '0')));
 
     return KeyedSignature(
       publicKey: PublicKey(bytes: validatorKey.encode()),
-      signature: Signature(secp256k1: Secp256k1Signature(der: signature.encode())),
+      signature:
+          Signature(secp256k1: Secp256k1Signature(der: signature.encode())),
     );
   }
 
