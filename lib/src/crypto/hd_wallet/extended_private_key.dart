@@ -146,6 +146,7 @@ class Xprv extends ExtendedKey {
   }
 
   factory Xprv.fromEncryptedXprv(String xprv, String password) {
+    // throw 'Error from encrypted xprv';
     try {
       Bech32 bech = bech32.decode(xprv);
       List<int> checksum = createChecksum(bech.hrp, bech.data);
