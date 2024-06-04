@@ -54,7 +54,7 @@ class StakeKey extends GeneratedMessage {
   Uint8List get pbBytes => writeToBuffer();
 
   @TagNumber(1)
-  PublicKeyHash get validator => $_getN(1);
+  PublicKeyHash get validator => $_getN(0);
   @TagNumber(1)
   set validator(PublicKeyHash v) {
     setField(1, v);
@@ -68,7 +68,7 @@ class StakeKey extends GeneratedMessage {
   PublicKeyHash ensureValidator() => $_ensure(0);
 
   @TagNumber(2)
-  PublicKeyHash get withdrawer => $_getN(2);
+  PublicKeyHash get withdrawer => $_getN(1);
   @TagNumber(2)
   set withdrawer(PublicKeyHash v) {
     setField(2, v);

@@ -63,10 +63,10 @@ class StakeOutput extends GeneratedMessage {
   Uint8List get pbBytes => writeToBuffer();
 
   @TagNumber(1)
-  Int64 get value => $_getI64(1);
+  Int64 get value => $_getI64(0);
   @TagNumber(1)
   set value(Int64 v) {
-    $_setInt64(0, v);
+    setField(1, v);
   }
 
   @TagNumber(1)
@@ -75,7 +75,7 @@ class StakeOutput extends GeneratedMessage {
   void clearValue() => clearField(1);
 
   @TagNumber(2)
-  StakeKey get key => $_getN(2);
+  StakeKey get key => $_getN(1);
   @TagNumber(2)
   set key(StakeKey v) {
     setField(2, v);
@@ -89,7 +89,7 @@ class StakeOutput extends GeneratedMessage {
   StakeKey ensureKey() => $_ensure(1);
 
   @TagNumber(3)
-  KeyedSignature get authorization => $_getN(3);
+  KeyedSignature get authorization => $_getN(2);
   @TagNumber(3)
   set authorization(KeyedSignature v) {
     setField(3, v);
