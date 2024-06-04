@@ -49,15 +49,17 @@ class KeyedSignature extends GeneratedMessage {
   factory KeyedSignature.fromAuthorization(
       String authorization, String withdrawerAddress) {
     PublicKeyHash pkh = PublicKeyHash.fromAddress(withdrawerAddress);
-    pkh.hex.padRight(32, '0');
-
     Uint8List authBytes = stringToBytes(authorization);
+    int recoveryId = authBytes[0];
     BigInt r = bytesToBigInt(authBytes.sublist(1, 32));
     BigInt s = bytesToBigInt(authBytes.sublist(32, 63));
 
     WitSignature signature = WitSignature(r, s);
-    WitPublicKey validatorKey =
-        WitPublicKey.recover(signature, hexToBytes(pkh.hex.padRight(32, '0')));
+    WitPublicKey validatorKey = WitPublicKey.recover(
+      signature,
+      hexToBytes(pkh.hex.padRight(32, '0')),
+      recoveryId,
+    );
 
     return KeyedSignature(
       publicKey: PublicKey(bytes: validatorKey.encode()),
