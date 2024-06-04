@@ -27,6 +27,9 @@ class StakeOutput extends GeneratedMessage {
     KeyedSignature? authorization,
   }) {
     final _result = create();
+    print('result >>>>***** $value');
+    print('result >>>>***** $key');
+    print('result >>>>***** $authorization');
     if (value != null) {
       _result.value = Int64(value);
     }
@@ -38,6 +41,7 @@ class StakeOutput extends GeneratedMessage {
     if (authorization != null) {
       _result.authorization = authorization;
     }
+    print('result >>>>***** $_result');
     return _result;
   }
 
@@ -48,13 +52,16 @@ class StakeOutput extends GeneratedMessage {
   factory StakeOutput.fromJson(Map<String, dynamic> json) => StakeOutput(
         value: json["value"],
         key: StakeKey.fromJson(json["key"]),
-        authorization: KeyedSignature.fromJson(json["authorization"]),
+        authorization: json["authorization"] != null
+            ? KeyedSignature.fromJson(json["authorization"])
+            : null,
       );
 
   Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "value": value.toInt(),
         "key": key.jsonMap(asHex: asHex),
-        "authorization": authorization.jsonMap(asHex: asHex),
+        "authorization":
+            authorization != null ? authorization!.jsonMap(asHex: asHex) : null,
       };
 
   @override
@@ -63,10 +70,10 @@ class StakeOutput extends GeneratedMessage {
   Uint8List get pbBytes => writeToBuffer();
 
   @TagNumber(1)
-  Int64 get value => $_getI64(1);
+  Int64 get value => $_getI64(0);
   @TagNumber(1)
   set value(Int64 v) {
-    $_setInt64(0, v);
+    setField(1, v);
   }
 
   @TagNumber(1)
@@ -75,7 +82,7 @@ class StakeOutput extends GeneratedMessage {
   void clearValue() => clearField(1);
 
   @TagNumber(2)
-  StakeKey get key => $_getN(2);
+  StakeKey get key => $_getN(1);
   @TagNumber(2)
   set key(StakeKey v) {
     setField(2, v);
@@ -89,10 +96,12 @@ class StakeOutput extends GeneratedMessage {
   StakeKey ensureKey() => $_ensure(1);
 
   @TagNumber(3)
-  KeyedSignature get authorization => $_getN(3);
+  KeyedSignature? get authorization => $_getN(2);
   @TagNumber(3)
-  set authorization(KeyedSignature v) {
-    setField(3, v);
+  set authorization(KeyedSignature? v) {
+    if (v != null) {
+      setField(3, v);
+    }
   }
 
   @TagNumber(3)
@@ -100,5 +109,5 @@ class StakeOutput extends GeneratedMessage {
   @TagNumber(3)
   void clearAuthorization() => clearField(3);
   @TagNumber(3)
-  KeyedSignature ensureAuthorization() => $_ensure(2);
+  KeyedSignature? ensureAuthorization() => $_ensure(2);
 }

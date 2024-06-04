@@ -27,7 +27,7 @@ const Map<int, TransactionKind> _Transaction_KindByTag = {
 class Transaction extends GeneratedMessage {
   static final BuilderInfo _i = BuilderInfo('Transaction',
       package: const PackageName('witnet'), createEmptyInstance: create)
-    ..oo(0, [1, 2, 3, 4, 5, 6])
+    ..oo(0, [1, 2, 3, 4, 5, 6, 7, 8])
     ..aOM<VTTransaction>(1, 'ValueTransfer',
         protoName: 'ValueTransfer', subBuilder: VTTransaction.create)
     ..aOM<DRTransaction>(2, 'DataRequest',
@@ -40,9 +40,9 @@ class Transaction extends GeneratedMessage {
         protoName: 'Tally', subBuilder: TallyTransaction.create)
     ..aOM<MintTransaction>(6, 'Mint',
         protoName: 'Mint', subBuilder: MintTransaction.create)
-    ..aOM<StakeTransaction>(6, 'Mint',
+    ..aOM<StakeTransaction>(7, 'Stake',
         protoName: 'Stake', subBuilder: StakeTransaction.create)
-    ..aOM<UnstakeTransaction>(6, 'Mint',
+    ..aOM<UnstakeTransaction>(8, 'Unstake',
         protoName: 'Unstake', subBuilder: UnstakeTransaction.create)
     ..hasRequiredFields = false;
 
@@ -131,7 +131,8 @@ class Transaction extends GeneratedMessage {
         case 'Stake':
           return Transaction(stake: StakeTransaction.fromJson(_txn['Stake']));
         case 'Unstake':
-          return Transaction(unstake: UnstakeTransaction.fromJson(_txn['Unstake']));
+          return Transaction(
+              unstake: UnstakeTransaction.fromJson(_txn['Unstake']));
       }
     } else {
       throw ArgumentError('Invalid json');
@@ -142,16 +143,55 @@ class Transaction extends GeneratedMessage {
   String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   Map<String, dynamic> jsonMap({bool asHex = false}) {
-    final txType = hasDataRequest() ? 'DataRequest' : 'ValueTransfer';
-    return {
-      "transaction": {
-        txType: {
-          "body": transaction.body.jsonMap(asHex: asHex),
-          "signatures": List<dynamic>.from(
-              transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
+    if (hasValueTransfer())
+      return {
+        "transaction": {
+          'ValueTransfer': {
+            "body": transaction.body.jsonMap(asHex: asHex),
+            "signatures": List<dynamic>.from(
+                transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
+          }
         }
-      }
-    };
+      };
+    if (hasDataRequest())
+      return {
+        "transaction": {
+          'DataRequest': {
+            "body": transaction.body.jsonMap(asHex: asHex),
+            "signatures": List<dynamic>.from(
+                transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
+          }
+        }
+      };
+    if (hasStake())
+      return {
+        "transaction": {
+          'Stake': {
+            "body": transaction.body.jsonMap(asHex: asHex),
+            "signatures": List<dynamic>.from(
+                transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
+          },
+        }
+      };
+    if (hasUnstake())
+      return {
+        "transaction": {
+          'Unstake': {
+            "body": transaction.body.jsonMap(asHex: asHex),
+            "signature": transaction.signature.jsonMap(asHex: asHex),
+          }
+        }
+      };
+    else
+      return {
+        "transaction": {
+          'ValueTransfer': {
+            "body": transaction.body.jsonMap(asHex: asHex),
+            "signatures": List<dynamic>.from(
+                transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
+          }
+        }
+      };
   }
 
   @override
@@ -180,6 +220,8 @@ class Transaction extends GeneratedMessage {
     if (hasReveal()) return reveal;
     if (hasTally()) return tally;
     if (hasMint()) return mint;
+    if (hasStake()) return stake;
+    if (hasUnstake()) return unstake;
   }
 
   TransactionKind whichKind() => _Transaction_KindByTag[$_whichOneof(0)]!;
@@ -284,13 +326,13 @@ class Transaction extends GeneratedMessage {
   @TagNumber(7)
   StakeTransaction ensureStake() => $_ensure(6);
 
-
   @TagNumber(8)
   UnstakeTransaction get unstake => $_getN(7);
   @TagNumber(8)
   set unstake(UnstakeTransaction v) {
     setField(8, v);
   }
+
   @TagNumber(8)
   bool hasUnstake() => $_has(7);
   @TagNumber(8)

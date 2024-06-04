@@ -41,6 +41,8 @@ class UtxoPool {
   }
 
   List<Utxo> sortUtxos(UtxoSelectionStrategy utxoSelectionStrategy) {
+    print(utxoSelectionStrategy);
+    print('...sortUtxos.. 0. ${map.values.toList().length}');
     List<Utxo> sortedUtxos;
     switch (utxoSelectionStrategy) {
       case UtxoSelectionStrategy.Random:
@@ -68,6 +70,7 @@ class UtxoPool {
             });
         }
     }
+    print('...sortUtxos.. 1. ${sortedUtxos.length}');
     return sortedUtxos;
   }
 
@@ -75,6 +78,8 @@ class UtxoPool {
     required int amountNanoWit,
     required UtxoSelectionStrategy utxoStrategy,
   }) {
+    print('-------cover UTXOS-------');
+    print('amount nanowit: $amountNanoWit');
     List<Utxo> utxos = sortUtxos(utxoStrategy);
     if (utxos.isEmpty) {
       throw 'No UTXOS to select';
@@ -86,7 +91,8 @@ class UtxoPool {
     });
 
     List<Utxo> selectedUtxos = [];
-
+    print('utxos value: $utxoValue');
+    print('Insufficient funds?? ${amountNanoWit > utxoValue}');
     if (amountNanoWit > utxoValue) {
       throw 'Insufficient funds';
     }

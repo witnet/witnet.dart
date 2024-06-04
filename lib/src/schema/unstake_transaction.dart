@@ -1,11 +1,9 @@
 part of 'schema.dart';
 
-
 class UnstakeTransaction extends GeneratedMessage {
   static final BuilderInfo _i = BuilderInfo('UnstakeTransaction',
       package: const PackageName('witnet'), createEmptyInstance: create)
     ..aOM<UnstakeBody>(1, 'body', subBuilder: UnstakeBody.create)
-
     ..aOM<KeyedSignature>(2, 'signature', subBuilder: KeyedSignature.create)
     ..hasRequiredFields = false;
 
@@ -26,7 +24,6 @@ class UnstakeTransaction extends GeneratedMessage {
 
   factory UnstakeTransaction({
     UnstakeBody? body,
-
     KeyedSignature? signature,
   }) {
     final _result = create();
@@ -46,8 +43,7 @@ class UnstakeTransaction extends GeneratedMessage {
   factory UnstakeTransaction.fromJson(Map<String, dynamic> json) =>
       UnstakeTransaction(
         body: UnstakeBody.fromJson(json["body"]),
-        signature: KeyedSignature.fromJson( json["signature"]),
-
+        signature: KeyedSignature.fromJson(json["signature"]),
       );
 
   @override
@@ -60,7 +56,6 @@ class UnstakeTransaction extends GeneratedMessage {
   Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "body": body.jsonMap(asHex: asHex),
         "signature": signature.jsonMap(asHex: asHex)
-
       };
 
   String get transactionID => bytesToHex(body.hash);
@@ -99,5 +94,4 @@ class UnstakeTransaction extends GeneratedMessage {
   set signature(KeyedSignature v) {
     setField(2, v);
   }
-
 }

@@ -1,7 +1,5 @@
 part of 'schema.dart';
 
-
-
 class StakeKey extends GeneratedMessage {
   static final BuilderInfo _i = BuilderInfo('StakeOutput',
       package: const PackageName('witnet'), createEmptyInstance: create)
@@ -41,14 +39,14 @@ class StakeKey extends GeneratedMessage {
 
   @override
   factory StakeKey.fromJson(Map<String, dynamic> json) => StakeKey(
-    validator: PublicKeyHash.fromAddress(json["validator"]),
-    withdrawer: PublicKeyHash.fromAddress(json["withdrawer"]),
-  );
+        validator: PublicKeyHash.fromAddress(json["validator"]),
+        withdrawer: PublicKeyHash.fromAddress(json["withdrawer"]),
+      );
 
   Map<String, dynamic> jsonMap({bool asHex = false}) => {
-    "validator": validator.address,
-    "withdrawer": withdrawer.address,
-  };
+        "validator": validator.address,
+        "withdrawer": withdrawer.address,
+      };
 
   @override
   BuilderInfo get info_ => _i;
@@ -56,7 +54,7 @@ class StakeKey extends GeneratedMessage {
   Uint8List get pbBytes => writeToBuffer();
 
   @TagNumber(1)
-  PublicKeyHash get validator => $_getN(1);
+  PublicKeyHash get validator => $_getN(0);
   @TagNumber(1)
   set validator(PublicKeyHash v) {
     setField(1, v);
@@ -70,10 +68,10 @@ class StakeKey extends GeneratedMessage {
   PublicKeyHash ensureValidator() => $_ensure(0);
 
   @TagNumber(2)
-  PublicKeyHash get withdrawer => $_getN(2);
+  PublicKeyHash get withdrawer => $_getN(1);
   @TagNumber(2)
   set withdrawer(PublicKeyHash v) {
-    setField(2, v);
+    setField(1, v);
   }
 
   @TagNumber(2)
