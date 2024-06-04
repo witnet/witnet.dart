@@ -75,6 +75,9 @@ class WitSignature {
     return WitSignature(r, s);
   }
 
+  WitPublicKey publicKey(Uint8List message) =>
+      WitPublicKey.recover(this, message);
+
   Uint8List encode() {
     Uint8List _r = bigIntToBytes(R);
     Uint8List _s = bigIntToBytes(S);

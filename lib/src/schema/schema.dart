@@ -1,6 +1,8 @@
 import 'dart:convert' show json;
 import 'dart:typed_data' show Uint8List;
 import 'package:protobuf/protobuf.dart';
+import 'package:witnet/src/crypto/secp256k1/public_key.dart';
+import 'package:witnet/src/crypto/secp256k1/signature.dart';
 import 'package:witnet/src/utils/transformations/transformations.dart';
 import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:witnet/crypto.dart' show sha256;
@@ -16,7 +18,9 @@ import 'package:witnet/constants.dart'
         REVEAL_WEIGHT,
         TALLY_WEIGHT,
         INPUT_SIZE,
-        OUTPUT_SIZE;
+        OUTPUT_SIZE,
+        STAKE_OUTPUT_WEIGHT,
+        UNSTAKE_OUTPUT_WEIGHT;
 
 import '../../radon.dart' show radToCbor, cborToRad;
 
@@ -54,6 +58,12 @@ part 'reveal_body.dart';
 part 'reveal_transaction.dart';
 part 'secp256k1_signature.dart';
 part 'signature.dart';
+part 'stake_body.dart';
+part 'stake_key.dart';
+part 'stake_output.dart';
+part 'stake_transaction.dart';
+part 'unstake_body.dart';
+part 'unstake_transaction.dart';
 part 'string_pair.dart';
 part 'super_block.dart';
 part 'super_block_vote.dart';

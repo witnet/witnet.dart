@@ -64,6 +64,10 @@ class PublicKey extends GeneratedMessage {
 
   Uint8List get pbBytes => writeToBuffer();
 
+  PublicKeyHash get pkh => PublicKeyHash(
+        hash: sha256(data: Uint8List.fromList(publicKey)).sublist(0, 20),
+      );
+
   @TagNumber(1)
   List<int> get publicKey => $_getN(0);
   @TagNumber(1)
