@@ -143,16 +143,55 @@ class Transaction extends GeneratedMessage {
   String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   Map<String, dynamic> jsonMap({bool asHex = false}) {
-    final txType = hasDataRequest() ? 'DataRequest' : 'ValueTransfer';
-    return {
-      "transaction": {
-        txType: {
-          "body": transaction.body.jsonMap(asHex: asHex),
-          "signatures": List<dynamic>.from(
-              transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
+    if (hasValueTransfer())
+      return {
+        "transaction": {
+          'ValueTransfer': {
+            "body": transaction.body.jsonMap(asHex: asHex),
+            "signatures": List<dynamic>.from(
+                transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
+          }
         }
-      }
-    };
+      };
+    if (hasDataRequest())
+      return {
+        "transaction": {
+          'DataRequest': {
+            "body": transaction.body.jsonMap(asHex: asHex),
+            "signatures": List<dynamic>.from(
+                transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
+          }
+        }
+      };
+    if (hasStake())
+      return {
+        "transaction": {
+          'Stake': {
+            "body": transaction.body.jsonMap(asHex: asHex),
+            "signatures": List<dynamic>.from(
+                transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
+          },
+        }
+      };
+    if (hasUnstake())
+      return {
+        "transaction": {
+          'Unstake': {
+            "body": transaction.body.jsonMap(asHex: asHex),
+            "signature": transaction.signature.jsonMap(asHex: asHex),
+          }
+        }
+      };
+    else
+      return {
+        "transaction": {
+          'ValueTransfer': {
+            "body": transaction.body.jsonMap(asHex: asHex),
+            "signatures": List<dynamic>.from(
+                transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
+          }
+        }
+      };
   }
 
   @override
@@ -181,6 +220,8 @@ class Transaction extends GeneratedMessage {
     if (hasReveal()) return reveal;
     if (hasTally()) return tally;
     if (hasMint()) return mint;
+    if (hasStake()) return stake;
+    if (hasUnstake()) return unstake;
   }
 
   TransactionKind whichKind() => _Transaction_KindByTag[$_whichOneof(0)]!;
