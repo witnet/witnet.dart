@@ -27,7 +27,7 @@ const Map<int, TransactionKind> _Transaction_KindByTag = {
 class Transaction extends GeneratedMessage {
   static final BuilderInfo _i = BuilderInfo('Transaction',
       package: const PackageName('witnet'), createEmptyInstance: create)
-    ..oo(0, [1, 2, 3, 4, 5, 6])
+    ..oo(0, [1, 2, 3, 4, 5, 6, 7, 8])
     ..aOM<VTTransaction>(1, 'ValueTransfer',
         protoName: 'ValueTransfer', subBuilder: VTTransaction.create)
     ..aOM<DRTransaction>(2, 'DataRequest',
