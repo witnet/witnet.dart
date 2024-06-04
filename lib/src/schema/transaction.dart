@@ -40,9 +40,9 @@ class Transaction extends GeneratedMessage {
         protoName: 'Tally', subBuilder: TallyTransaction.create)
     ..aOM<MintTransaction>(6, 'Mint',
         protoName: 'Mint', subBuilder: MintTransaction.create)
-    ..aOM<StakeTransaction>(6, 'Mint',
+    ..aOM<StakeTransaction>(7, 'Stake',
         protoName: 'Stake', subBuilder: StakeTransaction.create)
-    ..aOM<UnstakeTransaction>(6, 'Mint',
+    ..aOM<UnstakeTransaction>(8, 'Unstake',
         protoName: 'Unstake', subBuilder: UnstakeTransaction.create)
     ..hasRequiredFields = false;
 
