@@ -65,7 +65,11 @@ class RetryHttpClient {
     } on http.ClientException catch (e) {
       if (e.message.contains('Client is already closed')) {
         retryClient = RetryClient(http.Client());
-        response = await requestMethod(uri, body: data);
+        throw HttpException(e.toString());
+      }
+      if (e.toString().contains('SocketException')) {
+        retryClient = RetryClient(http.Client());
+        throw HttpException(e.toString());
       }
     }
     if (response != null) {
