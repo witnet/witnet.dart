@@ -56,9 +56,9 @@ class UnstakeBody extends GeneratedMessage {
 
   String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap({bool asHex = false}) => {
+  Map<String, dynamic> jsonMap({bool asHex = false, bool testnet = false}) => {
         "operator": operator.address,
-        "withdrawal": withdrawal.jsonMap(asHex: asHex),
+        "withdrawal": withdrawal.jsonMap(asHex: asHex, testnet: testnet),
       };
 
   Uint8List get pbBytes => writeToBuffer();

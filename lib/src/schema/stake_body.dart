@@ -61,11 +61,11 @@ class StakeBody extends GeneratedMessage {
 
   String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap({bool asHex = false}) => {
+  Map<String, dynamic> jsonMap({bool asHex = false, bool testnet = false}) => {
         "inputs":
             List<dynamic>.from(inputs.map((x) => x.jsonMap(asHex: asHex))),
-        "output": output.jsonMap(asHex: asHex),
-        "change": change.jsonMap(asHex: asHex),
+        "output": output.jsonMap(asHex: asHex, testnet: testnet),
+        "change": change.jsonMap(asHex: asHex, testnet: testnet),
       };
 
   Uint8List get pbBytes => writeToBuffer();

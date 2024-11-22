@@ -55,8 +55,8 @@ class ValueTransferOutput extends GeneratedMessage {
 
   String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap({bool asHex = false}) => {
-        "pkh": pkh.address,
+  Map<String, dynamic> jsonMap({bool asHex = false, testnet = false}) => {
+        "pkh": testnet ? pkh.testnetAddress : pkh.address,
         "time_lock": timeLock.toInt(),
         "value": value.toInt(),
       };
