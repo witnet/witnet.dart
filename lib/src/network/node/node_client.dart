@@ -9,7 +9,15 @@ import 'node_api.dart'
     show NodeException, NodeStats, Peer, SyncStatus, UtxoInfo;
 
 import 'package:witnet/schema.dart'
-    show Block, ConsensusConstants, DRTransaction, Transaction, VTTransaction;
+    show
+        Block,
+        ConsensusConstants,
+        DRTransaction,
+        KeyedSignature,
+        StakeTransaction,
+        Transaction,
+        UnstakeTransaction,
+        VTTransaction;
 
 class NodeClient {
   String address;
@@ -91,6 +99,67 @@ class NodeClient {
     return await inventory({
       'transaction': {'DataRequest': drTransaction.jsonMap(asHex: false)}
     });
+  }
+
+  Future<dynamic> sendStakeTransaction({
+    required StakeTransaction stake,
+    bool testnet = false,
+  }) async {
+    return await inventory({
+      'transaction': {'Stake': stake.jsonMap(asHex: false, testnet: testnet)}
+    });
+  }
+
+  Future<dynamic> sendUnStakeTransaction(
+      {required UnstakeTransaction unstake, bool testnet = false}) async {
+    return await inventory({
+      'transaction': {'Unstake': unstake.jsonMap(asHex: false)}
+    });
+  }
+
+  Future<dynamic> queryStakes(String? validator, String? withdrawer) async {
+    try {
+      Map<String, String> params = {};
+      if (validator != null) params['Validator'] = validator;
+      if (withdrawer != null) params['Withdrawer'] = withdrawer;
+
+      var response = await sendMessage(
+              formatRequest(method: 'queryStakes', params: params))
+          .then((Map<String, dynamic> data) {
+        print(data);
+        if (data.containsKey('result')) {
+          return data;
+        }
+        if (data.containsKey('error')) {
+          return 0;
+        }
+      });
+      // return response!;
+    } on NodeException catch (e) {
+      throw NodeException(
+          code: e.code, message: '{"nodeStats": "${e.message}"}');
+    }
+  }
+
+  Future<KeyedSignature> authorizeStake(String withdrawer) async {
+    try {
+      var response = await sendMessage(formatRequest(
+              method: 'authorizeStake', params: {'withdrawer': withdrawer}))
+          .then((Map<String, dynamic> data) {
+        print(data);
+        if (data.containsKey('result')) {
+          KeyedSignature sig =
+              KeyedSignature.fromJson(data['result']['signature']);
+
+          print(sig.jsonMap(asHex: true));
+          return sig;
+        }
+      });
+      return response!;
+    } on NodeException catch (e) {
+      throw NodeException(
+          code: e.code, message: '{"authorizeStake": "${e.message}"}');
+    }
   }
 
   /// Get the list of all the known block hashes.

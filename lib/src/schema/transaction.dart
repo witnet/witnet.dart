@@ -142,12 +142,12 @@ class Transaction extends GeneratedMessage {
 
   String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap({bool asHex = false}) {
+  Map<String, dynamic> jsonMap({bool asHex = false, bool testnet = false}) {
     if (hasValueTransfer())
       return {
         "transaction": {
           'ValueTransfer': {
-            "body": transaction.body.jsonMap(asHex: asHex),
+            "body": transaction.body.jsonMap(asHex: asHex, testnet: testnet),
             "signatures": List<dynamic>.from(
                 transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
           }
@@ -157,7 +157,7 @@ class Transaction extends GeneratedMessage {
       return {
         "transaction": {
           'DataRequest': {
-            "body": transaction.body.jsonMap(asHex: asHex),
+            "body": transaction.body.jsonMap(asHex: asHex, testnet: testnet),
             "signatures": List<dynamic>.from(
                 transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
           }
@@ -167,7 +167,7 @@ class Transaction extends GeneratedMessage {
       return {
         "transaction": {
           'Stake': {
-            "body": transaction.body.jsonMap(asHex: asHex),
+            "body": transaction.body.jsonMap(asHex: asHex, testnet: testnet),
             "signatures": List<dynamic>.from(
                 transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
           },
@@ -177,7 +177,7 @@ class Transaction extends GeneratedMessage {
       return {
         "transaction": {
           'Unstake': {
-            "body": transaction.body.jsonMap(asHex: asHex),
+            "body": transaction.body.jsonMap(asHex: asHex, testnet: testnet),
             "signature": transaction.signature.jsonMap(asHex: asHex),
           }
         }
@@ -186,7 +186,7 @@ class Transaction extends GeneratedMessage {
       return {
         "transaction": {
           'ValueTransfer': {
-            "body": transaction.body.jsonMap(asHex: asHex),
+            "body": transaction.body.jsonMap(asHex: asHex, testnet: testnet),
             "signatures": List<dynamic>.from(
                 transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
           }
