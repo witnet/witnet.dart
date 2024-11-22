@@ -43,9 +43,9 @@ class StakeKey extends GeneratedMessage {
         withdrawer: PublicKeyHash.fromAddress(json["withdrawer"]),
       );
 
-  Map<String, dynamic> jsonMap({bool asHex = false}) => {
-        "validator": validator.address,
-        "withdrawer": withdrawer.address,
+  Map<String, dynamic> jsonMap({bool asHex = false, bool testnet = false}) => {
+        "validator": testnet ? validator.testnetAddress : validator.address,
+        "withdrawer": testnet ? withdrawer.testnetAddress : withdrawer.address,
       };
 
   @override

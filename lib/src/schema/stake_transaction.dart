@@ -55,8 +55,8 @@ class StakeTransaction extends GeneratedMessage {
 
   String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap({bool asHex = false}) => {
-        "body": body.jsonMap(asHex: asHex),
+  Map<String, dynamic> jsonMap({bool asHex = false, bool testnet = false}) => {
+        "body": body.jsonMap(asHex: asHex, testnet: testnet),
         "signatures":
             List<dynamic>.from(signatures.map((x) => x.jsonMap(asHex: asHex))),
       };
