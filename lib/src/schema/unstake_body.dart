@@ -6,6 +6,8 @@ class UnstakeBody extends GeneratedMessage {
     ..aOM<PublicKeyHash>(1, 'operator', subBuilder: PublicKeyHash.create)
     ..aOM<ValueTransferOutput>(2, 'withdrawal',
         subBuilder: ValueTransferOutput.create)
+    ..a<Int64>(3, 'fee', PbFieldType.OU6, defaultOrMaker: Int64.ZERO)
+    ..a<Int64>(4, 'nonce', PbFieldType.OU6, defaultOrMaker: Int64.ZERO)
     ..hasRequiredFields = false;
 
   static UnstakeBody create() => UnstakeBody._();
@@ -25,6 +27,8 @@ class UnstakeBody extends GeneratedMessage {
   factory UnstakeBody({
     PublicKeyHash? operator,
     ValueTransferOutput? withdrawal,
+    int? fee,
+    int? nonce,
   }) {
     final _result = create();
     if (operator != null) {
@@ -33,7 +37,12 @@ class UnstakeBody extends GeneratedMessage {
     if (withdrawal != null) {
       _result.withdrawal = withdrawal;
     }
-
+    if (fee != null) {
+      _result.fee = Int64(fee);
+    }
+    if (nonce != null) {
+      _result.nonce = Int64(nonce);
+    }
     return _result;
   }
 
@@ -49,16 +58,24 @@ class UnstakeBody extends GeneratedMessage {
   factory UnstakeBody.fromJson(Map<String, dynamic> json) => UnstakeBody(
         operator: PublicKeyHash.fromAddress(json["operator"]),
         withdrawal: ValueTransferOutput.fromJson(json["withdrawal"]),
+        fee: int.parse(json["fee"]),
+        nonce: int.parse(json["nonce"]),
       );
 
   factory UnstakeBody.fromPbBytes(Uint8List buffer) =>
       create()..mergeFromBuffer(buffer, ExtensionRegistry.EMPTY);
 
-  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
+  String toRawJson({bool asHex = false, bool testnet = false}) =>
+      json.encode(jsonMap(
+        asHex: asHex,
+        testnet: testnet,
+      ));
 
   Map<String, dynamic> jsonMap({bool asHex = false, bool testnet = false}) => {
-        "operator": operator.address,
+        "operator": testnet ? operator.testnetAddress : operator.address,
         "withdrawal": withdrawal.jsonMap(asHex: asHex, testnet: testnet),
+        "fee": fee.toInt(),
+        "nonce": nonce.toInt(),
       };
 
   Uint8List get pbBytes => writeToBuffer();
@@ -71,6 +88,7 @@ class UnstakeBody extends GeneratedMessage {
   @override
   BuilderInfo get info_ => _i;
 
+  /// operator
   @TagNumber(1)
   PublicKeyHash get operator => $_getN(0);
   @TagNumber(1)
@@ -85,6 +103,7 @@ class UnstakeBody extends GeneratedMessage {
   @TagNumber(1)
   PublicKeyHash ensureOperator() => $_ensure(0);
 
+  /// withdrawal
   @TagNumber(2)
   ValueTransferOutput get withdrawal => $_getN(1);
   @TagNumber(2)
@@ -98,4 +117,26 @@ class UnstakeBody extends GeneratedMessage {
   void clearWithdrawal() => clearField(2);
   @TagNumber(2)
   ValueTransferOutput ensureWithdrawal() => $_ensure(1);
+
+  @TagNumber(3)
+  Int64 get fee => $_getI64(2);
+  @TagNumber(3)
+  set fee(Int64 v) {
+    $_setInt64(2, v);
+  }
+  @TagNumber(3)
+  bool hasFee() => $_has(2);
+  @TagNumber(3)
+  void clearFee() => clearField(3);
+
+  @TagNumber(4)
+  Int64 get nonce => $_getI64(3);
+  @TagNumber(4)
+  set nonce(Int64 v) {
+    $_setInt64(3, v);
+  }
+  @TagNumber(4)
+  bool hasNonce() => $_has(3);
+  @TagNumber(4)
+  void clearNonce() => clearField(4);
 }

@@ -53,7 +53,8 @@ class StakeTransaction extends GeneratedMessage {
           [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
 
-  String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
+  String rawJson({bool asHex = false, bool testnet = false}) =>
+      json.encode(jsonMap(asHex: asHex, testnet: testnet));
 
   Map<String, dynamic> jsonMap({bool asHex = false, bool testnet = false}) => {
         "body": body.jsonMap(asHex: asHex, testnet: testnet),
