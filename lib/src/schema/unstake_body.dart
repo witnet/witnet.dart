@@ -6,6 +6,8 @@ class UnstakeBody extends GeneratedMessage {
     ..aOM<PublicKeyHash>(1, 'operator', subBuilder: PublicKeyHash.create)
     ..aOM<ValueTransferOutput>(2, 'withdrawal',
         subBuilder: ValueTransferOutput.create)
+    ..a<Int64>(3, 'fee', PbFieldType.OU6, defaultOrMaker: Int64.ZERO)
+    ..a<Int64>(4, 'nonce', PbFieldType.OU6, defaultOrMaker: Int64.ZERO)
     ..hasRequiredFields = false;
 
   static UnstakeBody create() => UnstakeBody._();
@@ -25,6 +27,8 @@ class UnstakeBody extends GeneratedMessage {
   factory UnstakeBody({
     PublicKeyHash? operator,
     ValueTransferOutput? withdrawal,
+    int? fee,
+    int? nonce,
   }) {
     final _result = create();
     if (operator != null) {
@@ -33,7 +37,12 @@ class UnstakeBody extends GeneratedMessage {
     if (withdrawal != null) {
       _result.withdrawal = withdrawal;
     }
-
+    if (fee != null) {
+      _result.fee = fee;
+    }
+    if (nonce != null) {
+      _result.nonce = nonce;
+    }
     return _result;
   }
 
@@ -49,16 +58,24 @@ class UnstakeBody extends GeneratedMessage {
   factory UnstakeBody.fromJson(Map<String, dynamic> json) => UnstakeBody(
         operator: PublicKeyHash.fromAddress(json["operator"]),
         withdrawal: ValueTransferOutput.fromJson(json["withdrawal"]),
+        fee: int.parse(json["fee"]),
+        nonce: int.parse(json["nonce"]),
       );
 
   factory UnstakeBody.fromPbBytes(Uint8List buffer) =>
       create()..mergeFromBuffer(buffer, ExtensionRegistry.EMPTY);
 
-  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
+  String toRawJson({bool asHex = false, bool testnet = false}) =>
+      json.encode(jsonMap(
+        asHex: asHex,
+        testnet: testnet,
+      ));
 
   Map<String, dynamic> jsonMap({bool asHex = false, bool testnet = false}) => {
         "operator": operator.address,
         "withdrawal": withdrawal.jsonMap(asHex: asHex, testnet: testnet),
+        "fee": fee,
+        "nonce": nonce,
       };
 
   Uint8List get pbBytes => writeToBuffer();
@@ -98,4 +115,30 @@ class UnstakeBody extends GeneratedMessage {
   void clearWithdrawal() => clearField(2);
   @TagNumber(2)
   ValueTransferOutput ensureWithdrawal() => $_ensure(1);
+
+  @TagNumber(3)
+  int get fee => $_getN(2);
+  @TagNumber(3)
+  bool hasFee() => $_has(2);
+  @TagNumber(3)
+  void clearFee() => clearField(2);
+  @TagNumber(3)
+  ValueTransferOutput ensureFee() => $_ensure(2);
+  @TagNumber(3)
+  set fee(int v) {
+    setField(2, v);
+  }
+
+  @TagNumber(4)
+  int get nonce => $_getN(3);
+  @TagNumber(4)
+  bool hasNonce() => $_has(3);
+  @TagNumber(4)
+  void clearNonce() => clearField(3);
+  @TagNumber(4)
+  ValueTransferOutput ensureNonce() => $_ensure(3);
+  @TagNumber(4)
+  set nonce(int v) {
+    setField(3, v);
+  }
 }
