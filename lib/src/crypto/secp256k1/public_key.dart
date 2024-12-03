@@ -71,9 +71,8 @@ class WitPublicKey {
     return sha256(data: encode()).sublist(0, 20);
   }
 
-  String get address {
-    return bech32.encodeAddress('wit', publicKeyHash);
-  }
+  String get address => bech32.encodeAddress('wit', publicKeyHash);
+  String get testnetAddress => bech32.encodeAddress('twit', publicKeyHash);
 }
 
 Point _recoverPublicKey(

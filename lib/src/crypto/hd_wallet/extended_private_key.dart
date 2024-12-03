@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:witnet/schema.dart';
 import 'package:witnet/src/crypto/hd_wallet/extended_key.dart';
 import 'package:witnet/src/crypto/secp256k1/secp256k1.dart';
 import 'package:witnet/src/utils/bech32/exceptions.dart';
@@ -204,6 +205,17 @@ class Xprv extends ExtendedKey {
     // 32bit to 256bit
 
     return bech1;
+  }
+
+  PublicKeyHash get publicKeyHash =>
+      PublicKeyHash.fromAddress(privateKey.publicKey.address);
+
+  KeyedSignature signHash(String hash) {
+    final sig = privateKey.signature(hash);
+    return KeyedSignature(
+      publicKey: PublicKey(bytes: privateKey.publicKey.encode()),
+      signature: Signature(secp256k1: Secp256k1Signature(der: sig.encode())),
+    );
   }
 
   @override

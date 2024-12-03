@@ -53,6 +53,8 @@ class Address {
     );
   }
 
+  String get testnetAddress => publicKeyHash!.testnetAddress;
+
   int get balanceNanoWit {
     int value = 0;
     if (_utxoInfo != null) {
