@@ -140,7 +140,8 @@ class Transaction extends GeneratedMessage {
     return Transaction();
   }
 
-  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
+  String toRawJson({bool asHex = false, bool testnet = false}) =>
+      json.encode(jsonMap(asHex: asHex, testnet: testnet));
 
   Map<String, dynamic> jsonMap({bool asHex = false, bool testnet = false}) {
     if (hasValueTransfer())

@@ -84,8 +84,8 @@ class NodeClient {
       });
       return response;
     } on NodeException catch (e) {
-      throw NodeException(
-          code: e.code, message: '{"inventory": "${e.message}"}');
+      print("${e.message}");
+      return false;
     }
   }
 
@@ -110,23 +110,29 @@ class NodeClient {
     });
   }
 
-  Future<dynamic> sendUnStakeTransaction(
+  Future<bool> sendUnstakeTransaction(
       {required UnstakeTransaction unstake, bool testnet = false}) async {
-    return await inventory({
-      'transaction': {'Unstake': unstake.jsonMap(asHex: false)}
-    });
+    try {
+      /// returns true if success
+      return await inventory({
+        'transaction': {
+          'Unstake': unstake.jsonMap(asHex: false, testnet: testnet)
+        }
+      });
+    } on NodeException catch (_) {
+      print("${_.message}");
+      return false;
+    }
   }
 
-  Future<dynamic> queryStakes(String? validator, String? withdrawer) async {
+  Future<int?> queryStakes(String? validator, String? withdrawer) async {
     try {
       Map<String, String> params = {};
       if (validator != null) params['Validator'] = validator;
       if (withdrawer != null) params['Withdrawer'] = withdrawer;
-
-      var response = await sendMessage(
+      var _ = await sendMessage(
               formatRequest(method: 'queryStakes', params: params))
           .then((Map<String, dynamic> data) {
-        print(data);
         if (data.containsKey('result')) {
           return data;
         }
@@ -134,11 +140,8 @@ class NodeClient {
           return 0;
         }
       });
-      // return response!;
-    } on NodeException catch (e) {
-      throw NodeException(
-          code: e.code, message: '{"nodeStats": "${e.message}"}');
-    }
+    } on NodeException catch (_) {}
+    return null;
   }
 
   Future<KeyedSignature> authorizeStake(String withdrawer) async {
