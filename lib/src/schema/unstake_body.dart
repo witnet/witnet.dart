@@ -11,7 +11,6 @@ class UnstakeBody extends GeneratedMessage {
     ..hasRequiredFields = false;
 
   static UnstakeBody create() => UnstakeBody._();
-  static PbList<UnstakeBody> createRepeated() => PbList<UnstakeBody>();
   static UnstakeBody getDefault() =>
       _defaultInstance ??= GeneratedMessage.$_defaultFor<UnstakeBody>(create);
   static UnstakeBody? _defaultInstance;
@@ -122,8 +121,9 @@ class UnstakeBody extends GeneratedMessage {
   Int64 get fee => $_getI64(2);
   @TagNumber(3)
   set fee(Int64 v) {
-    $_setInt64(2, v);
+    (v == Int64.ZERO) ? null : $_setInt64(2, v);
   }
+
   @TagNumber(3)
   bool hasFee() => $_has(2);
   @TagNumber(3)
@@ -135,6 +135,7 @@ class UnstakeBody extends GeneratedMessage {
   set nonce(Int64 v) {
     $_setInt64(3, v);
   }
+
   @TagNumber(4)
   bool hasNonce() => $_has(3);
   @TagNumber(4)
