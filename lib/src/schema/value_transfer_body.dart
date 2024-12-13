@@ -62,8 +62,8 @@ class VTTransactionBody extends GeneratedMessage {
         "inputs": List<dynamic>.from(inputs.map((x) => x.jsonMap(
               asHex: asHex,
             ))),
-        "outputs": List<dynamic>.from(
-            outputs.map((x) => x.jsonMap(asHex: asHex, testnet: testnet))),
+        "outputs":
+            List<dynamic>.from(outputs.map((x) => x.jsonMap(asHex: asHex))),
       };
 
   Uint8List get pbBytes => writeToBuffer();

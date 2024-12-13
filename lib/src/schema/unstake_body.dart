@@ -64,15 +64,13 @@ class UnstakeBody extends GeneratedMessage {
   factory UnstakeBody.fromPbBytes(Uint8List buffer) =>
       create()..mergeFromBuffer(buffer, ExtensionRegistry.EMPTY);
 
-  String toRawJson({bool asHex = false, bool testnet = false}) =>
-      json.encode(jsonMap(
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(
         asHex: asHex,
-        testnet: testnet,
       ));
 
-  Map<String, dynamic> jsonMap({bool asHex = false, bool testnet = false}) => {
-        "operator": testnet ? operator.testnetAddress : operator.address,
-        "withdrawal": withdrawal.jsonMap(asHex: asHex, testnet: testnet),
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
+        "operator": operator.address,
+        "withdrawal": withdrawal.jsonMap(asHex: asHex),
         "fee": fee.toInt(),
         "nonce": nonce.toInt(),
       };
@@ -87,7 +85,6 @@ class UnstakeBody extends GeneratedMessage {
   @override
   BuilderInfo get info_ => _i;
 
-  /// operator
   @TagNumber(1)
   PublicKeyHash get operator => $_getN(0);
   @TagNumber(1)
@@ -102,7 +99,6 @@ class UnstakeBody extends GeneratedMessage {
   @TagNumber(1)
   PublicKeyHash ensureOperator() => $_ensure(0);
 
-  /// withdrawal
   @TagNumber(2)
   ValueTransferOutput get withdrawal => $_getN(1);
   @TagNumber(2)

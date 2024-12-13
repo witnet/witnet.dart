@@ -7,6 +7,7 @@ import 'package:witnet/data_structures.dart'
         Utxo,
         UtxoPool,
         UtxoSelectionStrategy;
+import 'package:witnet/src/utils/dotenv.dart';
 
 import 'secp256k1/private_key.dart' show WitPrivateKey;
 import 'secp256k1/public_key.dart' show WitPublicKey;
@@ -46,14 +47,12 @@ class Address {
   factory Address.fromPublicKeyHash({required Uint8List hash}) {
     return Address(
       address: bech32.encode(Bech32(
-          hrp: 'wit',
+          hrp: DotEnvUtil().testnet ? 'twit' : 'wit',
           data: Uint8List.fromList(
               convertBits(data: hash.toList(), from: 8, to: 5, pad: false)))),
       publicKeyHash: PublicKeyHash(hash: hash),
     );
   }
-
-  String get testnetAddress => publicKeyHash!.testnetAddress;
 
   int get balanceNanoWit {
     int value = 0;

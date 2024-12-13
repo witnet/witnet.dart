@@ -54,8 +54,8 @@ class UnstakeTransaction extends GeneratedMessage {
   String rawJson({bool asHex = false, bool testnet = false}) =>
       json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap({bool asHex = false, bool testnet = false}) => {
-        "body": body.jsonMap(asHex: asHex, testnet: testnet),
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
+        "body": body.jsonMap(asHex: asHex),
         "signature": signature.jsonMap(asHex: asHex)
       };
 
