@@ -7,7 +7,7 @@ import 'package:witnet/src/utils/transformations/transformations.dart';
 import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:witnet/crypto.dart' show sha256;
 
-import 'package:witnet/utils.dart' show bech32, concatBytes;
+import 'package:witnet/utils.dart' show bech32, concatBytes, DotEnvUtil;
 
 import 'package:witnet/constants.dart'
     show

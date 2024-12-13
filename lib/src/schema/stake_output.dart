@@ -51,9 +51,9 @@ class StakeOutput extends GeneratedMessage {
         authorization: KeyedSignature.fromJson(json["authorization"]),
       );
 
-  Map<String, dynamic> jsonMap({bool asHex = false, bool testnet = false}) => {
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "value": value.toInt(),
-        "key": key.jsonMap(asHex: asHex, testnet: testnet),
+        "key": key.jsonMap(asHex: asHex),
         "authorization": authorization.jsonMap(asHex: asHex),
       };
 

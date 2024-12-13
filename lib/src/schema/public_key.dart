@@ -43,8 +43,9 @@ class PublicKey extends GeneratedMessage {
   @override
   factory PublicKey.fromJson(Map<String, dynamic> json) {
     Uint8List compressed = Uint8List.fromList([json['compressed']]);
-    Uint8List bytes =
-        Uint8List.fromList(List<int>.from(json["bytes"].map((x) => x)));
+    Uint8List bytes = (json["bytes"].runtimeType == List<int>)
+        ? Uint8List.fromList(List<int>.from(json["bytes"].map((x) => x)))
+        : hexToBytes(json["bytes"]);
     return PublicKey(bytes: concatBytes([compressed, bytes]));
   }
 

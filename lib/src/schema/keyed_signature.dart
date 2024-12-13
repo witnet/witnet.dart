@@ -68,7 +68,7 @@ class KeyedSignature extends GeneratedMessage {
     );
   }
 
-  String get rawJson => json.encode(jsonMap());
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "public_key": publicKey.jsonMap(asHex: asHex),

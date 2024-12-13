@@ -41,8 +41,9 @@ class PublicKeyHash extends GeneratedMessage {
 
   String get hex => bytesToHex(Uint8List.fromList(hash));
 
-  String get address => bech32.encodeAddress('wit', hash);
-  String get testnetAddress => bech32.encodeAddress('twit', hash);
+  String get address =>
+      bech32.encodeAddress(DotEnvUtil().testnet ? 'twit' : 'wit', hash);
+
   Uint8List get pbBytes => writeToBuffer();
 
   @TagNumber(1)
