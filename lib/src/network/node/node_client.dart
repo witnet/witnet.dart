@@ -101,23 +101,19 @@ class NodeClient {
     });
   }
 
-  Future<dynamic> sendStakeTransaction({
-    required StakeTransaction stake,
-    bool testnet = false,
-  }) async {
+  Future<dynamic> sendStakeTransaction(
+      {required StakeTransaction stake}) async {
     return await inventory({
-      'transaction': {'Stake': stake.jsonMap(asHex: false, testnet: testnet)}
+      'transaction': {'Stake': stake.jsonMap(asHex: false)}
     });
   }
 
   Future<bool> sendUnstakeTransaction(
-      {required UnstakeTransaction unstake, bool testnet = false}) async {
+      {required UnstakeTransaction unstake}) async {
     try {
       /// returns true if success
       return await inventory({
-        'transaction': {
-          'Unstake': unstake.jsonMap(asHex: false, testnet: testnet)
-        }
+        'transaction': {'Unstake': unstake.jsonMap(asHex: false)}
       });
     } on NodeException catch (_) {
       print("${_.message}");
@@ -149,12 +145,9 @@ class NodeClient {
       var response = await sendMessage(formatRequest(
               method: 'authorizeStake', params: {'withdrawer': withdrawer}))
           .then((Map<String, dynamic> data) {
-        print(data);
         if (data.containsKey('result')) {
           KeyedSignature sig =
               KeyedSignature.fromJson(data['result']['signature']);
-
-          print(sig.jsonMap(asHex: true));
           return sig;
         }
       });

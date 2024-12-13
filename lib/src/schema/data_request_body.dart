@@ -62,12 +62,12 @@ class DRTransactionBody extends GeneratedMessage {
 
   String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap({bool asHex = false, bool testnet = false}) => {
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "dr_output": drOutput.jsonMap(asHex: asHex),
         "inputs":
             List<dynamic>.from(inputs.map((x) => x.jsonMap(asHex: asHex))),
-        "outputs": List<dynamic>.from(
-            outputs.map((x) => x.jsonMap(asHex: asHex, testnet: testnet))),
+        "outputs":
+            List<dynamic>.from(outputs.map((x) => x.jsonMap(asHex: asHex))),
       };
 
   @override

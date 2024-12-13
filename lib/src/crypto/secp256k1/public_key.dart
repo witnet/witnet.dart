@@ -1,6 +1,7 @@
 import "dart:typed_data" show Uint8List;
 
 import 'package:witnet/src/crypto/secp256k1/signature.dart';
+import 'package:witnet/utils.dart' show DotEnvUtil;
 
 import 'secp256k1.dart'
     show
@@ -71,8 +72,8 @@ class WitPublicKey {
     return sha256(data: encode()).sublist(0, 20);
   }
 
-  String get address => bech32.encodeAddress('wit', publicKeyHash);
-  String get testnetAddress => bech32.encodeAddress('twit', publicKeyHash);
+  String get address => bech32.encodeAddress(
+      DotEnvUtil().testnet ? 'twit' : 'wit', publicKeyHash);
 }
 
 Point _recoverPublicKey(

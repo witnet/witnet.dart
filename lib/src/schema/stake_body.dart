@@ -53,7 +53,9 @@ class StakeBody extends GeneratedMessage {
   factory StakeBody.fromJson(Map<String, dynamic> json) => StakeBody(
         inputs: List<Input>.from(json["inputs"].map((x) => Input.fromJson(x))),
         output: StakeOutput.fromJson(json["output"]),
-        change: ValueTransferOutput.fromJson(json["change"]),
+        change: json.containsKey('change')
+            ? ValueTransferOutput.fromJson(json["change"])
+            : null,
       );
 
   factory StakeBody.fromPbBytes(Uint8List buffer) =>
@@ -61,11 +63,11 @@ class StakeBody extends GeneratedMessage {
 
   String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap({bool asHex = false, bool testnet = false}) => {
+  Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "inputs":
             List<dynamic>.from(inputs.map((x) => x.jsonMap(asHex: asHex))),
-        "output": output.jsonMap(asHex: asHex, testnet: testnet),
-        "change": change.jsonMap(asHex: asHex, testnet: testnet),
+        "output": output.jsonMap(asHex: asHex),
+        "change": change.jsonMap(asHex: asHex),
       };
 
   Uint8List get pbBytes => writeToBuffer();
