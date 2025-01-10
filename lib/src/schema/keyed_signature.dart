@@ -50,16 +50,19 @@ class KeyedSignature extends GeneratedMessage {
       {required String authorization, required String withdrawer}) {
     PublicKeyHash pkh = PublicKeyHash.fromAddress(withdrawer);
     Uint8List authBytes = hexToBytes(authorization);
-    int recoveryId = authBytes[0];
-    BigInt r = bytesToBigInt(authBytes.sublist(1, 33));
-    BigInt s = bytesToBigInt(authBytes.sublist(33, 65));
-
+    PublicKeyHash validatorPkh = PublicKeyHash(hash: authBytes.sublist(0, 20));
+    int recoveryId = authBytes[20];
+    BigInt r = bytesToBigInt(authBytes.sublist(21, 53));
+    BigInt s = bytesToBigInt(authBytes.sublist(53, 85));
     WitSignature signature = WitSignature(r, s);
     WitPublicKey validatorKey = WitPublicKey.recover(
       signature,
       Uint8List(32)..setRange(0, 20, pkh.hash),
       recoveryId,
     );
+
+    assert(validatorKey.address == validatorPkh.address,
+        "Validator Key does not match signature");
 
     return KeyedSignature(
       publicKey: PublicKey(bytes: validatorKey.encode()),
