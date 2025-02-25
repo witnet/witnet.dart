@@ -1369,6 +1369,139 @@ class AddressMintInfo {
   }
 }
 
+class AddressStake {
+  AddressStake({
+    required this.epoch,
+    required this.timestamp,
+    required this.hash,
+    required this.direction,
+    required this.validator,
+    required this.withdrawer,
+    required this.input_value,
+    required this.stake_value,
+    required this.confirmed,
+  });
+  final int epoch;
+  final int timestamp;
+  final String hash;
+  final String direction;
+  final String validator;
+  final String withdrawer;
+  final int input_value;
+  final int stake_value;
+  final bool confirmed;
+
+  factory AddressStake.fromJson(Map<String, dynamic> data) {
+    return AddressStake(
+      epoch: data['epoch'],
+      timestamp: data['timestamp'],
+      hash: data['hash'],
+      direction: data['direction'],
+      validator: data['validator'],
+      withdrawer: data['withdrawer'],
+      input_value: data['input_value'],
+      stake_value: data['stake_value'],
+      confirmed: data['confirmed'],
+    );
+  }
+
+  Map<String, dynamic> jsonMap() {
+    return {
+      'epoch': epoch,
+      'timestamp': timestamp,
+      'hash': hash,
+      'direction': direction,
+      'validator': validator,
+      'withdrawer': withdrawer,
+      'input_value': input_value,
+      'stake_value': stake_value,
+      'confirmed': confirmed,
+    };
+  }
+}
+
+class AddressStakes {
+  AddressStakes({required this.stakes});
+  List<AddressStake> stakes;
+
+  factory AddressStakes.fromJson(List<Map<String, dynamic>> data) {
+    return AddressStakes(
+        stakes:
+            List<AddressStake>.from(data.map((e) => AddressStake.fromJson(e))));
+  }
+
+  Map<String, dynamic> jsonMap() {
+    return {
+      'stakes': List<Map<String, dynamic>>.from(stakes.map((e) => e.jsonMap()))
+    };
+  }
+}
+
+class AddressUnstake {
+  AddressUnstake({
+    required this.epoch,
+    required this.timestamp,
+    required this.hash,
+    required this.direction,
+    required this.validator,
+    required this.withdrawer,
+    required this.unstake_value,
+    required this.confirmed,
+  });
+  final int epoch;
+  final int timestamp;
+  final String hash;
+  final String direction;
+  final String validator;
+  final String withdrawer;
+  final int unstake_value;
+  final bool confirmed;
+
+  factory AddressUnstake.fromJson(Map<String, dynamic> data) {
+    return AddressUnstake(
+      epoch: data['epoch'],
+      timestamp: data['timestamp'],
+      hash: data['hash'],
+      direction: data['direction'],
+      validator: data['validator'],
+      withdrawer: data['withdrawer'],
+      unstake_value: data['unstake_value'],
+      confirmed: data['confirmed'],
+    );
+  }
+
+  Map<String, dynamic> jsonMap() {
+    return {
+      'epoch': epoch,
+      'timestamp': timestamp,
+      'hash': hash,
+      'direction': direction,
+      'validator': validator,
+      'withdrawer': withdrawer,
+      'unstake_value': unstake_value,
+      'confirmed': confirmed,
+    };
+  }
+}
+
+class AddressUnstakes {
+  AddressUnstakes({required this.unstakes});
+  List<AddressUnstake> unstakes;
+
+  factory AddressUnstakes.fromJson(List<Map<String, dynamic>> data) {
+    return AddressUnstakes(
+        unstakes: List<AddressUnstake>.from(
+            data.map((e) => AddressUnstake.fromJson(e))));
+  }
+
+  Map<String, dynamic> jsonMap() {
+    return {
+      'unstakes':
+          List<Map<String, dynamic>>.from(unstakes.map((e) => e.jsonMap()))
+    };
+  }
+}
+
 class MintInfo {
   MintInfo({
     required this.miner,
@@ -1532,9 +1665,9 @@ class TransactionUtxo {
 // TODO: use this enum in all the package
 enum TxStatusLabel { pending, mined, confirmed, reverted, unknown }
 
-enum MempoolTransactionType { value_transfers, data_requests }
+enum MempoolTransactionType { value_transfers, data_requests, stakes, unstakes }
 
-enum TransactionType { value_transfer, data_request, mint }
+enum TransactionType { value_transfer, data_request, mint, stake, unstake }
 
 enum SupplyParams {
   blocks_minted,
@@ -1676,6 +1809,182 @@ NullableFields getOrDefault(Map<String, dynamic> data) {
     trueValue: data["true_value"],
     changeValue: data["change_value"],
   );
+}
+
+class StakeInput {
+  final String address;
+  final int value;
+
+  StakeInput({required this.address, required this.value});
+  factory StakeInput.fromJson(Map<String, dynamic> data) {
+    return StakeInput(address: data['address'], value: data['value']);
+  }
+  Map<String, dynamic> jsonMap() => {'address': address, 'value': value};
+}
+
+class UnstakeInfo extends HashInfo {
+  UnstakeInfo({
+    required this.hash,
+    required this.epoch,
+    required this.timestamp,
+    required this.block,
+    required this.confirmed,
+    required this.reverted,
+    required this.validator,
+    required this.withdrawer,
+    required this.unstakeValue,
+    required this.fee,
+    required this.nonce,
+    required this.weight,
+    required super.txnHash,
+    required super.status,
+    required super.type,
+    required super.txnTime,
+    required super.blockHash,
+  });
+  final String hash;
+  final int? epoch;
+  final int timestamp;
+  final String? block;
+  final bool confirmed;
+  final bool reverted;
+  final String validator;
+  final String withdrawer;
+  final int unstakeValue;
+  final int fee;
+  final int nonce;
+  final int weight;
+
+  factory UnstakeInfo.fromJson(Map<String, dynamic> data) {
+    return UnstakeInfo(
+      hash: data['hash'],
+      epoch: data['epoch'],
+      timestamp: data['timestamp'],
+      block: data['block'],
+      confirmed: data['confirmed'],
+      reverted: data['reverted'],
+      validator: data['validator'],
+      withdrawer: data['withdrawer'],
+      unstakeValue: data['unstake_value'],
+      fee: data['fee'],
+      nonce: data['nonce'],
+      weight: data['weight'],
+      txnHash: data['txnHash'],
+      status: data['status'],
+      type: data['type'],
+      txnTime: data['txnTime'],
+      blockHash: data['blockHash'],
+    );
+  }
+
+  Map<String, dynamic> jsonMap() {
+    return {
+      'hash': hash,
+      'epoch': epoch,
+      'timestamp': timestamp,
+      'block': block,
+      'confirmed': confirmed,
+      'reverted': reverted,
+      'validator': validator,
+      'withdrawer': withdrawer,
+      'unstake_value': unstakeValue,
+      'fee': fee,
+      'nonce': nonce,
+      'weight': weight,
+      'txnHash': txnHash,
+      'status': status,
+      'type': type,
+      'txnTime': txnTime,
+      'blockHash': blockHash,
+    };
+  }
+}
+
+class StakeInfo extends HashInfo {
+  StakeInfo({
+    required this.block,
+    required this.changeAddress,
+    required this.changeValue,
+    required this.confirmed,
+    required this.epoch,
+    required this.fee,
+    required this.hash,
+    required this.inputs,
+    required this.priority,
+    required this.reverted,
+    required this.stakeValue,
+    required this.timestamp,
+    required this.validator,
+    required this.weight,
+    required this.withdrawer,
+    required super.txnHash,
+    required super.status,
+    required super.type,
+    required super.txnTime,
+    required super.blockHash,
+  });
+
+  final String block;
+  final String? changeAddress;
+  final int? changeValue;
+  final bool confirmed;
+  final int epoch;
+  final int fee;
+  final String hash;
+  final List<StakeInput> inputs;
+  final int priority;
+  final bool reverted;
+  final int stakeValue;
+  final int timestamp;
+  final String validator;
+  final int weight;
+  final String withdrawer;
+
+  factory StakeInfo.fromJson(Map<String, dynamic> data) {
+    return StakeInfo(
+      block: data['block'],
+      changeAddress: data['change_address'],
+      changeValue: data['change_value'],
+      confirmed: data['confirmed'],
+      epoch: data['epoch'],
+      fee: data['fee'],
+      hash: data['hash'],
+      inputs: List<StakeInput>.from(
+          data["inputs"].map((x) => StakeInput.fromJson(x))),
+      priority: data['priority'],
+      reverted: data['reverted'],
+      stakeValue: data['stake_value'],
+      timestamp: data['timestamp'],
+      validator: data['validator'],
+      weight: data['weight'],
+      withdrawer: data['withdrawer'],
+      txnHash: data['txnHash'],
+      status: data['status'],
+      type: data['type'],
+      txnTime: data['txnTime'],
+      blockHash: data['blockHash'],
+    );
+  }
+
+  Map<String, dynamic> jsonMap() {
+    return {
+      'block': block,
+      'change_address': changeAddress,
+      'change_value': changeValue,
+      'confirmed': confirmed,
+      'epoch': epoch,
+      'fee': fee,
+      'hash': hash,
+      'inputs': List<Map<String, dynamic>>.from(inputs.map((e) => e.jsonMap())),
+      'priority': priority,
+      'reverted': reverted,
+      'stake_value': stakeValue,
+      'timestamp': timestamp,
+      'validator': validator,
+      'weight': weight,
+      'withdrawer': withdrawer,
+    };
+  }
 }
 
 class ValueTransferInfo extends HashInfo {

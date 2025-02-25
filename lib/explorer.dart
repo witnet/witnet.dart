@@ -47,4 +47,11 @@ export 'src/network/explorer/explorer_api.dart'
         TransactionType,
         TransactionUtxo,
         TxStatusLabel,
-        ValueTransferInfo;
+        ValueTransferInfo,
+        StakeInfo,
+        StakeInput,
+        AddressStakes,
+        AddressStake,
+        AddressUnstake,
+        AddressUnstakes,
+        UnstakeInfo;
