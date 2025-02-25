@@ -11,16 +11,18 @@ import 'package:witnet/schema.dart';
 import 'explorer_api.dart'
     show
         AddressBlocks,
-        AddressDataRequestsSolved,
         AddressDataRequestsCreated,
+        AddressDataRequestsSolved,
+        AddressStakes,
+        AddressUnstakes,
         AddressValueTransfers,
         BlockDetails,
-        Mempool,
         Blockchain,
         ExplorerException,
-        NetworkBalances,
         Home,
+        Mempool,
         MintInfo,
+        NetworkBalances,
         NetworkReputation,
         PrioritiesEstimate,
         Status,
@@ -558,6 +560,40 @@ class ExplorerClient {
             total: result.total,
             totalPages: result.totalPages,
           );
+        case 'stakes':
+          PaginatedRequest<dynamic> result = await client.get(api(
+              'address/stakes',
+              {'address': value, 'page': page, 'page_size': pageSize}));
+          List<dynamic> data = result.data;
+          if (findAll) {
+            data = await getAllResults(result, 'address/stakes',
+                {'address': value, 'page': page, 'page_size': pageSize});
+          }
+          return PaginatedRequest(
+            data: AddressStakes.fromJson(data as List<Map<String, dynamic>>),
+            firstPage: result.firstPage,
+            lastPage: result.lastPage,
+            page: result.page,
+            total: result.total,
+            totalPages: result.totalPages,
+          );
+        case 'unstakes':
+          PaginatedRequest<dynamic> result = await client.get(api(
+              'address/unstakes',
+              {'address': value, 'page': page, 'page_size': pageSize}));
+          List<dynamic> data = result.data;
+          if (findAll) {
+            data = await getAllResults(result, 'address/unstakes',
+                {'address': value, 'page': page, 'page_size': pageSize});
+          }
+          return PaginatedRequest(
+            data: AddressUnstakes.fromJson(data as List<Map<String, dynamic>>),
+            firstPage: result.firstPage,
+            lastPage: result.lastPage,
+            page: result.page,
+            total: result.total,
+            totalPages: result.totalPages,
+          );
       }
     } on ExplorerException catch (e) {
       throw ExplorerException(
@@ -603,6 +639,20 @@ class ExplorerClient {
         throw ExplorerException(code: -3, message: response['error']);
       }
       return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<int> nonce(
+      {required String validator, required String withdrawer}) async {
+    try {
+      var response = await client.post(api('transaction/nonce'),
+          {'validator': validator, 'withdrawer': withdrawer});
+      if (response.containsKey('error')) {
+        throw ExplorerException(code: -3, message: response['error']);
+      }
+      return response['nonce'];
     } catch (e) {
       rethrow;
     }
