@@ -1424,7 +1424,7 @@ class AddressStakes {
   AddressStakes({required this.stakes});
   List<AddressStake> stakes;
 
-  factory AddressStakes.fromJson(List<Map<String, dynamic>> data) {
+  factory AddressStakes.fromJson(List<dynamic> data) {
     return AddressStakes(
         stakes:
             List<AddressStake>.from(data.map((e) => AddressStake.fromJson(e))));
@@ -1488,7 +1488,7 @@ class AddressUnstakes {
   AddressUnstakes({required this.unstakes});
   List<AddressUnstake> unstakes;
 
-  factory AddressUnstakes.fromJson(List<Map<String, dynamic>> data) {
+  factory AddressUnstakes.fromJson(List<dynamic> data) {
     return AddressUnstakes(
         unstakes: List<AddressUnstake>.from(
             data.map((e) => AddressUnstake.fromJson(e))));

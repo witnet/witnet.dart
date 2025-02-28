@@ -570,7 +570,7 @@ class ExplorerClient {
                 {'address': value, 'page': page, 'page_size': pageSize});
           }
           return PaginatedRequest(
-            data: AddressStakes.fromJson(data as List<Map<String, dynamic>>),
+            data: AddressStakes.fromJson(data),
             firstPage: result.firstPage,
             lastPage: result.lastPage,
             page: result.page,
@@ -587,7 +587,7 @@ class ExplorerClient {
                 {'address': value, 'page': page, 'page_size': pageSize});
           }
           return PaginatedRequest(
-            data: AddressUnstakes.fromJson(data as List<Map<String, dynamic>>),
+            data: AddressUnstakes.fromJson(data),
             firstPage: result.firstPage,
             lastPage: result.lastPage,
             page: result.page,
