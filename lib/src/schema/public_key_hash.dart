@@ -3,7 +3,8 @@ part of 'schema.dart';
 class PublicKeyHash extends GeneratedMessage {
   static final BuilderInfo _i = BuilderInfo('PublicKeyHash',
       package: const PackageName('witnet'), createEmptyInstance: create)
-    ..a<List<int>>(1, 'hash', PbFieldType.OY)
+    ..a<List<int>>(1, 'hash', PbFieldType.OY,
+        defaultOrMaker: Uint8List.fromList(List<int>.generate(20, (i) => 0)))
     ..hasRequiredFields = false;
 
   static PublicKeyHash create() => PublicKeyHash._();
@@ -44,7 +45,9 @@ class PublicKeyHash extends GeneratedMessage {
   String get address =>
       bech32.encodeAddress(DotEnvUtil().testnet ? 'twit' : 'wit', hash);
 
-  Uint8List get pbBytes => writeToBuffer();
+  Uint8List get pbBytes => hash.length == 0
+      ? Uint8List.fromList(List<int>.generate(20, (i) => 0))
+      : writeToBuffer();
 
   @TagNumber(1)
   List<int> get hash => $_getN(0);
