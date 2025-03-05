@@ -45,32 +45,49 @@ class StakeBody extends GeneratedMessage {
       StakeBody.fromJson(json.decode(str));
 
   @override
-  factory StakeBody.fromBuffer(List<int> i,
-          [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
+  factory StakeBody.fromBuffer(List<int> i, [r = ExtensionRegistry.EMPTY]) {
+    StakeBody _body = create()..mergeFromBuffer(i, r);
+    if (_body.change.rawJson() == ValueTransferOutput.getDefault().rawJson()) {
+      _body.clearChange();
+    }
+    return _body;
+  }
 
   @override
   factory StakeBody.fromJson(Map<String, dynamic> json) => StakeBody(
         inputs: List<Input>.from(json["inputs"].map((x) => Input.fromJson(x))),
         output: StakeOutput.fromJson(json["output"]),
         change: json.containsKey('change')
-            ? ValueTransferOutput.fromJson(json["change"])
+            ? json["change"] != null
+                ? ValueTransferOutput.fromJson(json["change"])
+                : null
             : null,
       );
 
-  factory StakeBody.fromPbBytes(Uint8List buffer) =>
-      create()..mergeFromBuffer(buffer, ExtensionRegistry.EMPTY);
-
   String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap({bool asHex = false}) => {
-        "inputs":
-            List<dynamic>.from(inputs.map((x) => x.jsonMap(asHex: asHex))),
-        "output": output.jsonMap(asHex: asHex),
-        "change": change.jsonMap(asHex: asHex),
-      };
+  Map<String, dynamic> jsonMap({bool asHex = false}) {
+    var _json = {
+      "inputs": List<dynamic>.from(inputs.map((x) => x.jsonMap(asHex: asHex))),
+      "output": output.jsonMap(asHex: asHex),
+    };
+    if (change != ValueTransferOutput.getDefault()) {
+      _json['change'] = change.jsonMap(asHex: asHex);
+    }
+    return _json;
+  }
 
-  Uint8List get pbBytes => writeToBuffer();
+  Uint8List get pbBytes {
+    if (hasChange()) {
+      return writeToBuffer();
+    } else {
+      change = ValueTransferOutput(
+          pkh: PublicKeyHash(hash: List<int>.generate(20, (i) => 0)));
+      Uint8List _pbBytes = writeToBuffer();
+      clearChange();
+      return _pbBytes;
+    }
+  }
 
   Uint8List get hash => sha256(data: pbBytes);
 
