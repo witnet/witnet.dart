@@ -51,8 +51,7 @@ class UnstakeTransaction extends GeneratedMessage {
           [ExtensionRegistry r = ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
 
-  String rawJson({bool asHex = false, bool testnet = false}) =>
-      json.encode(jsonMap(asHex: asHex));
+  String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
   Map<String, dynamic> jsonMap({bool asHex = false}) => {
         "body": body.jsonMap(asHex: asHex),

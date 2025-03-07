@@ -140,15 +140,14 @@ class Transaction extends GeneratedMessage {
     return Transaction();
   }
 
-  String toRawJson({bool asHex = false, bool testnet = false}) =>
-      json.encode(jsonMap(asHex: asHex, testnet: testnet));
+  String toRawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap({bool asHex = false, bool testnet = false}) {
+  Map<String, dynamic> jsonMap({bool asHex = false}) {
     if (hasValueTransfer())
       return {
         "transaction": {
           'ValueTransfer': {
-            "body": transaction.body.jsonMap(asHex: asHex, testnet: testnet),
+            "body": transaction.body.jsonMap(asHex: asHex),
             "signatures": List<dynamic>.from(
                 transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
           }
@@ -158,7 +157,7 @@ class Transaction extends GeneratedMessage {
       return {
         "transaction": {
           'DataRequest': {
-            "body": transaction.body.jsonMap(asHex: asHex, testnet: testnet),
+            "body": transaction.body.jsonMap(asHex: asHex),
             "signatures": List<dynamic>.from(
                 transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
           }
@@ -168,7 +167,7 @@ class Transaction extends GeneratedMessage {
       return {
         "transaction": {
           'Stake': {
-            "body": transaction.body.jsonMap(asHex: asHex, testnet: testnet),
+            "body": transaction.body.jsonMap(asHex: asHex),
             "signatures": List<dynamic>.from(
                 transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
           },
@@ -178,7 +177,7 @@ class Transaction extends GeneratedMessage {
       return {
         "transaction": {
           'Unstake': {
-            "body": transaction.body.jsonMap(asHex: asHex, testnet: testnet),
+            "body": transaction.body.jsonMap(asHex: asHex),
             "signature": transaction.signature.jsonMap(asHex: asHex),
           }
         }
@@ -187,7 +186,7 @@ class Transaction extends GeneratedMessage {
       return {
         "transaction": {
           'ValueTransfer': {
-            "body": transaction.body.jsonMap(asHex: asHex, testnet: testnet),
+            "body": transaction.body.jsonMap(asHex: asHex),
             "signatures": List<dynamic>.from(
                 transaction.signatures.map((x) => x.jsonMap(asHex: asHex))),
           }
