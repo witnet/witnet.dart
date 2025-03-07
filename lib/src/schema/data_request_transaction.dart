@@ -53,7 +53,7 @@ class DRTransaction extends GeneratedMessage {
 
   String rawJson({bool asHex = false}) => json.encode(jsonMap(asHex: asHex));
 
-  Map<String, dynamic> jsonMap({bool asHex = false, bool testnet = false}) {
+  Map<String, dynamic> jsonMap({bool asHex = false}) {
     return {
       "DataRequest": {
         "body": body.jsonMap(asHex: asHex),
