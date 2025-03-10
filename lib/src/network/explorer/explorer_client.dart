@@ -236,6 +236,10 @@ class ExplorerClient {
           case 'tally':
           case 'data_request_report':
           case 'data_request_history':
+          case 'stake':
+            return StakeInfo.fromJson(data['stake']);
+          case 'unstake':
+            return UnstakeInfo.fromJson(data['unstake']);
           case 'mint':
             return MintInfo.fromJson(data);
         }
