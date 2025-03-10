@@ -1703,6 +1703,10 @@ enum StatisticsParams {
 class TransactionStatus {
   TxStatusLabel status = TxStatusLabel.pending;
   TransactionStatus({required this.status});
+  factory TransactionStatus.fromValues(status, reverted, confirmed) {
+    return TransactionStatus.fromJson(
+        {'status': status, 'reverted': reverted, 'confirmed': confirmed});
+  }
 
   factory TransactionStatus.fromJson(Map<String, dynamic> json) {
     TxStatusLabel status;
@@ -1836,12 +1840,14 @@ class UnstakeInfo extends HashInfo {
     required this.fee,
     required this.nonce,
     required this.weight,
-    required super.txnHash,
-    required super.status,
-    required super.type,
-    required super.txnTime,
-    required super.blockHash,
-  });
+  }) : super(
+            txnHash: hash,
+            txnTime: timestamp,
+            status:
+                TransactionStatus.fromValues(null, reverted, confirmed).status,
+            type: TransactionType.stake,
+            blockHash: block);
+
   final String hash;
   final int? epoch;
   final int timestamp;
@@ -1869,11 +1875,6 @@ class UnstakeInfo extends HashInfo {
       fee: data['fee'],
       nonce: data['nonce'],
       weight: data['weight'],
-      txnHash: data['txnHash'],
-      status: data['status'],
-      type: data['type'],
-      txnTime: data['txnTime'],
-      blockHash: data['blockHash'],
     );
   }
 
@@ -1917,12 +1918,13 @@ class StakeInfo extends HashInfo {
     required this.validator,
     required this.weight,
     required this.withdrawer,
-    required super.txnHash,
-    required super.status,
-    required super.type,
-    required super.txnTime,
-    required super.blockHash,
-  });
+  }) : super(
+            txnHash: hash,
+            txnTime: timestamp,
+            status:
+                TransactionStatus.fromValues(null, reverted, confirmed).status,
+            type: TransactionType.stake,
+            blockHash: block);
 
   final String block;
   final String? changeAddress;
@@ -1958,11 +1960,6 @@ class StakeInfo extends HashInfo {
       validator: data['validator'],
       weight: data['weight'],
       withdrawer: data['withdrawer'],
-      txnHash: data['txnHash'],
-      status: data['status'],
-      type: data['type'],
-      txnTime: data['txnTime'],
-      blockHash: data['blockHash'],
     );
   }
 
