@@ -682,10 +682,10 @@ class ExplorerClient {
   Future<int> nonce(
       {required String validator, required String withdrawer}) async {
     try {
-      var response = await client.post(api('transaction/nonce'),
-          {'validator': validator, 'withdrawer': withdrawer});
-      if (response.containsKey('error')) {
-        throw ExplorerException(code: -3, message: response['error']);
+      var response = await client.get(api('transaction/nonce',
+          {'validator': validator, 'withdrawer': withdrawer}));
+      if (response.containsKey('status')) {
+        throw ExplorerException(code: -3, message: response['status']);
       }
       return response['nonce'];
     } catch (e) {
