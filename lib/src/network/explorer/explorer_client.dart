@@ -298,12 +298,43 @@ class ExplorerClient {
     }
   }
 
-  Future<String> version() async {
+  Future<String> explorerVersion() async {
     try {
       return await client.get(api('status'), getVersion: true);
     } on ExplorerException catch (e) {
       throw ExplorerException(
-          code: e.code, message: '{"version": "${e.message}"}');
+          code: e.code, message: '{"explorerVersion": "${e.message}"}');
+    }
+  }
+
+  Future<Map<String, dynamic>> protocolVersion([bool all = false]) async {
+    try {
+      return await client
+          .get(api('network/version', {'key': all ? 'all' : 'current'}));
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"protocolVersion": "${e.message}"}');
+    }
+  }
+
+  Future<Map<String, dynamic>> stakes(
+      {String? validator, String? withdrawer}) async {
+    try {
+      if (validator != null || withdrawer != null) {
+        Map<String, dynamic> params = {};
+
+        if (validator != null && validator.isNotEmpty) {
+          params['validator'] = validator;
+        }
+        if (withdrawer != null && withdrawer.isNotEmpty) {
+          params['withdrawer'] = withdrawer;
+        }
+        return await client.get(api('network/stakes', params));
+      }
+      return await client.get(api('network/stakes'));
+    } on ExplorerException catch (e) {
+      throw ExplorerException(
+          code: e.code, message: '{"stakes": "${e.message}"}');
     }
   }
 
