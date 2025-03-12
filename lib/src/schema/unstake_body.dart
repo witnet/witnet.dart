@@ -57,8 +57,8 @@ class UnstakeBody extends GeneratedMessage {
   factory UnstakeBody.fromJson(Map<String, dynamic> json) => UnstakeBody(
         operator: PublicKeyHash.fromAddress(json["operator"]),
         withdrawal: ValueTransferOutput.fromJson(json["withdrawal"]),
-        fee: int.parse(json["fee"]),
-        nonce: int.parse(json["nonce"]),
+        fee: json.containsKey('fee') ? json["fee"] : null,
+        nonce: json["nonce"],
       );
 
   factory UnstakeBody.fromPbBytes(Uint8List buffer) =>
