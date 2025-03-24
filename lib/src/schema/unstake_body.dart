@@ -68,12 +68,15 @@ class UnstakeBody extends GeneratedMessage {
         asHex: asHex,
       ));
 
-  Map<String, dynamic> jsonMap({bool asHex = false}) => {
-        "operator": operator.address,
-        "withdrawal": withdrawal.jsonMap(asHex: asHex),
-        "fee": fee.toInt(),
-        "nonce": nonce.toInt(),
-      };
+  Map<String, dynamic> jsonMap({bool asHex = false}) {
+    Map<String, dynamic> data = {
+      "operator": operator.address,
+      "withdrawal": withdrawal.jsonMap(asHex: asHex),
+      "nonce": nonce.toInt(),
+      "fee": fee.toInt() > 0 ? fee.toInt() : null
+    };
+    return data;
+  }
 
   Uint8List get pbBytes => writeToBuffer();
 
