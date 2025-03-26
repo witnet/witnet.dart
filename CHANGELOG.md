@@ -1,3 +1,8 @@
+## 0.4.4
+- Update schema to for wit/2
+- Add Stake and unstake transaction types
+- Add new explorer endpoints
+
 ## 0.4.3
 - S ValueTransferInfo timelocks
 - Allows sending test transactions
