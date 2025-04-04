@@ -28,6 +28,7 @@ export 'src/network/explorer/explorer_api.dart'
         InputMerged,
         InputUtxo,
         Mempool,
+        StakeRewardsInfo,
         MempoolTransactionType,
         Miner,
         MintInfo,

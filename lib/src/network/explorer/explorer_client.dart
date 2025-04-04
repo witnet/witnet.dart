@@ -317,21 +317,32 @@ class ExplorerClient {
     }
   }
 
-  Future<Map<String, dynamic>> stakes(
+  Future<List<StakeRewardsInfo?>> stakes(
       {String? validator, String? withdrawer}) async {
     try {
+      Map<String, dynamic> params = {};
       if (validator != null || withdrawer != null) {
-        Map<String, dynamic> params = {};
-
         if (validator != null && validator.isNotEmpty) {
           params['validator'] = validator;
         }
         if (withdrawer != null && withdrawer.isNotEmpty) {
           params['withdrawer'] = withdrawer;
         }
-        return await client.get(api('network/stakes', params));
       }
-      return await client.get(api('network/stakes'));
+      dynamic result = await client.get(api('network/stakes', params));
+      if (result != null) {
+        List<dynamic>? stakes = (await client
+            .get(api('network/stakes', params)))['stakes'] as List<dynamic>?;
+        if (stakes != null) {
+          return stakes
+              .map((result) => StakeRewardsInfo.fromJson(result))
+              .toList();
+        } else {
+          return [];
+        }
+      } else {
+        return [];
+      }
     } on ExplorerException catch (e) {
       throw ExplorerException(
           code: e.code, message: '{"stakes": "${e.message}"}');
@@ -698,6 +709,7 @@ class ExplorerClient {
       return PrioritiesEstimate.fromJson(
           await client.get(api('transaction/priority', {"key": "vtt"})));
     } on ExplorerException catch (e) {
+      print(e);
       throw ExplorerException(
           code: e.code, message: '{"priority": "${e.message}"}');
     }

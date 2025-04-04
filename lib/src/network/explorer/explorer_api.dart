@@ -2774,3 +2774,46 @@ class Mempool {
         "amount": amount,
       };
 }
+
+class StakeRewardsInfo {
+  int blocks;
+  int currentStake;
+  int dataRequests;
+  int genesis;
+  int lastActive;
+  int lies;
+  int nonce;
+  int rewards;
+  int timeWeightedStake;
+  String validator;
+  String withdrawer;
+
+  StakeRewardsInfo({
+    required this.blocks,
+    required this.currentStake,
+    required this.dataRequests,
+    required this.genesis,
+    required this.lastActive,
+    required this.lies,
+    required this.nonce,
+    required this.rewards,
+    required this.timeWeightedStake,
+    required this.validator,
+    required this.withdrawer,
+  });
+
+  factory StakeRewardsInfo.fromJson(data) {
+    return StakeRewardsInfo(
+        blocks: data['blocks'],
+        currentStake: data['current_stake'],
+        dataRequests: data['data_requests'],
+        genesis: data['genesis'],
+        lastActive: data['last_active'],
+        lies: data['lies'],
+        nonce: data['nonce'],
+        rewards: data['rewards'],
+        timeWeightedStake: data['time_weighted_stake'],
+        validator: data['validator'],
+        withdrawer: data['withdrawer']);
+  }
+}
