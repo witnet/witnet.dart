@@ -1,3 +1,6 @@
+## 0.4.5
+- Create `StakeRewardsInfo`
+
 ## 0.4.4
 - Update schema to for wit/2
 - Add Stake and unstake transaction types
