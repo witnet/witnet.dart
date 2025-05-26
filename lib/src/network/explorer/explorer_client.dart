@@ -714,4 +714,15 @@ class ExplorerClient {
           code: e.code, message: '{"priority": "${e.message}"}');
     }
   }
+
+  Future<PrioritiesEstimate> stakingPriority() async {
+    try {
+      return PrioritiesEstimate.fromJson(
+          await client.get(api('transaction/priority', {"key": "st"})));
+    } on ExplorerException catch (e) {
+      print(e);
+      throw ExplorerException(
+          code: e.code, message: '{"priority": "${e.message}"}');
+    }
+  }
 }

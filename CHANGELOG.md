@@ -1,3 +1,6 @@
+## 0.5.0
+- Add `stakingPriority` method
+
 ## 0.4.5
 - Create `StakeRewardsInfo`
 
