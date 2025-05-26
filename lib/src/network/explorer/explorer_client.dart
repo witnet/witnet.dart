@@ -706,8 +706,9 @@ class ExplorerClient {
 
   Future<PrioritiesEstimate> valueTransferPriority() async {
     try {
-      return PrioritiesEstimate.fromJson(
-          await client.get(api('transaction/priority', {"key": "vtt"})));
+      final result =
+          await client.get(api('transaction/priority', {"key": "vtt"}));
+      return PrioritiesEstimate.fromJson(result['vtt']);
     } on ExplorerException catch (e) {
       print(e);
       throw ExplorerException(
@@ -717,8 +718,9 @@ class ExplorerClient {
 
   Future<PrioritiesEstimate> stakingPriority() async {
     try {
-      return PrioritiesEstimate.fromJson(
-          await client.get(api('transaction/priority', {"key": "st"})));
+      final result =
+          await client.get(api('transaction/priority', {"key": "st"}));
+      return PrioritiesEstimate.fromJson(result['st']);
     } on ExplorerException catch (e) {
       print(e);
       throw ExplorerException(

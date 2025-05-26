@@ -2672,28 +2672,18 @@ class HashInfo {
 
 class PrioritiesEstimate {
   PrioritiesEstimate({
-    // required this.drtStinky,
-    // required this.drtLow,
-    // required this.drtMedium,
-    // required this.drtHigh,
-    // required this.drtOpulent,
-    required this.vttStinky,
-    required this.vttLow,
-    required this.vttMedium,
-    required this.vttHigh,
-    required this.vttOpulent,
+    required this.stinky,
+    required this.low,
+    required this.medium,
+    required this.high,
+    required this.opulent,
   });
 
-  // final PriorityEstimate drtStinky;
-  // final PriorityEstimate drtLow;
-  // final PriorityEstimate drtMedium;
-  // final PriorityEstimate drtHigh;
-  // final PriorityEstimate drtOpulent;
-  final PriorityEstimate vttStinky;
-  final PriorityEstimate vttLow;
-  final PriorityEstimate vttMedium;
-  final PriorityEstimate vttHigh;
-  final PriorityEstimate vttOpulent;
+  final PriorityEstimate stinky;
+  final PriorityEstimate low;
+  final PriorityEstimate medium;
+  final PriorityEstimate high;
+  final PriorityEstimate opulent;
 
   factory PrioritiesEstimate.fromRawJson(String str) =>
       PrioritiesEstimate.fromJson(json.decode(str));
@@ -2702,29 +2692,19 @@ class PrioritiesEstimate {
 
   factory PrioritiesEstimate.fromJson(Map<String, dynamic> json) {
     return PrioritiesEstimate(
-        // drtStinky: PriorityEstimate.fromJson(json["drt_stinky"]),
-        // drtLow: PriorityEstimate.fromJson(json["drt_low"]),
-        // drtMedium: PriorityEstimate.fromJson(json["drt_medium"]),
-        // drtHigh: PriorityEstimate.fromJson(json["drt_high"]),
-        // drtOpulent: PriorityEstimate.fromJson(json["drt_opulent"]),
-        vttStinky: PriorityEstimate.fromJson(json["vtt_stinky"]),
-        vttLow: PriorityEstimate.fromJson(json["vtt_low"]),
-        vttMedium: PriorityEstimate.fromJson(json["vtt_medium"]),
-        vttHigh: PriorityEstimate.fromJson(json["vtt_high"]),
-        vttOpulent: PriorityEstimate.fromJson(json["vtt_opulent"]));
+        stinky: PriorityEstimate.fromJson(json["stinky"]),
+        low: PriorityEstimate.fromJson(json["low"]),
+        medium: PriorityEstimate.fromJson(json["medium"]),
+        high: PriorityEstimate.fromJson(json["high"]),
+        opulent: PriorityEstimate.fromJson(json["opulent"]));
   }
 
   Map<String, PriorityEstimate> jsonMap() => {
-        // "drt_stinky": drtStinky,
-        // "drt_low": drtLow,
-        // "drt_medium": drtMedium,
-        // "drt_high": drtHigh,
-        // "drt_opulent": drtOpulent,
-        "vtt_stinky": vttStinky,
-        "vtt_low": vttLow,
-        "vtt_medium": vttMedium,
-        "vtt_high": vttHigh,
-        "vtt_opulent": vttOpulent,
+        "stinky": stinky,
+        "low": low,
+        "medium": medium,
+        "high": high,
+        "opulent": opulent,
       };
 }
 
