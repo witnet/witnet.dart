@@ -91,6 +91,7 @@ class Address {
     FeeType? feeType,
     int fee = 0,
     required dynamic networkSource,
+    String? metadata,
   }) async {
     return await createVTTransaction(
         outputs: outputs,
@@ -101,7 +102,8 @@ class Address {
         feeType: feeType,
         fee: fee,
         utxoStrategy: utxoStrategy,
-        networkSource: networkSource);
+        networkSource: networkSource,
+        metadata: metadata);
   }
 
   Future<DRTransaction> createDRT({

@@ -12,7 +12,11 @@ import 'package:witnet/src/crypto/address.dart' show Address;
 import 'package:witnet/src/crypto/secp256k1/private_key.dart';
 import 'package:witnet/constants.dart'
     show ALPHA, GAMMA, INPUT_SIZE, OUTPUT_SIZE;
+import 'package:witnet/src/schema/schema.dart' show PublicKeyHash;
+import 'package:witnet/src/utils/transformations/transformations.dart'
+    show isHexStringOfLength;
 import '../../data_structures.dart';
+import 'package:convert/convert.dart';
 
 class TransactionInfo {
   final List<Input> inputs;
@@ -34,6 +38,26 @@ enum FeeType {
   Weighted,
 }
 
+ValueTransferOutput createMetadataOutput(String metadata) {
+  if (!isHexStringOfLength(metadata, 20)) {
+    throw TransactionError(-1, 'Metadata must be a 20-byte hex string');
+  }
+
+  final cleanMetadata =
+      metadata.startsWith('0x') ? metadata.substring(2) : metadata;
+
+  // Convert hex string into raw List of bytes
+  final metadataBytes = hex.decode(cleanMetadata);
+
+  final metadataPkh = PublicKeyHash()..hash = metadataBytes;
+
+  return ValueTransferOutput.fromJson({
+    'pkh': metadataPkh.address,
+    'value': 1,
+    'time_lock': 0,
+  });
+}
+
 Future<dynamic> createVTTransaction({
   required List<ValueTransferOutput> outputs,
   required WitPrivateKey privateKey,
@@ -42,11 +66,18 @@ Future<dynamic> createVTTransaction({
   required UtxoSelectionStrategy utxoStrategy,
   FeeType? feeType,
   int fee = 0,
+  String? metadata,
 }) async {
+  List<ValueTransferOutput> allOutputs = outputs;
+
+  if (metadata != null) {
+    allOutputs.add(createMetadataOutput(metadata));
+  }
+
   int outputValue = 0;
   int totalUtxoValue = 0;
   int selectedUtxoValue = 0;
-  outputs.forEach((ValueTransferOutput output) {
+  allOutputs.forEach((ValueTransferOutput output) {
     outputValue += output.value.toInt();
   });
 
@@ -92,7 +123,7 @@ Future<dynamic> createVTTransaction({
     switch (feeType ?? absFee) {
       case FeeType.Absolute:
         if (change > fee) {
-          outputs.add(_changeAddress.receive(change - fee));
+          allOutputs.add(_changeAddress.receive(change - fee));
         } else if (change == fee) {
           // do nothing with the change since it is the fee.
         } else {
@@ -110,7 +141,7 @@ Future<dynamic> createVTTransaction({
       case FeeType.Weighted:
         print('Current Change: $change');
         var inputCount = inputs.length;
-        var outputCount = outputs.length;
+        var outputCount = allOutputs.length;
         var currentWeight = vttWeight(inputCount, outputCount);
         print('Inputs: $inputCount, Outputs: $outputCount');
         print('Current Weight -> $currentWeight');
@@ -131,7 +162,7 @@ Future<dynamic> createVTTransaction({
               newWeight = vttWeight(inputs.length, outputCount + 1);
             }
           }
-          outputs.add(_changeAddress.receive(change - newWeight));
+          allOutputs.add(_changeAddress.receive(change - newWeight));
         } else {
           // need additional utxos to cover the weighted fee
         }
@@ -139,7 +170,8 @@ Future<dynamic> createVTTransaction({
     }
   }
 
-  VTTransactionBody body = VTTransactionBody(inputs: inputs, outputs: outputs);
+  VTTransactionBody body =
+      VTTransactionBody(inputs: inputs, outputs: allOutputs);
   VTTransaction transaction = VTTransaction(body: body, signatures: []);
 
   KeyedSignature signature =

@@ -184,3 +184,19 @@ Uint8List toUtf16Bytes(String string,
 }
 
 bool isStringNullOrEmpty(String? string) => string == null || string.isEmpty;
+
+bool isHexStringOfLength(String str, int length) {
+  return isHexString(str) &&
+      ((str.startsWith("0x") && (str.substring(2).length == length * 2)) ||
+          (str.length == length * 2));
+}
+
+bool isHexString(String str) {
+  final hexRegex = RegExp(r'^[a-fA-F0-9]+$');
+
+  if (str.startsWith("0x")) {
+    return hexRegex.hasMatch(str.substring(2));
+  } else {
+    return hexRegex.hasMatch(str);
+  }
+}
