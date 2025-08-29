@@ -1,3 +1,6 @@
+## 0.6.0
+- Add support for `MetaData` in `VTTransaction`
+
 ## 0.5.0
 - Add `stakingPriority` method
 
