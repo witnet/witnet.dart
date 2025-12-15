@@ -1,3 +1,5 @@
+## 0.7.0
+- update packages and threads for flutter 
 ## 0.6.0
 - Add support for `MetaData` in `VTTransaction`
 
