@@ -177,6 +177,42 @@ class Xprv extends ExtendedKey {
     }
   }
 
+  static List<Xprv> fromEncryptedXprvDouble(String xprvDouble, String password) {
+    try {
+      Bech32 bech = bech32.decode(xprvDouble, 478);
+      List<int> checksum = createChecksum(bech.hrp, bech.data);
+      bool invalidXprvChecksum =
+      !verifyChecksum(bech.hrp, [...bech.data, ...checksum]);
+      if (invalidXprvChecksum) {
+        throw InvalidChecksum();
+      }
+
+      Uint8List data = Uint8List.fromList(
+          convertBits(data: bech.data, from: 5, to: 8, pad: false));
+      Uint8List iv = data.sublist(0, 16);
+      Uint8List salt = data.sublist(16, 48);
+      Uint8List _data = data.sublist(48);
+
+      CodecAES codec = getCodecAES(password, salt: salt, iv: iv);
+      Uint8List decoded = codec.decode(bytesToHex(_data)) as Uint8List;
+
+      decoded = decoded.sublist(0, 234);
+      String plainText;
+      plainText = utf8.decode(decoded).trim();
+
+      String internalXprvStr = plainText.substring(0, 117);
+      String externalXprvStr = plainText.substring(117);
+
+      return [Xprv.fromXprv(internalXprvStr), Xprv.fromXprv(externalXprvStr)];
+    } catch (e) {
+      if (e.runtimeType == InvalidChecksum) {
+        rethrow;
+      }
+      throw AesCryptDataException('${e.toString()}');
+    }
+  }
+
+
   String toEncryptedXprv({required String password}) {
     String xprvStr = toSlip32();
     List<int> tmp = xprvStr.codeUnits;
